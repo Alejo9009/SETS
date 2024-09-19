@@ -10,35 +10,27 @@ if (empty($usuario) || empty($clave)) {
     die("Usuario o clave no pueden estar vacíos.");
 }
 
-// Preparar la consulta para verificar el usuario
-$sql = "SELECT id_Registro, Clave FROM registro WHERE Usuario = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $usuario);
-$stmt->execute();
-$result = $stmt->get_result();
+try {
+    // Preparar la consulta para verificar el usuario
+    $sql = "SELECT id_Registro, Clave FROM registro WHERE Usuario = ?";
+    $stmt = $base_de_datos->prepare($sql);
+    $stmt->execute([$usuario]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Verificar si existe un usuario con esas credenciales
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $idRegistro = $row['id_Registro'];
-    $Clave = $row['Clave'];
+    // Verificar si existe un usuario con esas credenciales
+    if ($row) {
+        $idRegistro = $row['id_Registro'];
+        $claveHash = $row['Clave'];
 
-    // Comparar la clave (si está en texto claro)
-    if ($clave === $Clave) {
-        // Preparar la consulta para obtener el rol del usuario
-        $sql = "SELECT r.Roldescripcion FROM rol_registro rr 
-                JOIN rol r ON rr.idROL = r.id 
-                WHERE rr.idRegistro = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $idRegistro);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $roles = [];
-            while ($row = $result->fetch_assoc()) {
-                $roles[] = $row['Roldescripcion'];
-            }
+        // Comparar la clave (verificar el hash de la clave)
+        if (password_verify($clave, $claveHash)) {
+            // Preparar la consulta para obtener el rol del usuario
+            $sql = "SELECT r.Roldescripcion FROM rol_registro rr 
+                    JOIN rol r ON rr.idROL = r.id 
+                    WHERE rr.idRegistro = ?";
+            $stmt = $base_de_datos->prepare($sql);
+            $stmt->execute([$idRegistro]);
+            $roles = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
 
             // Iniciar sesión
             session_start();
@@ -60,16 +52,15 @@ if ($result->num_rows > 0) {
             }
             exit();
         } else {
-            echo "Error: No se encontró rol para el usuario.";
+            echo "Usuario o clave incorrectos.";
         }
     } else {
         echo "Usuario o clave incorrectos.";
     }
-} else {
-    echo "Usuario o clave incorrectos.";
+} catch (PDOException $e) {
+    die("Error en la consulta: " . $e->getMessage());
 }
 
 // Cerrar conexión
-$stmt->close();
-$conn->close();
+$base_de_datos = null;
 ?>
