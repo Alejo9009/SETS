@@ -272,22 +272,20 @@
 	<section class="contact" id="contact">
 		<div class="row">
 			<div class="form-container">
-				<form action="">
-					<h1 class="heading-12">Contactános</h1><br>
-					<input type="text" placeholder="Nombre">
-					<input type="email" value="@" placeholder="Correo">
-					<input type="number" placeholder="Telefono">
+				<form action="contactarnos.php" method="POST">
+					<h1 class="heading-12">Contáctanos</h1><br>
+					<input type="text" name="nombre" placeholder="Nombre" required>
+					<input type="email" name="correo" placeholder="Correo" required>
+					<input type="number" name="telefono" placeholder="Teléfono" required>
 					<div class="mb-3">
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-							placeholder="escribe tu comentario"></textarea>
+						<textarea class="form-control" name="comentario" rows="3" placeholder="Escribe tu comentario" required></textarea>
 					</div>
 					<input type="submit" class="btn btn-success" value="Enviar">
 				</form>
-
 			</div>
 		</div>
-
 	</section>
+
 	</main>
 	<footer class="footer col-12 col-6 col-2  ">
 		<div class="container container-footer">
@@ -373,12 +371,11 @@
 						</ul>
 
 				</div>
-
 				<div class="newsletter">
 					<p class="title-footer">Otros</p>
 					<div class="content">
 						<p>Si no puedes contactarnos, déjanos tu correo</p>
-						<form id="newsletterForm">
+						<form id="newsletterForm" method="POST" action="contacto.php">
 							<input type="email" name="email" id="emailInput" placeholder="Ingresa el correo aquí..." required>
 							<button type="submit" class="btn btn-success">Enviar</button>
 						</form>
@@ -405,48 +402,7 @@
 
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script>
-    document.getElementById('newsletterForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevenir el envío del formulario
 
-        const emailInput = document.getElementById('emailInput');
-        const email = emailInput.value;
-
-        // Verificar si el correo no está vacío
-        if (email) {
-            // Realizar la solicitud AJAX
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'contacto.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-            xhr.onload = function() {
-                // Mostrar la alerta
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-                const alert = document.createElement('div');
-
-                if (xhr.status === 200) {
-                    alert.className = 'alert alert-success';
-                    alert.textContent = 'Suscripción exitosa. ¡Gracias!';
-                } else {
-                    alert.className = 'alert alert-danger';
-                    alert.textContent = 'Error al suscribirse. Por favor intenta nuevamente.';
-                }
-
-                alertPlaceholder.append(alert);
-                emailInput.value = ''; // Limpiar el campo de entrada
-            };
-
-            xhr.send('email=' + encodeURIComponent(email));
-        } else {
-            // Mostrar alerta si el correo está vacío
-            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-            const alert = document.createElement('div');
-            alert.className = 'alert alert-warning';
-            alert.textContent = 'Por favor, ingresa un correo válido.';
-            alertPlaceholder.append(alert);
-        }
-    });
-</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
