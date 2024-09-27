@@ -1,31 +1,36 @@
 <?php
-include_once "conexion.php";
+include_once "conexion.php"; // Archivo de conexión a la base de datos
 
-try {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener el correo del formulario
+    $email = $_POST['email'];
 
-    // Obtener el email del formulario
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    // Validar que el campo email no esté vacío y sea válido
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-        // Verificar que el email no esté vacío
-        if (!empty($email)) {
-            // Insertar en la base de datos
-            $stmt = $base_de_datos->prepare("INSERT INTO contacto (email) VALUES (:email)");
-            $stmt->bindParam(':email', $email);
+        // Preparar la consulta SQL
+        $sql = "INSERT INTO contacto (email) VALUES (:email)";
+        $stmt = $base_de_datos->prepare($sql);
 
-            if ($stmt->execute()) {
-                echo "Suscripción exitosa. ¡Gracias!";
-            } else {
-                echo "Error al suscribirse. Por favor intenta nuevamente.";
-            }
-        } else {
-            echo "Por favor, ingresa un correo válido.";
+        // Verificar si la consulta se preparó correctamente
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $base_de_datos->errorInfo());
         }
-    }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 
-// Cerrar la conexión
-$base_de_datos = null;
+        // Enlazar el parámetro a la consulta
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            echo "<script>
+                    alert('Correo enviado con éxito.');
+                    window.location.href = 'index.php'; // Redirige a la página principal
+                  </script>";
+        } else {
+            echo "Error al enviar el correo: " . $stmt->errorInfo();
+        }
+    } else {
+        echo "Por favor ingresa un correo válido.";
+    }
+}
 ?>
