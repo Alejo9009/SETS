@@ -25,12 +25,12 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="div">
-                            <h5>Correo</h5>
-                            <input type="email" class="input" name="correo" required>
+                           
+                            <input type="email" class="input" name="correo" required placeholder="Correo">
                         </div>
                     </div>
-                    <input type="submit" class="btn" value="Enviar">
-                    <p><a href="iniciarsesion.php">Iniciar Sesión</a></p>
+                    <input type="submit" class="btn btn-success  btn-lg" value="Enviar">
+                    <p><a href="iniciarsesion.php" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesión</a></p>
                 </form>
             </article>
         </section>

@@ -1,6 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #dfffe4;
     margin: 0;
     padding: 0;
 }
@@ -9,15 +9,15 @@ body {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #125835;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(8, 65, 22);
 }
 
 .title {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: #032b12;
 }
 
 .form-group {
@@ -28,7 +28,7 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: #0b3d13;
 }
 
 .form-group input,
@@ -44,7 +44,7 @@ body {
     display: inline-block;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #083313;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -54,5 +54,6 @@ body {
 }
 
 .btn-submit:hover {
-    background-color: #0056b3;
+    background-color: #076b3c;
 }
+
