@@ -165,6 +165,7 @@ try {
                                                     <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
                                                 </button>
                                                 <br>
+                                                <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
                                                 <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
