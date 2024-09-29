@@ -28,7 +28,7 @@ try {
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -176,16 +176,22 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-            </div><p>
-            <center><a href="solicitudmoto.php" class="btn btn-success" style="text-decoration: none;">Solicitar
-            parqueadero</a></center>
-
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                    <center>VOLVER</center>
-                </a>
             </div>
+          <br>
+          <center>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
+                <a href="hoariomoto.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
+               
+            </div>
+            </center>
+
     </main>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                        <center>VOLVER</center>
+                    </a>
+                </div>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');

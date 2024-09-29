@@ -182,14 +182,13 @@ try {
                     </center>
                 </div>
             </div><p>
-            <center><a href="solicitudmoto.php" class="btn btn-success" style="text-decoration: none;">Solicitar
-                    parqueadero</a></center>
-            <br>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                    <center>VOLVER</center>
-                </a>
+            <center>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
+                <a href="horariocarro.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
+               
             </div>
+            </center>
         </div>
         <br>
 

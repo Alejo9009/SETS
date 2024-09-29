@@ -183,7 +183,8 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver horario disponible</a> </center>
+                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver Agendaciones</a> </center>
+
             </div>
             <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
