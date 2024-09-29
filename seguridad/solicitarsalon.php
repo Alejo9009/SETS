@@ -4,10 +4,23 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-// Consulta para obtener las solicitudes de la cancha de fútbol
-$query = "SELECT * FROM solicitud_zona WHERE ID_zonaComun = 3";
-$stmt = $base_de_datos->query($query);
-$solicitudes = $stmt->fetchAll();
+
+// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+$sql = "SELECT sz.*, e.estados 
+        FROM solicitud_zona sz 
+        LEFT JOIN estado e ON sz.estado = e.idestado 
+        WHERE sz.ID_zonaComun = 3"; // Filtra solo las solicitudes para la cancha de fútbol
+
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+$solicitudes = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $solicitudes[] = $row; // Almacena cada solicitud en el array
+    }
+}
+
+// Ahora puedes usar el array $solicitudes en tu HTML
 ?>
 
 <!DOCTYPE html>
@@ -158,6 +171,7 @@ $solicitudes = $stmt->fetchAll();
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                            
                         </div>
                     <?php endforeach; ?>
