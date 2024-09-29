@@ -1,12 +1,39 @@
+<?php
+// Conexión a la base de datos
+include_once "conexion.php";
+if (!$base_de_datos) {
+    exit('Error en la conexión a la base de datos.');
+}
+
+// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+$sql = "SELECT sz.*, e.estados 
+        FROM solicitud_zona sz 
+        LEFT JOIN estado e ON sz.estado = e.idestado 
+        WHERE sz.ID_zonaComun = 1"; // Filtra solo las solicitudes para la cancha de fútbol
+
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+$solicitudes = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $solicitudes[] = $row; // Almacena cada solicitud en el array
+    }
+}
+
+// Ahora puedes usar el array $solicitudes en tu HTML
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sets - FUTBOL</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/citas.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -88,20 +115,31 @@
             </div>
         </nav>
     </header>
-
+    <br>
+    <br>
+    <br><br>
     <main>
-        <section class="anuncio">
-            <center>
-            <h2 style="color: rgb(8, 44, 14);" >Horarios disponibles - CANCHA DE FUTBOL</h2>
-            </center>
-        </section>
+<br>
+<br>
+<br>
+        <div class="alert alert-success g" role="alert">
+            <h2>Horarios disponibles - CANCHA DE FÚTBOL</h2>
+        </div>
 
         <div class="container">
             <div class="calendar-container">
                 <div class="calendar">
-                    <h2 style="color: rgb(8, 44, 14);" >Calendario de disponiblidad</h2>
-                    <br>
-                    <table>
+                    <div class="calendar-header">
+                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <br><p>
+                        <span id="month-year" style="color: #0e2c0a;"><b></b></span>
+                        <div id="calendar-controls">
+                    <button id="prev-month" onclick="prevMonth()">←</button>
+                    <span id="month-year"></span>
+                    <button id="next-month" onclick="nextMonth()">→</button>
+                </div>
+                    </div>
+                    <table id="calendar-table">
                         <thead>
                             <tr>
                                 <th>Lu</th>
@@ -113,115 +151,40 @@
                                 <th>Do</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td >1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
-                                <td class="highlight">5</td>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td>10</td>
-                                <td>11</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>13</td>
-                                <td>14</td>
-                                <td>15</td>
-                                <td>16</td>
-                                <td>17</td>
-                                <td>18</td>
-                            </tr>
-                            <tr>
-                                <td>19</td>
-                                <td>20</td>
-                                <td>21</td>
-                                <td>22</td>
-                                <td>23</td>
-                                <td>24</td>
-                                <td class="highlight" >25</td>
-                            </tr>
-                            <tr>
-                                <td>26</td>
-                                <td>27</td>
-                                <td>28</td>
-                                <td>29</td>
-                                <td >30</td>
-                                <td class="highlight" >31</td>
-                                <td></td>
-                            </tr>
+                        <tbody id="calendar-body">
+                            <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <aside class="sidebar">
-                <h2>Agendadas</h2>
-                <br>
-                <div class="barra">
-                    <div class="sombra"></div>
-                    <input type="search" placeholder="Buscar agendaciones...">
+                <h2>Agendaciones</h2>
+                <div class="search-bar">
+                    <input type="search" placeholder="Buscar agendaciones..." />
                     <ion-icon name="search-outline"></ion-icon>
                 </div>
-                <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                <br>
-                <div class="appointment">
-                    <h3>Fútbol</h3>
-                    <p>Fecha: 5/09/2024</p>
-                    <p>Hora: 10:00 AM</p>
-                    <p>Apartamento: 203</p>
-                    <p>Nombre Completo: Juan Pérez</p>
-                    <p>Documento: 123456789</p>
-                    <p>Celular: 3011122334</p>
-                    <p>Correo: juan.perez@example.com</p>
-                    <div class="buttons">
- 
-                    </div>
-                </div>
-                <div class="appointment">
-                    <h3>Fútbol</h3>
-                    <p>Fecha: 31/09/2024</p>
-                    <p>Hora: 10:00 PM</p>
-                    <p>Apartamento: 203</p>
-                    <p>Nombre Completo: Juan Pérez</p>
-                    <p>Documento: 123456789</p>
-                    <p>Celular: 3011122334</p>
-                    <p>Correo: juan.perez@example.com</p>
-                    <div class="buttons">
-
-                    </div>
-                </div>
-
-                <div class="appointment">
-                    <h3>Fútbol</h3>
-                    <p>Fecha: 25/09/2024</p>
-                    <p>Hora: 10:00 AM</p>
-                    <p>Apartamento: 203</p>
-                    <p>Nombre Completo: Juan Pérez</p>
-                    <p>Documento: 123456789</p>
-                    <p>Celular: 3011122334</p>
-                    <p>Correo: juan.perez@example.com</p>
-                    <div class="buttons">
-            
-                    </div>
+                <div class="appointment-list">
+                    <?php foreach ($solicitudes as $solicitud): ?>
+                        <div class="appointment">
+                            <h3>CANCHA DE Fútbol</h3>
+                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
+                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
+                            <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
+                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
+                           
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </aside>
+
         </div>
 
-        <a href="zonas_comunes.html" class="btn btn-success" style="font-size: 30px;">
+        <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
-
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
@@ -236,29 +199,108 @@
         </div>
 
     </main>
-
     <script>
-        document.querySelector('.admin-img').addEventListener('click', function () {
-            document.querySelector('.dropdown-menu').classList.toggle('show');
-        });
-
-        document.querySelector('.chat-button').addEventListener('click', function () {
-            document.querySelector('.chat-menu').classList.toggle('show');
-        });
-
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+        // Convertir los datos de PHP a JavaScript
+        const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const calendarBody = document.getElementById('calendar-body');
+    const monthYearDisplay = document.getElementById('month-year');
 
+    const today = new Date();
+    const months = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+
+    let currentYear = today.getFullYear();
+    let currentMonth = today.getMonth();
+
+    // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
+    const solicitudes = <?php echo json_encode($solicitudes); ?>;
+
+    // Función para generar el calendario del mes y año dados
+    function generarCalendario(mes, anio) {
+        calendarBody.innerHTML = '';  // Limpia el contenido anterior
+        monthYearDisplay.textContent = `${months[mes]} ${anio}`;
+
+        const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;  // Lunes = 1
+        const daysInMonth = new Date(anio, mes + 1, 0).getDate();  // Número de días en el mes
+
+        let date = 1;
+
+        // Crear filas para las semanas (hasta 6 semanas máximo)
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+
+            // Crear celdas para cada día de la semana
+            for (let j = 1; j <= 7; j++) {
+                const cell = document.createElement('td');
+
+                if (i === 0 && j < firstDayOfMonth) {
+                    cell.innerHTML = '';  // Celdas vacías antes del primer día
+                } else if (date > daysInMonth) {
+                    break;  // No más días en el mes
+                } else {
+                    const fechaActual = new Date(anio, mes, date);
+
+                    // Asignar el día a la celda
+                    cell.textContent = date;
+                    cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+
+                    // Verificar si la fecha está solicitada
+                    solicitudes.forEach(solicitud => {
+                        const fechaSolicitud = new Date(solicitud.fechaInicio);
+
+                        if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
+                            cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                        }
+                    });
+
+                    // Resaltar los fines de semana
+                    if (j === 6 || j === 7) {  // Sábado y domingo
+                        cell.style.color = 'green';
+                    }
+
+                    date++;
+                }
+
+                row.appendChild(cell);
+            }
+
+            calendarBody.appendChild(row);
+        }
+    }
+
+    // Función para cambiar al mes anterior
+    function prevMonth() {
+        currentMonth = (currentMonth - 1 + 12) % 12;
+        if (currentMonth === 11) currentYear--;
+        generarCalendario(currentMonth, currentYear);
+    }
+
+    // Función para cambiar al siguiente mes
+    function nextMonth() {
+        currentMonth = (currentMonth + 1) % 12;
+        if (currentMonth === 0) currentYear++;
+        generarCalendario(currentMonth, currentYear);
+    }
+
+    // Función para inicializar el calendario en el mes actual
+    function inicializarCalendario() {
+        generarCalendario(currentMonth, currentYear);
+    }
+
+    // Inicializa el calendario con el mes y año actuales
+    inicializarCalendario();
+
+    // Asigna las funciones de cambio de mes a los botones de control
+    document.getElementById('prev-month').addEventListener('click', prevMonth);
+    document.getElementById('next-month').addEventListener('click', nextMonth);
+});
+
+    </script>
     <script>
         function openChat(chatName) {
             const chatContainer = document.getElementById('chatContainer');
@@ -297,5 +339,8 @@
             });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>

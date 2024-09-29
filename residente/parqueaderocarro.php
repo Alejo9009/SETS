@@ -167,6 +167,7 @@ try {
                                                     <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
                                                 </button>
                                                 <br>
+                                                <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
                                                 <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
@@ -180,8 +181,8 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-            </div>
-            <center><a href="solicitudmoto.html" class="small-btn" style="text-decoration: none;">Solicitar
+            </div><p>
+            <center><a href="solicitudmoto.php" class="btn btn-success" style="text-decoration: none;">Solicitar
                     parqueadero</a></center>
             <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
