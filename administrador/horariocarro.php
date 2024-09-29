@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,10 @@
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -92,53 +94,11 @@
             <h2 style="text-align: center; color:rgb(19, 68, 52)">Horario Carro</h2>
         </section>
         <div class="container">
-            <div class="calendar-container">
-                <div class="calendar">
-                    <h2>Parqueadero</h2>
-                    <br>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Zona </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>12</td>
-                                <td>13</td>
-                                <td>14</td>
-                                <td class="highlight">15</td>
-                            </tr>
-                            <tr>
-                                <td>16</td>
-                                <td>17</td>
-                                <td>18</td>
-                                <td>19</td>
-                                <td class="highlight">20</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
             <br>
             <!-- Citas Agendadas -->
             <div class="sidebar">
-                <h2>Solicitud de Agendaciones</h2>
+                <h2>Responder Agendaciones</h2>
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
@@ -149,6 +109,7 @@
                 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
                 <br>
                 <div class="appointment">
+            
                     <h3>Parqueadero Carro</h3>
                     <p>Número de Parqueadero: 15</p>
                     <p>Placa Vehículo: ABC987</p>
@@ -157,11 +118,14 @@
                     <p>Torre: 3</p>
                     <p>Nombre Solicitante: María López</p>
                     <p>Documento Solicitante: 55667788</p>
-                    <div class="buttons">
-                        <button class="button accept">Aceptar</button>
-                        <button class="button delete">Eliminar</button>
-                        <button class="button pending">Pendiente</button>
+                    <br>
+                    <center>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-warning">Pendiente</button>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
                     </div>
+                    </center>
                 </div>
                 <div class="appointment">
                     <h3>Parqueadero Carro</h3>
@@ -172,11 +136,14 @@
                     <p>Torre: 3</p>
                     <p>Nombre Solicitante: María López</p>
                     <p>Documento Solicitante: 55667788</p>
-                    <div class="buttons">
-                        <button class="button accept">Aceptar</button>
-                        <button class="button delete">Eliminar</button>
-                        <button class="button pending">Pendiente</button>
+                    <br>
+                    <center>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-warning">Pendiente</button>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
                     </div>
+                    </center>
                 </div>
             </div>
         </div>
@@ -184,11 +151,11 @@
             <center>VOLVER</center>
         </a>
         <script>
-            document.querySelector('.admin-img').addEventListener('click', function () {
+            document.querySelector('.admin-img').addEventListener('click', function() {
                 document.querySelector('.dropdown-menu').classList.toggle('show');
             });
 
-            document.querySelector('.chat-button').addEventListener('click', function () {
+            document.querySelector('.chat-button').addEventListener('click', function() {
                 document.querySelector('.chat-menu').classList.toggle('show');
             });
 
@@ -242,9 +209,10 @@
                 });
             }
         </script>
-              <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-   
+
     </main>
 </body>
+
 </html>

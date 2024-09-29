@@ -185,6 +185,23 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             </a>
                         </div>
                     </div>
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <div class="icon">
+                            <a href="datos_usuario.php" class="link-button">
+                                <img src="img/inf.png" alt="Datos Usuarios" class="medium-img">
+                                <button class="add-announcement">Datos Usuarios</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <div class="icon">
+                            <a href="citas.php" class="link-button">
+                                <img src="img/citas.png" alt="Citas con amd" class="medium-img">
+                                <button class="add-announcement">Citas con amd</button>
+                            </a>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>

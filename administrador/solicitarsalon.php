@@ -173,7 +173,11 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
-                           <button>acpatra</button>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-warning">Pendiente</button>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
