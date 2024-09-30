@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
         JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
@@ -133,13 +133,11 @@ if (!$userData) {
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
+                                       
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -176,7 +174,7 @@ if (!$userData) {
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -224,11 +222,12 @@ if (!$userData) {
                 <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
                 <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
                 <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+                <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
     <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-            <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+            <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 
     </div>
     </center>

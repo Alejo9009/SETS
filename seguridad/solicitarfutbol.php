@@ -65,13 +65,11 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
+                                       
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -106,7 +104,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -121,7 +119,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE FÚTBOL</h2>
+            <h2>Horarios Disponibles - CANCHA DE FÚTBOL</h2>
         </div>
 
         <div class="container">
@@ -166,8 +164,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <h3>CANCHA DE Fútbol</h3>
-                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
-                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
+                            <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>

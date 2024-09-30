@@ -66,13 +66,11 @@ foreach ($resultados as $fila) {
                   </a>
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                      <center><a href="Perfil.php">Editar datos</a></center>
+                      <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
+                  
                     <li>
-                      <center><a href="#">Reportar problema</a></center>
-                    </li>
-                    <li>
-                      <center> <a href="../index.php">Cerrar sesión</a></center>
+                      <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
                   </ul>
               </center>
@@ -132,7 +130,7 @@ foreach ($resultados as $fila) {
 
     </header>
     <br>
-<br>
+    <br>
     <br>
     <br>
     <br>
@@ -156,8 +154,8 @@ foreach ($resultados as $fila) {
         <?php foreach ($pisos as $numPiso => $pisoData): ?>
           <div class="col-md-12 mb-4">
             <div class="card shadow">
-              <div class="card-header bg-success text-white" >
-                <h2 class="mb-0" style="text-align: center; " ><b>Piso: <?= htmlspecialchars($numPiso) ?></b></h2>
+              <div class="card-header bg-success text-white">
+                <h2 class="mb-0" style="text-align: center; "><b>Piso: <?= htmlspecialchars($numPiso) ?></b></h2>
               </div>
               <div class="card-body">
                 <div class="barra">
@@ -191,10 +189,8 @@ foreach ($resultados as $fila) {
     <br>
     <br>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="torres.php" class="btn btn-outline-success" style=" font-size:30px;">
-    VOLVER
-    </a>
-  </div>
+      <a href="torres.php" class="btn btn-outline-success" style=" font-size:30px;"> VOLVER</a>
+    </div>
 
 
 

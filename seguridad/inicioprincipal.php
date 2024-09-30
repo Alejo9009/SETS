@@ -23,7 +23,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Guarda Seguridad</title>
+    <title>SETS - INICIO GUARDA</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/principal.css?v=<?php echo (rand()); ?>">
@@ -58,13 +58,11 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
+                                      
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -101,7 +99,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
 
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>

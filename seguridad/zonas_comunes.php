@@ -19,7 +19,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - zonas_comunes</title>
+    <title>SETS - Zonas_Comunes</title>
     <link rel="stylesheet" href="css/zonas_comunes.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -54,13 +54,11 @@ try {
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
+                                        
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -97,7 +95,7 @@ try {
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -158,7 +156,7 @@ try {
                                 }
                                 ?>
                                 <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['TipoZonaid']); ?>" class="btn btn-outline-success">
-                                    Ver horario disponible
+                                    Ver Horario Disponible
                                 </a><br>
 
                             </article>
