@@ -9,10 +9,11 @@ body {
     overflow: hidden;
     background: url() no-repeat center center fixed;
     background-size: cover;
+    overflow-y: scroll;
 }
 
 .profile-card {
-    box-shadow: 0 4px 8px 0 rgba(26, 94, 65, 0.938);
+    box-shadow: 0 4px 8px 0 rgba(12, 54, 36, 0.938);
     max-width: 550px;
     margin: auto;
     text-align: center;
@@ -20,8 +21,8 @@ body {
   }
   
   .profile-image {
-    width: 30%;
-    height: 29%;
+    width: 80%;
+    height: 39%;
   }
   body {
     font-family: Arial, sans-serif;
@@ -49,11 +50,11 @@ h1 {
 }
 
 .info-perfil img.imagen-perfil {
-    border-radius: 50%;
-    max-width: 150px;
+    border-radius: 100%;
+    max-width: 250px;
     max-height: 150px;
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 form {

@@ -106,7 +106,7 @@ try {
   </header>
   <br><br>
   <main>
-    <section id="chatContainer" class="chat-container  z-3 position-fixed p-5 rounded-3 " >
+    <section id="chatContainer" class="chat-container  z-3 position-fixed p-5 rounded-3 ">
       <div class="chat-header">
         <span id="chatHeader">Chat</span>
         <button class="close-btn" onclick="closeChat()">×</button>
@@ -117,143 +117,142 @@ try {
         <button onclick="sendMessage()">Enviar</button>
       </div>
     </section>
-
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <main>
-      <section class="anuncio">
-        <center>
-          <h2 style="color: rgb(11, 51, 21); text-align:center ; font-size: 60px;">Torres</h2>
-        </center>
-      </section>
-      <section class="announcements">
-        <br>
-        <div class="barra">
-          <div class="sombra"></div>
-          <form onsubmit="return searchTowers();">
-            <input type="text" id="search-input" placeholder="Buscar torre...">
-            <ion-icon name="search-outline"></ion-icon>
-          </form>
-        </div>
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        <br>
-        <div id="tower-container" class="container">
-          <!-- Los anuncios se cargarán aquí con AJAX -->
-          <?php if (!empty($torre)): ?>
-            <div class="row">
-              <?php foreach ($torre as $index => $torre): ?>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                  <center>
-                    <div class="card">
-                      <img src="img/yy.jpg" class="" alt="Imagen del apartamento" style="border: 3px solid #14c55e;">
-                      <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($torre['numTorre']); ?></h5>
-                        <h2 class="card-text"><?= htmlspecialchars($torre['descripcionTorre']); ?></h2><br>
-                        <a href="pisos.php" style="font-size: 30px;" class="btn-custom">Pisos</a><br>
-                      </div>
-                    </div>
-                  </center>
-                </div>
-              <?php endforeach; ?>
-            </div>
-          <?php else: ?>
-            <p>No se encontraron torres.</p>
-          <?php endif; ?>
-        </div>
-      </section>
-    </main>
-
-    </header>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-    VOLVER
-    </a>
+  </main>
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <main>
+    <section class="anuncio">
+      <center>
+        <h2 style="color: rgb(11, 51, 21); text-align:center ; font-size: 60px;">Torres</h2>
+      </center>
+    </section>
+    <section class="announcements">
+      <br>
+      <div class="barra">
+        <div class="sombra"></div>
+        <form onsubmit="return searchTowers();">
+          <input type="text" id="search-input" placeholder="Buscar torre...">
+          <ion-icon name="search-outline"></ion-icon>
+        </form>
+      </div>
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <br>
+      <div id="tower-container" class="container">
+        <!-- Los anuncios se cargarán aquí con AJAX -->
+        <?php if (!empty($torre)): ?>
+          <div class="row">
+            <?php foreach ($torre as $index => $torre): ?>
+              <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <center>
+                  <div class="card">
+                    <img src="img/yy.jpg" class="" alt="Imagen del apartamento" style="border: 3px solid #14c55e;">
+                    <div class="card-body">
+                      <h5 class="card-title"><?= htmlspecialchars($torre['numTorre']); ?></h5>
+                      <h2 class="card-text"><?= htmlspecialchars($torre['descripcionTorre']); ?></h2><br>
+                      <a href="pisos.php" style="font-size: 30px;" class="btn-custom">Pisos</a><br>
+                    </div>
+                  </div>
+                </center>
+              </div>
+            <?php endforeach; ?>
+            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;"> VOLVER</a>
+          </div>
+        <?php else: ?>
+          <p>No se encontraron torres.</p>
+        <?php endif; ?>
+      </div>
+    </section>
+  </main>
+
+   
+ 
+  </header>
+  
 
 
-    <script>
-      document.querySelector('.admin-img').addEventListener('click', function() {
-        document.querySelector('.dropdown-menu').classList.toggle('show');
-      });
+  <script>
+    document.querySelector('.admin-img').addEventListener('click', function() {
+      document.querySelector('.dropdown-menu').classList.toggle('show');
+    });
 
-      document.querySelector('.chat-button').addEventListener('click', function() {
-        document.querySelector('.chat-menu').classList.toggle('show');
-      });
+    document.querySelector('.chat-button').addEventListener('click', function() {
+      document.querySelector('.chat-menu').classList.toggle('show');
+    });
 
-      function filterChat() {
-        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(item => {
-          if (item.textContent.toLowerCase().includes(searchInput)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      }
-    </script>
-    <script>
-      function searchTowers() {
-        var query = document.getElementById('search-input').value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'toers.php?query=' + encodeURIComponent(query), true);
-        xhr.onload = function() {
-          if (xhr.status === 200) {
-            document.getElementById('tower-container').innerHTML = xhr.responseText;
-          } else {
-            console.error('Error en la búsqueda:', xhr.statusText);
-          }
-        };
-        xhr.send();
-
-
-        return false;
-      }
-    </script>
-    <script>
-      function openChat(chatName) {
-        const chatContainer = document.getElementById('chatContainer');
-        const chatHeader = document.getElementById('chatHeader');
-        chatHeader.textContent = chatName;
-        chatContainer.classList.add('show');
-      }
-
-      function closeChat() {
-        const chatContainer = document.getElementById('chatContainer');
-        chatContainer.classList.remove('show');
-      }
-
-      function sendMessage() {
-        const messageInput = document.getElementById('chatInput');
-        const messageText = messageInput.value.trim();
-        if (messageText) {
-          const chatMessages = document.getElementById('chatMessages');
-          const messageElement = document.createElement('p');
-          messageElement.textContent = messageText;
-          chatMessages.appendChild(messageElement);
-          messageInput.value = '';
-          chatMessages.scrollTop = chatMessages.scrollHeight;
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
         }
-      }
+      });
+    }
+  </script>
+  <script>
+    function searchTowers() {
+      var query = document.getElementById('search-input').value;
 
-      function filterChat() {
-        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(item => {
-          if (item.textContent.toLowerCase().includes(searchInput)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'toers.php?query=' + encodeURIComponent(query), true);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          document.getElementById('tower-container').innerHTML = xhr.responseText;
+        } else {
+          console.error('Error en la búsqueda:', xhr.statusText);
+        }
+      };
+      xhr.send();
+
+
+      return false;
+    }
+  </script>
+  <script>
+    function openChat(chatName) {
+      const chatContainer = document.getElementById('chatContainer');
+      const chatHeader = document.getElementById('chatHeader');
+      chatHeader.textContent = chatName;
+      chatContainer.classList.add('show');
+    }
+
+    function closeChat() {
+      const chatContainer = document.getElementById('chatContainer');
+      chatContainer.classList.remove('show');
+    }
+
+    function sendMessage() {
+      const messageInput = document.getElementById('chatInput');
+      const messageText = messageInput.value.trim();
+      if (messageText) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageElement = document.createElement('p');
+        messageElement.textContent = messageText;
+        chatMessages.appendChild(messageElement);
+        messageInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
       }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    }
+
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

@@ -7,7 +7,10 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../SETS/login.php");
     exit();
 }
-
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../SETS/registrase.php");
+    exit();
+}
 // Obtener el ID del usuario desde la sesión
 $idRegistro = $_SESSION['id_Registro'] ?? null;
 if ($idRegistro === null) {
@@ -64,23 +67,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Actualizar los demás datos del perfil
-    $nombreCompleto = $_POST['profile-fullname'] ?? '';
-    $rol = $_POST['profile-role'] ?? '';
- 
+    $PrimerNombre = $_POST['profile-firstname'] ?? '';
+    $SegundoNombre = $_POST['profile-secondname'] ?? '';
+    $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
+    $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
     $email = $_POST['profile-email'] ?? '';
     $usuario = $_POST['profile-username'] ?? '';
-    $clave = $_POST['profile-password'] ?? '';
+    $telefono = $_POST['profile-phone'] ?? ''; // Cambié a 'profile-phone' para evitar confusiones
 
     // Consulta SQL corregida para campos existentes en la base de datos
-    $sql = "UPDATE registro 
-            SET PrimerNombre = ?, SegundoNombre = ?, Correo = ?, Usuario = ?,  Clave = ?
-            WHERE id_Registro = ?";
+    $sql = "UPDATE registro r
+    JOIN telefono t ON r.id_Registro = t.person
+    SET r.PrimerNombre = ?, 
+        r.SegundoNombre = ?, 
+        r.PrimerApellido = ?, 
+        r.SegundoApellido = ?, 
+        r.Correo = ?, 
+        r.Usuario = ?, 
+        t.numeroTel = ? 
+    WHERE r.id_Registro = ?";
     
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$nombreCompleto, $rol,  $email, $usuario, $clave, $idRegistro])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $email, $usuario, $telefono, $idRegistro])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
+    }
+    if (!empty($_POST['profile-password'])) {
+        $clave = $_POST['profile-password'];
+        // Encriptar la contraseña
+        $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
+        $sql = "UPDATE registro SET Clave = ? WHERE id_Registro = ?";
+        $stmt = $base_de_datos->prepare($sql);
+        if ($stmt->execute([$claveEncriptada, $idRegistro])) {
+            echo "Clave actualizada con éxito.";
+        } else {
+            echo "Error al actualizar la clave.";
+        }
     }
 }
 ?>
