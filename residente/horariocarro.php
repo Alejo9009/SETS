@@ -117,7 +117,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     </header>
     <br>
     <main>
-        <section class="chat-container" id="chatContainer">
+        <section class="chat-container z-3 position-absolute p-5 rounded-3" id="chatContainer">
             <header class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
@@ -142,12 +142,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
             <!-- Citas Agendadas -->
             <div class="sidebar">
-            <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Mis Agendaciones</h3>
-                    </div>
-
-                </center>
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
@@ -163,7 +157,12 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </center>
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
-                          
+                        <center>
+                    <div class="alert alert-success" role="alert">
+                        <h3>Mis Agendaciones</h3>
+                    </div>
+
+                </center>
                             <center>
                                 <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
                                 <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>

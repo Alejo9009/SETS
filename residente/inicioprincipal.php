@@ -224,14 +224,15 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             echo "<p>No se encontraron anuncios.</p>";
                         }
                         ?>
-                        <div class="icon">
+                        
+                </section>
+                <div class="icon">
                             <a href="añadiranuncio.php" class="link-button">
                                 <button class="add-announcement">Añadir Anuncio</button>
                             </a>
                         </div>
-                </section>
             </div>
-
+          
 
 
             <script>

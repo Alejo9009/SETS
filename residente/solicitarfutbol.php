@@ -123,7 +123,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE FÚTBOL</h2>
+            <h2>Horarios disponibles - CANCHA DE FÚTBOL <br> Numero de la Zona : 1</h2>
         </div>
 
         <div class="container">

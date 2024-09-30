@@ -177,21 +177,22 @@ try {
                     </center>
                 </div>
             </div>
-          <br>
-          <center>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
-                <a href="hoariomoto.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
-               
-            </div>
+            <br>
+            <center>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
+                    <a href="hoariomoto.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
+
+                </div>
             </center>
+
 
     </main>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                        <center>VOLVER</center>
-                    </a>
-                </div>
+        <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+            <center>VOLVER</center>
+        </a>
+    </div>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');

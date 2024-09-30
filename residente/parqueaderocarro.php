@@ -190,6 +190,11 @@ try {
             </div>
             </center>
         </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                        <center>VOLVER</center>
+                    </a>
+                </div>
         <br>
 
         </div>

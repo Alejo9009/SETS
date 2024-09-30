@@ -122,14 +122,14 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE VOLEYBALL</h2>
+            <h2>Horarios disponibles - CANCHA DE VOLEYBALL <br> Numero de la Zona : 4</h2>
         </div>
 
         <div class="container">
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="calendar-header">
-                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <h2 id="calendar-title">Calendario de Disponibilidad </h2>
                         <br><p>
                         <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
