@@ -1,18 +1,33 @@
+<?php
+// incluir la conexión a la base de datos
+include 'conexion.php'; // Asegúrate de que esto apunte a tu archivo de conexión
+
+// Obtener tipos de vehículos
+$stmt = $base_de_datos->query("SELECT * FROM tipovehiculo");
+$tiposVehiculo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener parqueaderos disponibles
+$stmt = $base_de_datos->query("SELECT * FROM parqueadero WHERE disponibilidad = 'SI ESTA DISPONIBLE'");
+$parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SETS - PARQUEADERO-solicitar</title>
-    <link rel="stylesheet" href="css/solictudparque.css">
+    <link rel="stylesheet" href="css/solictudparque.css?v=<?php echo (rand()); ?>s">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
 </head>
+
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -102,52 +117,58 @@
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="container">
             <div class="login-content">
-                <form action="recuperar.html" method="post" enctype="multipart/form-data">
-                    <img src="img/cocheEE.png" alt="Logo" class="imgp">
-                    <h2 class="title">SOLICITAR PARQUEADERO DE CARRO</h2>
-                    <div class="book-form">
-                        <div class="page left-page">
-                            <div class="form-group">
-                                <label for="nombre">N Parqueadero:</label>
-                                <input type="NUMBER" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">placaVehiculo:</label>
-                                <input type="VARCHAR" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">modelo  Vehiculo:</label>
-                                <input type="VARCHAR" id="nombre" name="nombre">
-                            </div>
+                <div class="alert alert-success" role="alert">
+                    Solicitar Parqueadero Carro
+                </div>
+                <img src="img/coches.png" alt="Logo" class="imgp">
+                <form action="parking.php" method="post">
+                    <input type="number" name="id_Aparta" placeholder="ID Aparta" required>
+                    <input type="date" name="fecha_inicio" required>
+                    <input type="date" name="fecha_final" required>
+                    <input type="time" name="hora_inicio" required>
+                    <input type="time" name="hora_final" required>
 
-                            <div class="form-group">
-                                <label for="nombre">TORRE:</label>
-                                <input type="NUMBER" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">PISO:</label>
-                                <input type="NUMBER" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">nombre completo:</label>
-                                <input type="text" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">documento:</label>
-                                <input type="NUMBER" id="nombre" name="nombre">
-                            </div>
-                       
-                        </div>
-                    </div>
+                    <label for="numParqueadero">Número de Parqueadero:</label>
+                    <select name="numParqueadero" required>
+                        <option value="">Selecciona un parqueadero</option>
+                        <?php foreach ($parqueaderosDisponibles as $parqueadero): ?>
+                            <option value="<?php echo $parqueadero['numero_Parqueadero']; ?>">
+                                <?php echo $parqueadero['numero_Parqueadero']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="id_TipoVehiculo">Tipo de Vehículo:</label>
+                    <select name="id_TipoVehiculo" required>
+                        <option value="">Selecciona un tipo de vehículo</option>
+                        <?php foreach ($tiposVehiculo as $tipo): ?>
+                            <option value="<?php echo $tipo['idtVehiculo']; ?>">
+                                <?php echo $tipo['descripcionvehiculo']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="placaVehiculo">Placa del Vehículo:</label>
+                    <input type="text" name="placaVehiculo" required>
 
-                    <input type="submit" class="btn" value="actualizar" style="color: aliceblue;">
-                    <a href="parqueaderocarro.html" class="btn small-btn" style="color: aliceblue;">VOLVER</a>
+                    <label for="colorVehiculo">Color del Vehículo:</label>
+                    <input type="text" name="colorVehiculo" required>
+
+                    
+                    <input type="submit" class="btn btn-success" value="Solicitar">
                 </form>
             </div>
         </div>
     </main>
+    <a href="parqueaderocarro.php" class="btn btn-danger btn-lg">volver</a>
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -208,5 +229,68 @@
             });
         }
     </script>
+       <script>
+        document.querySelector('.admin-img').addEventListener('click', function() {
+            document.querySelector('.dropdown-menu').classList.toggle('show');
+        });
+
+        document.querySelector('.chat-button').addEventListener('click', function() {
+            document.querySelector('.chat-menu').classList.toggle('show');
+        });
+
+        function filterChat() {
+            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    <script>
+        function openChat(chatName) {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatHeader = document.getElementById('chatHeader');
+            chatHeader.textContent = chatName;
+            chatContainer.classList.add('show');
+        }
+
+        function closeChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.classList.remove('show');
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('chatInput');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageElement = document.createElement('p');
+                messageElement.textContent = messageText;
+                chatMessages.appendChild(messageElement);
+                messageInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        function filterChat() {
+            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
 </body>
+
 </html>

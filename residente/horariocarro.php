@@ -106,6 +106,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </center>
                         </ul>
 
+
+
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -130,12 +132,13 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
         </section>
     </main>
-    <main>  <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Agendacion de Parqueadero carro</h3>
-                    </div>
+    <main>
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h3>Agendacion de Parqueadero carro</h3>
+            </div>
 
-                </center>
+        </center>
 
         <div class="container">
 
@@ -152,17 +155,17 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
                 <br>
                 <div class="appointment-list">
-                <center>
-                          
-                            </center>
+                    <center>
+
+                    </center>
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
-                        <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Mis Agendaciones</h3>
-                    </div>
+                            <center>
+                                <div class="alert alert-success" role="alert">
+                                    <h3>Mis Agendaciones</h3>
+                                </div>
 
-                </center>
+                            </center>
                             <center>
                                 <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
                                 <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
@@ -172,6 +175,17 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                 <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
                                 <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
                                 <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <br>
+                                <center>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" type="button" class="btn btn-success">Editar</a>
+                                        <form action="elimincarro.php" method="POST">
+                                            <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>">
+                                            <input type="hidden" name="accion" value="eliminar">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </center>
                             </center>
                         </div>
 

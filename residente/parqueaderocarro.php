@@ -184,7 +184,7 @@ try {
             </div><p>
             <center>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
+                <a href="solicitudparque.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
                 <a href="horariocarro.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
                
             </div>

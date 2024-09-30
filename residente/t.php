@@ -1,3 +1,7 @@
+<?php
+session_start();
+include_once "conexion.php";
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,17 +11,48 @@
 </head>
 <body>
     <h2>Agregar Torre, Piso y Apartamento</h2>
-    <form action="p.php" method="POST">
-        <h3>Torre</h3>
-        <h3>Piso</h3>
-        <label for="piso">Número de Piso:</label>
-        <input type="number" name="piso" required>
+    <form method="post" action="p.php">
+    <!-- Selección de Torre -->
+    <label for="torre">Seleccionar Torre:</label>
+    <select name="torre" id="torre" required>
+        <option value="">Seleccione una Torre</option>
+        <?php
+        // Aquí se cargan las torres desde la base de datos
+        $query = $pdo->query("SELECT * FROM registro_torre");
+        while ($row = $query->fetch()) {
+            echo '<option value="'.$row['idTorre'].'">'.$row['nombreTorre'].'</option>';
+        }
+        ?>
+    </select>
 
-        <h3>Apartamento</h3>
-        <label for="apartamento">Número de Apartamento:</label>
-        <input type="number" name="apartamento" required>
+    <!-- Selección de Piso -->
+    <label for="piso">Seleccionar Piso:</label>
+    <select name="piso" id="piso" required>
+        <option value="">Seleccione un Piso</option>
+        <?php
+        // Carga dinámica de los pisos
+        $query = $pdo->query("SELECT * FROM torre_piso");
+        while ($row = $query->fetch()) {
+            echo '<option value="'.$row['idPiso'].'">'.$row['nombrePiso'].'</option>';
+        }
+        ?>
+    </select>
 
-        <button type="submit">Guardar</button>
-    </form>
+    <!-- Selección de Apartamento -->
+    <label for="apartamento">Seleccionar Apartamento:</label>
+    <select name="apartamento" id="apartamento" required>
+        <option value="">Seleccione un Apartamento</option>
+        <?php
+        // Carga dinámica de los apartamentos
+        $query = $pdo->query("SELECT * FROM piso_apto");
+        while ($row = $query->fetch()) {
+            echo '<option value="'.$row['idApto'].'">'.$row['nombreApto'].'</option>';
+        }
+        ?>
+    </select>
+
+    <input type="submit" value="Guardar">
+</form>
+
 </body>
 </html>

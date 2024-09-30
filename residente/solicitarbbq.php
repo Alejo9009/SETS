@@ -158,7 +158,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
 
             <aside class="sidebar">
-                <h2>Agendaciones</h2>
+                <h2>Mis Agendaciones</h2>
                 <div class="search-bar">
                     <input type="search" placeholder="Buscar agendaciones..." />
                     <ion-icon name="search-outline"></ion-icon>
@@ -173,7 +173,19 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
-                           
+                            <br>
+                            <center>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <a href="editarsolicitudbbq.php?ID_Apartament=<?= htmlspecialchars($solicitud['ID_Apartament']) ?>" type="button" class="btn btn-success">Editar</a>
+
+
+                                <form action="elimin bbq.php" method="POST">
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartament'] ?>"> <!-- o ID_zonaComun -->
+                                    <input type="hidden" name="accion" value="eliminar">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                            </center>
                         </div>
                     <?php endforeach; ?>
                 </div>

@@ -181,6 +181,7 @@
         </div>
         <a href="inicioprincipal.html" class="button accept" style="font-size: 30px; text-decoration:none;">Volver</a>
 
+        <a href="citasFormularioAdm.php" class="button accept" style="font-size: 30px; text-decoration:none;">Volver</a>
 
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">

@@ -62,10 +62,10 @@ switch ($rolDescripcion) {
         header("Location: ../SETS/admi/inicioprincipal.php");
         break;
     case 'residente':
-        header("Location: ../SETS/residente/inicioprincipal.php");
+        header("Location: ../SETS/residente/BIENVENIDORESIDENTE.php");
         break;
     case 'administrador':
-        header("Location: ../SETS/administrador/inicioprincipal.php");
+        header("Location: ../SETS/administrador/BIENVENIDORESIDENTE.php");
         break;
     case 'Guarda de Seguridad':
         header("Location: ../SETS/seguridad/BIENVENIDOGUARDA.php");

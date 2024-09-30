@@ -132,10 +132,10 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                     <br>
                     <div class="col-12 col-sm-6  ">
                         <div class="icon">
-                        <a href="manualconvivencia.php" class="link-button">
-                            <img src="img/instrucciones.png" alt="Manual de convivencia" class="medium-img">
-                            <button class="add-announcement">Manual de convivencia</button>
-                        </a>
+                            <a href="manualconvivencia.php" class="link-button">
+                                <img src="img/instrucciones.png" alt="Manual de convivencia" class="medium-img">
+                                <button class="add-announcement">Manual de convivencia</button>
+                            </a>
                         </div>
                     </div>
 
@@ -212,7 +212,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                         Fecha de Publicación: <?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
                                         Hora de Publicación: <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
                                     </p>
-
+                                    
                                     <form action="eliminaranuncio.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este anuncio?');">
                                         <input type="hidden" name="titulo" value="<?= htmlspecialchars($row['titulo']); ?>">
                                         <button type="submit">Eliminar</button>
@@ -224,15 +224,15 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             echo "<p>No se encontraron anuncios.</p>";
                         }
                         ?>
-                        
+
                 </section>
                 <div class="icon">
-                            <a href="añadiranuncio.php" class="link-button">
-                                <button class="add-announcement">Añadir Anuncio</button>
-                            </a>
-                        </div>
+                    <a href="añadiranuncio.php" class="link-button">
+                        <button class="add-announcement">Añadir Anuncio</button>
+                    </a>
+                </div>
             </div>
-          
+
 
 
             <script>

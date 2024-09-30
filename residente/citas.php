@@ -174,7 +174,7 @@
                 </a>
             </aside>
         </div>
-        <a href="ver.php" class="btn btn-success "  style="font-size: 30px;">
+        <a href="citasFormulario.php" class="btn btn-success "  style="font-size: 30px;">
             <center>solicitar</center>
         </a>
         <a href="inicioprincipal.html" class="btn btn-success "  style="font-size: 30px;">

@@ -173,6 +173,17 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                 <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
                                 <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
                                 <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <br>
+                                <center>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <a href="motoo.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" type="button" class="btn btn-success">Editar</a>
+                                        <form action="eliminmoto.php" method="POST">
+                                            <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>">
+                                            <input type="hidden" name="accion" value="eliminar">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </center>
                             </center>
                         </div>
 
