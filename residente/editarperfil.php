@@ -8,6 +8,11 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../SETS/registrase.php");
+    exit();
+}
+// Obtener el ID del usuario desde la sesión
 // Obtener el ID del usuario desde la sesión
 $idRegistro = $_SESSION['id_Registro'] ?? null;
 if ($idRegistro === null) {
@@ -15,10 +20,11 @@ if ($idRegistro === null) {
 }
 
 // Recuperar los datos del usuario desde la base de datos
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, ro.Roldescripcion AS Rol, r.Correo, r.Usuario, r.imagenPerfil
+$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
+        JOIN telefono t ON r.id_Registro = t.person
         JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
-        JOIN rol ro ON rr.idROL = ro.id
+        JOIN rol rd ON rr.idROL = rd.id
         WHERE r.id_Registro = ?";
 $stmt = $base_de_datos->prepare($sql);
 $stmt->execute([$idRegistro]);
@@ -31,11 +37,11 @@ if ($userData === false) {
 
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Procesar la subida de la imagen
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
         $fileName = basename($_FILES['imagenPerfil']['name']);
         $fileSize = $_FILES['imagenPerfil']['size'];
-        $fileType = $_FILES['imagenPerfil']['type'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         // Verificar si el archivo es una imagen real
@@ -46,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Verificar el tamaño del archivo (máximo 2MB)
-        if ($fileSize > 2000000) {
+        if ($fileSize > 1000000) {
             echo "El archivo es demasiado grande.";
             exit;
         }
@@ -77,24 +83,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Hubo un error al subir la imagen.";
         }
     }
-    
-    // Actualizar los demás datos del perfil
-    $nombreCompleto = $_POST['profile-fullname'] ?? '';
-    $rol = $_POST['profile-role'] ?? '';
+
+    // Recoger otros datos del formulario
+    $PrimerNombre = $_POST['profile-firstname'] ?? '';
+    $SegundoNombre = $_POST['profile-secondname'] ?? '';
+    $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
+    $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
     $email = $_POST['profile-email'] ?? '';
     $usuario = $_POST['profile-username'] ?? '';
-    $clave = $_POST['profile-password'] ?? '';
+    $telefono = $_POST['profile-phone'] ?? ''; // Cambié a 'profile-phone' para evitar confusiones
 
     // Actualizar el perfil en la base de datos
-    $sql = "UPDATE registro 
-            SET PrimerNombre = ?, SegundoNombre = ?, Correo = ?, Usuario = ?, 
-                 Clave = ?
-            WHERE id_Registro = ?";
+    $sql = "UPDATE registro r
+    JOIN telefono t ON r.id_Registro = t.person
+    SET r.PrimerNombre = ?, 
+        r.SegundoNombre = ?, 
+        r.PrimerApellido = ?, 
+        r.SegundoApellido = ?, 
+        r.Correo = ?, 
+        r.Usuario = ?, 
+        t.numeroTel = ? 
+    WHERE r.id_Registro = ?";
+    
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$nombreCompleto, $email, $usuario,  $clave, $idRegistro])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $email, $usuario, $telefono, $idRegistro])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
+    }
+
+    // Actualizar la contraseña si se proporciona
+    if (!empty($_POST['profile-password'])) {
+        $clave = $_POST['profile-password'];
+        // Encriptar la contraseña
+        $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
+        $sql = "UPDATE registro SET Clave = ? WHERE id_Registro = ?";
+        $stmt = $base_de_datos->prepare($sql);
+        if ($stmt->execute([$claveEncriptada, $idRegistro])) {
+            echo "Clave actualizada con éxito.";
+        } else {
+            echo "Error al actualizar la clave.";
+        }
     }
 }
 ?>
@@ -208,36 +237,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <br>
     <br>
     <main>
-    <section class="profile-card" style="border: 6px solid #052910;">
-        <form action="procesar_datos.php" method="POST" enctype="multipart/form-data">
-            <h2 class="profile-name">Editar Perfil</h2>
-            <div class="text-center">
-                <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/perfil.png'); ?>" alt="Imagen de Perfil" width="120"><br>
-                <input type="file" name="imagenPerfil" onchange="mostrarImagenSeleccionada(this);" style="color: rgb(45, 110, 59);"><br>
-            </div>
-            <label for="profile-fullname">Nombre Completo:</label><br>
-            <input type="text" id="profile-fullname" name="profile-fullname" value="<?php echo htmlspecialchars($userData['PrimerNombre'] . ' ' . $userData['SegundoNombre']); ?>"><br>
-            <label for="profile-role">Rol:</label>
-            <input type="text" id="profile-role" name="profile-role" value="<?php echo htmlspecialchars($userData['Rol']); ?>"><br>
-      
-            <label for="profile-email">Correo:</label>
-            <input type="email" id="profile-email" name="profile-email" value="<?php echo htmlspecialchars($userData['Correo']); ?>"><br>
-            <label for="profile-username">Usuario:</label>
-            <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>
-            <label for="profile-password">Clave:</label>
-            <input type="password" id="profile-password" name="profile-password" value=""><br>
+        <section class="profile-card" style="border: 6px solid #052910;">
+            <form action="procesar_datos.php" method="POST" enctype="multipart/form-data">
+              
+    <div class="alert alert-success" role="alert">
+        <center>
+    <h2 class="profile-name">Editar Perfil</h2>
+    </center>
+    </div>
+                <div class="text-center">
+                    <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/resi.png'); ?>" alt="Imagen de Perfil" width="120"><br>
+                    <input type="file" name="imagenPerfil" onchange="mostrarImagenSeleccionada(this);" style="color: rgb(45, 110, 59);"><br>
+                </div>
+                
 
-            <div class="btn-group">
-                <button type="submit" class="btn btn-success" style="font-size:16px; color: aliceblue;">
-                    <b>Guardar Cambios</b>
-                </button>
-                <a href="perfil.php" class="btn btn-danger" style="font-size:20px; color: aliceblue;">
-                    <b>Volver</b>
-                </a>
-            </div>
-        </form>
-    </section>
-</main>
+                <br>
+                <label for="profile-firstname">Primer Nombre:</label><br>
+                <input type="text" id="profile-firstname" name="profile-firstname" value="<?php echo htmlspecialchars($userData['PrimerNombre']); ?>"><br>
+
+                <label for="profile-secondname">Segundo Nombre:</label><br>
+                <input type="text" id="profile-secondname" name="profile-secondname" value="<?php echo htmlspecialchars($userData['SegundoNombre']); ?>"><br>
+
+                <label for="profile-firstlastname">Primer Apellido:</label><br>
+                <input type="text" id="profile-firstlastname" name="profile-firstlastname" value="<?php echo htmlspecialchars($userData['PrimerApellido']); ?>"><br>
+
+                <label for="profile-secondlastname">Segundo Apellido:</label><br>
+                <input type="text" id="profile-secondlastname" name="profile-secondlastname" value="<?php echo htmlspecialchars($userData['SegundoApellido']); ?>"><br>
+
+                <label for="profile-email">Correo Electrónico:</label><br>
+                <input type="email" id="profile-email" name="profile-email" value="<?php echo htmlspecialchars($userData['Correo']); ?>"><br>
+
+                <label for="profile-username">Usuario:</label><br>
+                <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>
+
+                <label for="profile-phone">Teléfono:</label><br>
+                <input type="text" id="profile-phone" name="profile-phone" value="<?php echo htmlspecialchars($userData['numeroTel']); ?>"><br>
+
+                <label for="profile-password">Nueva Contraseña:</label><br>
+                <input type="password" id="profile-password" name="profile-password"><br>
+
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" style="margin-top: 10px;">
+            </form>
+        </section>
+        <a href="perfil.php" type="button" class="btn btn-danger btn-lg">Volver</a>
+    </main>
 
     <script>
         function mostrarImagenSeleccionada(input) {
