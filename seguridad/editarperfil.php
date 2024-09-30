@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
     <br><br>
     <main>
-    <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
+    <section id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
       <div class="chat-header">
         <span id="chatHeader">Chat</span>
         <button class="close-btn" onclick="closeChat()">×</button>

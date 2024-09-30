@@ -107,7 +107,7 @@ try {
     </header>
     <br><br>
     <main>
-        <section class="chat-container" id="chatContainer">
+        <section class="chat-container z-3 position-absolute p-5 rounded-3" id="chatContainer">
             <header class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>

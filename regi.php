@@ -68,7 +68,7 @@ switch ($rolDescripcion) {
         header("Location: ../SETS/administrador/inicioprincipal.php");
         break;
     case 'Guarda de Seguridad':
-        header("Location: ../SETS/seguridad/inicioprincipal.php");
+        header("Location: ../SETS/seguridad/BIENVENIDOGUARDA.php");
         break;
     default:
         header("Location: default_view.php");

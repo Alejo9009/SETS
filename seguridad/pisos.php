@@ -118,7 +118,7 @@ foreach ($resultados as $fila) {
   </header>
   <br><br>
   <main>
-    <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
+    <section id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
       <div class="chat-header">
         <span id="chatHeader">Chat</span>
         <button class="close-btn" onclick="closeChat()">×</button>
@@ -191,7 +191,7 @@ foreach ($resultados as $fila) {
     <br>
     <br>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+    <a href="torres.php" class="btn btn-outline-success" style=" font-size:30px;">
     VOLVER
     </a>
   </div>

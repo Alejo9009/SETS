@@ -181,7 +181,7 @@ if (!$userData) {
     </header>
     <br><br>
     <main>
-        <section class="chat-container" id="chatContainer">
+        <section class="chat-container " id="chatContainer">
             <header class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
