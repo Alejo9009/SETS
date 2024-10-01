@@ -59,13 +59,13 @@ try {
 // Redirigir según el rol
 switch ($rolDescripcion) {
     case 'admi':
-        header("Location: ../SETS/admi/inicioprincipal.php");
+        header("Location: ../SETS/admi/BIENVENIDOADMI.php");
         break;
     case 'residente':
         header("Location: ../SETS/residente/BIENVENIDORESIDENTE.php");
         break;
     case 'administrador':
-        header("Location: ../SETS/administrador/BIENVENIDORESIDENTE.php");
+        header("Location: ../SETS/administrador/BIENVENIDOADMINISTRADOR.php");
         break;
     case 'Guarda de Seguridad':
         header("Location: ../SETS/seguridad/BIENVENIDOGUARDA.php");

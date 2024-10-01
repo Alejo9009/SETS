@@ -106,7 +106,7 @@ if (!$userData) {
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -203,9 +203,9 @@ if (!$userData) {
     <br>
     <div class="perfil">
         <center>
-        <div class="alert alert-success" role="alert">
-        <h1>Perfil de Usuario</h1>
-    </div>
+            <div class="alert alert-success" role="alert">
+                <h1>Perfil de Usuario</h1>
+            </div>
             <div class="info-perfil">
                 <?php if ($userData['imagenPerfil']): ?>
                     <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
@@ -221,10 +221,10 @@ if (!$userData) {
                 <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
             </div>
             <br>
-    <br>
+            <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
             <a href="t.php" class="btn btn-success">Agregar mi vivienda</a>
-           
+
             <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
 
     </div>

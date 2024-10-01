@@ -1,7 +1,7 @@
 <?php
 include_once "conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idAnuncio   = $_POST['idAnuncio'];
+
     $titulo = $_POST['titulo'];
     $descripcionAnuncio = $_POST['descripcionAnuncio'];
     $fechaPublicacion = $_POST['fechaPublicacion'];
@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $persona = $_POST['persona'];
     $img_anuncio = $_POST['img_anuncio'];
 
-    $sql = "INSERT INTO anuncio (idAnuncio, titulo , descripcionAnuncio, fechaPublicacion, horaPublicacion, persona, img_anuncio) VALUES (:idAnuncio, :titulo, :descripcionAnuncio, :fechaPublicacion, :horaPublicacion, :persona, :img_anuncio)";
+    $sql = "INSERT INTO anuncio ( titulo , descripcionAnuncio, fechaPublicacion, horaPublicacion, persona, img_anuncio) VALUES ( :titulo, :descripcionAnuncio, :fechaPublicacion, :horaPublicacion, :persona, :img_anuncio)";
     $stmt = $base_de_datos->prepare($sql);
 
     var_dump($stmt);
@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt === false) {
         die("Error en la preparación de la consulta: " . $base_de_datos->errorInfo());
     }
-    $stmt->bindParam(':idAnuncio', $idAnuncio, PDO::PARAM_INT);
     $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
     $stmt->bindParam(':descripcionAnuncio', $descripcionAnuncio,PDO::PARAM_STR);
     $stmt->bindParam(':fechaPublicacion', $fechaPublicacion,PDO::PARAM_STR);

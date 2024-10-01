@@ -7,6 +7,10 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../SETS/login.php");
     exit();
 }
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../SETS/registrase.php");
+    exit();
+}
 
 // Obtener el ID del usuario desde la sesión
 $idRegistro = $_SESSION['id_Registro'] ?? null;
@@ -71,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, t.numeroTel, rd.Roldescripcion, r.imagenPerfil
+$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
         JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
@@ -103,81 +107,81 @@ if (!$userData) {
 <body>
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
-            <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
-                    <span class="navbar-toggler-icon" style="color: white;"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
+      <div class="container-fluid" style="background-color: #0e2c0a;">
+        <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+          <span class="navbar-toggler-icon" style="color: white;"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
 
-                        <center>
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
-                        </center>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
-                            </li>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <b style="font-size: 20px;"> Perfil</b>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
-                            </li>
-                            <div class="offcanvas-header">
-                                <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
+            <center>
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
+            </center>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
+              </li>
+              <center>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <b style="font-size: 20px;"> Perfil</b>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <center><a href="Perfil.php">Editar datos</a></center>
+                    </li>
+                    <li>
+                      <center><a href="#">Reportar problema</a></center>
+                    </li>
+                    <li>
+                      <center> <a href="../index.php">Cerrar sesión</a></center>
+                    </li>
+                  </ul>
+              </center>
+              </li>
+              <div class="offcanvas-header">
+                <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
 
 
-                                <center>
-                                    <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
-                                </center>
-                            </div>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b style="font-size: 20px;"> CHAT</b>
+                <center>
+                  <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                </center>
+              </div>
+              <center>
+                <li class="nav-item dropdown">
+                  <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <b style="font-size: 20px;"> CHAT</b>
 
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
-                        </ul>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                    </li>
+                    <li>
+                      <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                    </li>
+                    <li>
+                      <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                    </li>
+                    <li>
+                      <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
+                    </li>
+                  </ul>
+              </center>
+            </ul>
 
-                        <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </nav>
+            <form class="d-flex mt-3" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
     </header>
     <br><br>
     <main>
@@ -197,24 +201,34 @@ if (!$userData) {
     <br>
     <br>
     <br>
-    <h1>Perfil de Usuario</h1>
     <div class="perfil">
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h1>Perfil de Usuario</h1>
+            </div>
+            <div class="info-perfil">
+                <?php if ($userData['imagenPerfil']): ?>
+                    <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
+                <?php endif; ?>
+                <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
+                <p>Primer Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
+                <p>Segundo Nombre: <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
+                <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
+                <p>Apellidos: <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p>Tipo de Documento Cedula . Numero : <?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
+                <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
+                <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
+                <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+            </div>
+            <br>
+            <br>
+            <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
+            <a href="t.php" class="btn btn-success">Agregar mi vivienda</a>
 
-        <div class="info-perfil">
-            <?php if ($userData['imagenPerfil']): ?>
-                <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
-            <?php endif; ?>
-            <p>Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']) . ' ' . htmlspecialchars($userData['SegundoNombre']); ?></p>
-            <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']) . ' ' . htmlspecialchars($userData['SegundoApellido']); ?></p>
-            <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
-            <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-            <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
-            <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
-        </div>
-        <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-        <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+            <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+
     </div>
-</form>
+    </center>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {

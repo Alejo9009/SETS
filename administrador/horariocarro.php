@@ -141,12 +141,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
             <!-- Citas Agendadas -->
             <div class="sidebar">
-                <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Solicitud de Agendaciones</h3>
-                    </div>
 
-                </center>
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
@@ -162,7 +157,12 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     </center>
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
+                            <center>
+                                <div class="alert alert-success" role="alert">
+                                    <h3>Solicitud de Agendacion</h3>
+                                </div>
 
+                            </center>
                             <center>
                                 <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
                                 <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
@@ -173,28 +173,28 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                 <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
                                 <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <!-- Formulario para aceptar la solicitud -->
-                                <form action="procesar_CARO.php" method="POST">
-                                    <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
-                                    <input type="hidden" name="accion" value="aceptar">
-                                    <button type="submit" class="btn btn-success">Aceptar</button>
-                                </form>
+                                    <!-- Formulario para aceptar la solicitud -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="aceptar">
+                                        <button type="submit" class="btn btn-success">Aceptar</button>
+                                    </form>
 
-                                <!-- Formulario para dejar la solicitud como pendiente -->
-                                <form action="procesar_CARO.php" method="POST">
-                                    <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
-                                    <input type="hidden" name="accion" value="pendiente">
-                                    <button type="submit" class="btn btn-warning">Pendiente</button>
-                                </form>
+                                    <!-- Formulario para dejar la solicitud como pendiente -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="pendiente">
+                                        <button type="submit" class="btn btn-warning">Pendiente</button>
+                                    </form>
 
-                                <!-- Formulario para eliminar la solicitud -->
-                                <form action="procesar_CARO.php" method="POST">
-                                    <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
-                                    <input type="hidden" name="accion" value="eliminar">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </form>
+                                    <!-- Formulario para eliminar la solicitud -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="eliminar">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
 
-                            </div>
+                                </div>
                             </center>
                         </div>
 

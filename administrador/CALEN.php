@@ -1,21 +1,50 @@
+<?php
+// Conexión a la base de datos
+include_once "conexion.php";
+if (!$base_de_datos) {
+    exit('Error en la conexión a la base de datos.');
+}
+
+// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+$sql = "SELECT c.* FROM citas c WHERE c.estado = 'respondida'";
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+
+if (!$stmt) {
+    exit('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
+}
+
+$citas = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $citas[] = $row; // Almacena cada solicitud en el array
+    }
+}
+
+$eventos = [];
+foreach ($citas as $row) {
+    $eventos[] = [
+        'id' => $row['id'],
+        'title' => $row['opcion'],
+        'start' => $row['fecha'] . 'T' . $row['hora'],
+    ];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Añadir Anuncio</title>
-    <link rel="stylesheet" href="css/añadiranuncio.css?v=<?php echo (rand()); ?>">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <title>sets - Citas</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
 </head>
 
 <body>
     <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -92,107 +121,110 @@
             </div>
         </nav>
     </header>
-    <br><br><br>
-    <br>
 
-    <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-        <div class="chat-header">
-            <span id="chatHeader">Chat</span>
-            <button class="close-btn" onclick="closeChat()">×</button>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-    </section>
-    </main>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br><br>
-    <br>
-    <br><br>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <section class="login-content">
-            <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
-                <img src="img/alt.png" alt="Logo" class="imgp">
-                <h2 class="title">Añadir Anuncio</h2>
-
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Nombres Del Anuncio</h5>
-                        <input type="text" class="input" id="titulo" name="titulo" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Descripción Del Anuncio</h5>
-                        <input type="text" class="input" id="descripcionAnuncio" name="descripcionAnuncio" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                    </svg>
-                    <div class="div">
-                        <h5 class="input-title">Fecha</h5>
-                        <input type="date" class="input" id="fechaPublicacion" name="fechaPublicacion" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                    </svg>
-                    <div class="div">
-                        <h5 class="input-title">Hora</h5>
-                        <input type="time" class="input" id="horaPublicacion" name="horaPublicacion" required>
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Persona</h5>
-                        <input type="text" class="input" id="persona" name="persona" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
-                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Subir Imagen</h5>
-                        <input type="" class="input" id="img_anuncio" name="img_anuncio" required>
-                    </div>
-                </div>
-                <input type="submit" class="btn btn-success" value="Enviar">
-                <a href="inicioprincipal.php" class="btn btn-danger">VOLVER</a>
-            </form>
+    <main>
+        <section class="anuncio">
+            <h2 style="text-align: center;">Citas</h2>
         </section>
-    </div>
-    <script type="text/javascript" src="JAVA/main.js"></script>
+        <div class="container">
+            <div class="calendar-container">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <p id="month-year" style="color: #0e2c0a;"><b></b></p>
+                        <div id="calendar-controls">
+                            <button id="prev-month" onclick="prevMonth()">←</button>
+                            <button id="next-month" onclick="nextMonth()">→</button>
+                        </div>
+                    </div>
+                    <table id="calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Lu</th>
+                                <th>Ma</th>
+                                <th>Mi</th>
+                                <th>Ju</th>
+                                <th>Vi</th>
+                                <th>Sa</th>
+                                <th>Do</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body">
+                            <!-- Las fechas serán generadas aquí por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+           
+        </div>
+    </main>
+    <center>
+                
+                <a href="citas.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
+            </center>
     <script>
+        const calendarBody = document.getElementById('calendar-body');
+        const monthYearDisplay = document.getElementById('month-year');
+
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+
+        const meses = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+
+        function generarCalendario(mes, anio) {
+            const primerDia = new Date(anio, mes, 1).getDay(); // Día de la semana del primer día
+            const ultimoDia = new Date(anio, mes + 1, 0).getDate(); // Último día del mes
+            calendarBody.innerHTML = ''; // Limpiar el calendario
+
+            let fecha = 1;
+
+            for (let i = 0; i < 6; i++) { // Máximo 6 filas
+                const row = document.createElement('tr');
+
+                for (let j = 0; j < 7; j++) { // 7 días de la semana
+                    const cell = document.createElement('td');
+                    if (i === 0 && j < primerDia) {
+                        cell.textContent = ''; // Celdas vacías para los días previos
+                    } else if (fecha > ultimoDia) {
+                        break; // Si ya pasamos el último día del mes, salimos
+                    } else {
+                        cell.textContent = fecha; // Coloca el número de fecha
+                        fecha++;
+                    }
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+            monthYearDisplay.textContent = `${meses[mes]} ${anio}`; // Muestra el mes y el año
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generarCalendario(currentMonth, currentYear);
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generarCalendario(currentMonth, currentYear);
+        }
+
+        // Generar el calendario inicial
+        generarCalendario(currentMonth, currentYear);
+    </script>
+<script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
         });
@@ -251,12 +283,10 @@
             });
         }
     </script>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <br>
-    <br><br>
 
-    <br>
-    <br>
 </body>
-
 </html>

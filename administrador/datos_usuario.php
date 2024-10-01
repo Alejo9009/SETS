@@ -138,50 +138,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        // Conexión a la base de datos
-                        try {
+                    <?php
+// Conexión a la base de datos
+try {
+    include_once "conexion.php";
 
-                            include_once "conexion.php";
-                            $stmt = $base_de_datos->query("SELECT * FROM registro");
-                            $i = 1; // Contador para el número de fila
+    // Realizamos una consulta que une las tablas para obtener el rol
+    $stmt = $base_de_datos->query("
+        SELECT r.*, rr.idROL, rol.Roldescripcion 
+        FROM registro r 
+        LEFT JOIN rol_registro rr ON r.id_Registro = rr.idRegistro 
+        LEFT JOIN rol ON rr.idROL = rol.id
+    ");
 
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                $id = $row['id_Registro'];
-                                $primerNombre = $row['PrimerNombre'];
-                                $segundoNombre = $row['SegundoNombre'];
-                                $primerApellido = $row['PrimerApellido'];
-                                $segundoApellido = $row['SegundoApellido'];
-                                $correo = $row['Correo'];
-                                $usuario = $row['Usuario'];
-                                $clave = $row['Clave'];
-                                $imagenPerfil = $row['imagenPerfil'];
+    $i = 1; // Contador para el número de fila
 
-                                echo "<tr>
-                                <td>$i</td>
-                                <td>Residente</td> <!-- Puedes ajustar este campo según el rol real -->
-                                <td>Cédula</td> <!-- Ajusta según el tipo de documento -->
-                                <td>{$row['numeroDocumento']}</td>
-                                <td>$primerNombre</td>
-                                <td>$primerApellido</td>
-                                <td>$correo</td>
-                                <td>$usuario</td>
-                                <td>$clave</td>
-                                <td>";
-                                if ($imagenPerfil) {
-                                    echo "<img src='$imagenPerfil' alt='Imagen Perfil' width='50' height='50'>";
-                                } else {
-                                    echo "Sin Imagen";
-                                }
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $primerNombre = $row['PrimerNombre'];
+        $segundoNombre = $row['SegundoNombre'];
+        $primerApellido = $row['PrimerApellido'];
+        $segundoApellido = $row['SegundoApellido'];
+        $correo = $row['Correo'];
+        $usuario = $row['Usuario'];
+        $clave = $row['Clave'];
+        $imagenPerfil = $row['imagenPerfil'];
+        $rolDescripcion = $row['Roldescripcion']; // Obtenemos la descripción del rol
 
+        echo "<tr>
+            <td>$i</td>
+            <td>$rolDescripcion</td> <!-- Mostrar rol real -->
+            <td>Cédula</td> <!-- Ajusta según el tipo de documento -->
+            <td>{$row['numeroDocumento']}</td>
+            <td>$primerNombre</td>
+            <td>$primerApellido</td>
+            <td>$correo</td>
+            <td>$usuario</td>
+            <td>$clave</td>
+            <td>";
+        if ($imagenPerfil) {
+            echo "<img src='$imagenPerfil' alt='Imagen Perfil' width='50' height='50'>";
+        } else {
+            echo "Sin Imagen";
+        }
+        echo "</td></tr>";
 
+        $i++;
+    }
+} catch (PDOException $e) {
+    echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
+}
+?>
 
-                                $i++;
-                            }
-                        } catch (PDOException $e) {
-                            echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
-                        }
-                        ?>
                     </tbody>
                 </table>
 
