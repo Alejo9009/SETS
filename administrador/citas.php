@@ -165,7 +165,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars($cita['estado']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['respuesta']); ?></td>
                                 <td>
-                                    <a class="btn btn-secondary" href="editar.php?id=<?php echo $cita['id']; ?>">Editar</a>
+                               
 
                                     <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
                                         <input type="hidden" name="delete_id" value="<?php echo $cita['id']; ?>">

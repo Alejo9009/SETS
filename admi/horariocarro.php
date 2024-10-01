@@ -1,13 +1,41 @@
+<?php
+// Conexión a la base de datos
+include_once "conexion.php";
+if (!$base_de_datos) {
+    exit('Error en la conexión a la base de datos.');
+}
+
+// Consulta para obtener las solicitudes de parqueadero solo para carros
+$sql = "SELECT sp.*, e.estados, tv.descripcionvehiculo 
+        FROM solicitud_parqueadero sp 
+        LEFT JOIN estado e ON sp.estadoos = e.idestado 
+        LEFT JOIN tipovehiculo tv ON sp.id_TipoVehiculo = tv.idtVehiculo 
+        WHERE tv.descripcionvehiculo = 'CARRO'"; // Filtra solo los vehículos de tipo 'CARRO'
+
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+$solicitudes = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $solicitudes[] = $row; // Almacena cada solicitud en el array
+    }
+}
+
+// Ahora puedes usar el array $solicitudes en tu HTML
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sets - carro</title>
+    <title>sets - CARRO</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link rel="stylesheet" href="http://localhost/SETS/seguridad/css/citas.css?v=<?php echo (rand()); ?>">
+    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
@@ -87,13 +115,15 @@
             </div>
         </nav>
     </header>
+    <br>
     <main>
-        <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-            <div class="chat-header">
+        <section class="chat-container" id="chatContainer">
+            <header class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
+            </header>
+            <div class="chat-messages" id="chatMessages">
             </div>
-            <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input">
                 <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
@@ -101,189 +131,146 @@
         </section>
     </main>
     <main>
-        <br>
-        <br>
-        <>
-        <section class="anuncio">
-            <h2 style="text-align: center; color:rgb(12, 44, 18);">Horario Carro</h2>
-        </section>
-        <div class="container">
-            <div class="calendar-container">
-                <div class="calendar">
-                    <h2>Parqueadero</h2>
-                    <br>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Zona </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td class="highlight" >2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>12</td>
-                                <td>13</td>
-                                <td>14</td>
-                                <td class="highlight">15</td>
-                            </tr>
-                            <tr>
-                                <td>16</td>
-                                <td>17</td>
-                                <td>18</td>
-                                <td>19</td>
-                                <td class="highlight">20</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h3>Agendacion de Parqueadero carro</h3>
             </div>
-            <br>
+
+        </center>
+
+        <div class="container">
+
+
             <!-- Citas Agendadas -->
             <div class="sidebar">
-                <h2>Solicitud de Agendaciones</h2>
+
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
-                    <input type="text" id="searchInput" placeholder="Buscar carro..." onkeyup="filterAppointments()">
+                    <input type="text" placeholder="Buscar moto...">
                     <ion-icon name="search-outline"></ion-icon>
                 </div>
                 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
                 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
                 <br>
-                
-                <div class="appointment">
-                    <h3>Parqueadero Carro</h3>
-                    <p>Número de Parqueadero: 15</p>
-                    <p>Placa Vehículo: ABC987</p>
-                    <p>Modelo Vehículo: Toyota Corolla</p>
-                    <p>Piso: 2</p>
-                    <p>Torre: 3</p>
-                    <p>Nombre Solicitante: María López</p>
-                    <p>Documento Solicitante: 55667788</p>
-                </div>
-            
-                <div class="appointment">
-                    <h3>Parqueadero Carro</h3>
-                    <p>Número de Parqueadero: 20</p>
-                    <p>Placa Vehículo: DEF123</p>
-                    <p>Modelo Vehículo: Honda Civic</p>
-                    <p>Piso: 2</p>
-                    <p>Torre: 3</p>
-                    <p>Nombre Solicitante: Juan Pérez</p>
-                    <p>Documento Solicitante: 44556677</p>
-                </div>
-            
-                <div class="appointment">
-                    <h3>Parqueadero Carro</h3>
-                    <p>Número de Parqueadero: 2</p>
-                    <p>Placa Vehículo: GHI789</p>
-                    <p>Modelo Vehículo: Ford Focus</p>
-                    <p>Piso: 2</p>
-                    <p>Torre: 3</p>
-                    <p>Nombre Solicitante: Messi López</p>
-                    <p>Documento Solicitante: 55667788</p>
+                <div class="appointment-list">
+                    <center>
+
+                    </center>
+                    <?php foreach ($solicitudes as $solicitud): ?>
+                        <div class="appointment">
+                            <center>
+                                <div class="alert alert-success" role="alert">
+                                    <h3>Solicitud de Agendacion</h3>
+                                </div>
+
+                            </center>
+                            <center>
+                                <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
+                                <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
+                                <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
+                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
+                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <!-- Formulario para aceptar la solicitud -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="aceptar">
+                                        <button type="submit" class="btn btn-success">Aceptar</button>
+                                    </form>
+
+                                    <!-- Formulario para dejar la solicitud como pendiente -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="pendiente">
+                                        <button type="submit" class="btn btn-warning">Pendiente</button>
+                                    </form>
+
+                                    <!-- Formulario para eliminar la solicitud -->
+                                    <form action="procesar_CARO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="eliminar">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+
+                                </div>
+                            </center>
+                        </div>
+
+                    <?php endforeach; ?>
+
                 </div>
             </div>
-        </div>
-        <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 30px;">
-            <center>VOLVER</center>
-        </a>
-        <script>
-            function filterAppointments() {
+    </main>
+    <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 40px;">
+        <center>VOLVER</center>
+    </a>
+    <script>
+        document.querySelector('.admin-img').addEventListener('click', function() {
+            document.querySelector('.dropdown-menu').classList.toggle('show');
+        });
 
-                let searchValue = document.getElementById('searchInput').value.toLowerCase();
-                
+        document.querySelector('.chat-button').addEventListener('click', function() {
+            document.querySelector('.chat-menu').classList.toggle('show');
+        });
 
-                let appointments = document.querySelectorAll('.appointment');
-                
-
-                appointments.forEach(appointment => {
-
-                    let appointmentText = appointment.textContent.toLowerCase();
-                    
-
-                    if (appointmentText.includes(searchValue)) {
-                        appointment.style.display = ''; 
-                    } else {
-                        appointment.style.display = 'none';
-                    }
-                });
-            }
-        </script>
-        <script>
-            document.querySelector('.admin-img').addEventListener('click', function () {
-                document.querySelector('.dropdown-menu').classList.toggle('show');
-            });
-
-            document.querySelector('.chat-button').addEventListener('click', function () {
-                document.querySelector('.chat-menu').classList.toggle('show');
-            });
-
-            function filterChat() {
-                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                const chatItems = document.querySelectorAll('.chat-item');
-                chatItems.forEach(item => {
-                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
-        </script>
-        <script>
-            function openChat(chatName) {
-                const chatContainer = document.getElementById('chatContainer');
-                const chatHeader = document.getElementById('chatHeader');
-                chatHeader.textContent = chatName;
-                chatContainer.classList.add('show');
-            }
-
-            function closeChat() {
-                const chatContainer = document.getElementById('chatContainer');
-                chatContainer.classList.remove('show');
-            }
-
-            function sendMessage() {
-                const messageInput = document.getElementById('chatInput');
-                const messageText = messageInput.value.trim();
-                if (messageText) {
-                    const chatMessages = document.getElementById('chatMessages');
-                    const messageElement = document.createElement('p');
-                    messageElement.textContent = messageText;
-                    chatMessages.appendChild(messageElement);
-                    messageInput.value = '';
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+        function filterChat() {
+            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
                 }
-            }
+            });
+        }
+    </script>
+    <script>
+        function openChat(chatName) {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatHeader = document.getElementById('chatHeader');
+            chatHeader.textContent = chatName;
+            chatContainer.classList.add('show');
+        }
 
-            function filterChat() {
-                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                const chatItems = document.querySelectorAll('.chat-item');
-                chatItems.forEach(item => {
-                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+        function closeChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.classList.remove('show');
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('chatInput');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageElement = document.createElement('p');
+                messageElement.textContent = messageText;
+                chatMessages.appendChild(messageElement);
+                messageInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        }
+
+        function filterChat() {
+            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
     </main>
 </body>
+
 </html>

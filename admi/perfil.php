@@ -7,6 +7,10 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../SETS/login.php");
     exit();
 }
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../SETS/registrase.php");
+    exit();
+}
 
 // Obtener el ID del usuario desde la sesión
 $idRegistro = $_SESSION['id_Registro'] ?? null;
@@ -71,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, t.numeroTel, rd.Roldescripcion, r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
         JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
@@ -197,24 +201,35 @@ if (!$userData) {
     <br>
     <br>
     <br>
-    <h1>Perfil de Usuario</h1>
     <div class="perfil">
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h1>Perfil de Usuario</h1>
+            </div>
+            <div class="info-perfil">
+                <?php if ($userData['imagenPerfil']): ?>
+                    <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
+                <?php endif; ?>
+                <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
+                <p>Primer Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
+                <p>Segundo Nombre: <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
+                <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
+                <p>Apellidos: <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p>Tipo de Documento Cedula . Numero : <?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
+                <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
+                <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
+                <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+                <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
+            </div>
+            <br>
+            <br>
+            <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
+            <a href="t.php" class="btn btn-success">Agregar mi vivienda</a>
 
-        <div class="info-perfil">
-            <?php if ($userData['imagenPerfil']): ?>
-                <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
-            <?php endif; ?>
-            <p>Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']) . ' ' . htmlspecialchars($userData['SegundoNombre']); ?></p>
-            <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']) . ' ' . htmlspecialchars($userData['SegundoApellido']); ?></p>
-            <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
-            <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-            <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
-            <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
-        </div>
-        <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-        <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+            <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+
     </div>
-</form>
+    </center>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {

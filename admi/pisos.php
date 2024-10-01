@@ -172,12 +172,7 @@ foreach ($resultados as $fila) {
                           <strong>Número:</strong> <?= htmlspecialchars($apartamento['id_Apartamento']) ?><br>
                           <strong>Descripción:</strong> <?= htmlspecialchars($apartamento['descripcionApartamento']) ?>
                         </div>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal<?= htmlspecialchars($apartamento['id_Apartamento']) ?>">
-                          Editar
-                        </button>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal<?= htmlspecialchars($apartamento['id_Apartamento']) ?>">
-                          Eliminar
-                        </button>
+                        
                       </div>
                     </div>
                     <div class="modal fade" id="confirmModal<?= htmlspecialchars($apartamento['id_Apartamento']) ?>" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel<?= htmlspecialchars($apartamento['id_Apartamento']) ?>" aria-hidden="true">

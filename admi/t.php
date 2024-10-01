@@ -1,13 +1,17 @@
+<?php
+session_start();
+include_once "conexion.php";
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Agregar Torre, Piso y Apartamento</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/manualconvivencia.css?v=<?php echo (rand()); ?>">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/i.css?v=<?php echo (rand()); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
@@ -104,88 +108,115 @@
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
+    <br><br><br>
+    <br><br><br>
     <main>
-        <br>
-        <br>
-        <br>
+        <div class="alert alert-success" role="alert">
+            <h2>Agregar Torre, Piso y Apartamento</h2>
+        </div>
+        <div class="container">
+            <form method="POST" action="p.php">
+                <label for="torre">Torre:</label>
+                <select name="torre" id="torre">
+                    <!-- Opciones de torres se llenarán aquí -->
+                    <?php
+                    // Conectar a la base de datos y obtener torres
 
-        <h1 class="responsive-title"><b>Normas De Convivencia</b></h1>
+                    $stmt = $base_de_datos->query("SELECT id_Torre, descripcionTorre FROM torre");
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='{$row['id_Torre']}'>{$row['descripcionTorre']}</option>";
+                    }
+                    ?>
+                </select>
 
-        <br>
-        <center>
-            <div class="page-container">
-                <section class="document-section">
+                <label for="piso">Piso:</label>
+                <select name="piso" id="piso">
+                    <!-- Opciones de pisos se llenarán aquí -->
+                    <?php
+                    $stmt = $base_de_datos->query("SELECT id_Piso, descripcionPiso FROM piso");
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='{$row['id_Piso']}'>{$row['descripcionPiso']}</option>";
+                    }
+                    ?>
+                </select>
 
-                    <div class="document-content">
-                        <iframe src="manual.pdf" style="width: 100%; height: 1800px;" frameborder="0"></iframe>
-                    </div>
-                </section>
-            </div>
-        </center>
-      
+                <label for="apartamento">Apartamento:</label>
+                <select name="apartamento" id="apartamento">
+                    <!-- Opciones de apartamentos se llenarán aquí -->
+                    <?php
+                    $stmt = $base_de_datos->query("SELECT id_Apartamento, descripcionApartamento FROM apartamento");
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='{$row['id_Apartamento']}'>{$row['descripcionApartamento']}</option>";
+                    }
+                    ?>
+                </select>
+                <br><br>
+               <center> <input type="submit" class="btn btn-success" value="Insertar"></center>
+            </form>
 
-    </main>
-    <a href="inicioprincipal.php" class="btn btn-outline-success btn-lg" style="font-size: 40px;">VOLVER</a>
-    <script>
-        document.querySelector('.admin-img').addEventListener('click', function() {
-            document.querySelector('.dropdown-menu').classList.toggle('show');
-        });
-
-        document.querySelector('.chat-button').addEventListener('click', function() {
-            document.querySelector('.chat-menu').classList.toggle('show');
-        });
-
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
-    <script>
-        function openChat(chatName) {
-            const chatContainer = document.getElementById('chatContainer');
-            const chatHeader = document.getElementById('chatHeader');
-            chatHeader.textContent = chatName;
-            chatContainer.classList.add('show');
-        }
-
-        function closeChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.classList.remove('show');
-        }
-
-        function sendMessage() {
-            const messageInput = document.getElementById('chatInput');
-            const messageText = messageInput.value.trim();
-            if (messageText) {
-                const chatMessages = document.getElementById('chatMessages');
-                const messageElement = document.createElement('p');
-                messageElement.textContent = messageText;
-                chatMessages.appendChild(messageElement);
-                messageInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        </div>
+    </main><a href="perfil.php" type="button" class="btn btn-danger btn-lg">Volver</a>
 </body>
+<script>
+    document.querySelector('.admin-img').addEventListener('click', function() {
+        document.querySelector('.dropdown-menu').classList.toggle('show');
+    });
+
+    document.querySelector('.chat-button').addEventListener('click', function() {
+        document.querySelector('.chat-menu').classList.toggle('show');
+    });
+
+    function filterChat() {
+        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+            if (item.textContent.toLowerCase().includes(searchInput)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
+<script>
+    function openChat(chatName) {
+        const chatContainer = document.getElementById('chatContainer');
+        const chatHeader = document.getElementById('chatHeader');
+        chatHeader.textContent = chatName;
+        chatContainer.classList.add('show');
+    }
+
+    function closeChat() {
+        const chatContainer = document.getElementById('chatContainer');
+        chatContainer.classList.remove('show');
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('chatInput');
+        const messageText = messageInput.value.trim();
+        if (messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageElement = document.createElement('p');
+            messageElement.textContent = messageText;
+            chatMessages.appendChild(messageElement);
+            messageInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    }
+
+    function filterChat() {
+        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+            if (item.textContent.toLowerCase().includes(searchInput)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </html>

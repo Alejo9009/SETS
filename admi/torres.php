@@ -153,10 +153,7 @@ try {
                       <h2 class="card-text"><?= htmlspecialchars($torre['descripcionTorre']); ?></h2><br>
                       <a href="pisos.php" style="font-size: 30px;" class="btn-custom">Pisos</a><br>
                       <br>
-                      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <a href="actualizartorre.php" type="button" class="btn btn-success">Actualizar</a>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
-                      </div>
+                  
 
                     </div>
                   </div>

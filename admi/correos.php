@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos de Usuario</title>
+    <title>Datos de correos</title>
     <link rel="stylesheet" href="css/datos_usuario.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -108,102 +108,68 @@
         <br><br>
         <br><br>
         <div class="alert alert-success" role="alert">
-            <h1>DATOS DE USUARIO</h1>
+            <h1>Solicitud de Correos  </h1>
         </div>
         <center>
             <div class="barra">
                 <div class="sombra"></div>
-                <input type="text" placeholder="Buscar usuario..." id="searchInput">
+                <input type="text" placeholder="Buscar correo..." id="searchInput">
                 <ion-icon name="search-outline"></ion-icon>
             </div>
         </center>
         <main>
 
-        <section>
-    <br>
-    <table class="user-table table table-striped">
-        <thead>
-            <tr>
-                <th class="cc">N°</th>
-                <th class="cc">Rol</th>
-                <th class="cc">Tipo de Documento</th>
-                <th class="cc">Número de Documento</th>
-                <th class="cc">Nombre</th>
-                <th class="cc">Apellido</th>
-                <th class="cc">Correo</th>
-                <th class="cc">Usuario</th>
-                <th class="cc">Contraseña</th>
-                <th class="cc">Imagen Perfil</th>
-                <th class="cc">Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-        // Conexión a la base de datos
-        try {
-            include_once "conexion.php";
+            <section>
+                <br>
+                <table class="user-table table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="cc">id</th>
+                            <th class="cc">email</th>
+                            <th class="cc">fecha_registro</th>
 
-            // Realizamos una consulta que une las tablas para obtener el rol
-            $stmt = $base_de_datos->query("
-                SELECT r.*, rr.idROL, rol.Roldescripcion 
-                FROM registro r 
-                LEFT JOIN rol_registro rr ON r.id_Registro = rr.idRegistro 
-                LEFT JOIN rol ON rr.idROL = rol.id
-            ");
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+// Conexión a la base de datos
+try {
+    include_once "conexion.php";
 
-            if ($stmt === false) {
-                echo "<tr><td colspan='11'>Error en la consulta SQL.</td></tr>";
-            } else {
-                $i = 1; // Contador para el número de fila
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    if ($row) { // Asegúrate de que $row no sea falso
-                        $primerNombre = $row['PrimerNombre'] ?? 'Sin Nombre'; // Proporciona un valor predeterminado
-                        $segundoNombre = $row['SegundoNombre'] ?? '';
-                        $primerApellido = $row['PrimerApellido'] ?? '';
-                        $segundoApellido = $row['SegundoApellido'] ?? '';
-                        $correo = $row['Correo'] ?? '';
-                        $usuario = $row['Usuario'] ?? '';
-                        $clave = $row['Clave'] ?? '';
-                        $imagenPerfil = $row['imagenPerfil'] ?? '';
-                        $rolDescripcion = $row['Roldescripcion'] ?? 'Sin Rol'; // Proporciona un valor predeterminado
+    // Realizamos una consulta que une las tablas para obtener el rol
+    $stmt = $base_de_datos->query("
+     SELECT c.id, c.email, c.fecha_registro
+FROM contacto c;
 
-                        echo "<tr>
-                            <td>$i</td>
-                            <td>$rolDescripcion</td> <!-- Mostrar rol real -->
-                            <td>Cédula</td> <!-- Ajusta según el tipo de documento -->
-                            <td>{$row['numeroDocumento']}</td>
-                            <td>$primerNombre</td>
-                            <td>$primerApellido</td>
-                            <td>$correo</td>
-                            <td>$usuario</td>
-                            <td>$clave</td>
-                            <td>";
-                        if ($imagenPerfil) {
-                            echo "<img src='$imagenPerfil' alt='Imagen Perfil' width='50' height='50'>";
-                        } else {
-                            echo "Sin Imagen";
-                        }
-                        echo "</td>
-                            <td>
-                                <a href='eliminar_usuario.php?id_Registro=" . htmlspecialchars($row['id_Registro']) . "' class='btn btn-danger' onclick=\"return confirm('¿Estás seguro de que deseas eliminar este usuario?')\">ELIMINAR</a>
-                            </td>
-                        </tr>";
 
-                        $i++;
-                    } else {
-                        // Manejo si no hay más filas
-                        echo "<tr><td colspan='11'>No hay usuarios disponibles.</td></tr>";
-                    }
-                }
-            }
-        } catch (PDOException $e) {
-            echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</section>
+    ");
 
+    $i = 1; // Contador para el número de fila
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $id = $row['id'];
+        $email = $row['email'];
+        $fecha_registro = $row['fecha_registro'];
+ 
+        echo "<tr>
+            <td>$id</td>
+            <td>$email</td> <!-- Mostrar rol real -->
+              <td>$fecha_registro</td>
+            ";
+
+        echo "</td></tr>";
+
+        $i++;
+    }
+} catch (PDOException $e) {
+    echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
+}
+?>
+
+                    </tbody>
+                </table>
+
+            </section>
         </main>
         <center>
             <a href="inicioprincipal.php" class="btn btn-success btn-lg">

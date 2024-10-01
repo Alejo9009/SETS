@@ -196,7 +196,7 @@ try {
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-            <center><a href=".php" class="btn btn-outline-success  btn-lg">Agregar una Nueva</a></center>
+            
         </section>
         <a href="inicioprincipal.php" class="btn btn-outline-danger  btn-lg">Volver</a>
     </main>

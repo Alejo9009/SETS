@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
         JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
@@ -219,6 +219,7 @@ if (!$userData) {
                 <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
                 <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
                 <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+                <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
             <br>

@@ -1,59 +1,45 @@
 <?php
-// Incluye tu archivo de conexión a la base de datos
-include('conexion.php');
+// Conexión a la base de datos
+include_once "conexion.php";
+if (!$base_de_datos) {
+    exit('Error en la conexión a la base de datos.');
+}
 
-// Obtener el ID del anuncio desde la URL
-$idAnuncio = $_GET['idAnuncio'] ?? null;
+// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+$sql = "SELECT c.* FROM citas c WHERE c.estado = 'respondida'";
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 
-if ($idAnuncio) {
-    try {
-        // Preparar y ejecutar la consulta para obtener el anuncio
-        $sql = "SELECT * FROM anuncio WHERE idAnuncio = ?";
-        $stmt = $base_de_datos->prepare($sql);
-        $stmt->execute([$idAnuncio]);
-        $anuncio = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo "Error al obtener el anuncio: " . $e->getMessage();
-        exit();
+if (!$stmt) {
+    exit('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
+}
+
+$citas = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $citas[] = $row; // Almacena cada solicitud en el array
     }
 }
 
-// Manejo del formulario para actualizar el anuncio
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $titulo = $_POST['titulo'];
-    $descripcion = $_POST['descripcionAnuncio'];
-    $fecha = $_POST['fechaPublicacion'];
-    $hora = $_POST['horaPublicacion'];
-    $img_anuncio = $_POST['img_anuncio'];
-
-
-    try {
-        // Preparar y ejecutar la consulta para actualizar el anuncio
-        $sql = "UPDATE anuncio SET titulo = ?, descripcionAnuncio = ?, fechaPublicacion = ?, horaPublicacion = ? , img_anuncio  = ?  WHERE idAnuncio = ?";
-        $stmt = $base_de_datos->prepare($sql);
-        $stmt->execute([$titulo, $descripcion, $fecha, $hora, $img_anuncio,  $idAnuncio]);
-
-        // Redirigir después de la actualización
-        header("Location: inicioprincipal.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error al actualizar el anuncio: " . $e->getMessage();
-        exit();
-    }
+$eventos = [];
+foreach ($citas as $row) {
+    $eventos[] = [
+        'id' => $row['id'],
+        'title' => $row['opcion'],
+        'start' => $row['fecha'] . 'T' . $row['hora'],
+    ];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar Anuncio</title>
-    <link rel="stylesheet" href="css/actualizaranuncio.css?v=<?php echo (rand()); ?>">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <title>sets - Citas</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
 </head>
 
 <body>
@@ -135,61 +121,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </nav>
     </header>
-    <br><br>
+
     <main>
-        <div id="chatContainer" class="chat-container">
-            <div class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
+        <section class="anuncio">
+            <h2 style="text-align: center;">Citas</h2>
+        </section>
+        <div class="container">
+            <div class="calendar-container">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <p id="month-year" style="color: #0e2c0a;"><b></b></p>
+                        <div id="calendar-controls">
+                            <button id="prev-month" onclick="prevMonth()">←</button>
+                            <button id="next-month" onclick="nextMonth()">→</button>
+                        </div>
+                    </div>
+                    <table id="calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Lu</th>
+                                <th>Ma</th>
+                                <th>Mi</th>
+                                <th>Ju</th>
+                                <th>Vi</th>
+                                <th>Sa</th>
+                                <th>Do</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body">
+                            <!-- Las fechas serán generadas aquí por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
+
+           
         </div>
-        </header>
-        <br>
-        <br>
-        <br>
-        <main>
-            <div class="container">
-                <section class="login-content">
-                    <form action="actualizaranuncio.php?idAnuncio=<?php echo urlencode($idAnuncio); ?>" method="post" enctype="multipart/form-data">
-                        <img src="img/anun.png" alt="Logo" class="imgp">
-                        <h2 class="title">Actualizar Anuncio</h2>
-
-                        <!-- Campo oculto para el ID del anuncio -->
-                        <input type="hidden" name="idAnuncio" value="<?php echo htmlspecialchars($anuncio['idAnuncio'] ?? ''); ?>">
-
-                        <div class="input-div one">
-                            <h5>Título Del Anuncio</h5>
-                            <input type="text" class="input" name="titulo" value="<?php echo htmlspecialchars($anuncio['titulo'] ?? ''); ?>" required>
-                        </div>
-
-                        <div class="input-div one">
-                            <h5>Descripción Del Anuncio</h5>
-                            <input type="text" class="input" name="descripcionAnuncio" value="<?php echo htmlspecialchars($anuncio['descripcionAnuncio'] ?? ''); ?>" required>
-                        </div>
-
-                        <div class="input-div one">
-                            <h5>Fecha</h5>
-                            <input type="date" class="input" name="fechaPublicacion" value="<?php echo htmlspecialchars($anuncio['fechaPublicacion'] ?? ''); ?>" required>
-                        </div>
-
-                        <div class="input-div one">
-                            <h5>Hora</h5>
-                            <input type="time" class="input" name="horaPublicacion" value="<?php echo htmlspecialchars($anuncio['horaPublicacion'] ?? ''); ?>" required>
-                        </div>
-                        <input type="submit" class="btn btn-success" value="Actualizar">
-                        <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
-                    </form>
-                </section>
-            </div>
-        </main>
-    <script type="text/javascript" src="JAVA/main.js"></script>
+    </main>
+    <center>
+                
+                <a href="citas.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
+            </center>
     <script>
+        const calendarBody = document.getElementById('calendar-body');
+        const monthYearDisplay = document.getElementById('month-year');
+
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+
+        const meses = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+
+        function generarCalendario(mes, anio) {
+            const primerDia = new Date(anio, mes, 1).getDay(); // Día de la semana del primer día
+            const ultimoDia = new Date(anio, mes + 1, 0).getDate(); // Último día del mes
+            calendarBody.innerHTML = ''; // Limpiar el calendario
+
+            let fecha = 1;
+
+            for (let i = 0; i < 6; i++) { // Máximo 6 filas
+                const row = document.createElement('tr');
+
+                for (let j = 0; j < 7; j++) { // 7 días de la semana
+                    const cell = document.createElement('td');
+                    if (i === 0 && j < primerDia) {
+                        cell.textContent = ''; // Celdas vacías para los días previos
+                    } else if (fecha > ultimoDia) {
+                        break; // Si ya pasamos el último día del mes, salimos
+                    } else {
+                        cell.textContent = fecha; // Coloca el número de fecha
+                        fecha++;
+                    }
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+            monthYearDisplay.textContent = `${meses[mes]} ${anio}`; // Muestra el mes y el año
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generarCalendario(currentMonth, currentYear);
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generarCalendario(currentMonth, currentYear);
+        }
+
+        // Generar el calendario inicial
+        generarCalendario(currentMonth, currentYear);
+    </script>
+<script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
         });
@@ -248,7 +283,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
 
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
 </html>

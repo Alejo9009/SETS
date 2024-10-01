@@ -167,15 +167,12 @@ try {
                                                     <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
                                                 </button>
                                                 <br>
+                                                <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
                                                 <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
                                                 <br>
-                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-danger">Editar</button>
-                                    
-                                                    <button type="button" class="btn btn-success">Eliminar</button>
-                                                </div>
+                                              
                                             </div>
                                         </div>
                                         <?php if (($index + 1) % 5 == 0): ?>

@@ -187,17 +187,17 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                     </div>
                     <div class="col-12 col-sm-6 col-md-4 mb-4">
                         <div class="icon">
-                            <a href="datos_usuario.php" class="link-button">
-                                <img src="img/inf.png" alt="Datos Usuarios" class="medium-img">
-                                <button class="add-announcement">Datos Usuarios</button>
+                            <a href="contactanos.php" class="link-button">
+                                <img src="img/formulario-de-inscripcion.png" alt="Datos Usuarios" class="medium-img">
+                                <button class="add-announcement">Contàctanos</button>
                             </a>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4 mb-4">
                         <div class="icon">
-                            <a href="citas.php" class="link-button">
-                                <img src="img/citas.png" alt="Citas con amd" class="medium-img">
-                                <button class="add-announcement">Citas con amd</button>
+                            <a href="correos.php" class="link-button">
+                                <img src="img/correos-electronicos.png" alt="Citas con amd" class="medium-img">
+                                <button class="add-announcement">Correos de Contacto</button>
                             </a>
                             </a>
                         </div>
@@ -247,7 +247,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                         Hora de Publicación: <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
                                     </p>
                                     <div>
-                                    <a href="actualizaranuncio.php?idAnuncio=<?php echo urlencode($row['idAnuncio']); ?>" class="btn btn-success">Actualizar</a>
+                                   
                                     </div>
                                     <form action="eliminaranuncio.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este anuncio?');">
                                         <input type="hidden" name="titulo" value="<?= htmlspecialchars($row['titulo']); ?>">
