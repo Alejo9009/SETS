@@ -178,7 +178,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <br>
                             <center>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <a href="editarsolicitud.php?ID_Apartament=<?= htmlspecialchars($solicitud['ID_Apartament']) ?>" type="button" class="btn btn-success">Editar</a>
+                            <a href="editarsolicitud.php?ID_Apartament=<?= $solicitud['ID_Apartament'] ?>" type="button" class="btn btn-success">Editar</a>
 
 
                                 <form action="elimin.php" method="POST">

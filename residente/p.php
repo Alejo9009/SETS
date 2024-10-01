@@ -1,38 +1,33 @@
 <?php
+// Conectar a la base de datos
 include_once "conexion.php";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recibir valores seleccionados del formulario
-    $torre_id = $_POST['torre'];
-    $piso_id = $_POST['piso'];
-    $apto_id = $_POST['apartamento'];
+session_start(); // Asegúrate de que la sesión esté iniciada
 
-    // Conectar a la base de datos
-    require 'conexion.php'; // tu archivo de conexión PDO
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $torreId = $_POST['torre'];
+    $pisoId = $_POST['piso'];
+    $apartamentoId = $_POST['apartamento'];
 
     try {
-        // Iniciar la transacción
-        $pdo->beginTransaction();
+        // Verificar si el registroId existe en la tabla registro
+        // Insertar en la tabla piso_apto
+        $stmt = $base_de_datos->prepare("INSERT INTO piso_apto (PISO, APTO) VALUES (:pisoId, :apartamentoId)");
+        $stmt->bindParam(':pisoId', $pisoId);
+        $stmt->bindParam(':apartamentoId', $apartamentoId);
+        $stmt->execute();
 
-        // Insertar en la tabla registro_torre si es necesario
-        $stmt = $base_de_datos->prepare("INSERT INTO registro_torre (idTorre) VALUES (?)");
-        $stmt->execute([$torre_id]);
 
-        // Insertar en la tabla torre_piso si es necesario
-        $stmt = $base_de_datos->prepare("INSERT INTO torre_piso (idPiso, idTorre) VALUES (?, ?)");
-        $stmt->execute([$piso_id, $torre_id]);
 
-        // Insertar en la tabla piso_apto si es necesario
-        $stmt = $base_de_datos->prepare("INSERT INTO piso_apto (idApto, idPiso) VALUES (?, ?)");
-        $stmt->execute([$apto_id, $piso_id]);
+        // Insertar en la tabla torre_piso
+        $stmt = $base_de_datos->prepare("INSERT INTO torre_piso (pisoid, Torreid) VALUES (:pisoId, :torreId)");
+        $stmt->bindParam(':pisoId', $pisoId);
+        $stmt->bindParam(':torreId', $torreId);
+        $stmt->execute();
 
-        // Confirmar la transacción
-        $pdo->commit();
-
-        echo "Registro guardado exitosamente.";
-    } catch (Exception $e) {
-        // En caso de error, hacer rollback
-        $pdo->rollBack();
-        echo "Error al guardar el registro: " . $e->getMessage();
+        echo "Datos insertados correctamente.";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>
