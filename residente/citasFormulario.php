@@ -2,20 +2,20 @@
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    $id = $_POST['delete_id'];
+    $idcita = $_POST['delete_idcita'];
 
     // Borrar una cita
-    $sql = "DELETE FROM citas WHERE id = :id";
+    $sql = "DELETE FROM cita WHERE idcita = :idcita";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['id' => $id])) {
+    if ($stmt->execute(['idcita' => $idcita])) {
     } else {
         echo "Error al eliminar la cita.";
     }
 }
 
 // Tener las citas
-$sql = "SELECT * FROM citas";
+$sql = "SELECT * FROM cita";
 $stmt = $base_de_datos->query($sql);
 $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -131,8 +131,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <br>
         <br>
         <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">
-  Agendar Cita 
-</div>
+            Agendar Cita
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
@@ -140,20 +140,24 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <fieldset>
                             <legend>Agendar cita</legend>
                             <div class="mb-3">
-                                <label for="opcion" class="form-label">Tipo de cita:</label>
-                                <select name="opcion" id="opcion" class="form-select">
+                                <label for="tipocita" class="form-label">Tipo de cita:</label>
+                                <select name="tipocita" id="tipocita" class="form-select">
                                     <option selected value="Administrativo">Administrativo (1h)</option>
                                     <option value="Reclamo">Reclamo (1h)</option>
                                     <option value="Duda">Duda (1h)</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="fecha" class="form-label">Fecha:</label>
-                                <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                <label for="fechacita" class="form-label">Fecha:</label>
+                                <input type="date" class="form-control" id="fechacita" name="fechacita" required>
                             </div>
                             <div class="mb-3">
-                                <label for="hora" class="form-label">Hora:</label>
-                                <input type="time" class="form-control" step="3600" min="08:00" max="17:00" id="hora" name="hora" required>
+                                <label for="horacita" class="form-label">Hora:</label>
+                                <input type="time" class="form-control" step="3600" min="08:00" max="17:00" id="horacita" name="horacita" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="apa" class="form-label">Ingresa tu numero de apartamento:</label>
+                                <input type="text" class="form-control" id="apa" name="apa" required>
                             </div>
                             <div class="d-grid gap-2">
                                 <button class="btn btn-success" type="submit">Enviar</button>
@@ -169,6 +173,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th scope="col">Tipo de cita</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Hora</th>
+                                <th scope="col">Apartamento</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Comentario</th>
                                 <th scope="col">Acciones</th>
@@ -178,16 +183,17 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tbody>
                             <?php foreach ($citas as $cita): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($cita['opcion']); ?></td>
-                                    <td><?php echo htmlspecialchars($cita['fecha']); ?></td>
-                                    <td><?php echo htmlspecialchars($cita['hora']); ?></td>
+                                    <td><?php echo htmlspecialchars($cita['tipocita']); ?></td>
+                                    <td><?php echo htmlspecialchars($cita['fechacita']); ?></td>
+                                    <td><?php echo htmlspecialchars($cita['horacita']); ?></td>
+                                    <td><?php echo htmlspecialchars($cita['apa']); ?></td>
                                     <td><?php echo htmlspecialchars($cita['estado']); ?></td>
                                     <td><?php echo htmlspecialchars($cita['respuesta']); ?></td>
                                     <td>
-                          
+
 
                                         <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
-                                            <input type="hidden" name="delete_id" value="<?php echo $cita['id']; ?>">
+                                            <input type="hidden" name="delete_idcita" value="<?php echo $cita['idcita']; ?>">
                                             <button class="btn btn-danger mt-3 type=" submit" name="delete">Eliminar</button>
                                         </form>
                                     </td>

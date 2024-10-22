@@ -2,13 +2,13 @@
 include_once "conexion.php";
 
 // Verificar si se ha proporcionado el ID de la solicitud
-if (isset($_GET['ID_Apartament'])) {
-    $idSolicitud = $_GET['ID_Apartament'];
+if (isset($_GET['ID_Apartamentooss'])) {
+    $idSolicitud = $_GET['ID_Apartamentooss'];
 
     // Consulta para obtener los datos de la solicitud
-    $query = "SELECT * FROM solicitud_zona WHERE ID_Apartament = :ID_Apartament";
+    $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
-    $statement->bindParam(':ID_Apartament', $idSolicitud);
+    $statement->bindParam(':ID_Apartamentooss', $idSolicitud);
     $statement->execute();
     $solicitud = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -143,26 +143,26 @@ if (isset($_GET['ID_Apartament'])) {
         <section class="login-content">
             <div class="container">
                 <form action="bbq.php" method="POST">
-                    <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartament']) ?>">
+                    <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>">
 
                     <div class="form-group">
-                        <label for="fechaInicio">Fecha de Inicio:</label>
-                        <input type="date" name="fechaInicio" value="<?= htmlspecialchars($solicitud['fechaInicio']) ?>" required class="form-control">
+                        <label for="fechainicio">Fecha de Inicio:</label>
+                        <input type="date" name="fechainicio" value="<?= htmlspecialchars($solicitud['fechainicio']) ?>" required class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="horaInicio">Hora de Inicio:</label>
-                        <input type="time" name="horaInicio" value="<?= htmlspecialchars($solicitud['Hora_inicio']) ?>" required class="form-control">
+                        <label for="Hora_inicio">Hora de Inicio:</label>
+                        <input type="time" name="Hora_inicio" value="<?= htmlspecialchars($solicitud['Hora_inicio']) ?>" required class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="fechaFinal">Fecha de Finalización:</label>
-                        <input type="date" name="fechaFinal" value="<?= htmlspecialchars($solicitud['fechaFinal']) ?>" required class="form-control">
+                        <label for="fechafinal">Fecha de Finalización:</label>
+                        <input type="date" name="fechafinal" value="<?= htmlspecialchars($solicitud['fechafinal']) ?>" required class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="horaFinal">Hora de Finalización:</label>
-                        <input type="time" name="horaFinal" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
+                        <label for="Hora_final">Hora de Finalización:</label>
+                        <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
                     <br>
 
@@ -173,7 +173,7 @@ if (isset($_GET['ID_Apartament'])) {
         </section>
        
     </div> 
-    <a href="zonas_comunes.php" class="btn btn-danger btn-lg">volver</a>
+    <a href="solicitarbbq.php" class="btn btn-danger btn-lg">volver</a>
    
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>

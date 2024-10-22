@@ -168,20 +168,20 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <h3>CANCHA DE Fútbol</h3>
-                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
-                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
+                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
-                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                             <br>
                             <center>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <a href="editarsolicitudfutbol.php?ID_Apartament=<?= htmlspecialchars($solicitud['ID_Apartament']) ?>" type="button" class="btn btn-success">Editar</a>
+                            <a href="editarsolicitudfutbol.php?ID_Apartamentooss=<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>" type="button" class="btn btn-success">Editar</a>
 
 
                                 <form action="elimin futbol.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartament'] ?>"> <!-- o ID_zonaComun -->
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                 </form>

@@ -126,7 +126,7 @@
                         </svg>
                         <div class="div">
                             <h5>ID_Apartamento</h5>
-                            <input type="number" class="input" id="ID_Apartament" name="ID_Apartament" required>
+                            <input type="number" class="input" id="ID_Apartamentooss" name="ID_Apartamentooss" required>
                         </div>
                     </div>
                     <div class="input-div one">

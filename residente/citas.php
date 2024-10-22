@@ -6,7 +6,7 @@ if (!$base_de_datos) {
 }
 
 // Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT c.* FROM citas c WHERE c.estado = 'respondida'";
+$sql = "SELECT c.* FROM cita c WHERE c.estado = 'respondida'";
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 
 if (!$stmt) {

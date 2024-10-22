@@ -208,11 +208,11 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                 <div class="announcement">
                                     <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen del anuncio" style="width:100%; max-width:100px;">
                                     <p>Anuncio: <?= htmlspecialchars($row["titulo"]); ?><br>
-                                        <?= htmlspecialchars($row["descripcionAnuncio"]); ?><br>
+                                        Descripcion: <?= htmlspecialchars($row["descripcion"]); ?><br>
                                         Fecha de Publicación: <?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
                                         Hora de Publicación: <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
                                     </p>
-                                    
+
                                     <form action="eliminaranuncio.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este anuncio?');">
                                         <input type="hidden" name="titulo" value="<?= htmlspecialchars($row['titulo']); ?>">
                                         <button type="submit">Eliminar</button>

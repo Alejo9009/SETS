@@ -139,7 +139,7 @@
                     </svg>
                     <div class="div">
                         <h5>Descripción Del Anuncio</h5>
-                        <input type="text" class="input" id="descripcionAnuncio" name="descripcionAnuncio" required>
+                        <input type="text" class="input" id="descripcion" name="descripcion" required>
 
                     </div>
                 </div>

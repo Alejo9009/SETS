@@ -4,19 +4,19 @@ include_once "conexion.php";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Obtener los datos del formulario
     $idSolicitud = $_POST['idSolicitud'];
-    $fechaInicio = $_POST['fechaInicio'];
-    $horaInicio = $_POST['horaInicio'];
-    $fechaFinal = $_POST['fechaFinal'];
-    $horaFinal = $_POST['horaFinal'];
+    $fechainicio = $_POST['fechainicio'];
+    $Hora_inicio = $_POST['Hora_inicio'];
+    $fechafinal = $_POST['fechafinal'];
+    $Hora_final = $_POST['Hora_final'];
 
     // Actualizar la solicitud en la base de datos
-    $query = "UPDATE solicitud_zona SET fechaInicio = :fechaInicio, Hora_inicio = :horaInicio, fechaFinal = :fechaFinal, Hora_final = :horaFinal WHERE ID_Apartament = :ID_Apartament";
+    $query = "UPDATE solicitud_zona SET fechainicio = :fechainicio, Hora_inicio = :Hora_inicio, fechafinal = :fechafinal, Hora_final = :Hora_final WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
-    $statement->bindParam(':fechaInicio', $fechaInicio);
-    $statement->bindParam(':horaInicio', $horaInicio);
-    $statement->bindParam(':fechaFinal', $fechaFinal);
-    $statement->bindParam(':horaFinal', $horaFinal);
-    $statement->bindParam(':ID_Apartament', $idSolicitud); // Cambiar aquí para usar $idSolicitud
+    $statement->bindParam(':fechainicio', $fechainicio);
+    $statement->bindParam(':Hora_inicio', $Hora_inicio);
+    $statement->bindParam(':fechafinal', $fechafinal);
+    $statement->bindParam(':Hora_final', $Hora_final);
+    $statement->bindParam(':ID_Apartamentooss', $idSolicitud); // Cambiar aquí para usar $idSolicitud
 
     if ($statement->execute()) {
         header("Location: solicitarfutbol.php"); // Redirigir a una lista de solicitudes (puedes cambiar esta parte)

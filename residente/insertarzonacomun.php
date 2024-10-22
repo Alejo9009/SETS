@@ -1,7 +1,7 @@
 <?php
 include_once "conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ID_Apartament = $_POST['ID_Apartament'];
+    $ID_Apartamentooss = $_POST['ID_Apartamentooss'];
     $ID_zonaComun = $_POST['ID_zonaComun'];
     $fechaInicio = $_POST['fechainicio'];
     $fechaFinal = $_POST['fechaFinal'];
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
  
 
-    $sql = "INSERT INTO solicitud_zona (ID_Apartament, ID_zonaComun , fechainicio,  fechaFinal, Hora_inicio, Hora_final)  VALUES (:ID_Apartament, :ID_zonaComun, :fechainicio, :fechaFinal, :Hora_inicio, :Hora_final)";
+    $sql = "INSERT INTO solicitud_zona (ID_Apartamentooss, ID_zonaComun , fechainicio,  fechaFinal, Hora_inicio, Hora_final)  VALUES (:ID_Apartamentooss, :ID_zonaComun, :fechainicio, :fechaFinal, :Hora_inicio, :Hora_final)";
     $stmt = $base_de_datos->prepare($sql);
 
     var_dump($stmt);
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt === false) {
         die("Error en la preparación de la consulta: " . $base_de_datos->errorInfo());
     }
-    $stmt->bindParam(':ID_Apartament', $ID_Apartament, PDO::PARAM_INT);
+    $stmt->bindParam(':ID_Apartamentooss', $ID_Apartamentooss, PDO::PARAM_INT);
     $stmt->bindParam(':ID_zonaComun', $ID_zonaComun, PDO::PARAM_INT);
     $stmt->bindParam(':fechainicio', $fechaInicio, PDO::PARAM_STR);
     $stmt->bindParam(':fechaFinal', $fechaFinal, PDO::PARAM_STR);
