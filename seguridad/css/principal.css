@@ -384,15 +384,16 @@ button, input {
   }
   
   .announcement img {
-    width: 100%;
-    max-width: 150px;
+    width: 90%;
+    max-width: 90px;
     border-radius: 5px;
   }
   
   .announcement p {
-    margin: 10px 0;
+    margin: 20px 0;
     font-size: 16px;
     color: #333;
+    text-align: center;
   }
   
   .announcement button {

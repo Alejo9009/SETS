@@ -1,9 +1,10 @@
 <?php
 include_once "conexion.php";
-$query = "SELECT piso.numPiso, piso.descripcionPiso, apartamento.numApartamento, apartamento.descripcionApartamento
-          FROM piso
-          INNER JOIN piso_apto ON piso.id_Piso = piso_apto.PISO
-          INNER JOIN apartamento ON apartamento.id_Apartamento = piso_apto.APTO";
+$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
+ORDER BY  p.numPiso, a.numApartamento";
+
+
+
 $stmt =  $base_de_datos->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -12,6 +13,7 @@ $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $pisos = [];
 foreach ($resultados as $fila) {
   $numPiso = $fila['numPiso'];
+
   if (!isset($pisos[$numPiso])) {
     $pisos[$numPiso] = [
       'descripcionPiso' => $fila['descripcionPiso'],
@@ -19,11 +21,14 @@ foreach ($resultados as $fila) {
     ];
   }
 
-  $pisos[$numPiso]['apartamentos'][] = [
-    'numApartamento' => $fila['numApartamento'],
-    'descripcionApartamento' => $fila['descripcionApartamento']
-  ];
+  if (isset($fila['numApartamento']) && isset($fila['descripcionApartamento'])) {
+    $pisos[$numPiso]['apartamentos'][] = [
+      'numApartamento' => $fila['numApartamento'],
+      'descripcionApartamento' => $fila['descripcionApartamento']
+    ];
+  }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,7 +73,7 @@ foreach ($resultados as $fila) {
                     <li>
                       <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
-                  
+
                     <li>
                       <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
@@ -151,36 +156,39 @@ foreach ($resultados as $fila) {
       <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       <br>
       <div class="row">
-        <?php foreach ($pisos as $numPiso => $pisoData): ?>
+        <?php foreach ($pisos as $numPiso => $apartamentoData): ?>
           <div class="col-md-12 mb-4">
             <div class="card shadow">
               <div class="card-header bg-success text-white">
-                <h2 class="mb-0" style="text-align: center; "><b>Piso: <?= htmlspecialchars($numPiso) ?></b></h2>
+                <h2 class="mb-0" style="text-align: center;"><b>Piso: <?= htmlspecialchars($numPiso) ?></b></h2>
               </div>
               <div class="card-body">
-                <div class="barra">
-                  <div class="sombra"></div>
-                  <input type="text" placeholder="Buscar apartamento...">
-                  <ion-icon name="search-outline"></ion-icon>
-                </div>
-                <h4 style="text-align: center;"><b>Apartamento:</b></h4>
+                <h4 style="text-align: center;"><b>Apartamentos:</b></h4>
                 <div class="row">
-                  <?php foreach ($pisoData['apartamentos'] as $apartamento): ?>
-                    <div class="col-md-6 mb-3">
-                      <div class="card card-apartamento">
-                        <div class="card-body">
-                          <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
-                          <strong>Descripción:</strong> <?= htmlspecialchars($apartamento['descripcionApartamento']) ?>
+                  <?php if (!empty($apartamentoData['apartamentos'])): ?>
+                    <?php foreach ($apartamentoData['apartamentos'] as $apartamento): ?>
+                      <div class="col-md-6 mb-3">
+                        <div class="card card-apartamento">
+                          <div class="card-body">
+                            <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
+                            <strong>Descripción:</strong> <?= htmlspecialchars($apartamento['descripcionApartamento']) ?>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  <?php endforeach; ?>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <p>No hay apartamentos disponibles para este piso.</p>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
           </div>
         <?php endforeach; ?>
+
       </div>
+    </div>
+
+    </div>
 
     </div>
     <br>

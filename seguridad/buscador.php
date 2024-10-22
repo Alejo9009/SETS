@@ -16,9 +16,9 @@ if ($results) {
     foreach ($results as $row) {
         ?>
         <div class="announcement">
-            <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen del anuncio" style="width:100%; max-width:100px;">
+            <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen " style="width:100%; max-width:100px;">
             <p>Anuncio: <?= htmlspecialchars($row["titulo"]); ?><br>
-                <?= htmlspecialchars($row["descripcionAnuncio"]); ?><br>
+                <?= htmlspecialchars($row["descripcion"]); ?><br>
                 Fecha de Publicación: <?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
                 Hora de Publicación: <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
             </p>

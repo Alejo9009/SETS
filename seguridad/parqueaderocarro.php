@@ -170,7 +170,9 @@ try {
                                             </div>
                                         </div>
                                         <?php if (($index + 1) % 5 == 0): ?>
+                              
                             </div>
+              
                             <div class="row">
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -180,11 +182,19 @@ try {
                
             </div>
             <br>
+            <div >
+                <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                    <center>Ingreso Vehicular</center>
+                </a>
+            </div>
+            <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
                     <center>VOLVER</center>
                 </a>
             </div>
+
+
         </div>
         <br>
 
