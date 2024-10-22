@@ -98,7 +98,7 @@ foreach ($resultados as $fila) {
                     </li>
                     <center>
                       <li>
-                        <a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a>
+                        <a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a>
                       </li>
                     </center>
                     <li>

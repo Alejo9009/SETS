@@ -83,7 +83,7 @@ try {
                                                 <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                             </li>
                                             <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                             </li>
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
