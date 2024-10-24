@@ -1,26 +1,26 @@
 <?php
-// Conexión a la base de datos
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
         LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 4"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
+$solicitudes = []; 
 
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+if ($stmt->rowCount() > 0) { 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row; 
     }
 }
 
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -118,7 +118,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - Gymnasio</h2>
+            <h2>¡Reserva tu espacio! Horarios disponibles - Gymnasio</h2>
         </div>
 
         <div class="container">
@@ -163,11 +163,11 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <h3>Disponibilidad Para Entrenar</h3>
-                            <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
-                            <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
+                            <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
-                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                            
                         </div>

@@ -2,7 +2,7 @@
 session_start();
 include_once "conexion.php";
 
-// Verificar si el usuario está autenticado
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../SETS/login.php");
     exit();
@@ -12,14 +12,13 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../SETS/registrase.php");
     exit();
 }
-// Obtener el ID del usuario desde la sesión
-// Obtener el ID del usuario desde la sesión
+
 $idRegistro = $_SESSION['id_Registro'] ?? null;
 if ($idRegistro === null) {
     die("Error: ID de registro no está disponible en la sesión.");
 }
 
-// Recuperar los datos del usuario desde la base de datos
+// Recuperar los datos del usuario 
 $sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
@@ -30,14 +29,14 @@ $stmt = $base_de_datos->prepare($sql);
 $stmt->execute([$idRegistro]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Verificar si se recuperaron datos
+
 if ($userData === false) {
     die("Error: No se pudieron recuperar los datos del usuario.");
 }
 
-// Manejar la subida de la imagen
+// Manejar la subida 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Procesar la subida de la imagen
+    // Procesar 
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
         $fileName = basename($_FILES['imagenPerfil']['name']);
@@ -57,21 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // Permitir ciertos formatos de archivo
+       
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
         if (!in_array($fileExtension, $allowedTypes)) {
             echo "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
             exit;
         }
 
-        // Definir la ruta de destino y mover el archivo
+  
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0755, true);
         }
         $targetFilePath = $targetDir . $fileName;
         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-            // Actualizar la base de datos con la ruta de la imagen
+
             $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
             $stmt = $base_de_datos->prepare($sql);
             if ($stmt->execute([$targetFilePath, $idRegistro])) {
@@ -84,16 +83,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Recoger otros datos del formulario
+
     $PrimerNombre = $_POST['profile-firstname'] ?? '';
     $SegundoNombre = $_POST['profile-secondname'] ?? '';
     $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
     $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
     $email = $_POST['profile-email'] ?? '';
     $usuario = $_POST['profile-username'] ?? '';
-    $telefono = $_POST['profile-phone'] ?? ''; // Cambié a 'profile-phone' para evitar confusiones
+    $telefono = $_POST['profile-phone'] ?? ''; 
 
-    // Actualizar el perfil en la base de datos
     $sql = "UPDATE registro r
     JOIN telefono t ON r.id_Registro = t.person
     SET r.PrimerNombre = ?, 
@@ -112,10 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error al actualizar los datos.";
     }
 
-    // Actualizar la contraseña si se proporciona
+   
     if (!empty($_POST['profile-password'])) {
         $clave = $_POST['profile-password'];
-        // Encriptar la contraseña
+      
         $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
         $sql = "UPDATE registro SET Clave = ? WHERE id_Registro = ?";
         $stmt = $base_de_datos->prepare($sql);

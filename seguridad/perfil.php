@@ -75,12 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
-        FROM registro r
-        JOIN telefono t ON r.id_Registro = t.person
-        JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
-        JOIN rol rd ON rr.idROL = rd.id
-        WHERE r.id_Registro = ?";
+$sql = "SELECT   r.id_Registro, r.PrimerNombre,   r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,  r.telefonoUno, r.telefonoDos, 
+rd.Roldescripcion, 
+    td.descripcionDoc AS TipoDocumento, 
+    r.imagenPerfil
+FROM registro r
+JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
+JOIN rol rd ON rr.idROL = rd.id
+JOIN tipodoc td ON r.Id_tipoDocumento = td.idtDoc
+WHERE r.id_Registro = ?;
+";
 $stmt = $base_de_datos->prepare($sql);
 $stmt->execute([$idRegistro]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -135,7 +139,7 @@ if (!$userData) {
                                         <li>
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
-                                       
+
                                         <li>
                                             <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
@@ -202,13 +206,13 @@ if (!$userData) {
     <br>
     <br><br>
     <br>
- 
+
 
     <div class="perfil">
         <center>
-        <div class="alert alert-success" role="alert">
-        <h1>Perfil de Usuario</h1>
-    </div>
+            <div class="alert alert-success" role="alert">
+                <h1>Perfil de Usuario</h1>
+            </div>
             <div class="info-perfil">
                 <?php if ($userData['imagenPerfil']): ?>
                     <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
@@ -219,13 +223,13 @@ if (!$userData) {
                 <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
                 <p>Apellidos: <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
                 <p>Tipo de Documento Cedula . Numero : <?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
-                <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
+                <p>Teléfono: <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
                 <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
                 <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
                 <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
-    <br>
+            <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
             <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 

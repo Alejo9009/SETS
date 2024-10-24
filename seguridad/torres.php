@@ -19,7 +19,7 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SETS -Torres</title>
+  <title>SETS -Torre </title>
   <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
   <link rel="stylesheet" href="css/torres.css?v=<?php echo (rand()); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -140,7 +140,7 @@ try {
       <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       <br>
       <div id="tower-container" class="container">
-        <!-- Los anuncios se cargarán aquí con AJAX -->
+
         <?php if (!empty($torre)): ?>
           <div class="row">
             <?php foreach ($torre as $index => $torre): ?>
@@ -157,10 +157,14 @@ try {
                 </center>
               </div>
             <?php endforeach; ?>
-            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;"> VOLVER</a>
+            <br>
+            <br>
+            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;">Ingreso Peatonal</a>
+            <br>
+            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;"> Volver</a>
           </div>
         <?php else: ?>
-          <p>No se encontraron torres.</p>
+          <p>No se encontraron Torres.</p>
         <?php endif; ?>
       </div>
     </section>

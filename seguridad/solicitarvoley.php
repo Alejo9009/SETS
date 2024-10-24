@@ -1,26 +1,26 @@
 <?php
-// Conexión a la base de datos
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
+
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
         LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 4"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
+$solicitudes = []; 
 
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+if ($stmt->rowCount() > 0) { 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row; 
     }
 }
 
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,7 +28,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sets - CANCHA DE VOLEYBALL</title>
+    <title>sets - Cancha De Voleyball</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -118,7 +118,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE VOLEYBALL</h2>
+            <h2>¡Reserva tu espacio! Horarios disponibles - CANCHA DE VOLEYBALL</h2>
         </div>
 
         <div class="container">
@@ -147,7 +147,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </tr>
                         </thead>
                         <tbody id="calendar-body">
-                            <!-- Las fechas serán generadas aquí por JavaScript -->
+       
                         </tbody>
                     </table>
                 </div>
@@ -163,11 +163,11 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <h3>CANCHA DE VOLEYBALL</h3>
-                            <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
-                            <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
+                            <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
-                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                            
                         </div>
@@ -196,7 +196,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
     </main>
     <script>
-        // Convertir los datos de PHP a JavaScript
+
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>

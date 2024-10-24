@@ -1,10 +1,10 @@
 <?php
-// Conectar a la base de datos
-require 'conexion.php'; // Asegúrate de tener el archivo de conexión a la base de datos
+
+require 'conexion.php'; 
 
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Preparar la consulta SQL
+
 $sql = "SELECT * FROM anuncio WHERE titulo LIKE :query";
 $stmt = $base_de_datos->prepare($sql);
 $stmt->bindValue(':query', "%$query%", PDO::PARAM_STR);

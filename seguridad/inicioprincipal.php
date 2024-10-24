@@ -14,7 +14,7 @@ if ($result->rowCount() > 0) {
 }
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Preparar la consulta SQL
+
 
 ?>
 <!DOCTYPE html>
@@ -195,9 +195,9 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             </div>
 
             <div id="announcements">
-                <!-- Los anuncios se cargarán aquí con AJAX -->
+   
                 <?php
-                // Mostrar todos los anuncios por defecto
+             
                 $sql = "SELECT * FROM anuncio";
                 $result = $base_de_datos->query($sql);
                 if ($result->rowCount() > 0) {
@@ -255,7 +255,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             };
             xhr.send();
 
-            // Prevenir el envío del formulario
+          
             return false;
         }
     </script>
