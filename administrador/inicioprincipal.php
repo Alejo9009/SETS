@@ -87,7 +87,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -101,7 +101,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
 
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="torres.php" class="link-button">
                                 <img src="img/casa.png" alt="Torres" class="medium-img">
-                                <button class="add-announcement">Torres</button>
+                                <button class="add-announcement">Torre</button>
                             </a>
                         </div>
                     </div>
@@ -172,7 +172,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="datos_usuario.php" class="link-button">
                                 <img src="img/inf.png" alt="Datos Usuarios" class="medium-img">
-                                <button class="add-announcement">Datos Usuarios</button>
+                                <button class="add-announcement">Datos Usuario</button>
                             </a>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="citas.php" class="link-button">
                                 <img src="img/citas.png" alt="Citas con amd" class="medium-img">
-                                <button class="add-announcement">Citas con amd</button>
+                                <button class="add-announcement">Citas con Admin</button>
                             </a>
                             </a>
                         </div>
@@ -207,9 +207,9 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             </div>
 
             <div id="announcements">
-                <!-- Los anuncios se cargarán aquí con AJAX -->
+             
                 <?php
-                // Mostrar todos los anuncios por defecto
+          
                 $sql = "SELECT * FROM anuncio";
                 $result = $base_de_datos->query($sql);
                 if ($result->rowCount() > 0) {
@@ -257,7 +257,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             };
             xhr.send();
 
-            // Prevenir el envío del formulario
+          
             return false;
         }
     </script>

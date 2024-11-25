@@ -8,7 +8,7 @@ include_once "conexion.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Torre, Piso y Apartamento</title>
+    <title>Agregar Torre Piso y Apartamento</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/i.css?v=<?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -75,7 +75,7 @@ include_once "conexion.php";
                       <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                     </li>
                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                    <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                     </li>
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -89,7 +89,7 @@ include_once "conexion.php";
 
             <form class="d-flex mt-3" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>
@@ -118,9 +118,9 @@ include_once "conexion.php";
             <form method="POST" action="p.php">
                 <label for="torre">Torre:</label>
                 <select name="torre" id="torre">
-                    <!-- Opciones de torres se llenarán aquí -->
+                
                     <?php
-                    // Conectar a la base de datos y obtener torres
+                 
 
                     $stmt = $base_de_datos->query("SELECT id_Torre, descripcionTorre FROM torre");
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -131,7 +131,7 @@ include_once "conexion.php";
 
                 <label for="piso">Piso:</label>
                 <select name="piso" id="piso">
-                    <!-- Opciones de pisos se llenarán aquí -->
+          
                     <?php
                     $stmt = $base_de_datos->query("SELECT id_Piso, descripcionPiso FROM piso");
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

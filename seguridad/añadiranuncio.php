@@ -109,12 +109,7 @@
     <br>
     <br><br>
     <br>
-    <br><br>
-    
-    <br>
-    <br> 
-    <br>
-    <br>
+
     <div class="container">
         <section class="login-content">
             <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
