@@ -94,8 +94,17 @@ $conn->close();
                             <?php foreach ($roles as $role): ?>
                                 <option value="<?php echo $role['id']; ?>"><?php echo $role['Roldescripcion']; ?></option>
                             <?php endforeach; ?>
+                            
                         </select>
+                        
+
                     </fieldset>
+
+                    <legend class="fieldset-legend">Digito segun Rol</legend>
+                        <div class="mb-2">
+
+
+                        
 
                     <fieldset class="form-group">
                         <legend class="fieldset-legend">Datos Personales</legend>
