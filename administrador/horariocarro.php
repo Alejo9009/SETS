@@ -21,7 +21,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     }
 }
 
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +93,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -106,7 +106,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         <div class="container">
 
 
-            <!-- Citas Agendadas -->
+
             <div class="sidebar">
 
                 <br>

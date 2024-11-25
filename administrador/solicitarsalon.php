@@ -29,7 +29,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sets - SALON COMUNAL</title>
+    <title>Sets - Salon Comunal</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -71,7 +71,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                       <center><a href="#">Reportar problema</a></center>
                     </li>
                     <li>
-                      <center> <a href="../index.php">Cerrar sesión</a></center>
+                      <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
                   </ul>
               </center>
@@ -94,7 +94,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                       <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                     </li>
                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                    <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                     </li>
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -108,7 +108,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
             <form class="d-flex mt-3" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>

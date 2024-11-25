@@ -93,7 +93,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -107,7 +107,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         <br>
         <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - ZONA BBQ</h2>
+            <h2>Horarios Disponibles - ZONA BBQ</h2>
         </div>
 
         <div class="container">
