@@ -94,9 +94,22 @@ $conn->close();
                             <?php foreach ($roles as $role): ?>
                                 <option value="<?php echo $role['id']; ?>"><?php echo $role['Roldescripcion']; ?></option>
                             <?php endforeach; ?>
-                        </select>
+
+                            </select>
+
                     </fieldset>
 
+                    <fieldset class="form-group">
+
+                        <label for="rol">Escoge el numero segun el Rol:</label>
+                        <select id="id" name="id" class="form-select" required>
+                          <?php foreach ($roles as $role): ?>
+                             <option value="<?php echo $role['id']; ?>"><?php echo $role['id']; ?></option>
+                          <?php endforeach; ?>
+                </fieldset>
+                </select>
+                <br>
+                <p>
                     <fieldset class="form-group">
                         <legend class="fieldset-legend">Datos Personales</legend>
                         <div class="mb-3">

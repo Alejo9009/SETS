@@ -26,7 +26,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
     <title>SETS - Residente</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/principal.css?v=<?php echo (rand()); ?>">
+    <link rel="stylesheet" href="./css/principal.css?v=<?php echo (rand()); ?>">
 </head>
 
 <body>
