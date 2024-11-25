@@ -17,7 +17,7 @@
         <img src="img/resi.png" alt="Bienvenida" style="width: 20%;">
        <br>
        <br>
-        <p><b>Estamos emocionados de tenerte con nosotros Residente <br>
+        <p><b>Estamos emocionados de tenerte con nosotros Residente yuuuuuu<br>
          .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar </a>
