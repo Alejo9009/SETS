@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Pagos</title>
+    <title>Sets - Notificaciones</title>
     <link rel="stylesheet" href="css/notificaciones.css">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -17,7 +17,7 @@
             <div class="menu-left">
                 <div class="admin-container">
                     <img src="img/resi.png" alt="Admin" class="admin-img">
-                <a href="#" class="menu-button">Residente</a>
+                    <a href="#" class="menu-button">Residente</a>
                     <div class="dropdown-menu">
                         <a href="Perfil.html">Editar datos</a>
                         <a href="#">Reportar problema</a>
@@ -40,7 +40,7 @@
                         </div>
                         <br>
                         <div class="chat-links">
-                            <a href="#" class="chat-item" onclick="openChat('Admi')">Admi</a>
+                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                             <a href="#" class="chat-item" onclick="openChat('Administrador')">Administrador</a>
                             <a href="#" class="chat-item" onclick="openChat('Guarda De Seguridad')">Guarda DE Seguridad</a>
                             <a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a>
@@ -88,55 +88,55 @@
                         </div>
                         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
                         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Administración</div>
                             <div class="email-subject">Mantenimiento Programado</div>
                             <div class="email-snippet">Se llevará a cabo mantenimiento en el sistema de agua el 22 de agosto de 2024.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Comité de Seguridad</div>
                             <div class="email-subject">Reunión de Seguridad</div>
                             <div class="email-snippet">Reunión para discutir nuevas medidas de seguridad el 25 de agosto a las 18:00.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Junta de Condominio</div>
                             <div class="email-subject">Nuevo Reglamento</div>
                             <div class="email-snippet">Se ha actualizado el reglamento del condominio. Por favor, revisa los cambios en el portal.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Mantenimiento</div>
                             <div class="email-subject">Problema de Fontanería</div>
                             <div class="email-snippet">Hay un problema de fontanería en la Torre A. Se espera resolución para el 20 de agosto.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Eventos Sociales</div>
                             <div class="email-subject">Fiesta de Verano</div>
                             <div class="email-snippet">¡No te pierdas la fiesta de verano el 30 de agosto en el área de BBQ!</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Administración</div>
                             <div class="email-subject">Actualización de Horarios</div>
                             <div class="email-snippet">Los horarios de recepción se han actualizado. Consulta los nuevos horarios en el portal.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Servicios Generales</div>
                             <div class="email-subject">Corte de Energía Programado</div>
                             <div class="email-snippet">Habrá un corte de energía el 15 de agosto de 2024 entre las 10:00 y 14:00.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Área Verde</div>
                             <div class="email-subject">Cuidado de Jardines</div>
                             <div class="email-snippet">El mantenimiento de jardines en el área común se realizará el 23 de agosto.</div>
                         </div>
-                
+
                         <div class="email-item">
                             <div class="email-sender">Reparaciones</div>
                             <div class="email-subject">Reparación de Ascensores</div>
@@ -144,27 +144,27 @@
                         </div>
                     </div>
                 </section>
-                
+
                 <script>
                     function filterEmails() {
-         
+
                         let searchValue = document.getElementById('searchInput').value.toLowerCase();
-                        
-          
+
+
                         let emailItems = document.querySelectorAll('.email-item');
-                        
-         
+
+
                         emailItems.forEach(item => {
-         
+
                             let sender = item.querySelector('.email-sender').textContent.toLowerCase();
                             let subject = item.querySelector('.email-subject').textContent.toLowerCase();
                             let snippet = item.querySelector('.email-snippet').textContent.toLowerCase();
-                            
-            
+
+
                             if (sender.includes(searchValue) || subject.includes(searchValue) || snippet.includes(searchValue)) {
                                 item.style.display = ''; //
                             } else {
-                                item.style.display = 'none'; 
+                                item.style.display = 'none';
                             }
                         });
                     }
@@ -172,76 +172,76 @@
 
 
 
-                        <script>
-                            document.querySelector('.admin-img').addEventListener('click', function () {
-                                document.querySelector('.dropdown-menu').classList.toggle('show');
-                            });
+                <script>
+                    document.querySelector('.admin-img').addEventListener('click', function() {
+                        document.querySelector('.dropdown-menu').classList.toggle('show');
+                    });
 
-                            document.querySelector('.chat-button').addEventListener('click', function () {
-                                document.querySelector('.chat-menu').classList.toggle('show');
-                            });
+                    document.querySelector('.chat-button').addEventListener('click', function() {
+                        document.querySelector('.chat-menu').classList.toggle('show');
+                    });
 
-                            function filterChat() {
-                                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                                const chatItems = document.querySelectorAll('.chat-item');
-                                chatItems.forEach(item => {
-                                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
+                    function filterChat() {
+                        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                        const chatItems = document.querySelectorAll('.chat-item');
+                        chatItems.forEach(item => {
+                            if (item.textContent.toLowerCase().includes(searchInput)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
                             }
+                        });
+                    }
 
-                            function showTab(tabId) {
-                                document.querySelectorAll('.tab-content').forEach(tab => {
-                                    tab.classList.remove('active');
-                                });
-                                document.querySelectorAll('.tab-btn').forEach(btn => {
-                                    btn.classList.remove('active');
-                                });
-                                document.getElementById(tabId).classList.add('active');
-                                document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
-                            }
-                        </script>
-                        <script>
-                            function openChat(chatName) {
-                                const chatContainer = document.getElementById('chatContainer');
-                                const chatHeader = document.getElementById('chatHeader');
-                                chatHeader.textContent = chatName;
-                                chatContainer.classList.add('show');
-                            }
+                    function showTab(tabId) {
+                        document.querySelectorAll('.tab-content').forEach(tab => {
+                            tab.classList.remove('active');
+                        });
+                        document.querySelectorAll('.tab-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        document.getElementById(tabId).classList.add('active');
+                        document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+                    }
+                </script>
+                <script>
+                    function openChat(chatName) {
+                        const chatContainer = document.getElementById('chatContainer');
+                        const chatHeader = document.getElementById('chatHeader');
+                        chatHeader.textContent = chatName;
+                        chatContainer.classList.add('show');
+                    }
 
-                            function closeChat() {
-                                const chatContainer = document.getElementById('chatContainer');
-                                chatContainer.classList.remove('show');
-                            }
+                    function closeChat() {
+                        const chatContainer = document.getElementById('chatContainer');
+                        chatContainer.classList.remove('show');
+                    }
 
-                            function sendMessage() {
-                                const messageInput = document.getElementById('chatInput');
-                                const messageText = messageInput.value.trim();
-                                if (messageText) {
-                                    const chatMessages = document.getElementById('chatMessages');
-                                    const messageElement = document.createElement('p');
-                                    messageElement.textContent = messageText;
-                                    chatMessages.appendChild(messageElement);
-                                    messageInput.value = '';
-                                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                                }
-                            }
+                    function sendMessage() {
+                        const messageInput = document.getElementById('chatInput');
+                        const messageText = messageInput.value.trim();
+                        if (messageText) {
+                            const chatMessages = document.getElementById('chatMessages');
+                            const messageElement = document.createElement('p');
+                            messageElement.textContent = messageText;
+                            chatMessages.appendChild(messageElement);
+                            messageInput.value = '';
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+                    }
 
-                            function filterChat() {
-                                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                                const chatItems = document.querySelectorAll('.chat-item');
-                                chatItems.forEach(item => {
-                                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
+                    function filterChat() {
+                        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                        const chatItems = document.querySelectorAll('.chat-item');
+                        chatItems.forEach(item => {
+                            if (item.textContent.toLowerCase().includes(searchInput)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
                             }
-                        </script>
+                        });
+                    }
+                </script>
 </body>
 
 </html>

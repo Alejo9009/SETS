@@ -30,7 +30,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - actualizar zona</title>
+    <title>SETS - Actualizar Futbol </title>
     <link rel="stylesheet" href="css/azoy.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -93,13 +93,13 @@ if (isset($_GET['ID_Apartamentooss'])) {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -136,7 +136,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <br>
     <br>
     <div class="alert alert-success" role="alert">
-        <h2 style="text-align: center;">Editar Solicitud de Agendación</h2>
+        <h2 style="text-align: center;">Actualizar Solicitud de Agendación Futbol</h2>
         <p><br>
     </div>
     <br>
@@ -144,6 +144,9 @@ if (isset($_GET['ID_Apartamentooss'])) {
         <section class="login-content">
             <div class="container">
                 <form action="procesar_editarfutbol.php" method="POST">
+                    <img src="img/objetivo.png" alt="Logo" class="imgp">
+                    <br>
+                    <br>
                     <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>">
 
                     <div class="form-group">
