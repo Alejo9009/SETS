@@ -19,7 +19,7 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Torres</title>
+  <title>Sets - Torre</title>
   <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
   <link rel="stylesheet" href="css/torres.css?v=<?php echo (rand()); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -57,7 +57,7 @@ try {
                       <center><a href="Perfil.php">Editar datos</a></center>
                     </li>
                     <li>
-                      <center><a href="#">Reportar problema</a></center>
+                      <center><a href="#">Reportar Problema</a></center>
                     </li>
                     <li>
                       <center> <a href="../index.php">Cerrar sesión</a></center>
@@ -83,7 +83,7 @@ try {
                       <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                     </li>
                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                    <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                     </li>
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -97,7 +97,7 @@ try {
 
             <form class="d-flex mt-3" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>

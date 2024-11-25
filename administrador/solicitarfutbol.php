@@ -11,16 +11,15 @@ $sql = "SELECT sz.*, e.estados
         LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 1"; // Filtra solo las solicitudes para la cancha de fútbol
 
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
+$stmt = $base_de_datos->query($sql); 
+$solicitudes = []; 
 
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+if ($stmt->rowCount() > 0) { 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row; 
     }
 }
 
-// Ahora puedes usar el array $solicitudes en tu HTML
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +28,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sets - FUTBOL</title>
+    <title>Sets - FUTBOL</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -94,7 +93,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -108,7 +107,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -123,7 +122,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         <br>
         <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE FÚTBOL</h2>
+            <h2>Horarios disponibles - Cancha De Futbol</h2>
         </div>
 
         <div class="container">

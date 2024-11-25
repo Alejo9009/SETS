@@ -181,7 +181,7 @@ try {
 
                 </div>
 
-                <center><a href="hoariomoto.php" class="small-btn" style="text-decoration: none;">Ver Agendaciones</a></center>
+                <center><a href="hoariomoto.php" class="small-btn" style="text-decoration: none;">Ver Reserva</a></center>
 
                 <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
