@@ -77,7 +77,7 @@ try {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <center>
                                             <li>
