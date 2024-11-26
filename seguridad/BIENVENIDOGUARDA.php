@@ -16,10 +16,10 @@
     <main>
         <img src="img/guarda.png" alt="Bienvenida" style="width: 30%;">
        <br>
-        <p><b>Estamos emocionados de tenerte con nosotros Guarda de Seguridad <br>
+        <p><b>Estamos Emocionados de tenerte con nosotros Guarda de Seguridad <br>
          .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         
-        <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar </a>
+        <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar</a>
     </main>
    
 </body>

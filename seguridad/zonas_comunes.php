@@ -1,8 +1,6 @@
 <?php
 include_once "conexion.php";
-
 $query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
-
 try {
     $statement = $base_de_datos->prepare($query);
     $statement->execute();
@@ -12,10 +10,8 @@ try {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +20,6 @@ try {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -36,7 +31,6 @@ try {
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                         <center>
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                         </center>
@@ -94,14 +88,13 @@ try {
                             </center>
                         </ul>
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </nav>
-
     </header>
     <br><br>
     <main>
@@ -119,7 +112,6 @@ try {
         </section>
     </main>
     <main>
-        <br>
         <br>
         <section class="zones-section container mt-5">
             <h1 class="title text-center mb-5"><b>Zonas Comunes</b></h1>
@@ -161,25 +153,18 @@ try {
                                 <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['idZona']); ?>" class="btn btn-outline-success">
                                     Ver Horario Disponible
                                 </a><br>
-
                             </article>
                             <br>
                             <br>
-
                         </div>
-
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </section>
         <a href="inicioprincipal.php" class="btn btn-outline-danger  btn-lg">Volver</a>
     </main>
-
-
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -189,7 +174,6 @@ try {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -202,7 +186,6 @@ try {
             });
         }
     </script>
-
     <script>
         function openChat(chatName) {
             const chatContainer = document.getElementById('chatContainer');
@@ -210,12 +193,10 @@ try {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -228,7 +209,6 @@ try {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -242,5 +222,4 @@ try {
         }
     </script>
 </body>
-
 </html>

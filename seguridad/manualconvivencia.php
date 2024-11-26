@@ -24,7 +24,6 @@
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                         <center>
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                         </center>
@@ -44,7 +43,6 @@
                                         <li>
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
-                                      
                                         <li>
                                             <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
@@ -65,7 +63,7 @@
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
@@ -80,7 +78,7 @@
                             </center>
                         </ul>
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
@@ -101,12 +99,10 @@
         </div>
     </div>
     <main>
-<br>
-<br>
-<br>
-
-        <h1 class="responsive-title"><b>Normas De Convivencia</b></h1>
-
+        <br>
+        <br>
+        <br>
+        <h1 class="responsive-title"><b>Normas De Convivencia !</b></h1>
         <br>
         <center>
             <div class="page-container">
@@ -118,7 +114,6 @@
                 </section>
             </div>
         </center>
-
     </main>
     <a href="inicioprincipal.php" class="btn btn-outline-success btn-lg" style="font-size: 40px;">VOLVER</a>
     <script>

@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -23,7 +22,6 @@
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                         <center>
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                         </center>
@@ -42,8 +40,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
                                             <center><a href="Perfil.php">Editar Datos</a></center>
-                                        </li>
-                                    
+                                        </li> 
                                         <li>
                                             <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
@@ -52,7 +49,6 @@
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -128,55 +124,46 @@
                         </div>
                         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
                         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
                         <div class="email-item">
                             <div class="email-sender">Administración</div>
                             <div class="email-subject">Mantenimiento Programado</div>
                             <div class="email-snippet">Se llevará a cabo mantenimiento en el sistema de agua el 22 de agosto de 2024.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Comité de Seguridad</div>
                             <div class="email-subject">Reunión de Seguridad</div>
                             <div class="email-snippet">Reunión para discutir nuevas medidas de seguridad el 25 de agosto a las 18:00.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Junta de Condominio</div>
                             <div class="email-subject">Nuevo Reglamento</div>
                             <div class="email-snippet">Se ha actualizado el reglamento del condominio. Por favor, revisa los cambios en el portal.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Mantenimiento</div>
                             <div class="email-subject">Problema de Fontanería</div>
                             <div class="email-snippet">Hay un problema de fontanería en la Torre A. Se espera resolución para el 20 de agosto.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Eventos Sociales</div>
                             <div class="email-subject">Fiesta de Verano</div>
                             <div class="email-snippet">¡No te pierdas la fiesta de verano el 30 de agosto en el área de BBQ!</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Administración</div>
                             <div class="email-subject">Actualización de Horarios</div>
                             <div class="email-snippet">Los horarios de recepción se han actualizado. Consulta los nuevos horarios en el portal.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Servicios Generales</div>
                             <div class="email-subject">Corte de Energía Programado</div>
                             <div class="email-snippet">Habrá un corte de energía el 15 de agosto de 2024 entre las 10:00 y 14:00.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Área Verde</div>
                             <div class="email-subject">Cuidado de Jardines</div>
                             <div class="email-snippet">El mantenimiento de jardines en el área común se realizará el 23 de agosto.</div>
                         </div>
-
                         <div class="email-item">
                             <div class="email-sender">Reparaciones</div>
                             <div class="email-subject">Reparación de Ascensores</div>
@@ -184,7 +171,6 @@
                         </div>
                     </div>
                 </section>
-
                 <script>
                     function filterEmails() {
                         // Obtener el valor del input de búsqueda y convertirlo a minúsculas
@@ -200,18 +186,14 @@
                             let subject = item.querySelector('.email-subject').textContent.toLowerCase();
                             let snippet = item.querySelector('.email-snippet').textContent.toLowerCase();
 
-                            // Verificar si el texto de búsqueda está presente en cualquiera de los campos
                             if (sender.includes(searchValue) || subject.includes(searchValue) || snippet.includes(searchValue)) {
-                                item.style.display = ''; // Mostrar el elemento si coincide
+                                item.style.display = ''; 
                             } else {
-                                item.style.display = 'none'; // Ocultar el elemento si no coincide
+                                item.style.display = 'none'; 
                             }
                         });
                     }
                 </script>
-
-
-
                 <script>
                     document.querySelector('.admin-img').addEventListener('click', function() {
                         document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -232,7 +214,6 @@
                             }
                         });
                     }
-
                     function showTab(tabId) {
                         document.querySelectorAll('.tab-content').forEach(tab => {
                             tab.classList.remove('active');
@@ -256,7 +237,6 @@
                         const chatContainer = document.getElementById('chatContainer');
                         chatContainer.classList.remove('show');
                     }
-
                     function sendMessage() {
                         const messageInput = document.getElementById('chatInput');
                         const messageText = messageInput.value.trim();
@@ -269,7 +249,6 @@
                             chatMessages.scrollTop = chatMessages.scrollHeight;
                         }
                     }
-
                     function filterChat() {
                         const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                         const chatItems = document.querySelectorAll('.chat-item');

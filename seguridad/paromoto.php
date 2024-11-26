@@ -1,8 +1,6 @@
 <?php
 include_once "conexion.php";
-
 $query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
-
 try {
     $statement = $base_de_datos->prepare($query);
     $statement->execute();
@@ -12,11 +10,8 @@ try {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +20,6 @@ try {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -57,7 +51,7 @@ try {
                                         <li>
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
-                                       
+
                                         <li>
                                             <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
@@ -78,7 +72,7 @@ try {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
@@ -129,7 +123,6 @@ try {
                 <section class="pius">
                     <h3 style="text-align: center;">Parqueadero MOTO</h3>
                 </section>
-
                 <section class="pis">
                     <h3 style="text-align: center;">Parqueadero Zona 1</h3>
                 </section>
@@ -159,9 +152,6 @@ try {
                                                 <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
-
-
-
                                             </div>
                                         </div>
                                         <?php if (($index + 1) % 5 == 0): ?>
@@ -173,8 +163,6 @@ try {
                     </center>
                 </div>
             </div>
-
-
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
                     <center>VOLVER</center>
@@ -201,7 +189,6 @@ try {
                 }
             });
         }
-
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -250,12 +237,10 @@ try {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -268,7 +253,6 @@ try {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -283,5 +267,4 @@ try {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

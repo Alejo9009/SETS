@@ -18,7 +18,6 @@ if ($idRegistro === null) {
     die("Error: ID de registro no está disponible en la sesión.");
 }
 
-// Recuperar los datos del usuario 
 $sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
         JOIN telefono t ON r.id_Registro = t.person
@@ -190,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admin')">Admin</a></center>
                                         </li>
                                         <center>
                                             <li>
@@ -207,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </center>
                         </ul>
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>

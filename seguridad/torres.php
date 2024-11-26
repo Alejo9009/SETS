@@ -1,8 +1,6 @@
 <?php
 include_once "conexion.php";
-
 $query = "SELECT id_Torre, numTorre, descripcionTorre FROM torre";
-
 try {
   $statement = $base_de_datos->prepare($query);
   $statement->execute();
@@ -12,7 +10,6 @@ try {
   exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -36,7 +33,6 @@ try {
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
             <center>
               <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
             </center>
@@ -56,7 +52,6 @@ try {
                     <li>
                       <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
-
                     <li>
                       <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
@@ -65,7 +60,6 @@ try {
               </li>
               <div class="offcanvas-header">
                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
                 <center>
                   <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                 </center>
@@ -94,7 +88,7 @@ try {
               </center>
             </ul>
             <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
@@ -119,12 +113,10 @@ try {
   </div>
   <br>
   <br>
-  <br>
-  <br>
   <main>
     <section class="anuncio">
       <center>
-        <h2 style="color: rgb(11, 51, 21); text-align:center ; font-size: 60px;">Torres</h2>
+        <h2 style="color: rgb(11, 51, 21); text-align:center ; font-size: 60px;">Torre</h2>
       </center>
     </section>
     <section class="announcements">
@@ -140,7 +132,6 @@ try {
       <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       <br>
       <div id="tower-container" class="container">
-
         <?php if (!empty($torre)): ?>
           <div class="row">
             <?php foreach ($torre as $index => $torre): ?>
@@ -157,7 +148,6 @@ try {
                 </center>
               </div>
             <?php endforeach; ?>
-
           </div>
         <?php else: ?>
           <p>No se encontraron Torres.</p>
@@ -165,24 +155,19 @@ try {
       </div>
     </section>
   </main>
-
   </header>
-
-  <br><div class="d-flex justify-content-between">
-  <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Ingreso Peatonal</a>
-  <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Volver</a>
-</div>
-
-
+  <br>
+  <div class="d-flex justify-content-between">
+    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Ingreso Peatonal</a>
+    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Volver</a>
+  </div>
   <script>
     document.querySelector('.admin-img').addEventListener('click', function() {
       document.querySelector('.dropdown-menu').classList.toggle('show');
     });
-
     document.querySelector('.chat-button').addEventListener('click', function() {
       document.querySelector('.chat-menu').classList.toggle('show');
     });
-
     function filterChat() {
       const searchInput = document.querySelector('.search-bar').value.toLowerCase();
       const chatItems = document.querySelectorAll('.chat-item');
@@ -209,8 +194,6 @@ try {
         }
       };
       xhr.send();
-
-
       return false;
     }
   </script>
@@ -221,12 +204,10 @@ try {
       chatHeader.textContent = chatName;
       chatContainer.classList.add('show');
     }
-
     function closeChat() {
       const chatContainer = document.getElementById('chatContainer');
       chatContainer.classList.remove('show');
     }
-
     function sendMessage() {
       const messageInput = document.getElementById('chatInput');
       const messageText = messageInput.value.trim();
@@ -239,7 +220,6 @@ try {
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
     }
-
     function filterChat() {
       const searchInput = document.querySelector('.search-bar').value.toLowerCase();
       const chatItems = document.querySelectorAll('.chat-item');
@@ -253,7 +233,5 @@ try {
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
 </html>

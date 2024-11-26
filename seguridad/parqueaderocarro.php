@@ -2,7 +2,6 @@
 include_once "conexion.php";
 
 $query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
-
 try {
     $statement = $base_de_datos->prepare($query);
     $statement->execute();
@@ -12,9 +11,6 @@ try {
     exit();
 }
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -39,7 +35,6 @@ try {
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                             <center>
                                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                             </center>
@@ -59,7 +54,6 @@ try {
                                             <li>
                                                 <center><a href="Perfil.php">Editar Datos</a></center>
                                             </li>
-                                           
                                             <li>
                                                 <center> <a href="../index.php">Cerrar Sesión</a></center>
                                             </li>
@@ -80,7 +74,7 @@ try {
 
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
@@ -95,7 +89,7 @@ try {
                                 </center>
                             </ul>
                             <form class="d-flex mt-3" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                                 <button class="btn btn-outline-success" type="submit">Buscar</button>
                             </form>
                         </div>
@@ -122,10 +116,7 @@ try {
         <br>
         <br>
         <br>
-
         <div class="container">
-
-
             <div id="carro" class="tab-content active">
                 <div class="tabs">
                     <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
@@ -170,55 +161,44 @@ try {
                                             </div>
                                         </div>
                                         <?php if (($index + 1) % 5 == 0): ?>
-                              
                             </div>
-              
                             <div class="row">
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                     </center>
                 </div>
-               
             </div>
             <br>
-            <div >
+      
+            <div class="d-flex justify-content-between">
                 <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
                     <center>Ingreso Vehicular</center>
                 </a>
-            </div>
-            <br>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
                     <center>VOLVER</center>
                 </a>
             </div>
-
-
-        </div>
-        <br>
-
         </div>
         <br>
         </div>
-
-
+        <br>
+        </div>
         <script>
-        document.getElementById('searchInput').addEventListener('input', function () {
-            const query = this.value.toLowerCase();
-            const cards = document.querySelectorAll('.product-card');
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.product-card');
 
-            cards.forEach(card => {
-                const number = card.getAttribute('data-number').toLowerCase();
-                if (number.includes(query)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                cards.forEach(card => {
+                    const number = card.getAttribute('data-number').toLowerCase();
+                    if (number.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
-        });
-    </script>
-
+        </script>
         <script>
             document.querySelector('.admin-img').addEventListener('click', function() {
                 document.querySelector('.dropdown-menu').classList.toggle('show');

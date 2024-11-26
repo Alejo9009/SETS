@@ -3,23 +3,17 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-
 $sql = "SELECT * FROM anuncio";
 $result = $base_de_datos->query($sql);
-
 if ($result->rowCount() > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $isEvent = strpos($row["titulo"], "Evento") !== false;
     }
 }
 $query = isset($_GET['query']) ? $_GET['query'] : '';
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +22,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/principal.css?v=<?php echo (rand()); ?>">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -40,7 +33,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                         <center>
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                         </center>
@@ -69,8 +61,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -96,9 +86,8 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
@@ -136,7 +125,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             </a>
                         </div>
                     </div>
-
                     <br>
                     <div class="col-12 col-sm-6 ">
                         <div class="icon">
@@ -146,7 +134,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             </a>
                         </div>
                     </div>
-
                     <br>
                     <div class="col-12 col-sm-6 ">
                         <div class="icon">
@@ -157,7 +144,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         </div>
                     </div>
                     <br>
-
                     <div class="col-12 col-sm-6 ">
                         <div class="icon">
                             <a href="manualconvivencia.php" class="link-button">
@@ -247,19 +233,12 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         }
                     }
                 </script>
-
-
-
                 <div class="icon">
                     <a href="añadiranuncio.php" class="link-button">
                         <button class="add-announcement">Añadir Anuncio</button>
                     </a>
                 </div>
             </div>
-
-
-
-
             <script>
                 function searchAnnouncements() {
                     var query = document.getElementById('search-input').value;
@@ -274,8 +253,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         }
                     };
                     xhr.send();
-
-
                     return false;
                 }
             </script>
@@ -299,12 +276,8 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             <script>
                 const searchInput = document.getElementById('searchInput');
                 const announcements = document.querySelectorAll('.announcement');
-
-
                 searchInput.addEventListener('input', function() {
                     const filter = searchInput.value.toLowerCase();
-
-
                     announcements.forEach(function(announcement) {
                         const text = announcement.textContent.toLowerCase();
                         if (text.includes(filter)) {
@@ -319,11 +292,9 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 document.querySelector('.admin-img').addEventListener('click', function() {
                     document.querySelector('.dropdown-menu').classList.toggle('show');
                 });
-
                 document.querySelector('.chat-button').addEventListener('click', function() {
                     document.querySelector('.chat-menu').classList.toggle('show');
                 });
-
                 function filterChat() {
                     const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                     const chatItems = document.querySelectorAll('.chat-item');
@@ -361,7 +332,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 }
-
                 function filterChat() {
                     const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                     const chatItems = document.querySelectorAll('.chat-item');
@@ -378,8 +348,5 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
         </main>
     </main>
     </header>
-
 </body>
-
-
 </html>

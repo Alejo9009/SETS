@@ -2,14 +2,9 @@
 include_once "conexion.php";
 $query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
 ORDER BY  p.numPiso, a.numApartamento";
-
-
-
 $stmt =  $base_de_datos->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 $pisos = [];
 foreach ($resultados as $fila) {
   $numPiso = $fila['numPiso'];
@@ -20,7 +15,6 @@ foreach ($resultados as $fila) {
       'apartamentos' => []
     ];
   }
-
   if (isset($fila['numApartamento']) && isset($fila['descripcionApartamento'])) {
     $pisos[$numPiso]['apartamentos'][] = [
       'numApartamento' => $fila['numApartamento'],
@@ -28,7 +22,6 @@ foreach ($resultados as $fila) {
     ];
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,7 +34,6 @@ foreach ($resultados as $fila) {
   <link rel="stylesheet" href="css/pisos.css?v=<?php echo (rand()); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
   <header>
     <nav class="navbar bg-body-tertiary fixed-top">
@@ -53,7 +45,6 @@ foreach ($resultados as $fila) {
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
             <center>
               <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
             </center>
@@ -73,7 +64,6 @@ foreach ($resultados as $fila) {
                     <li>
                       <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
-
                     <li>
                       <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
@@ -94,7 +84,7 @@ foreach ($resultados as $fila) {
 
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                    <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                      <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                     </li>
                     <center>
                       <li>
@@ -111,8 +101,8 @@ foreach ($resultados as $fila) {
               </center>
             </ul>
             <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>
@@ -132,20 +122,12 @@ foreach ($resultados as $fila) {
         <button onclick="sendMessage()">Enviar</button>
       </div>
     </section>
-
     </header>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <br>
     <br>
     <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
       <b>Pisos y Apartamentos</b>
     </div>
-
     <div class="container">
       <div class="barra">
         <div class="sombra"></div>
@@ -184,34 +166,25 @@ foreach ($resultados as $fila) {
             </div>
           </div>
         <?php endforeach; ?>
-
       </div>
     </div>
-
     </div>
-
     </div>
     <br>
     <br>
-
     <br>
     <br>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       <a href="torres.php" class="btn btn-outline-success" style=" font-size:30px;"> VOLVER</a>
     </div>
-
-
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
       document.querySelector('.admin-img').addEventListener('click', function() {
         document.querySelector('.dropdown-menu').classList.toggle('show');
       });
-
       document.querySelector('.chat-button').addEventListener('click', function() {
         document.querySelector('.chat-menu').classList.toggle('show');
       });
-
       function filterChat() {
         const searchInput = document.querySelector('.search-bar').value.toLowerCase();
         const chatItems = document.querySelectorAll('.chat-item');
@@ -229,7 +202,6 @@ foreach ($resultados as $fila) {
         var input = document.getElementById("inputBusqueda").value.toLowerCase();
         var lista = document.getElementById("listaElementos");
         var items = lista.getElementsByTagName("li");
-
         for (var i = 0; i < items.length; i++) {
           var elemento = items[i].textContent || items[i].innerText;
           if (elemento.toLowerCase().indexOf(input) > -1) {
@@ -240,7 +212,6 @@ foreach ($resultados as $fila) {
         }
       }
     </script>
-
     <script>
       function openChat(chatName) {
         const chatContainer = document.getElementById('chatContainer');
@@ -253,7 +224,6 @@ foreach ($resultados as $fila) {
         const chatContainer = document.getElementById('chatContainer');
         chatContainer.classList.remove('show');
       }
-
       function sendMessage() {
         const messageInput = document.getElementById('chatInput');
         const messageText = messageInput.value.trim();
@@ -266,7 +236,6 @@ foreach ($resultados as $fila) {
           chatMessages.scrollTop = chatMessages.scrollHeight;
         }
       }
-
       function filterChat() {
         const searchInput = document.querySelector('.search-bar').value.toLowerCase();
         const chatItems = document.querySelectorAll('.chat-item');
@@ -280,9 +249,6 @@ foreach ($resultados as $fila) {
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     </header>
-
 </body>
-
 </html>
