@@ -100,10 +100,10 @@
         </header>
         </div>
         </header>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br><br>
+        <br><br>
+        <br> <br>
+        <br> <br> <br>
         <main>
             <div class="main">
                 <aside class="sidebar">

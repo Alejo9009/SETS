@@ -99,9 +99,9 @@
         </div>
     </div>
     <main>
-        <br>
-        <br>
-        <br>
+        <br><br>
+        <br><br>
+        <br><br>
         <h1 class="responsive-title"><b>Normas De Convivencia !</b></h1>
         <br>
         <center>

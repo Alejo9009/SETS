@@ -20,7 +20,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
     <title>SETS - INICIO GUARDA</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/principal.css?v=<?php echo (rand()); ?>">
+    <link rel="stylesheet" href="./css/principal.css?v=<?php echo (rand()); ?>">
 </head>
 <body>
     <header>
@@ -113,6 +113,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
         </header>
         <br><br>
         <br><br>
+        <br><br> <br>
         <main>
             <div class="container text-center">
                 <div class="row">
@@ -186,11 +187,10 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                 <div class="announcement" id="announcement-<?= htmlspecialchars($row['titulo']); ?>">
                                     <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen" style="width:90%; max-width:90px;"><br>
                                     <p><b>Anuncio:</b> <?= htmlspecialchars($row["titulo"]); ?><br>
-                                        <?= htmlspecialchars($row["descripcion"]); ?><br>
+                                        <b>Descripcion:</b> <?= htmlspecialchars($row["descripcion"]); ?><br>
                                         <b>Fecha de Publicación: </b><?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
                                         <b>Hora de Publicación:</b> <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
                                     </p>
-
                                     <button class="delete-button" onclick="deleteAnnouncement('<?= htmlspecialchars($row['titulo']); ?>')">Eliminar</button>
                                 </div>
                         <?php

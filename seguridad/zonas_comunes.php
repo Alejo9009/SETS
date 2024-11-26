@@ -113,6 +113,7 @@ try {
     </main>
     <main>
         <br>
+        <br>
         <section class="zones-section container mt-5">
             <h1 class="title text-center mb-5"><b>Zonas Comunes</b></h1>
             <div class="row">

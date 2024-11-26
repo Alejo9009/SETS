@@ -103,7 +103,8 @@ if ($stmt->rowCount() > 0) {
     <br>
     <br><br>
     <main>
-        
+    <br>
+    <br>
         <div class="alert alert-success g" role="alert">
             <h2>¡Reserva tu espacio! Horarios disponibles - Gymnasio</h2>
         </div>

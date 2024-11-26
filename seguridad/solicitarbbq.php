@@ -109,6 +109,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <br><br>
     <main>
         <br>
+        <br>
         <div class="alert alert-success g" role="alert">
             <h2>¡Reserva tu espacio! Horarios Disponibles - ZONA BBQ</h2>
         </div>

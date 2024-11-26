@@ -109,7 +109,7 @@
     <br>
     <br><br>
     <br>
-
+<br><br><br>
     <div class="container">
         <section class="login-content">
             <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">

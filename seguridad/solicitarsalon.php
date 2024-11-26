@@ -104,7 +104,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <br>
     <br><br>
     <main>
-        <br>
+    <br>
+    <br>
         <div class="alert alert-success g" role="alert">
             <h2>¡Reserva tu espacio! Horarios Disponibles - SALON COMUNAL</h2>
         </div>
