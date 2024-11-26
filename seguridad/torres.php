@@ -56,7 +56,7 @@ try {
                     <li>
                       <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
-                  
+
                     <li>
                       <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
@@ -77,7 +77,7 @@ try {
 
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                    <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                      <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                     </li>
                     <center>
                       <li>
@@ -157,11 +157,7 @@ try {
                 </center>
               </div>
             <?php endforeach; ?>
-            <br>
-            <br>
-            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;">Ingreso Peatonal</a>
-            <br>
-            <a href="inicioprincipal.php" class="btn btn-success" style=" font-size:30px;"> Volver</a>
+
           </div>
         <?php else: ?>
           <p>No se encontraron Torres.</p>
@@ -170,10 +166,12 @@ try {
     </section>
   </main>
 
-   
- 
   </header>
-  
+
+  <br><div class="d-flex justify-content-between">
+  <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Ingreso Peatonal</a>
+  <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 10vh;">Volver</a>
+</div>
 
 
   <script>
