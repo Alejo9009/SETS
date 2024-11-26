@@ -112,7 +112,7 @@
 
     <div class="container">
         <section class="login-content">
-            <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
+            <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
                 <img src="img/alt.png" alt="Logo" class="imgp">
                 <h2 class="title">Añadir Anuncio</h2>
            

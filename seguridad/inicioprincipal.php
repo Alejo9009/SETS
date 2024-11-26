@@ -60,7 +60,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                         <li>
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
-                                      
+
                                         <li>
                                             <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
@@ -169,96 +169,116 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 </div>
             </div>
         </main>
-
-
-
         </div>
         </div>
         </div>
         </div>
         </div>
-
-
         <br>
         <br><br>
         <main>
-        <div class="container">
-        <section class="announcements">
-            <center>
-                <h2>Anuncios</h2>
-            </center>
-            <div class="search-container">
-                <form onsubmit="return searchAnnouncements();">
-                    <input type="text" id="search-input" placeholder="Buscar Anuncio">
-                    <img src="img/lupa.png" alt="Buscar" class="search-icon">
-                </form>
+            <div class="container">
+                <section class="announcements">
+                    <center>
+                        <h2>Anuncios</h2>
+                    </center>
+                    <div class="search-container">
+                        <form onsubmit="return searchAnnouncements();">
+                            <input type="text" id="search-input" placeholder="Buscar Anuncio">
+                            <img src="img/lupa.png" alt="Buscar" class="search-icon">
+                        </form>
+                    </div>
+
+                    <div id="announcements">
+                        <?php
+
+                        $sql = "SELECT * FROM anuncio";
+                        $result = $base_de_datos->query($sql);
+                        if ($result->rowCount() > 0) {
+                            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        ?>
+                                <div class="announcement" id="announcement-<?= htmlspecialchars($row['titulo']); ?>">
+                                    <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen" style="width:90%; max-width:90px;"><br>
+                                    <p><b>Anuncio:</b> <?= htmlspecialchars($row["titulo"]); ?><br>
+                                        <?= htmlspecialchars($row["descripcion"]); ?><br>
+                                        <b>Fecha de Publicación: </b><?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
+                                        <b>Hora de Publicación:</b> <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
+                                    </p>
+
+                                    <button class="delete-button" onclick="deleteAnnouncement('<?= htmlspecialchars($row['titulo']); ?>')">Eliminar</button>
+                                </div>
+                        <?php
+                            }
+                        } else {
+                            echo "<p>No se encontraron anuncios.</p>";
+                        }
+                        ?>
+                    </div>
+                </section>
+
+                <script>
+                    function deleteAnnouncement(titulo) {
+                        if (confirm("¿Está seguro de que desea eliminar este anuncio?")) {
+           
+                            fetch('./servidor-anuncios/anuncio.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: new URLSearchParams({
+                                        'titulo': titulo,
+                                        'accion': 'eliminar'
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                      
+                                        document.getElementById('announcement-' + titulo).remove();
+                                        alert(data.message); 
+                                    } else {
+                                        alert(data.message); 
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error al eliminar el anuncio:', error);
+                                    alert("Hubo un error al eliminar el anuncio.");
+                                });
+                        }
+                    }
+                </script>
+
+
+
+                <div class="icon">
+                    <a href="añadiranuncio.php" class="link-button">
+                        <button class="add-announcement">Añadir Anuncio</button>
+                    </a>
+                </div>
             </div>
 
-            <div id="announcements">
-   
-                <?php
-             
-                $sql = "SELECT * FROM anuncio";
-                $result = $base_de_datos->query($sql);
-                if ($result->rowCount() > 0) {
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                        ?>
-                        <div class="announcement">
-                            <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen" style="width:90%; max-width:90px;"><br>
-                            <p><b>Anuncio:</b> <?= htmlspecialchars($row["titulo"]); ?><br>
-                                <?= htmlspecialchars($row["descripcion"]); ?><br>
-                                <b>Fecha de Publicación: </b><?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
-                                <b>Hora de Publicación:</b> <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
-                            </p>
-                            
-                            <form action="eliminaranuncio.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este anuncio?');">
-                                <input type="hidden" name="titulo" value="<?= htmlspecialchars($row['titulo']); ?>">
-                                <button type="submit">Eliminar</button>
-                            </form>
-                        </div>
-                        <?php
-                    }
-                } else {
-                    echo "<p>No se encontraron anuncios.</p>";
-                }
-                ?>
-             
-                </section>
-                <div class="icon">
-                        <a href="añadiranuncio.php" class="link-button">
-                            <button class="add-announcement">Añadir Anuncio</button>
-                        </a>
-                    </div>
-            </div>
 
 
 
             <script>
-                function confirmDelete(id) {
-                    if (confirm("¿Está seguro de que desea eliminar este anuncio?")) {
-                        window.location.href = 'eliminaranuncio.php?id=' + id;
-                    }
+                function searchAnnouncements() {
+                    var query = document.getElementById('search-input').value;
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', './servidor-anuncios/buscador.php?query=' + encodeURIComponent(query), true);
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            document.getElementById('announcements').innerHTML = xhr.responseText;
+                        } else {
+                            console.error('Error en la búsqueda:', xhr.statusText);
+                        }
+                    };
+                    xhr.send();
+
+
+                    return false;
                 }
             </script>
-             <script>
-        function searchAnnouncements() {
-            var query = document.getElementById('search-input').value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'buscador.php?query=' + encodeURIComponent(query), true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    document.getElementById('announcements').innerHTML = xhr.responseText;
-                } else {
-                    console.error('Error en la búsqueda:', xhr.statusText);
-                }
-            };
-            xhr.send();
-
-          
-            return false;
-        }
-    </script>
             <script>
                 const searchEventInput = document.getElementById('searchEventInput');
                 const events = document.querySelectorAll('.event');
