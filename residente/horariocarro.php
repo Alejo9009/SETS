@@ -159,6 +159,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <center>
+
                                 <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
                                 <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
                                 <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
