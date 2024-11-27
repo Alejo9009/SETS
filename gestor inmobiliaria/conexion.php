@@ -2,7 +2,7 @@
 $host = 'localhost';
 $contrasena = "";
 $usuario = "root";
-$nombre_base_de_datos = "sets";
+$nombre_base_de_datos = "set";
 
 try {
     $base_de_datos = new PDO('mysql:host=' . $host . ';dbname=' . $nombre_base_de_datos, $usuario, $contrasena);

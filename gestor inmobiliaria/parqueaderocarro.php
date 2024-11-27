@@ -1,7 +1,7 @@
 <?php
 include_once "conexion.php";
 
-$query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
+$query = "SELECT id_parqueadero, numero_Parqueadero, disponibilidad , uso  FROM parqueadero";
 
 try {
     $statement = $base_de_datos->prepare($query);
@@ -14,23 +14,25 @@ try {
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parqueaderos-moto</title>
-    <link rel="stylesheet" href="css/moto.css?v=<?php echo (rand()); ?>">
+    <title>Parqueadero </title>
+    <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="topbar">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -84,7 +86,7 @@ try {
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Gestor de inmobiliaria</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -98,13 +100,14 @@ try {
 
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+    <br><br>
     <main>
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
@@ -118,28 +121,32 @@ try {
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+        </div>
+        </header>
         <br>
         <br>
         <br>
-        <br>
+
         <div class="container">
+
+
             <div id="carro" class="tab-content active">
                 <div class="tabs">
-                    <a href="parqueaderocarro.php" class="tab-btn active" onclick="showTab('carro')"
-                        style="text-decoration: none;">Carro</a>
-                    <a href="paromoto.php" class="tab-btn" onclick="showTab('moto')"
-                        style="text-decoration: none;">Moto</a>
+                    <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
+                    <a href="paromoto.php" class="tab-btn" style="text-decoration: none;">Moto</a>
                 </div>
                 <section class="pius">
-                    <h3 style="text-align: center;">Parqueadero MOTO</h3>
+                    <center>
+                        <h3>Parqueadero Carro</h3>
+                    </center>
                 </section>
-
                 <section class="pis">
-                    <h3 style="text-align: center;">Parqueadero Zona 1</h3>
+                    <center>
+                        <h3>Parqueadero Zona 1</h3>
+                    </center>
                 </section>
                 <div class="search-bar-container">
                     <div class="barra">
-                        <div class="sombra"></div>
                         <input type="text" placeholder="Buscar parqueadero...">
                         <ion-icon name="search-outline"></ion-icon>
                     </div>
@@ -147,120 +154,125 @@ try {
                     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
                 </div>
                 <div class="torress">
-                    <div class="container">
-                        <div class="row">
-                            <?php if (!empty($parqueaderos)): ?>
-                                <?php foreach ($parqueaderos as $index => $parqueadero): ?>
-                                    <div class="col-6 col-md-2 mb-4">
-                                        <div class="card text-center">
-                                            <h3 class="torres-title"><?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?></h3>
-                                            <img src="img/moto.png" alt="" class="product-img">
-
-                                            <button class="btn <?= ($parqueadero['disponibilidad'] === 'SI ESTA DISPONIBLE') ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
-                                                <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
-                                            </button>
-                                            <br>
-                                            <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
-                                            <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
+                    <center>
+                        <div class="container">
+                            <div class="row" style="align-items: center;">
+                                <?php if (!empty($parqueaderos)): ?>
+                                    <?php foreach ($parqueaderos as $index => $parqueadero): ?>
+                                        <div class="col-6 col-md-2 mb-4">
+                                            <div class="card text-center">
+                                                <h3 class="torres-title"><?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?></h3>
+                                                <img src="img/esta.png" alt="" class="product-img">
+                                                <button class="btn <?= ($parqueadero['disponibilidad'] === 'SI ESTA DISPONIBLE') ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
+                                                    <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
+                                                </button>
+                                                <br>
+                                                <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
+                                                <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
 
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <?php if (($index + 1) % 5 == 0): ?>
-                        </div>
-                        <div class="row">
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-                        </div>
-                    </div>
-                    <br>
-
+                                        <?php if (($index + 1) % 5 == 0): ?>
+                            </div>
+                            <div class="row">
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    </center>
                 </div>
+                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver Reservas</a> </center>
 
-                <center><a href="hoariomoto.php" class="small-btn" style="text-decoration: none;">Ver Reserva</a></center>
+            </div>
+            <br>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                    <center>VOLVER</center>
+                </a>
+            </div>
+        </div>
+        <br>
 
-                <br>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                        <center>VOLVER</center>
-                    </a>
-                </div>
-    </main>
-    <script>
-        document.querySelector('.admin-img').addEventListener('click', function() {
-            document.querySelector('.dropdown-menu').classList.toggle('show');
-        });
+        </div>
+        <br>
+        </div>
 
-        document.querySelector('.chat-button').addEventListener('click', function() {
-            document.querySelector('.chat-menu').classList.toggle('show');
-        });
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+
+
+        <script>
+            document.querySelector('.admin-img').addEventListener('click', function() {
+                document.querySelector('.dropdown-menu').classList.toggle('show');
             });
-        }
 
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+            document.querySelector('.chat-button').addEventListener('click', function() {
+                document.querySelector('.chat-menu').classList.toggle('show');
             });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
-        }
-    </script>
-    <script>
-        function openChat(chatName) {
-            const chatContainer = document.getElementById('chatContainer');
-            const chatHeader = document.getElementById('chatHeader');
-            chatHeader.textContent = chatName;
-            chatContainer.classList.add('show');
-        }
 
-        function closeChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.classList.remove('show');
-        }
-
-        function sendMessage() {
-            const messageInput = document.getElementById('chatInput');
-            const messageText = messageInput.value.trim();
-            if (messageText) {
-                const chatMessages = document.getElementById('chatMessages');
-                const messageElement = document.createElement('p');
-                messageElement.textContent = messageText;
-                chatMessages.appendChild(messageElement);
-                messageInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             }
-        }
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
+            function showTab(tabId) {
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById(tabId).classList.add('active');
+                document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+            }
+        </script>
+        <script>
+            function openChat(chatName) {
+                const chatContainer = document.getElementById('chatContainer');
+                const chatHeader = document.getElementById('chatHeader');
+                chatHeader.textContent = chatName;
+                chatContainer.classList.add('show');
+            }
+
+            function closeChat() {
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.classList.remove('show');
+            }
+
+            function sendMessage() {
+                const messageInput = document.getElementById('chatInput');
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    const chatMessages = document.getElementById('chatMessages');
+                    const messageElement = document.createElement('p');
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                    messageInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
-            });
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            }
+
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

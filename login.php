@@ -25,7 +25,7 @@ try {
         // Comparar la clave (verificar el hash de la clave)
         if (password_verify($clave, $claveHash)) {
             // Preparar la consulta para obtener el rol del usuario
-            $sql = "SELECT r.Roldescripcion FROM rol_registro rr 
+            $sql = "SELECT r.Roldescripcion FROM rol_registro  rr
                     JOIN rol r ON rr.idROL = r.id 
                     WHERE rr.idRegistro = ?";
             $stmt = $base_de_datos->prepare($sql);
@@ -43,8 +43,8 @@ try {
                 header("Location: ../SETS/admi/inicioprincipal.php");
             } elseif (in_array('residente', $roles)) {
                 header("Location: ../SETS/residente/inicioprincipal.php");
-            } elseif (in_array('administrador', $roles)) {
-                header("Location: ../SETS/administrador/inicioprincipal.php");
+            } elseif (in_array('gestor inmobiliaria', $roles)) {
+                header("Location: ../SETS/gestor inmobiliaria/inicioprincipal.php");
             } elseif (in_array('Guarda de Seguridad', $roles)) {
                 header("Location: ../SETS/seguridad/inicioprincipal.php");
             } else {

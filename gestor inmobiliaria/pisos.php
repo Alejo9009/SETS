@@ -2,9 +2,8 @@
 include_once "conexion.php";
 $query = "SELECT piso.numPiso, piso.descripcionPiso, apartamento.id_Apartamento, apartamento.descripcionApartamento
           FROM piso
-          INNER JOIN piso_apto ON piso.id_Piso = piso_apto.PISO
-          INNER JOIN apartamento ON apartamento.id_Apartamento = piso_apto.APTO";
-$stmt =  $base_de_datos->prepare($query);
+          INNER JOIN apartamento ON apartamento.id_Apartamento";
+$stmt =  $base_de_datos->prepare($query); 
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -41,7 +40,7 @@ foreach ($resultados as $fila) {
   <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-        <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+        <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria </b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>

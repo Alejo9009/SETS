@@ -91,8 +91,8 @@ $conn->close();
                         <legend class="fieldset-legend">Rol</legend>
                         <label for="rol">Rol:</label>
                         <select id="rol" name="rol" class="form-select" required>
-                            <?php foreach ($roles as $role): ?>
-                                <option value="<?php echo $role['id']; ?>"><?php echo $role['Roldescripcion']; ?></option>
+                            <?php foreach ($roles as $role):?>
+                                <option value="<?php echo $role['id']; ?>"><?php echo $role['Roldescripcion'];?></option>
                             <?php endforeach; ?>
 
                             </select>

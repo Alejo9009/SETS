@@ -8,9 +8,9 @@ if (!$base_de_datos) {
 // Consulta para obtener las solicitudes de parqueadero solo para carros
 $sql = "SELECT sp.*, e.estados, tv.descripcionvehiculo 
         FROM solicitud_parqueadero sp 
-        LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        LEFT JOIN tipovehiculo tv ON sp.id_TipoVehiculo = tv.idtVehiculo 
-        WHERE tv.descripcionvehiculo = 'MOTO'"; // Filtra solo los vehículos de tipo 'CARRO'
+        LEFT JOIN estados e ON sp.estadoos = e.idestado 
+        LEFT JOIN tipovehiculo tv ON sp.TipoVehiculo = tv.idtVehiculo 
+        WHERE tv.descripcionvehiculo = 'MOTO'";                                                        // Filtra solo los vehículos de tipo 'CARRO'
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 $solicitudes = []; // Inicializa el array
