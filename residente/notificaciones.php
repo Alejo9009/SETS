@@ -20,7 +20,6 @@
                     <a href="#" class="menu-button">Residente</a>
                     <div class="dropdown-menu">
                         <a href="Perfil.html">Editar datos</a>
-                        <a href="#">Reportar problema</a>
                         <a href="index.html">Cerrar sesión</a>
                     </div>
                 </div>

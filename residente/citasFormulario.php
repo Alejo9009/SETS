@@ -58,9 +58,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
                                             <center> <a href="../index.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>

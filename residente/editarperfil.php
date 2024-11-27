@@ -172,9 +172,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
                                             <center> <a href="../index.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
@@ -211,8 +208,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
