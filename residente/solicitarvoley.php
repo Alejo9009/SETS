@@ -1,13 +1,9 @@
 <?php
-// Conexión a la base de datos
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT sz.*, e.estados 
-        FROM solicitud_zona sz 
-        LEFT JOIN estado e ON sz.estado = e.idestado 
+$sql = "SELECT sz.*, e.estados  FROM solicitud_zona sz  LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 4"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
@@ -17,7 +13,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-// Ahora puedes usar el array $solicitudes en tu HTML
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -142,7 +137,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </tr>
                         </thead>
                         <tbody id="calendar-body">
-                            <!-- Las fechas serán generadas aquí por JavaScript -->
+                     
                         </tbody>
                     </table>
                 </div>
@@ -168,8 +163,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <center>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <a href="editarsolicitudvoley.php?ID_Apartamentooss=<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>" type="button" class="btn btn-success">Editar</a>
-
-
                                 <form action="./servidor-zonas/eliminvoley.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">

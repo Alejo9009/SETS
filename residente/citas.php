@@ -20,7 +20,6 @@ foreach ($citas as $row) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +28,6 @@ foreach ($citas as $row) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -94,7 +92,6 @@ foreach ($citas as $row) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -132,51 +129,40 @@ foreach ($citas as $row) {
                             </tr>
                         </thead>
                         <tbody id="calendar-body">
-                            <!-- Las fechas serán generadas aquí por JavaScript -->
+       
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
     </main>
     <center>
         <a href="citasFormulario.php" class="btn btn-success" style="font-size: 30px;">Solicitar</a>
         <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
     </center>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const eventos = <?php echo json_encode($eventos); ?>;
-
             const today = new Date();
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
-
             const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
             function generarCalendario(mes, anio) {
                 calendarBody.innerHTML = ''; // Limpia el contenido anterior
                 const firstDay = new Date(anio, mes, 1).getDay(); // Día de la semana del 1er día del mes
                 const daysInMonth = new Date(anio, mes + 1, 0).getDate();
-
                 let date = 1;
                 const totalCells = 42; // 6 semanas * 7 días
                 let dayCounter = (firstDay === 0 ? 6 : firstDay - 1); // Ajustar para que lunes sea el primer día (ISO-8601)
-
                 for (let i = 0; i < totalCells; i++) {
                     if (i % 7 === 0) {
                         var row = document.createElement('tr'); // Nueva fila cada 7 días
                     }
-
                     const cell = document.createElement('td');
-
                     if (i >= dayCounter && date <= daysInMonth) {
                         const formattedDate = `${anio}-${(mes + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
                         cell.textContent = date;
-
                         // Resaltar las fechas con eventos
                         eventos.forEach(evento => {
                             if (evento.start.startsWith(formattedDate)) {
@@ -184,20 +170,16 @@ foreach ($citas as $row) {
                                 cell.title = evento.title; // Tooltip con información del evento
                             }
                         });
-
                         date++; // Incrementar día
                     }
-
                     row.appendChild(cell);
 
                     if (i % 7 === 6) {
                         calendarBody.appendChild(row); // Agregar la fila al calendario
                     }
                 }
-
                 document.getElementById('month-year').textContent = `${months[mes]} ${anio}`;
             }
-
             function prevMonth() {
                 currentMonth--;
                 if (currentMonth < 0) {
@@ -206,7 +188,6 @@ foreach ($citas as $row) {
                 }
                 generarCalendario(currentMonth, currentYear);
             }
-
             function nextMonth() {
                 currentMonth++;
                 if (currentMonth > 11) {
@@ -215,7 +196,6 @@ foreach ($citas as $row) {
                 }
                 generarCalendario(currentMonth, currentYear);
             }
-
             // Generar el calendario inicial
             generarCalendario(currentMonth, currentYear);
 
@@ -232,7 +212,6 @@ foreach ($citas as $row) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -252,12 +231,10 @@ foreach ($citas as $row) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -270,7 +247,6 @@ foreach ($citas as $row) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -283,11 +259,7 @@ foreach ($citas as $row) {
             });
         }
     </script>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 
 </html>

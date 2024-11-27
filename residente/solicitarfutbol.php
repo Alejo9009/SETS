@@ -1,13 +1,11 @@
 <?php
-// Conexión a la base de datos
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 // Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT sz.*, e.estados 
-        FROM solicitud_zona sz 
-        LEFT JOIN estado e ON sz.estado = e.idestado 
+$sql = "SELECT sz.*, e.estados  FROM solicitud_zona sz  LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 1"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
@@ -17,7 +15,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -114,7 +112,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <main>
         <br>  <br> <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - CANCHA DE FÚTBOL <br> Numero de la Zona : 1</h2>
+            <h2>Horarios Disponibles - CANCHA DE FÚTBOL <br> Numero de la Zona : 1</h2>
         </div>
         <div class="container">
             <div class="calendar-container">
@@ -143,7 +141,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </tr>
                         </thead>
                         <tbody id="calendar-body">
-                            <!-- Las fechas serán generadas aquí por JavaScript -->
+            
                         </tbody>
                     </table>
                 </div>
@@ -303,12 +301,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -321,7 +317,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');

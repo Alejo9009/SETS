@@ -1,16 +1,12 @@
 <?php
 include_once "conexion.php";
-
-
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
-
     $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
     $statement->bindParam(':ID_Apartamentooss', $idSolicitud);
     $statement->execute();
     $solicitud = $statement->fetch(PDO::FETCH_ASSOC);
-
     if (!$solicitud) {
         echo "Solicitud no encontrada.";
         exit();
@@ -26,7 +22,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Actualizar Voley</title>
+    <title>SETS - Actualizar Voleyball</title>
     <link rel="stylesheet" href="css/azoy.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -45,7 +41,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
-
                         <center>
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                         </center>
@@ -73,8 +68,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -100,7 +93,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -125,9 +117,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
             </div>
         </section>
     </main>
-    <br>
-    <br>
-    <br>
+    <br><br> <br>
     <div class="alert alert-success" role="alert">
         <h2 style="text-align: center;">Actualizar Agendación de Cancha de Voleyball</h2>
         <p><br>
@@ -141,22 +131,18 @@ if (isset($_GET['ID_Apartamentooss'])) {
                     <br>
                     <br>
                     <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>">
-
                     <div class="form-group">
                         <label for="fechainicio">Fecha de Inicio:</label>
                         <input type="date" name="fechainicio" value="<?= htmlspecialchars($solicitud['fechainicio']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="Hora_inicio">Hora de Inicio:</label>
                         <input type="time" name="Hora_inicio" value="<?= htmlspecialchars($solicitud['Hora_inicio']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="fechafinal">Fecha de Finalización:</label>
                         <input type="date" name="fechafinal" value="<?= htmlspecialchars($solicitud['fechafinal']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="Hora_final">Hora de Finalización:</label>
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
@@ -164,13 +150,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
                     <br>
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
-
                 <br>
         </section>
-
     </div>
     <a href="solicitarvoley.php" class="btn btn-danger btn-lg">volver</a>
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -179,7 +162,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -199,12 +181,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -217,7 +197,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -232,5 +211,4 @@ if (isset($_GET['ID_Apartamentooss'])) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>

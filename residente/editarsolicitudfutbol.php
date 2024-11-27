@@ -1,6 +1,5 @@
 <?php
 include_once "conexion.php";
-
 // Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
@@ -10,7 +9,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
     $statement->bindParam(':ID_Apartamentooss', $idSolicitud);
     $statement->execute();
     $solicitud = $statement->fetch(PDO::FETCH_ASSOC);
-
     // Verificar si la solicitud existe
     if (!$solicitud) {
         echo "Solicitud no encontrada.";
@@ -23,6 +21,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +32,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -72,8 +72,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -99,7 +97,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -124,9 +121,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
             </div>
         </section>
     </main>
-    <br>
-    <br>
-    <br>
+    <br><br><br>
     <div class="alert alert-success" role="alert">
         <h2 style="text-align: center;">Actualizar Solicitud de Agendación Futbol</h2>
         <p><br>
@@ -137,40 +132,31 @@ if (isset($_GET['ID_Apartamentooss'])) {
             <div class="container">
                 <form action="./servidor-zonas/procesar_editarfutbol.php" method="POST">
                     <img src="img/objetivo.png" alt="Logo" class="imgp">
-                    <br>
-                    <br>
+                    <br> <br>
                     <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>">
-
                     <div class="form-group">
                         <label for="fechainicio">Fecha de Inicio:</label>
                         <input type="date" name="fechainicio" value="<?= htmlspecialchars($solicitud['fechainicio']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="Hora_inicio">Hora de Inicio:</label>
                         <input type="time" name="Hora_inicio" value="<?= htmlspecialchars($solicitud['Hora_inicio']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="fechafinal">Fecha de Finalización:</label>
                         <input type="date" name="fechafinal" value="<?= htmlspecialchars($solicitud['fechafinal']) ?>" required class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="Hora_final">Hora de Finalización:</label>
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
                     <br>
-
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
-
                 <br>
         </section>
-
     </div>
     <a href="solicitarfutbol.php" class="btn btn-danger btn-lg">volver</a>
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -199,12 +185,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -217,7 +201,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -232,5 +215,4 @@ if (isset($_GET['ID_Apartamentooss'])) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>

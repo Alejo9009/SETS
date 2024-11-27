@@ -1,14 +1,11 @@
 <?php
 include_once "conexion.php";  
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     if (isset($_POST['id_parking'])) {
         $idSolicitud = $_POST['id_parking'];
     } else {
         die("Error: 'id_parking' no está definido en el formulario.");
     }
-    
     $fechaInicio = $_POST['fecha_inicio'];
     $horaInicio = $_POST['hora_inicio'];
     $fechaFinal = $_POST['fecha_final'];
@@ -24,27 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descripcionVehiculo = $_POST['descripcionvehiculo'];
     $estadoos = $_POST['estadoos'];
 
-
-    $query = "UPDATE solicitud_parqueadero SET 
-                fecha_inicio = :fecha_inicio, 
-                hora_inicio = :hora_inicio, 
-                fecha_final = :fecha_final, 
-                hora_final = :hora_final,
-                numParqueadero = :numParqueadero,
-                placaVehiculo = :placaVehiculo,
-                colorVehiculo = :colorVehiculo,
-                TipoVehiculo = :TipoVehiculo,
-                disponibilidad = :disponibilidad,
-                nombre_dueño = :nombre_dueño,
-                modelo = :modelo,
-                marca = :marca,
-                descripcionvehiculo = :descripcionvehiculo,
-                estadoos = :estadoos
-              WHERE id_parking = :id_parking";
+    $query = "UPDATE solicitud_parqueadero SET   fecha_inicio = :fecha_inicio,  hora_inicio = :hora_inicio,  fecha_final = :fecha_final, hora_final = :hora_final,
+             numParqueadero = :numParqueadero, placaVehiculo = :placaVehiculo, colorVehiculo = :colorVehiculo, TipoVehiculo = :TipoVehiculo, disponibilidad = :disponibilidad,
+             nombre_dueño = :nombre_dueño, modelo = :modelo,  marca = :marca,  descripcionvehiculo = :descripcionvehiculo, estadoos = :estadoos WHERE id_parking = :id_parking";
     
     $statement = $base_de_datos->prepare($query);
     
-
     $statement->bindParam(':fecha_inicio', $fechaInicio);
     $statement->bindParam(':hora_inicio', $horaInicio);
     $statement->bindParam(':fecha_final', $fechaFinal);

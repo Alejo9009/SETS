@@ -11,10 +11,11 @@ if ($result->rowCount() > 0) {
     }
 }
 $query = isset($_GET['query']) ? $_GET['query'] : '';
-// Preparar la consulta SQL
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/principal.css?v=<?php echo (rand()); ?>">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -201,7 +203,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         ?>
                     </div>
                 </section>
-
                 <script>
                     function deleteAnnouncement(titulo) {
                         if (confirm("¿Está seguro de que desea eliminar este anuncio?")) {
@@ -242,7 +243,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             <script>
                 function searchAnnouncements() {
                     var query = document.getElementById('search-input').value;
-
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', './servidor-anuncios/buscador.php?query=' + encodeURIComponent(query), true);
                     xhr.onload = function() {
@@ -259,10 +259,8 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             <script>
                 const searchEventInput = document.getElementById('searchEventInput');
                 const events = document.querySelectorAll('.event');
-
                 searchEventInput.addEventListener('input', function() {
                     const filter = searchEventInput.value.toLowerCase();
-
                     events.forEach(function(event) {
                         const text = event.textContent.toLowerCase();
                         if (text.includes(filter)) {
@@ -276,12 +274,8 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             <script>
                 const searchInput = document.getElementById('searchInput');
                 const announcements = document.querySelectorAll('.announcement');
-
-
                 searchInput.addEventListener('input', function() {
                     const filter = searchInput.value.toLowerCase();
-
-
                     announcements.forEach(function(announcement) {
                         const text = announcement.textContent.toLowerCase();
                         if (text.includes(filter)) {
@@ -296,11 +290,9 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 document.querySelector('.admin-img').addEventListener('click', function() {
                     document.querySelector('.dropdown-menu').classList.toggle('show');
                 });
-
                 document.querySelector('.chat-button').addEventListener('click', function() {
                     document.querySelector('.chat-menu').classList.toggle('show');
                 });
-
                 function filterChat() {
                     const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                     const chatItems = document.querySelectorAll('.chat-item');
@@ -320,12 +312,10 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                     chatHeader.textContent = chatName;
                     chatContainer.classList.add('show');
                 }
-
                 function closeChat() {
                     const chatContainer = document.getElementById('chatContainer');
                     chatContainer.classList.remove('show');
                 }
-
                 function sendMessage() {
                     const messageInput = document.getElementById('chatInput');
                     const messageText = messageInput.value.trim();
@@ -338,7 +328,6 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 }
-
                 function filterChat() {
                     const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                     const chatItems = document.querySelectorAll('.chat-item');
@@ -355,8 +344,5 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
         </main>
     </main>
     </header>
-
 </body>
-
-
 </html>

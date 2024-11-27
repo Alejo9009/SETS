@@ -12,8 +12,6 @@ try {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -94,8 +92,8 @@ try {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -115,10 +113,7 @@ try {
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br> <br> <br> <br>
         <div class="container">
             <div id="carro" class="tab-content active">
                 <div class="tabs">
@@ -160,9 +155,6 @@ try {
                                                 <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
                                                     <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
                                                 </button>
-
-
-
                                             </div>
                                         </div>
                                         <?php if (($index + 1) % 5 == 0): ?>
@@ -177,13 +169,11 @@ try {
             <br>
             <center>
                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
-                    <a href="hoariomoto.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
+                    <a href="solicitudmoto.php" type="button" class="btn btn-success">Solicitar Parqueadero</a>
+                    <a href="hoariomoto.php" type="button" class="btn btn-warning">Ver  Solicitudes</a>
 
                 </div>
             </center>
-
-
     </main>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
@@ -210,7 +200,6 @@ try {
                 }
             });
         }
-
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -292,5 +281,4 @@ try {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

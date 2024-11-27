@@ -1,13 +1,11 @@
 <?php
-// Conexión a la base de datos
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT sz.*, e.estados 
-        FROM solicitud_zona sz 
-        LEFT JOIN estado e ON sz.estado = e.idestado 
+
+$sql = "SELECT sz.*, e.estados FROM solicitud_zona sz LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 2"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
@@ -18,7 +16,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -101,8 +99,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -113,7 +111,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <main>
         <br> <br><br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - ZONA BBQ <br> Numero de la Zona : 2</h2>
+            <h2>Horarios Disponibles - ZONA BBQ <br> Numero de la Zona : 2</h2>
         </div>
         <div class="container">
             <div class="calendar-container">
@@ -180,11 +178,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </aside>
 
         </div>
-
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
-
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
@@ -197,7 +193,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-
     </main>
     <script>
         // Convertir los datos de PHP a JavaScript
@@ -339,7 +334,5 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
 </html>

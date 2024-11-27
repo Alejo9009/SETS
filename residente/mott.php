@@ -2,9 +2,9 @@
 include_once "conexion.php"; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Obtener los datos del formulario
+   
     if (isset($_POST['id_parking'])) {
-        $idSolicitud = $_POST['id_parking']; // Asegúrate de que este campo está presente en tu formulario
+        $idSolicitud = $_POST['id_parking']; 
     } else {
         die("Error: 'id_parking' no está definido en el formulario.");
     }
@@ -17,16 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $placaVehiculo = $_POST['placaVehiculo'];
     $colorVehiculo = $_POST['colorVehiculo'];
 
-    // Actualizar la solicitud en la base de datos
-    $query = "UPDATE solicitud_parqueadero SET 
-                fecha_inicio = :fecha_inicio, 
-                hora_inicio = :hora_inicio, 
-                fecha_final = :fecha_final, 
-                hora_final = :hora_final,
-                numParqueadero = :numParqueadero,
-                placaVehiculo = :placaVehiculo,
-                colorVehiculo = :colorVehiculo
-              WHERE id_parking = :id_parking"; // Eliminé la coma extra antes de 'WHERE'
+    $query = "UPDATE solicitud_parqueadero SET  fecha_inicio = :fecha_inicio, hora_inicio = :hora_inicio,  fecha_final = :fecha_final, hora_final = :hora_final,
+           numParqueadero = :numParqueadero, placaVehiculo = :placaVehiculo, colorVehiculo = :colorVehiculo WHERE id_parking = :id_parking"; 
     
     $statement = $base_de_datos->prepare($query);
     

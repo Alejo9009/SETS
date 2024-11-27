@@ -98,9 +98,7 @@
         </div>
     </div>
     <main>
-        <br>
-        <br>
-        <br>
+        <br> <br>  <br>
         <h1 class="responsive-title"><b>Normas De Convivencia !</b></h1>
         <br>
         <center>
@@ -122,7 +120,6 @@
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');

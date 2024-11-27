@@ -1,10 +1,8 @@
 <?php
 include_once "conexion.php";
-
 // Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
-
     // Consulta para obtener los datos de la solicitud
     $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
@@ -34,7 +32,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -74,8 +71,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -101,7 +96,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -163,17 +157,12 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
                     <br>
-
-
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
-
                 <br>
         </section>
-
     </div>
     <a href="solicitarsalon.php" class="btn btn-danger btn-lg">volver</a>
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -182,7 +171,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -202,12 +190,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -220,7 +206,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');

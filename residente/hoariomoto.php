@@ -1,28 +1,17 @@
 <?php
-// Conexión a la base de datos
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-
-// Consulta para obtener las solicitudes de parqueadero solo para carros
-$sql = "SELECT sp.*, e.estados, sp.descripcionvehiculo
-FROM solicitud_parqueadero sp
-LEFT JOIN estado e ON sp.estadoos = e.idestado
-WHERE sp.descripcionvehiculo = 'MOTO';"; // Filtra solo los vehículos de tipo 'CARRO'
-
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
-
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo FROM solicitud_parqueadero sp LEFT JOIN estado e ON sp.estadoos = e.idestado WHERE sp.TipoVehiculo = 'moto';";
+$stmt = $base_de_datos->query($sql);
+$solicitudes = [];
+if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row;
     }
 }
-
-// Ahora puedes usar el array $solicitudes en tu HTML
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -74,8 +63,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -87,13 +74,13 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -101,10 +88,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -126,19 +112,14 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
         </section>
     </main>
-    <main>  <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Agendacion de Parqueadero moto</h3>
-                    </div>
-
-                </center>
-
+    <main>
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h3>Agendacion de Parqueadero moto</h3>
+            </div>
+        </center>
         <div class="container">
-
-
-            <!-- Citas Agendadas -->
             <div class="sidebar">
-  
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
@@ -178,6 +159,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                     <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
                                     <form action="elimincarro.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
+                                        <input type="hidden" name="accion" value="eliminar">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
                                     </form>
                                 </div>
@@ -195,11 +177,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
         });
-
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -219,12 +199,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -237,7 +215,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -252,8 +229,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-
     </main>
 </body>
-
 </html>

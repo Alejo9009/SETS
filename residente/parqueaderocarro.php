@@ -2,7 +2,6 @@
 include_once "conexion.php";
 
 $query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
-
 try {
     $statement = $base_de_datos->prepare($query);
     $statement->execute();
@@ -12,9 +11,6 @@ try {
     exit();
 }
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -30,79 +26,78 @@ try {
 <body>
     <header>
         <div class="topbar">
-        <nav class="navbar bg-body-tertiary fixed-top">
-            <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
-                    <span class="navbar-toggler-icon" style="color: white;"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
+            <nav class="navbar bg-body-tertiary fixed-top">
+                <div class="container-fluid" style="background-color: #0e2c0a;">
+                    <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                        <span class="navbar-toggler-icon" style="color: white;"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
 
-                        <center>
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
-                        </center>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
-                            </li>
                             <center>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <b style="font-size: 20px;"> Perfil</b>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
-                                        </li>
-                                    </ul>
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                             </center>
-                            </li>
-                            <div class="offcanvas-header">
-                                <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
+                                </li>
                                 <center>
-                                    <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <b style="font-size: 20px;"> Perfil</b>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <center><a href="Perfil.php">Editar datos</a></center>
+                                            </li>
+                                            <li>
+                                                <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            </li>
+                                        </ul>
                                 </center>
-                            </div>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b style="font-size: 20px;"> CHAT</b>
+                                </li>
+                                <div class="offcanvas-header">
+                                    <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
 
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
-                                        <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
-                        </ul>
 
-                        <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                                    <center>
+                                        <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                                    </center>
+                                </div>
+                                <center>
+                                    <li class="nav-item dropdown">
+                                        <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <b style="font-size: 20px;"> CHAT</b>
+
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
+                                            </li>
+                                        </ul>
+                                </center>
+                            </ul>
+                            <form class="d-flex mt-3" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Buscar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
     </header>
     <br><br>
     <main>
@@ -120,13 +115,8 @@ try {
         </div>
         </div>
         </header>
-        <br>
-        <br>
-        <br>
-
+        <br> <br> <br>
         <div class="container">
-
-
             <div id="carro" class="tab-content active">
                 <div class="tabs">
                     <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
@@ -178,43 +168,40 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-            </div><p>
-            <center>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <a href="solicitudparque.php" type="button" class="btn btn-success">Solicitar parqueadero</a>
-                <a href="horariocarro.php" type="button" class="btn btn-warning">Ver mis solicitudes</a>
-               
             </div>
-            </center>
+            <p>
+                <center>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a href="solicitudparque.php" type="button" class="btn btn-success">Solicitar Parqueadero</a>
+                        <a href="horariocarro.php" type="button" class="btn btn-warning">Ver Solicitudes</a>
+
+                    </div>
+                </center>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                        <center>VOLVER</center>
-                    </a>
-                </div>
-        <br>
-
+            <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                <center>VOLVER</center>
+            </a>
         </div>
         <br>
         </div>
-
-
+        <br>
+        </div>
         <script>
-        document.getElementById('searchInput').addEventListener('input', function () {
-            const query = this.value.toLowerCase();
-            const cards = document.querySelectorAll('.product-card');
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.product-card');
 
-            cards.forEach(card => {
-                const number = card.getAttribute('data-number').toLowerCase();
-                if (number.includes(query)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                cards.forEach(card => {
+                    const number = card.getAttribute('data-number').toLowerCase();
+                    if (number.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
-        });
-    </script>
-
+        </script>
         <script>
             document.querySelector('.admin-img').addEventListener('click', function() {
                 document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -223,7 +210,6 @@ try {
             document.querySelector('.chat-button').addEventListener('click', function() {
                 document.querySelector('.chat-menu').classList.toggle('show');
             });
-
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -235,7 +221,6 @@ try {
                     }
                 });
             }
-
             function showTab(tabId) {
                 document.querySelectorAll('.tab-content').forEach(tab => {
                     tab.classList.remove('active');
@@ -254,12 +239,10 @@ try {
                 chatHeader.textContent = chatName;
                 chatContainer.classList.add('show');
             }
-
             function closeChat() {
                 const chatContainer = document.getElementById('chatContainer');
                 chatContainer.classList.remove('show');
             }
-
             function sendMessage() {
                 const messageInput = document.getElementById('chatInput');
                 const messageText = messageInput.value.trim();
@@ -272,7 +255,6 @@ try {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -287,5 +269,4 @@ try {
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

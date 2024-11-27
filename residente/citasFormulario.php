@@ -12,13 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
         echo "Error al eliminar la cita.";
     }
 }
-// Tener las citas
 $sql = "SELECT * FROM cita";
 $stmt = $base_de_datos->query($sql);
 $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +26,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/citasFormulario.css?v=<?php echo (rand()); ?>">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -76,13 +77,13 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -120,7 +121,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
                     <form action="createCita.php" method="post">
                         <fieldset>
-                            <legend>Agendar cita</legend>
+                          <center>  <legend ><b>Agendar</b> </legend></center>
                             <div class="mb-3">
                                 <label for="tipocita" class="form-label">Tipo de cita:</label>
                                 <select name="tipocita" id="tipocita" class="form-select">
@@ -148,7 +149,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <h2>Panel de Citas</h2>
+                    <center><h2>Panel de Citas</h2></center>
+<br>
                     <table class="table">
                         <thead>
                             <tr>
@@ -199,6 +201,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             document.querySelector('.chat-button').addEventListener('click', function() {
                 document.querySelector('.chat-menu').classList.toggle('show');
             });
+
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -218,10 +221,12 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 chatHeader.textContent = chatName;
                 chatContainer.classList.add('show');
             }
+
             function closeChat() {
                 const chatContainer = document.getElementById('chatContainer');
                 chatContainer.classList.remove('show');
             }
+
             function sendMessage() {
                 const messageInput = document.getElementById('chatInput');
                 const messageText = messageInput.value.trim();
@@ -234,6 +239,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
+
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -247,4 +253,5 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         </script>
 </body>
+
 </html>

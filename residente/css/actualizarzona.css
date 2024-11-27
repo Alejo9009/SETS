@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+   overflow: scroll;
     background: url('../admi/img/paseo.jpg') no-repeat center center fixed;
     background-size: cover;
 }

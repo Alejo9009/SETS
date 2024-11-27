@@ -1,14 +1,11 @@
 <?php
-// Conexión a la base de datos
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT sz.*, e.estados 
-        FROM solicitud_zona sz 
-        LEFT JOIN estado e ON sz.estado = e.idestado 
+$sql = "SELECT sz.*, e.estados  FROM solicitud_zona sz  LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 3"; // Filtra solo las solicitudes para la cancha de fútbol
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
@@ -19,7 +16,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -116,7 +113,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <main>
         <br><br><br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - SALON COMUNAL <br> Numero de la Zona : 3</h2>
+            <h2>Horarios Disponibles - SALON COMUNAL <br> Numero de la Zona : 3</h2>
         </div>
         <div class="container">
             <div class="calendar-container">
@@ -171,8 +168,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <center>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <a href="editarsolicitud.php?ID_Apartamentooss=<?= $solicitud['ID_Apartamentooss'] ?>" type="button" class="btn btn-success">Editar</a>
-
-
                                     <form action="./servidor-zonas/elimin.php" method="POST">
                                         <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="eliminar">
@@ -186,12 +181,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </aside>
 
         </div>
-
-
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
-
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
@@ -204,7 +196,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-
     </main>
     <script>
         // Convertir los datos de PHP a JavaScript
@@ -314,12 +305,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -332,7 +321,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -346,7 +334,5 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
 </html>

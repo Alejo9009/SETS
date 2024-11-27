@@ -2,7 +2,6 @@
 include_once "conexion.php";
 
 $query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
-
 try {
     $statement = $base_de_datos->prepare($query);
     $statement->execute();
@@ -12,7 +11,6 @@ try {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -83,7 +81,7 @@ try {
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -91,16 +89,14 @@ try {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </nav>
-
     </header>
     <br><br>
     <main>
@@ -158,7 +154,7 @@ try {
                                 }
                                 ?>
                                 <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['idZona']); ?>" class="btn btn-outline-success">
-                                    Ver horario disponible
+                                    Ver Horario Disponible
                                 </a><br>
                                 <a class="btn btn-success" href="agendasaloncomunal.php">
                                     <center>
@@ -168,21 +164,15 @@ try {
                             </article>
                             <br>
                             <br>
-
                         </div>
-
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </section>
         <a href="inicioprincipal.php" class="btn btn-outline-danger  btn-lg">Volver</a>
     </main>
-
-
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -192,7 +182,6 @@ try {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -205,7 +194,6 @@ try {
             });
         }
     </script>
-
     <script>
         function openChat(chatName) {
             const chatContainer = document.getElementById('chatContainer');
@@ -231,7 +219,6 @@ try {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
