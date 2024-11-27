@@ -22,15 +22,12 @@ if (isset($_GET['ID_Apartamentooss'])) {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Actualizaaaaaaar </title>
+    <title>SETS - Actualizar Salon </title>
     <link rel="stylesheet" href="css/azoy.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -109,8 +106,8 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -143,7 +140,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <div class="container">
         <section class="login-content">
             <div class="container">
-                <form action="procesar_editarsalon.php" method="POST">
+                <form action="./servidor-zonas/procesar_editarsalon.php" method="POST">
                 <img src="img/boda.png" alt="Logo" class="imgp">
                     <br>
                     <br>

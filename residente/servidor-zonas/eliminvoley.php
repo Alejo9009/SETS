@@ -13,9 +13,9 @@ if (isset($_POST['accion']) && isset($_POST['id_solicitud'])) {
     $stmt->execute([$id_solicitud]);
 
     if ($stmt->execute()) {
-        header("Location: solicitarvoley.php?mensaje=exito");
+        header("Location: ../solicitarvoley.php?mensaje=exito");
     } else {
-        header("Location: solicitarvoley.php?mensaje=error");
+        header("Location: ../solicitarvoley.php?mensaje=error");
     }
     exit();
 }

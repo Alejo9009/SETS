@@ -4,7 +4,6 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-
 // Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
@@ -13,18 +12,15 @@ $sql = "SELECT sz.*, e.estados
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 $solicitudes = []; // Inicializa el array
-
 if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-
 // Ahora puedes usar el array $solicitudes en tu HTML
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +30,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -96,7 +91,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -106,21 +101,17 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-    <br>
-    <br>
-    <br><br>
+    <br> <br> <br><br>
     <main>
-        <br>
-        <br>
-        <br>
+        <br>  <br>  <br>
         <div class="alert alert-success g" role="alert">
             <h2>Horarios disponibles - Gimnasio <br> Numero de la Zona : 5</h2>
         </div>
@@ -159,7 +150,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
 
             <aside class="sidebar">
-                <h2>Mis Agendaciones</h2>
+                <h2> Agendadas</h2>
                 <div class="search-bar">
                     <input type="search" placeholder="Buscar agendaciones..." />
                     <ion-icon name="search-outline"></ion-icon>
@@ -180,7 +171,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <a href="editarsolicitudgym.php?ID_Apartamentooss=<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>" type="button" class="btn btn-success">Editar</a>
 
 
-                                <form action="elimingym.php" method="POST">
+                                <form action="./servidor-zonas/elimingym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -191,9 +182,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php endforeach; ?>
                 </div>
             </aside>
-
         </div>
-
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
@@ -264,7 +253,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                             // Verificar si la fecha está solicitada
                             solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechaInicio);
+                                const fechaSolicitud = new Date(solicitud.fechainicio);
 
                                 if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
                                     cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas

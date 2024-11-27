@@ -1,5 +1,5 @@
 <?php
-include_once "conexion.php"; 
+include_once "conexion.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Obtener los datos del formulario
@@ -19,10 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $statement->bindParam(':ID_Apartamentooss', $idSolicitud); // Cambiar aquí para usar $idSolicitud
 
     if ($statement->execute()) {
-        header("Location: solicitarfutbol.php"); // Redirigir a una lista de solicitudes (puedes cambiar esta parte)
+        header("Location: ../solicitargym.php"); // Redirigir a una lista de solicitudes (puedes cambiar esta parte)
         exit(); // Asegúrate de salir después de redirigir
     } else {
         echo "Error al actualizar la solicitud.";
     }
 }
-?>

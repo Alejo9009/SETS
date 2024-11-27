@@ -1,10 +1,8 @@
 <?php
 include_once "conexion.php";
-
 // Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
-
     // Consulta para obtener los datos de la solicitud
     $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
@@ -22,11 +20,8 @@ if (isset($_GET['ID_Apartamentooss'])) {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +32,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -80,8 +74,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -107,10 +99,9 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -143,7 +134,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <div class="container">
         <section class="login-content">
             <div class="container">
-                <form action="gym.php" method="POST">
+                <form action="./servidor-zonas/gym.php" method="POST">
                 <img src="img/gym-equipment.png" alt="Logo" class="imgp">
                 <br>
                 <br>
@@ -169,15 +160,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
                     <br>
-
-
-
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
-
                 <br>
         </section>
-
     </div>
     <a href="solicitargym.php" class="btn btn-danger btn-lg">volver</a>
 

@@ -1,18 +1,16 @@
 <?php
 include_once "conexion.php";
 
-// Verificar si se ha proporcionado el ID de la solicitud
+
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
 
-    // Consulta para obtener los datos de la solicitud
     $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
     $statement->bindParam(':ID_Apartamentooss', $idSolicitud);
     $statement->execute();
     $solicitud = $statement->fetch(PDO::FETCH_ASSOC);
 
-    // Verificar si la solicitud existe
     if (!$solicitud) {
         echo "Solicitud no encontrada.";
         exit();
@@ -22,8 +20,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -109,7 +105,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
@@ -143,7 +139,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <div class="container">
         <section class="login-content">
             <div class="container">
-                <form action="voley.php" method="POST">
+                <form action="./servidor-zonas/voley.php" method="POST">
                 <img src="img/jugador-de-voleibol.png" alt="Logo" class="imgp">
                     <br>
                     <br>
@@ -169,8 +165,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
                     <br>
-
-
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
 

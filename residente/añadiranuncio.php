@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,6 @@
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -82,7 +80,6 @@
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -92,9 +89,7 @@
             </div>
         </nav>
     </header>
-    <br><br><br>
-    <br>
-
+    <br><br><br> <br>
     <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
         <div class="chat-header">
             <span id="chatHeader">Chat</span>
@@ -107,14 +102,10 @@
         </div>
     </section>
     </main>
-    <br>
-    <br>
-    <br>
-    <br>
-
+    <br><br><br><br><br><br><br><br>
     <div class="container">
         <section class="login-content">
-            <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
+        <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
                 <img src="img/alt.png" alt="Logo" class="imgp">
                 <h2 class="title">Añadir Anuncio</h2>
                 <div class="input-div one">
@@ -124,7 +115,6 @@
                     <div class="div">
                         <h5>Nombres Del Anuncio</h5>
                         <input type="text" class="input" id="titulo" name="titulo" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -134,7 +124,6 @@
                     <div class="div">
                         <h5>Descripción Del Anuncio</h5>
                         <input type="text" class="input" id="descripcion" name="descripcion" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -145,7 +134,6 @@
                     <div class="div">
                         <h5 class="input-title">Fecha</h5>
                         <input type="date" class="input" id="fechaPublicacion" name="fechaPublicacion" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -165,7 +153,6 @@
                     <div class="div">
                         <h5>persona</h5>
                         <input type="text" class="input" id="persona" name="persona" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -230,7 +217,6 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -244,11 +230,6 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <br>
-    <br><br>
-
-    <br>
-    <br>
+    <br><br><br><br><br>
 </body>
-
 </html>

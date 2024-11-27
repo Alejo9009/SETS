@@ -13,9 +13,9 @@ if (isset($_POST['accion']) && isset($_POST['id_solicitud'])) {
     $stmt->execute([$id_solicitud]);
 
     if ($stmt->execute()) {
-        header("Location: solicitarbbq.php?mensaje=exito");
+        header("Location: ../solicitargym.php?mensaje=exito");
     } else {
-        header("Location: solicitarbbq.php?mensaje=error");
+        header("Location: ../solicitargym.php?mensaje=error");
     }
     exit();
 }

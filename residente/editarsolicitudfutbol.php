@@ -4,7 +4,6 @@ include_once "conexion.php";
 // Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];
-
     // Consulta para obtener los datos de la solicitud
     $query = "SELECT * FROM solicitud_zona WHERE ID_Apartamentooss = :ID_Apartamentooss";
     $statement = $base_de_datos->prepare($query);
@@ -22,11 +21,8 @@ if (isset($_GET['ID_Apartamentooss'])) {
     exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +33,6 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -109,8 +104,8 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -143,7 +138,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <div class="container">
         <section class="login-content">
             <div class="container">
-                <form action="procesar_editarfutbol.php" method="POST">
+                <form action="./servidor-zonas/procesar_editarfutbol.php" method="POST">
                     <img src="img/objetivo.png" alt="Logo" class="imgp">
                     <br>
                     <br>

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $statement->bindParam(':ID_Apartamentooss', $idSolicitud); // Cambiar aquí para usar $idSolicitud
 
     if ($statement->execute()) {
-        header("Location: solicitarvoley.php"); // Redirigir a una lista de solicitudes (puedes cambiar esta parte)
+        header("Location: ../solicitarvoley.php"); // Redirigir a una lista de solicitudes (puedes cambiar esta parte)
         exit(); // Asegúrate de salir después de redirigir
     } else {
         echo "Error al actualizar la solicitud.";

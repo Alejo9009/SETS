@@ -1,6 +1,5 @@
 <?php
 include 'conexion.php';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $idcita = $_POST['delete_idcita'];
 
@@ -13,16 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
         echo "Error al eliminar la cita.";
     }
 }
-
 // Tener las citas
 $sql = "SELECT * FROM cita";
 $stmt = $base_de_datos->query($sql);
 $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +26,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/citasFormulario.css?v=<?php echo (rand()); ?>">
 </head>
-
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
@@ -73,8 +68,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </li>
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -100,19 +93,16 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </nav>
-
     </header>
     <br><br>
-
     <section class="chat-container" id="chatContainer">
         <header class="chat-header">
             <span id="chatHeader">Chat</span>
@@ -125,14 +115,9 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </section>
-
     <main>
-        <br>
-        <br>
-        <br>
-        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">
-            Agendar Cita
-        </div>
+        <br> <br> <br>
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Agendar Cita</div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
@@ -166,7 +151,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <h2>Panel de citas</h2>
+                    <h2>Panel de Citas</h2>
                     <table class="table">
                         <thead>
                             <tr>
@@ -208,22 +193,15 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container mt-5">
             <a href="citas.php" class="btn btn-success">Volver</a>
         </div>
-
-
-
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
         <script type="text/javascript" src="JAVA/main.js"></script>
         <script>
             document.querySelector('.admin-img').addEventListener('click', function() {
                 document.querySelector('.dropdown-menu').classList.toggle('show');
             });
-
             document.querySelector('.chat-button').addEventListener('click', function() {
                 document.querySelector('.chat-menu').classList.toggle('show');
             });
-
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -236,7 +214,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
-
         <script>
             function openChat(chatName) {
                 const chatContainer = document.getElementById('chatContainer');
@@ -244,12 +221,10 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 chatHeader.textContent = chatName;
                 chatContainer.classList.add('show');
             }
-
             function closeChat() {
                 const chatContainer = document.getElementById('chatContainer');
                 chatContainer.classList.remove('show');
             }
-
             function sendMessage() {
                 const messageInput = document.getElementById('chatInput');
                 const messageText = messageInput.value.trim();
@@ -262,7 +237,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -275,8 +249,5 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
-
-
 </body>
-
 </html>

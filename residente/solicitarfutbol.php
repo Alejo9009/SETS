@@ -4,7 +4,6 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-
 // Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
@@ -13,16 +12,13 @@ $sql = "SELECT sz.*, e.estados
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 $solicitudes = []; // Inicializa el array
-
 if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $solicitudes[] = $row; // Almacena cada solicitud en el array
     }
 }
-
 // Ahora puedes usar el array $solicitudes en tu HTML
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -38,7 +34,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -91,13 +87,13 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -107,8 +103,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -119,25 +115,23 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <br>
     <br><br>
     <main>
-<br>
-<br>
-<br>
+        <br>  <br> <br>
         <div class="alert alert-success g" role="alert">
             <h2>Horarios disponibles - CANCHA DE FÚTBOL <br> Numero de la Zona : 1</h2>
         </div>
-
         <div class="container">
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="calendar-header">
                         <h2 id="calendar-title">Calendario de Disponibilidad</h2>
-                        <br><p>
-                        <span id="month-year" style="color: #0e2c0a;"><b></b></span>
+                        <br>
+                        <p>
+                            <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
-                    <button id="prev-month" onclick="prevMonth()">←</button>
-                    <span id="month-year"></span>
-                    <button id="next-month" onclick="nextMonth()">→</button>
-                </div>
+                            <button id="prev-month" onclick="prevMonth()">←</button>
+                            <span id="month-year"></span>
+                            <button id="next-month" onclick="nextMonth()">→</button>
+                        </div>
                     </div>
                     <table id="calendar-table">
                         <thead>
@@ -159,7 +153,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
 
             <aside class="sidebar">
-                <h2>Mis  Agendaciones</h2>
+                <h2> Agendadas</h2>
                 <div class="search-bar">
                     <input type="search" placeholder="Buscar agendaciones..." />
                     <ion-icon name="search-outline"></ion-icon>
@@ -176,24 +170,22 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                             <br>
                             <center>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <a href="editarsolicitudfutbol.php?ID_Apartamentooss=<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>" type="button" class="btn btn-success">Editar</a>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a href="editarsolicitudfutbol.php?ID_Apartamentooss=<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>" type="button" class="btn btn-success">Editar</a>
 
 
-                                <form action="elimin futbol.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
-                                    <input type="hidden" name="accion" value="eliminar">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </form>
-                            </div>
+                                    <form action="./servidor-zonas/elimin futbol.php" method="POST">
+                                        <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="eliminar">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
                             </center>
                         </div>
                     <?php endforeach; ?>
                 </div>
             </aside>
-
         </div>
-
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
@@ -209,109 +201,103 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-
     </main>
     <script>
         // Convertir los datos de PHP a JavaScript
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const calendarBody = document.getElementById('calendar-body');
-    const monthYearDisplay = document.getElementById('month-year');
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarBody = document.getElementById('calendar-body');
+            const monthYearDisplay = document.getElementById('month-year');
 
-    const today = new Date();
-    const months = [
-        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
+            const today = new Date();
+            const months = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
 
-    let currentYear = today.getFullYear();
-    let currentMonth = today.getMonth();
+            let currentYear = today.getFullYear();
+            let currentMonth = today.getMonth();
 
-    // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
-    const solicitudes = <?php echo json_encode($solicitudes); ?>;
+            // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
+            const solicitudes = <?php echo json_encode($solicitudes); ?>;
 
-    // Función para generar el calendario del mes y año dados
-    function generarCalendario(mes, anio) {
-        calendarBody.innerHTML = '';  // Limpia el contenido anterior
-        monthYearDisplay.textContent = `${months[mes]} ${anio}`;
+            // Función para generar el calendario del mes y año dados
+            function generarCalendario(mes, anio) {
+                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                monthYearDisplay.textContent = `${months[mes]} ${anio}`;
 
-        const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;  // Lunes = 1
-        const daysInMonth = new Date(anio, mes + 1, 0).getDate();  // Número de días en el mes
+                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7; // Lunes = 1
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); // Número de días en el mes
 
-        let date = 1;
+                let date = 1;
 
-        // Crear filas para las semanas (hasta 6 semanas máximo)
-        for (let i = 0; i < 6; i++) {
-            const row = document.createElement('tr');
+                // Crear filas para las semanas (hasta 6 semanas máximo)
+                for (let i = 0; i < 6; i++) {
+                    const row = document.createElement('tr');
 
-            // Crear celdas para cada día de la semana
-            for (let j = 1; j <= 7; j++) {
-                const cell = document.createElement('td');
+                    // Crear celdas para cada día de la semana
+                    for (let j = 1; j <= 7; j++) {
+                        const cell = document.createElement('td');
 
-                if (i === 0 && j < firstDayOfMonth) {
-                    cell.innerHTML = '';  // Celdas vacías antes del primer día
-                } else if (date > daysInMonth) {
-                    break;  // No más días en el mes
-                } else {
-                    const fechaActual = new Date(anio, mes, date);
+                        if (i === 0 && j < firstDayOfMonth) {
+                            cell.innerHTML = ''; // Celdas vacías antes del primer día
+                        } else if (date > daysInMonth) {
+                            break; // No más días en el mes
+                        } else {
+                            const fechaActual = new Date(anio, mes, date);
 
-                    // Asignar el día a la celda
-                    cell.textContent = date;
-                    cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+                            // Asignar el día a la celda
+                            cell.textContent = date;
+                            cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
 
-                    // Verificar si la fecha está solicitada
-                    solicitudes.forEach(solicitud => {
-                        const fechaSolicitud = new Date(solicitud.fechaInicio);
+                            // Verificar si la fecha está solicitada
+                            solicitudes.forEach(solicitud => {
+                                const fechaSolicitud = new Date(solicitud.fechainicio);
 
-                        if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                            cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
+                                    cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                }
+                            });
+                            // Resaltar los fines de semana
+                            if (j === 6 || j === 7) { // Sábado y domingo
+                                cell.style.color = 'green';
+                            }
+
+                            date++;
                         }
-                    });
-
-                    // Resaltar los fines de semana
-                    if (j === 6 || j === 7) {  // Sábado y domingo
-                        cell.style.color = 'green';
+                        row.appendChild(cell);
                     }
-
-                    date++;
+                    calendarBody.appendChild(row);
                 }
-
-                row.appendChild(cell);
+            }
+            // Función para cambiar al mes anterior
+            function prevMonth() {
+                currentMonth = (currentMonth - 1 + 12) % 12;
+                if (currentMonth === 11) currentYear--;
+                generarCalendario(currentMonth, currentYear);
             }
 
-            calendarBody.appendChild(row);
-        }
-    }
+            // Función para cambiar al siguiente mes
+            function nextMonth() {
+                currentMonth = (currentMonth + 1) % 12;
+                if (currentMonth === 0) currentYear++;
+                generarCalendario(currentMonth, currentYear);
+            }
 
-    // Función para cambiar al mes anterior
-    function prevMonth() {
-        currentMonth = (currentMonth - 1 + 12) % 12;
-        if (currentMonth === 11) currentYear--;
-        generarCalendario(currentMonth, currentYear);
-    }
+            // Función para inicializar el calendario en el mes actual
+            function inicializarCalendario() {
+                generarCalendario(currentMonth, currentYear);
+            }
 
-    // Función para cambiar al siguiente mes
-    function nextMonth() {
-        currentMonth = (currentMonth + 1) % 12;
-        if (currentMonth === 0) currentYear++;
-        generarCalendario(currentMonth, currentYear);
-    }
+            // Inicializa el calendario con el mes y año actuales
+            inicializarCalendario();
 
-    // Función para inicializar el calendario en el mes actual
-    function inicializarCalendario() {
-        generarCalendario(currentMonth, currentYear);
-    }
-
-    // Inicializa el calendario con el mes y año actuales
-    inicializarCalendario();
-
-    // Asigna las funciones de cambio de mes a los botones de control
-    document.getElementById('prev-month').addEventListener('click', prevMonth);
-    document.getElementById('next-month').addEventListener('click', nextMonth);
-});
-
+            // Asigna las funciones de cambio de mes a los botones de control
+            document.getElementById('prev-month').addEventListener('click', prevMonth);
+            document.getElementById('next-month').addEventListener('click', nextMonth);
+        });
     </script>
     <script>
         function openChat(chatName) {

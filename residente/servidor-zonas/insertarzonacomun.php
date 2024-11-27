@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         echo "<script>
                 alert('solicitud exitosa.');
-                window.location.href = 'zonas_comunes.php';
+                window.location.href = '../zonas_comunes.php';
               </script>";
     } else {
         echo "Error al agregar: " . $stmt->errorInfo();
