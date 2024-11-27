@@ -86,13 +86,13 @@ if (isset($_GET['id_parking'])) {
                                     <b style="font-size: 20px;"> CHAT</b>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -128,6 +128,10 @@ if (isset($_GET['id_parking'])) {
         <h2 style="text-align: center;">Editar Solicitud de Agendación Parqueadero</h2>
         <p><br></p>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <div class="container">
         <section class="login-content">
@@ -171,8 +175,48 @@ if (isset($_GET['id_parking'])) {
                         <label for="colorVehiculo">Color del Vehículo:</label>
                         <input type="text" name="colorVehiculo" value="<?= htmlspecialchars($solicitud['colorVehiculo']) ?>" required class="form-control">
                     </div>
+
+                    <div class="form-group">
+                        <label for="TipoVehiculo">Tipo de Vehículo:</label>
+                        <input type="text" name="TipoVehiculo" value="<?= htmlspecialchars($solicitud['TipoVehiculo']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="disponibilidad">Disponibilidad:</label>
+                        <select name="disponibilidad" required class="form-control">
+                            <option value="Disponible" <?= $solicitud['disponibilidad'] === 'Disponible' ? 'selected' : '' ?>>Disponible</option>
+                            <option value="No Disponible" <?= $solicitud['disponibilidad'] === 'No Disponible' ? 'selected' : '' ?>>No Disponible</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre_dueño">Nombre del Dueño:</label>
+                        <input type="text" name="nombre_dueño" value="<?= htmlspecialchars($solicitud['nombre_dueño']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="modelo">Modelo del Vehículo:</label>
+                        <input type="text" name="modelo" value="<?= htmlspecialchars($solicitud['modelo']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marca">Marca del Vehículo:</label>
+                        <input type="text" name="marca" value="<?= htmlspecialchars($solicitud['marca']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcionvehiculo">Descripción del Vehículo:</label>
+                        <textarea name="descripcionvehiculo" required class="form-control"><?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estadoos">Estado de la Solicitud:</label>
+                        <input type="text" name="estadoos" value="<?= htmlspecialchars($solicitud['estadoos']) ?>" required class="form-control">
+                    </div>
+
                     <button type="submit" class="btn btn-success">Actualizar Solicitud</button>
                 </form>
+
             </div>
         </section>
     </div>

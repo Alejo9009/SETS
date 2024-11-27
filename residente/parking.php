@@ -1,5 +1,5 @@
 <?php
-// incluir la conexión a la base de datos
+// Incluir la conexión a la base de datos
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,18 +9,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_final = $_POST['fecha_final'];
     $hora_inicio = $_POST['hora_inicio'];
     $hora_final = $_POST['hora_final'];
-    $numParqueadero = $_POST['numParqueadero']; // Cambiado aquí
+    $numParqueadero = $_POST['numParqueadero'];
     $placaVehiculo = $_POST['placaVehiculo'];
     $colorVehiculo = $_POST['colorVehiculo'];
-    $id_TipoVehiculo = $_POST['id_TipoVehiculo'];
+    $TipoVehiculo = $_POST['TipoVehiculo'];
+    $nombre_dueño = $_POST['nombre_dueño'];
+    $modelo = $_POST['modelo'];
+    $marca = $_POST['marca'];
+    $descripcionvehiculo = $_POST['descripcionvehiculo'];
+    $disponibilidad = $_POST['disponibilidad'];
+    $estadoos = $_POST['estadoos']; // El estado como texto
 
     // Consulta para insertar datos
-    // Consulta para insertar datos
-    $estado = 1; // El ID del estado que deseas asignar, asegúrate de que este ID exista en la tabla estado
-
-    // Consulta para insertar datos
-    $sql = "INSERT INTO solicitud_parqueadero (id_Aparta, fecha_inicio, fecha_final, hora_inicio, hora_final, id_parking, placaVehiculo, colorVehiculo, id_TipoVehiculo, estadoos)
-            VALUES (:id_Aparta, :fecha_inicio, :fecha_final, :hora_inicio, :hora_final, :id_parking, :placaVehiculo, :colorVehiculo, :id_TipoVehiculo, :estadoos)";
+    $sql = "INSERT INTO solicitud_parqueadero ( id_Aparta,  fecha_inicio,  fecha_final,  hora_inicio,  hora_final,  numParqueadero,  placaVehiculo,  colorVehiculo,  TipoVehiculo, 
+                nombre_dueño,  modelo,  marca,  descripcionvehiculo,  disponibilidad,  estadoos ) 
+                VALUES (:id_Aparta, :fecha_inicio, :fecha_final, :hora_inicio, :hora_final, :numParqueadero, :placaVehiculo, :colorVehiculo, :TipoVehiculo, :nombre_dueño, 
+                :modelo, :marca, :descripcionvehiculo, :disponibilidad, :estadoos)";
 
     // Preparar la declaración
     $stmt = $base_de_datos->prepare($sql);
@@ -31,11 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':fecha_final', $fecha_final);
     $stmt->bindParam(':hora_inicio', $hora_inicio);
     $stmt->bindParam(':hora_final', $hora_final);
-    $stmt->bindParam(':id_parking', $numParqueadero);
+    $stmt->bindParam(':numParqueadero', $numParqueadero);
     $stmt->bindParam(':placaVehiculo', $placaVehiculo);
     $stmt->bindParam(':colorVehiculo', $colorVehiculo);
-    $stmt->bindParam(':id_TipoVehiculo', $id_TipoVehiculo);
-    $stmt->bindParam(':estadoos', $estado); // Vincula el estado aquí
+    $stmt->bindParam(':TipoVehiculo', $TipoVehiculo);
+    $stmt->bindParam(':nombre_dueño', $nombre_dueño);
+    $stmt->bindParam(':modelo', $modelo);
+    $stmt->bindParam(':marca', $marca);
+    $stmt->bindParam(':descripcionvehiculo', $descripcionvehiculo);
+    $stmt->bindParam(':disponibilidad', $disponibilidad);
+    $stmt->bindParam(':estadoos', $estadoos);
 
     // Ejecutar la declaración
     if ($stmt->execute()) {

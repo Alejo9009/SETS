@@ -6,11 +6,10 @@ if (!$base_de_datos) {
 }
 
 // Consulta para obtener las solicitudes de parqueadero solo para carros
-$sql = "SELECT sp.*, e.estados, tv.descripcionvehiculo 
-        FROM solicitud_parqueadero sp 
-        LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        LEFT JOIN tipovehiculo tv ON sp.id_TipoVehiculo = tv.idtVehiculo 
-        WHERE tv.descripcionvehiculo = 'MOTO'"; // Filtra solo los vehículos de tipo 'CARRO'
+$sql = "SELECT sp.*, e.estados, sp.descripcionvehiculo
+FROM solicitud_parqueadero sp
+LEFT JOIN estado e ON sp.estadoos = e.idestado
+WHERE sp.descripcionvehiculo = 'MOTO';"; // Filtra solo los vehículos de tipo 'CARRO'
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 $solicitudes = []; // Inicializa el array
@@ -150,42 +149,42 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
                 <br>
                 <div class="appointment-list">
-                <center>
-                          
-                            </center>
+                    <center>
+                        <div class="alert alert-success" role="alert">
+                            <h3>Mis Agendaciones</h3>
+                        </div>
+                    </center>
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
-                        <center>
-                    <div class="alert alert-success" role="alert">
-                        <h3>Mis Agendaciones</h3>
-                    </div>
-
-                </center>
                             <center>
-                                <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
-                                <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
-                                <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
-                                <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
-                                <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
-                                <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
-                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
-                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
+                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
+                                <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Hora de Inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
+                                <p><strong>Hora Final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['numParqueadero']) ?></p>
+                                <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
+                                <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
+                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
+                                <p><strong>Disponibilidad:</strong> <?= htmlspecialchars($solicitud['disponibilidad']) ?></p>
+                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
+                                <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
+                                <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
+                                <p><strong>Descripción del Vehículo:</strong> <?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></p>
+                                <p><strong>Estado de la Solicitud:</strong> <?= htmlspecialchars($solicitud['estadoos']) ?></p>
                                 <br>
-                                <center>
-                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href="motoo.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" type="button" class="btn btn-success">Editar</a>
-                                        <form action="eliminmoto.php" method="POST">
-                                            <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>">
-                                            <input type="hidden" name="accion" value="eliminar">
-                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                        </form>
-                                    </div>
-                                </center>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
+                                    <form action="elimincarro.php" method="POST" style="display:inline;">
+                                        <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
                             </center>
                         </div>
-
+                        <hr>
                     <?php endforeach; ?>
-
                 </div>
             </div>
     </main>
