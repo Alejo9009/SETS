@@ -3,7 +3,10 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo FROM solicitud_parqueadero sp LEFT JOIN estado e ON sp.estadoos = e.idestado WHERE sp.TipoVehiculo = 'carro';"; 
+$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
+        FROM solicitud_parqueadero sp 
+        LEFT JOIN estado e ON sp.estadoos = e.idestado 
+        WHERE sp.TipoVehiculo = 'carro';"; 
 
 $stmt = $base_de_datos->query($sql); 
 $solicitudes = []; 

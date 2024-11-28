@@ -1,7 +1,7 @@
 <?php
 include_once "conexion.php";
 
-$query = "SELECT TipoZonaid, descripcion, url_videos FROM tipozona";
+$query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
 
 try {
     $statement = $base_de_datos->prepare($query);
@@ -29,7 +29,7 @@ try {
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -133,7 +133,7 @@ try {
                             <br>
                             <article class="zone">
                                 <button class="zone-type-btn">
-                                    <h3><?= htmlspecialchars($zona['TipoZonaid']); ?></h3>
+                                    <h3><?= htmlspecialchars($zona['idZona']); ?></h3>
                                 </button>
                                 <div class="video-wrapper">
                                     <video src="<?= htmlspecialchars($zona['url_videos']); ?>" autoplay loop muted></video>
@@ -141,7 +141,7 @@ try {
                                 <h2 class="zone-description"><?= htmlspecialchars($zona['descripcion']); ?></h2>
                                 <?php
                                 $pagina = '';
-                                switch ($zona['TipoZonaid']) {
+                                switch ($zona['idZona']) {
                                     case '2':
                                         $pagina = 'solicitarbbq.php';
                                         break;
@@ -159,7 +159,7 @@ try {
                                         break;
                                 }
                                 ?>
-                                <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['TipoZonaid']); ?>" class="btn btn-outline-success">
+                                <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['idZona']); ?>" class="btn btn-outline-success">
                                     Ver Horario Disponible
                                 </a><br>
 

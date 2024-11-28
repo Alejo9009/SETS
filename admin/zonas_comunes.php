@@ -1,7 +1,8 @@
 <?php
 include_once "conexion.php";
 
-$query = "SELECT TipoZonaid, descripcion, url_videos FROM tipozona";
+
+$query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
 
 try {
     $statement = $base_de_datos->prepare($query);
