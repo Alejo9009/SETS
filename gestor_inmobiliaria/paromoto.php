@@ -1,23 +1,36 @@
+<?php
+include_once "conexion.php";
+
+$query = "SELECT id_parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
+
+try {
+    $statement = $base_de_datos->prepare($query);
+    $statement->execute();
+    $parqueaderos = $statement->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error al ejecutar la consulta: " . $e->getMessage();
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Añadir Anuncio</title>
-    <link rel="stylesheet" href="css/añadiranuncio.css?v=<?php echo (rand()); ?>">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <title>Parqueaderos-moto</title>
+    <link rel="stylesheet" href="css/moto.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
     <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -71,7 +84,7 @@
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Gestor de inmobiliaria</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -92,106 +105,91 @@
             </div>
         </nav>
     </header>
-    <br><br><br>
-    <br>
+    <main>
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
+                <span id="chatHeader">Chat</span>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div id="carro" class="tab-content active">
+                <div class="tabs">
+                    <a href="parqueaderocarro.php" class="tab-btn active" onclick="showTab('carro')"
+                        style="text-decoration: none;">Carro</a>
+                    <a href="paromoto.php" class="tab-btn" onclick="showTab('moto')"
+                        style="text-decoration: none;">Moto</a>
+                </div>
+                <section class="pius">
+                    <h3 style="text-align: center;">Parqueadero moto</h3>
+                </section>
 
-    <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-        <div class="chat-header">
-            <span id="chatHeader">Chat</span>
-            <button class="close-btn" onclick="closeChat()">×</button>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-    </section>
+                <section class="pis">
+                    <h3 style="text-align: center;">Zona: 1</h3>
+                </section>
+                <div class="search-bar-container">
+                    <div class="barra">
+                        <div class="sombra"></div>
+                        <input type="text" placeholder="Buscar parqueadero...">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </div>
+                    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                </div>
+                <div class="torress">
+                    <div class="container">
+                        <div class="row">
+                            <?php if (!empty($parqueaderos)): ?>
+                                <?php foreach ($parqueaderos as $index => $parqueadero): ?>
+                                    <div class="col-6 col-md-2 mb-4">
+                                        <div class="card text-center">
+                                            <h3 class="torres-title"><?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?></h3>
+                                            <img src="img/moto.png" alt="" class="product-img">
+
+                                            <button class="btn <?= ($parqueadero['disponibilidad'] === 'SI ESTA DISPONIBLE') ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
+                                                <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
+                                            </button>
+                                            <br>
+                                            <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
+                                            <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
+                                                    <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
+                                                </button>
+
+
+                                        </div>
+                                    </div>
+                                    <?php if (($index + 1) % 5 == 0): ?>
+                        </div>
+                        <div class="row">
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                        </div>
+                    </div>
+                    <br>
+
+                </div>
+
+                <center><a href="hoariomoto.php" class="small-btn" style="text-decoration: none;">Panel de agendamiento</a></center>
+
+                <br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
+                        <center>VOLVER</center>
+                    </a>
+                </div>
     </main>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br><br>
-    <br>
-    <br><br>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <section class="login-content">
-            <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
-                <img src="img/alt.png" alt="Logo" class="imgp">
-                <h2 class="title">Añadir Anuncio</h2>
-
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Nombres Del Anuncio</h5>
-                        <input type="text" class="input" id="titulo" name="titulo" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Descripción Del Anuncio</h5>
-                        <input type="text" class="input" id="descripcionAnuncio" name="descripcionAnuncio" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                    </svg>
-                    <div class="div">
-                        <h5 class="input-title">Fecha</h5>
-                        <input type="date" class="input" id="fechaPublicacion" name="fechaPublicacion" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                    </svg>
-                    <div class="div">
-                        <h5 class="input-title">Hora</h5>
-                        <input type="time" class="input" id="horaPublicacion" name="horaPublicacion" required>
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
-                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Persona</h5>
-                        <input type="text" class="input" id="persona" name="persona" required>
-
-                    </div>
-                </div>
-                <div class="input-div one">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
-                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z" />
-                    </svg>
-                    <div class="div">
-                        <h5>Subir Imagen</h5>
-                        <input type="" class="input" id="img_anuncio" name="img_anuncio" required>
-                    </div>
-                </div>
-                <input type="submit" class="btn btn-success" value="Enviar">
-                <a href="inicioprincipal.php" class="btn btn-danger">VOLVER</a>
-            </form>
-        </section>
-    </div>
-    <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -211,6 +209,17 @@
                     item.style.display = 'none';
                 }
             });
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
     </script>
     <script>
@@ -251,12 +260,7 @@
             });
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <br>
-    <br><br>
-
-    <br>
-    <br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
