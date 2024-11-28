@@ -40,7 +40,7 @@ try {
 
             // Redirigir según el rol del usuario
             if (in_array('admi', $roles)) {
-                header("Location: ../SETS/admi/inicioprincipal.php");
+                header("Location: ../SETS/admin/inicioprincipal.php");
             } elseif (in_array('residente', $roles)) {
                 header("Location: ../SETS/residente/inicioprincipal.php");
             } elseif (in_array('gestor inmobiliaria', $roles)) {
