@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos de correos</title>
+    <title>Sets Correos Contactos</title>
     <link rel="stylesheet" href="css/datos_usuario.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -16,7 +16,7 @@
             <div class="topbar">
             <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -44,9 +44,6 @@
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
                                             <center> <a href="../index.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
@@ -67,10 +64,10 @@
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -83,8 +80,8 @@
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -108,7 +105,8 @@
         <br><br>
         <br><br>
         <div class="alert alert-success" role="alert">
-            <h1>Solicitud de Correos  </h1>
+            <h1>Correos de Solicitud !</h1>
+          <center> <h6>Enviar Informacion A Usuario</h3></center> 
         </div>
         <center>
             <div class="barra">
@@ -118,16 +116,14 @@
             </div>
         </center>
         <main>
-
             <section>
                 <br>
                 <table class="user-table table table-striped">
                     <thead>
                         <tr>
-                            <th class="cc">id</th>
-                            <th class="cc">email</th>
-                            <th class="cc">fecha_registro</th>
-
+                            <th class="cc">Id</th>
+                            <th class="cc">Email</th>
+                            <th class="cc">Fecha_registro</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,8 +136,6 @@ try {
     $stmt = $base_de_datos->query("
      SELECT c.id, c.email, c.fecha_registro
 FROM contacto c;
-
-
     ");
 
     $i = 1; // Contador para el número de fila
@@ -165,7 +159,6 @@ FROM contacto c;
     echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
 }
 ?>
-
                     </tbody>
                 </table>
 
@@ -173,7 +166,7 @@ FROM contacto c;
         </main>
         <center>
             <a href="inicioprincipal.php" class="btn btn-success btn-lg">
-                <center>VOLVER</center>
+                <center>Volver</center>
             </a>
         </center>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -206,12 +199,10 @@ FROM contacto c;
                 chatHeader.textContent = chatName;
                 chatContainer.classList.add('show');
             }
-
             function closeChat() {
                 const chatContainer = document.getElementById('chatContainer');
                 chatContainer.classList.remove('show');
             }
-
             function sendMessage() {
                 const messageInput = document.getElementById('chatInput');
                 const messageText = messageInput.value.trim();
@@ -224,7 +215,6 @@ FROM contacto c;
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -238,7 +228,5 @@ FROM contacto c;
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
-
 </html>

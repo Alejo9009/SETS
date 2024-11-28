@@ -39,11 +39,11 @@ try {
             $_SESSION['id_Registro'] = $idRegistro; // Asegúrate de guardar el ID en la sesión
 
             // Redirigir según el rol del usuario
-            if (in_array('admi', $roles)) {
+            if (in_array('Admin', $roles)) {
                 header("Location: ../SETS/admin/inicioprincipal.php");
-            } elseif (in_array('residente', $roles)) {
+            } elseif (in_array('Residente', $roles)) {
                 header("Location: ../SETS/residente/inicioprincipal.php");
-            } elseif (in_array('gestor inmobiliaria', $roles)) {
+            } elseif (in_array('Gestor de Imobiliaria', $roles)) {
                 header("Location: ../SETS/gestor inmobiliaria/inicioprincipal.php");
             } elseif (in_array('Guarda de Seguridad', $roles)) {
                 header("Location: ../SETS/seguridad/inicioprincipal.php");

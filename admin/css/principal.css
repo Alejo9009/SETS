@@ -118,6 +118,9 @@ body {
     height: 20px;
 }
 
+p{
+  text-align: center;
+}
 .chat-links {
     max-height: 200px;
     overflow-y: auto;

@@ -33,7 +33,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -58,13 +58,10 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -83,11 +80,11 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                         <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -100,8 +97,8 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -134,7 +131,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="torres.php" class="link-button">
                                 <img src="img/casa.png" alt="Torres" class="medium-img">
-                                <button class="add-announcement">Torres</button>
+                                <button class="add-announcement">Torre</button>
                             </a>
                         </div>
                     </div>
@@ -180,7 +177,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="citas.php" class="link-button">
                                 <img src="img/citas.png" alt="Citas con amd" class="medium-img">
-                                <button class="add-announcement">Citas con amd</button>
+                                <button class="add-announcement">Citas</button>
                             </a>
                             </a>
                         </div>
@@ -205,16 +202,11 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 </div>
             </div>
         </main>
-
-
-
         </div>
         </div>
         </div>
         </div>
         </div>
-
-
         <br>
         <br><br>
         <main>
@@ -229,30 +221,21 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             <img src="img/lupa.png" alt="Buscar" class="search-icon">
                         </form>
                     </div>
-
                     <div id="announcements">
-                        <!-- Los anuncios se cargarán aquí con AJAX -->
                         <?php
-                        // Mostrar todos los anuncios por defecto
                         $sql = "SELECT * FROM anuncio";
                         $result = $base_de_datos->query($sql);
                         if ($result->rowCount() > 0) {
                             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                         ?>
-                                <div class="announcement">
-                                    <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen del anuncio" style="width:100%; max-width:100px;">
-                                    <p>Anuncio: <?= htmlspecialchars($row["titulo"]); ?><br>
-                                        <?= htmlspecialchars($row["descripcionAnuncio"]); ?><br>
-                                        Fecha de Publicación: <?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
-                                        Hora de Publicación: <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
+                                <div class="announcement" id="announcement-<?= htmlspecialchars($row['titulo']); ?>">
+                                    <img src="<?= htmlspecialchars($row['img_anuncio']); ?>" alt="Imagen" style="width:90%; max-width:90px;"><br>
+                                    <p><b>Anuncio:</b> <?= htmlspecialchars($row["titulo"]); ?><br>
+                                        <b>Descripcion:</b> <?= htmlspecialchars($row["descripcion"]); ?><br>
+                                        <b>Fecha  Publicación: </b><?= htmlspecialchars($row["fechaPublicacion"]); ?><br>
+                                        <b>Hora de Publicación:</b> <?= htmlspecialchars($row["horaPublicacion"]); ?><br>
                                     </p>
-                                    <div>
-                                   
-                                    </div>
-                                    <form action="eliminaranuncio.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este anuncio?');">
-                                        <input type="hidden" name="titulo" value="<?= htmlspecialchars($row['titulo']); ?>">
-                                        <button type="submit">Eliminar</button>
-                                    </form>
+                                    <button class="delete-button" onclick="deleteAnnouncement('<?= htmlspecialchars($row['titulo']); ?>')">Eliminar</button>
                                 </div>
                         <?php
                             }
@@ -260,19 +243,50 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             echo "<p>No se encontraron anuncios.</p>";
                         }
                         ?>
-                        <div class="icon">
-                            <a href="añadiranuncio.php" class="link-button">
-                                <button class="add-announcement">Añadir Anuncio</button>
-                            </a>
-                        </div>
+                    </div>
                 </section>
+                <script>
+                    function deleteAnnouncement(titulo) {
+                        if (confirm("¿Está seguro de que desea eliminar este anuncio?")) {
+
+                            fetch('./servidor-anuncios/anuncio.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: new URLSearchParams({
+                                        'titulo': titulo,
+                                        'accion': 'eliminar'
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+
+                                        document.getElementById('announcement-' + titulo).remove();
+                                        alert(data.message);
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error al eliminar el anuncio:', error);
+                                    alert("Hubo un error al eliminar el anuncio.");
+                                });
+                        }
+                    }
+                </script>
+                <div class="icon">
+                    <a href="añadiranuncio.php" class="link-button">
+                        <button class="add-announcement">Añadir Anuncio</button>
+                    </a>
+                </div>
             </div>
             <script>
                 function searchAnnouncements() {
                     var query = document.getElementById('search-input').value;
-
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'buscador.php?query=' + encodeURIComponent(query), true);
+                    xhr.open('GET', './servidor-anuncios/buscador.php?query=' + encodeURIComponent(query), true);
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             document.getElementById('announcements').innerHTML = xhr.responseText;
@@ -281,16 +295,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         }
                     };
                     xhr.send();
-
-                    // Prevenir el envío del formulario
                     return false;
-                }
-            </script>
-            <script>
-                function confirmDelete(id) {
-                    if (confirm("¿Está seguro de que desea eliminar este anuncio?")) {
-                        window.location.href = 'eliminaranuncio.php?id=' + id;
-                    }
                 }
             </script>
             <script>

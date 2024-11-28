@@ -3,33 +3,33 @@ include 'conexion.php';
 
 // Para respuesta
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['responder'])) {
-    $id = $_POST['id'];
+    $idcita  = $_POST['idcita'];
     $respuesta = $_POST['respuesta'];
 
     // Ya al tener una respuesta y actualizar
-    $sql = "UPDATE citas SET respuesta = :respuesta, estado = 'respondida' WHERE id = :id";
+    $sql = "UPDATE cita SET respuesta = :respuesta, estado = 'respondida' WHERE idcita  = :idcita";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['respuesta' => $respuesta, 'id' => $id])) {
+    if ($stmt->execute(['respuesta' => $respuesta, 'idcita' => $idcita])) {
     } else {
         echo "Error al enviar la respuesta.";
     }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    $id = $_POST['delete_id'];
+    $idcita  = $_POST['delete_id'];
 
     // Borrar una cita
-    $sql = "DELETE FROM citas WHERE id = :id";
+    $sql = "DELETE FROM cita WHERE idcita  = :idcita";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['id' => $id])) {
+    if ($stmt->execute(['idcita ' => $idcita ])) {
     } else {
         echo "Error al eliminar la cita.";
     }
 }
 
 // Tener las citas
-$sql = "SELECT * FROM citas";
+$sql = "SELECT * FROM cita";
 $stmt = $base_de_datos->query($sql);
 $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -40,7 +40,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sets - Control de Citas</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/citasFormularioAdm.css?v=<?php echo (rand()); ?>">
@@ -50,7 +50,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -75,13 +75,11 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
+                                      
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -100,11 +98,11 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                    <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -117,8 +115,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -142,7 +140,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 mt-5">
             <div class="alert alert-success" role="alert">
-            <h2>Control de citas</h2>
+           <center> <h2><b>Control de Citas</b></h2></center>
 </div>
               
                 <table class="table">
@@ -160,15 +158,15 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tbody>
                         <?php foreach ($citas as $cita): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($cita['opcion']); ?></td>
-                                <td><?php echo htmlspecialchars($cita['fecha']); ?></td>
-                                <td><?php echo htmlspecialchars($cita['hora']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['tipocita']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['fechacita']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['horacita']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['estado']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['respuesta']); ?></td>
                                 <td>
                                  
                                     <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
-                                        <input type="hidden" name="delete_id" value="<?php echo $cita['id']; ?>">
+                                        <input type="hidden" name="delete_id" value="<?php echo $cita['idcita']; ?>">
                                         <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
                                         <link rel="stylesheet" href="administrar.css">
                                     </form>
@@ -176,7 +174,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <?php if ($cita['estado'] == 'pendiente'): ?>
                                         <form action="" method="post">
-                                            <input type="hidden" name="id" value="<?php echo $cita['id']; ?>">
+                                            <input type="hidden" name="idcita" value="<?php echo $cita['idcita']; ?>">
                                             <textarea name="respuesta" required placeholder="Escribe tu respuesta aquí"></textarea>
                                             <button class="btn btn-secondary" type="submit" name="responder">Enviar Respuesta</button>
                                         </form>
@@ -194,13 +192,9 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a class="btn btn-success" href="inicioprincipal.php">Volver</a>
     </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-
-<a class="btn btn-success" href="CALEN.php">ver Calendario</a>
+<a class="btn btn-success" href="CALEN.php">Ver Calendario</a>
 </div>
     </div>
-   
-  
-
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -209,7 +203,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -229,12 +222,10 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
-
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
-
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -247,7 +238,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
-
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -260,10 +250,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         }
     </script>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>

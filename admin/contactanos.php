@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos de contacto</title>
+    <title>SETS - Responder Dudas</title>
     <link rel="stylesheet" href="css/datos_usuario.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -41,13 +41,10 @@
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -66,11 +63,11 @@
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                    <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -83,8 +80,8 @@
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -108,7 +105,8 @@
         <br><br>
         <br><br>
         <div class="alert alert-success" role="alert">
-            <h1>Solicitud de Contacto </h1>
+            <h1>Contactarnos! </h1>
+           <center><h4>Responder Dudas e Inquietudes</h4></center> 
         </div>
         <center>
             <div class="barra">
@@ -124,12 +122,12 @@
                 <table class="user-table table table-striped">
                     <thead>
                         <tr>
-                            <th class="cc">idcontactarnos</th>
-                            <th class="cc">nombre</th>
-                            <th class="cc">correo</th>
-                            <th class="cc">telefono</th>
-                            <th class="cc">comentario</th>
-                            <th class="cc">fecha</th>
+                            <th class="cc">Id_Contactarnos</th>
+                            <th class="cc">Nombre</th>
+                            <th class="cc">Correo</th>
+                            <th class="cc">Telefono</th>
+                            <th class="cc">Comentario</th>
+                            <th class="cc">Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,7 +178,7 @@ FROM contactarnos c;
         </main>
         <center>
             <a href="inicioprincipal.php" class="btn btn-success btn-lg">
-                <center>VOLVER</center>
+                <center>Volver </center>
             </a>
         </center>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

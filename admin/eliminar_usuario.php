@@ -8,15 +8,8 @@ try {
         $idRegistro = $_GET['id_Registro'];
 
         // Primero, eliminamos las referencias en rol_registro
-        $stmt = $base_de_datos->prepare("DELETE FROM rol_registro WHERE idRegistro = :id");
-        $stmt->bindParam(':id', $idRegistro);
-        $stmt->execute();
 
         // Ahora, eliminamos las referencias en telefono
-        $stmt = $base_de_datos->prepare("DELETE FROM telefono WHERE person = :id");
-        $stmt->bindParam(':id', $idRegistro);
-        $stmt->execute();
-
         // Ahora, eliminamos el usuario de la tabla registro
         $stmt = $base_de_datos->prepare("DELETE FROM registro WHERE id_Registro = :id");
         $stmt->bindParam(':id', $idRegistro);
