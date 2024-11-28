@@ -2,13 +2,13 @@
 include_once "conexion.php"; 
 
 
-if (isset($_GET['TipoZonaid'])) {
-    $TipoZonaid = $_GET['TipoZonaid'];
+if (isset($_GET['idZona'])) {
+    $idZona = $_GET['idZona'];
 
 
-    $query = "SELECT * FROM tipozona WHERE TipoZonaid = :TipoZonaid";
+    $query = "SELECT * FROM zona_comun WHERE idZona = :idZona";
     $statement = $base_de_datos->prepare($query);
-    $statement->bindParam(':TipoZonaid', $TipoZonaid);
+    $statement->bindParam(':idZona', $idZona);
     $statement->execute();
     $zona = $statement->fetch(PDO::FETCH_ASSOC);
 } else {
@@ -22,7 +22,7 @@ if (isset($_GET['TipoZonaid'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - actualizar zona</title>
+    <title>SETS - Actualizar Zona</title>
     <link rel="stylesheet" href="css/azona.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -34,7 +34,7 @@ if (isset($_GET['TipoZonaid'])) {
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -59,13 +59,10 @@ if (isset($_GET['TipoZonaid'])) {
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -84,11 +81,11 @@ if (isset($_GET['TipoZonaid'])) {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                    <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -101,8 +98,8 @@ if (isset($_GET['TipoZonaid'])) {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -129,9 +126,9 @@ if (isset($_GET['TipoZonaid'])) {
     <br>
     <div class="container">
         <section class="login-content">
-            <form action="procesar_actualizacion_zona.php" method="POST" enctype="multipart/form-data">
+            <form action="./servidor-zonas/procesar_actualizacion_zona.php" method="POST" enctype="multipart/form-data">
                 <img src="img/personas.png" alt="Logo" class="imgp">
-                <h2 class="title">actualizar zona</h2>
+                <h2 class="title">Actualizar Zona</h2>
 
                 <div class="input-div one">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-building-add" viewBox="0 0 16 16">
@@ -141,7 +138,7 @@ if (isset($_GET['TipoZonaid'])) {
                     </svg>
                     <div class="div">
                         <h5>id Zona</h5>
-                        <input type="text" name="TipoZonaid" value="<?= htmlspecialchars($zona['TipoZonaid']) ?>">
+                        <input type="text" name="idZona" value="<?= htmlspecialchars($zona['idZona']) ?>">
 
                     </div>
                 </div>
@@ -169,7 +166,7 @@ if (isset($_GET['TipoZonaid'])) {
                 <br>
             </form>
             <br>
-            <a href="zonas_comunes.php" class="btn btn-danger">volver</a>
+            <a href="zonas_comunes.php" class="btn btn-danger">Volver</a>
         </section>
     </div>
     <script type="text/javascript" src="JAVA/main.js"></script>
