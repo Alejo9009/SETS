@@ -39,7 +39,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -168,31 +168,31 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
                             <h3>ZONA BBQ</h3>
-                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaInicio'])) ?></p>
-                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechaFinal'])) ?></p>
+                            <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
+                            <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
-                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartament'] ?></p>
+                            <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
 
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                 <!-- Formulario para aceptar la solicitud -->
                                 <form action="procesar_solicitud.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartament'] ?>"> <!-- o ID_zonaComun -->
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="aceptar">
                                     <button type="submit" class="btn btn-success">Aceptar</button>
                                 </form>
 
                                 <!-- Formulario para dejar la solicitud como pendiente -->
                                 <form action="procesar_solicitud.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartament'] ?>"> <!-- o ID_zonaComun -->
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="pendiente">
                                     <button type="submit" class="btn btn-warning">Pendiente</button>
                                 </form>
 
                                 <!-- Formulario para eliminar la solicitud -->
                                 <form action="procesar_solicitud.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartament'] ?>"> <!-- o ID_zonaComun -->
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                 </form>
@@ -320,7 +320,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                             // Verificar si la fecha está solicitada
                             solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechaInicio);
+                                const fechaSolicitud = new Date(solicitud.fechainicio);
 
                                 if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
                                     cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas

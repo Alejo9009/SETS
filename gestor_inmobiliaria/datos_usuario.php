@@ -69,9 +69,7 @@
                                                 <li>
                                                     <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                                 </li>
-                                                <li>
-                                                    <center><a href="#" class="chat-item" onclick="openChat('Gestor de inmobiliaria')">Gestor de inmobiliaria</a></center>
-                                                </li>
+                                    
                                                 <li>
                                                     <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                                 </li>
@@ -83,8 +81,8 @@
                                 </ul>
 
                                 <form class="d-flex mt-3" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Buscar</button>
                                 </form>
                             </div>
                         </div>
@@ -145,10 +143,9 @@ try {
 
     // Realizamos una consulta que une las tablas para obtener el rol
     $stmt = $base_de_datos->query("
-        SELECT r.*, rr.idROL, rol.Roldescripcion 
+        SELECT r.*, rol.Roldescripcion 
         FROM registro r 
-        LEFT JOIN rol_registro rr ON r.id_Registro = rr.idRegistro 
-        LEFT JOIN rol ON rr.idROL = rol.id
+        LEFT JOIN rol ON r.idROL = rol.id
     ");
 
     $i = 1; // Contador para el número de fila
