@@ -1,11 +1,9 @@
 <?php
 include_once "conexion.php";
 
-// Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['id_parking'])) {
     $idSolicitud = $_GET['id_parking'];
 
-    // Consulta para obtener los datos de la solicitud
     $query = "SELECT * FROM solicitud_parqueadero WHERE id_parking = :id_parking";
     $statement = $base_de_datos->prepare($query);
     $statement->bindParam(':id_parking', $idSolicitud);
@@ -21,14 +19,13 @@ if (isset($_GET['id_parking'])) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - Actualizar Solicitud de PCarro</title>
+    <title>SETS - Actualizar PCarro</title>
     <link rel="stylesheet" href="css/caaaa.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -88,13 +85,13 @@ if (isset($_GET['id_parking'])) {
                                     <b style="font-size: 20px;"> CHAT</b>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -134,43 +131,77 @@ if (isset($_GET['id_parking'])) {
     <div class="container">
         <section class="login-content">
             <img src="img/esta.png" alt="Logo" class="imgp">
-            <div class="container">
-                <form action="carr.php" method="POST">
-                    <input type="hidden" name="id_parking" value="<?php echo $id_parking; ?>">
+            <div class="form-container">
+                <form action="servidor-parqueaderos/carr.php" method="POST">
+                    <input type="hidden" name="id_parking" value="<?php echo $solicitud['id_parking']; ?>">
+
                     <div class="form-group">
-                        <label for="fechaInicio">Fecha de Inicio:</label>
+                        <label for="fechaInicio">Número de Apartamento:</label>
+                        <input type="number" name="id_Aparta" value="<?= htmlspecialchars($solicitud['id_Aparta']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha_inicio">Fecha de Inicio:</label>
                         <input type="date" name="fecha_inicio" value="<?= htmlspecialchars($solicitud['fecha_inicio']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="horaInicio">Hora de Inicio:</label>
+                        <label for="hora_inicio">Hora de Inicio:</label>
                         <input type="time" name="hora_inicio" value="<?= htmlspecialchars($solicitud['hora_inicio']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="fechaFinal">Fecha de Finalización:</label>
+                        <label for="fecha_final">Fecha de Finalización:</label>
                         <input type="date" name="fecha_final" value="<?= htmlspecialchars($solicitud['fecha_final']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="horaFinal">Hora de Finalización:</label>
+                        <label for="hora_final">Hora de Finalización:</label>
                         <input type="time" name="hora_final" value="<?= htmlspecialchars($solicitud['hora_final']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
                         <label for="numParqueadero">Número de Parqueadero:</label>
                         <input type="number" name="numParqueadero" value="<?= htmlspecialchars($solicitud['numParqueadero']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
                         <label for="placaVehiculo">Placa del Vehículo:</label>
                         <input type="text" name="placaVehiculo" value="<?= htmlspecialchars($solicitud['placaVehiculo']) ?>" required class="form-control">
                     </div>
+
                     <div class="form-group">
                         <label for="colorVehiculo">Color del Vehículo:</label>
                         <input type="text" name="colorVehiculo" value="<?= htmlspecialchars($solicitud['colorVehiculo']) ?>" required class="form-control">
                     </div>
+
+                    <div class="form-group">
+                        <label for="TipoVehiculo">Tipo de Vehículo:</label>
+                        <input type="text" name="TipoVehiculo" value="<?= htmlspecialchars($solicitud['TipoVehiculo']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="modelo">Modelo:</label>
+                        <input type="text" name="modelo" value="<?= htmlspecialchars($solicitud['modelo']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marca">Marca:</label>
+                        <input type="text" name="marca" value="<?= htmlspecialchars($solicitud['marca']) ?>" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcionvehiculo">Descripción del Vehículo:</label>
+                        <input type="text" name="descripcionvehiculo" value="<?= htmlspecialchars($solicitud['descripcionvehiculo']) ?>" required class="form-control">
+                    </div>
+                    <br>
                     <button type="submit" class="btn btn-success">Actualizar Solicitud</button>
                 </form>
             </div>
         </section>
     </div>
-    <a href="horariocarro.php" class="btn btn-danger btn-lg">volver</a>
+
+    <a href="horariocarro.php" class="btn btn-danger btn-lg">Volver</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

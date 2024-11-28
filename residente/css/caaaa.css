@@ -6,23 +6,17 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
- overflow: scroll;
-    background-size: cover;
+    overflow: scroll;
+    background-color: #f8f9fa;
 }
 
 .container {
-    width: 55vw;
-    height: 50vh;
+    width: 60vw;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 00px;
-}
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Poppins', sans-serif;
+    padding-top: 50px;
 }
 
 h2 {
@@ -35,8 +29,10 @@ h2 {
 }
 
 .alert {
-
     height: 63px;
+}
+.imgp{
+    width: 120PX;
 }
 
 .btn-primary {
@@ -47,10 +43,6 @@ h2 {
 .btn-danger {
     background-color: #dc3545;
     border: none;
-}
-
-.container {
-    margin-top: 90px; 
 }
 
 .chat-container {
@@ -93,6 +85,7 @@ h2 {
     border-radius: 4px;
     padding: 5px 10px;
 }
+
 .login-content {
     display: flex;
     flex-direction: column;
@@ -103,31 +96,30 @@ h2 {
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 8px 8px rgb(1, 5, 2);
-    width: 300px;
+    width: 400px;
     max-width: 800px;
-
 }
 
 .login-content form {
-    width: 400px;
+    width: 100%;
 }
 
 .login-content h2 {
     margin: 15px 0;
     color: #1c4125;
     text-transform: uppercase;
-    font-size: 0.5rem;
+    font-size: 1.4rem;
 }
 
 .input-div {
     position: relative;
     display: flex;
     align-items: center;
-    margin: 18px 0;  
-    padding: 20px 0; 
+    margin: 18px 0;
+    padding: 20px 0;
     border-bottom: 2px solid #113d17;
-    margin-top: 20px;
 }
+
 .input-div .i {
     color: #0e2b1b;
     display: flex;
@@ -152,11 +144,6 @@ h2 {
     transition: .3s;
 }
 
-.input-div.one .input-title {
-    margin-bottom: 70px; 
-
-}
-
 .input-div .div > input {
     width: 100%;
     height: 100%;
@@ -167,23 +154,10 @@ h2 {
     font-size: 1.2rem;
     color: #0c3024;
     font-family: 'Poppins', sans-serif;
-    margin-top: 20px;
 }
 
-
-
-
-.btn:hover {
-    background-position: right;
-}
-
-.btn.small-btn {
-    width: 80px;
-    height: 30px;
-    padding: 0 10px;
-    font-size: 1rem;
-    margin: 0.4rem 0;
-    text-decoration: none;
+.input-div.focus .div > input {
+    background-color: #e9f7e7;
 }
 
 .input-div.one:nth-child(5) {
@@ -195,14 +169,31 @@ h2 {
     font-size: 15px;
 }
 
+.btn {
+    background-color: #0e2c0a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #093c1c;
+}
+
+.btn-small {
+    width: 80px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 1rem;
+    margin: 0.4rem 0;
+}
+
 @media screen and (max-width: 1050px) {
     .container {
         grid-gap: 3rem;
-    }
-
-    .login-content h2 {
-        font-size: 2.4rem;
-        margin: px 0;
     }
 
     .login-content {
@@ -222,17 +213,14 @@ h2 {
     }
 }
 
-
 .topbar {
     display: flex;
     flex-wrap: wrap;
-  
     justify-content: space-between;
     align-items: center;
     background-color: #0d2219;
     padding: 10px 20px;
     border-bottom: 1px solid #ffffff;
-    position: relative;
 }
 
 .menu-left,
@@ -240,7 +228,6 @@ h2 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-  
 }
 
 .menu-button {
@@ -290,175 +277,4 @@ h2 {
 
 .dropdown-menu a:last-child {
     border-bottom: none;
-}
-
-.chat {
-    position: relative;
-}
-
-.chat-button {
-    width: 64px;
-    height: 64px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.chat-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 280px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgb(4, 71, 43);
-    border: 5px solid #053505;
-    z-index: 1;
-}
-
-.chat-menu.show {
-    display: block;
-}
-
-.search-container {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.search-bar {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #176b1b;
-    border-radius: 5px;
-}
-
-.chat-links {
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.chat-item {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #428666;
-    border-bottom: 5px solid #0e6447;
-}
-
-.chat-item:last-child {
-    border-bottom: none;
-}
-
-
-
-
-
-
-
-
-
-
-.input-div.focus .i i {
-    color: #142e21;
-}
-
-.imgp {
-    width: 100px;
-    height: 100px;
-}
-
-.input-div.one .i i {
-    color: #101f16;
-}
-
-.input-div.one .div input[type="file"] {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: none;
-    padding: 0.5rem 0.7rem;
-    font-size: 1.2rem;
-    color: #07220c;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-}
-
-.input-div.one .div input[type="file"]::file-selector-button {
-    background: #063123;
-    color: #219c4a;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.input-div.one .div input[type="file"]::file-selector-button:hover {
-    background: #38d39f;
-}
-
-
-
-.chat-container {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 400px;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-}
-
-.chat-container.show {
-    display: flex;
-}
-
-.chat-header {
-    background-color: #0b775c;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.chat-messages {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-.chat-input {
-    display: flex;
-    padding: 10px;
-    background-color: #eee;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.chat-input button {
-    padding: 10px;
-    margin-left: 10px;
-    background-color: #0b775c;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
 }

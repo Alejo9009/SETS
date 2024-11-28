@@ -155,8 +155,8 @@ if ($stmt->rowCount() > 0) {
                                 <p><strong>Estado de la Solicitud:</strong> <?= htmlspecialchars($solicitud['estadoos']) ?></p>
                                 <br>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
-                                    <form action="./servidor-parqueaderos/elimincarro.php" method="POST" style="display:inline;">
+                                    <a href="motoo.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
+                                    <form action="./servidor-parqueaderoS/eliminmoto.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
