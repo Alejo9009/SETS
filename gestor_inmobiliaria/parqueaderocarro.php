@@ -132,7 +132,7 @@ try {
 
             <div id="carro" class="tab-content active">
                 <div class="tabs">
-                    <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
+                    <a href="parqueaderocarro.php" class="tab-btn active" style="text-decoration: none;">Carro</a>
                     <a href="paromoto.php" class="tab-btn" style="text-decoration: none;">Moto</a>
                 </div>
                 <section class="pius">
@@ -142,7 +142,7 @@ try {
                 </section>
                 <section class="pis">
                     <center>
-                        <h3>Parqueadero Zona 1</h3>
+                        <h3>Zona 1</h3>
                     </center>
                 </section>
                 <div class="search-bar-container">
@@ -183,7 +183,7 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver Reservas</a> </center>
+                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Panel de agendamiento</a> </center>
 
             </div>
             <br>

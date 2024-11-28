@@ -6,11 +6,10 @@ if (!$base_de_datos) {
 }
 
 // Consulta para obtener las solicitudes de parqueadero solo para carros
-$sql = "SELECT sp.*, e.estados, tv.descripcionvehiculo 
+$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
         FROM solicitud_parqueadero sp 
-        LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        LEFT JOIN tipovehiculo tv ON sp.id_TipoVehiculo = tv.idtVehiculo 
-        WHERE tv.descripcionvehiculo = 'CARRO'"; // Filtra solo los vehículos de tipo 'CARRO'
+        LEFT JOIN estado e ON sp.estadoos = e.idestado
+        WHERE sp.TipoVehiculo = 'carro';"; // Filtra solo los vehículos de tipo 'CARRO'
 
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 $solicitudes = []; // Inicializa el array
@@ -40,7 +39,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 30px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 30px;color:aliceblue"> Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -90,7 +89,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                                         </li>
                                         <li>
                                         <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
@@ -131,7 +130,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <main>
         <center>
             <div class="alert alert-success" role="alert">
-                <h3>Agendacion de Parqueadero carro</h3>
+                <h3>Panel de agendamiento</h3>
             </div>
 
         </center>
@@ -159,19 +158,25 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         <div class="appointment">
                             <center>
                                 <div class="alert alert-success" role="alert">
-                                    <h3>Solicitud de Agendacion</h3>
+                                    <h3>Solicitud de agendamiento</h3>
                                 </div>
 
                             </center>
                             <center>
                                 <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
-                                <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
-                                <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>Fecha final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
                                 <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
                                 <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Numero de parqueadero:</strong> <?= date('d/m/Y', strtotime($solicitud['numParqueadero'])) ?></p>
+                                <p><strong>Placa del vehiculo</strong> <?= date('d/m/Y', strtotime($solicitud['placaVehiculo'])) ?></p>
                                 <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
-                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
-                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
+                                <p><strong>Propietario:</strong> <?= $solicitud['nombre_dueño'] ?></p>
+                                <p><strong>Moldeo:</strong> <?= $solicitud['modelo'] ?></p>
+                                <p><strong>Marca:</strong> <?= $solicitud['marca'] ?></p>
+                                
+                                <p><br><strong>Estado de solicitud:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <!-- Formulario para aceptar la solicitud -->
                                     <form action="procesar_CARO.php" method="POST">

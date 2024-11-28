@@ -1,18 +1,27 @@
 <?php
+// Conexión a la base de datos
 include_once "conexion.php";
-
-$query = "SELECT id_parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
-
-try {
-    $statement = $base_de_datos->prepare($query);
-    $statement->execute();
-    $parqueaderos = $statement->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error al ejecutar la consulta: " . $e->getMessage();
-    exit();
+if (!$base_de_datos) {
+    exit('Error en la conexión a la base de datos.');
 }
-?>
 
+// Consulta para obtener las solicitudes de parqueadero solo para carros
+$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
+        FROM solicitud_parqueadero sp 
+        LEFT JOIN estado e ON sp.estadoos = e.idestado 
+        WHERE sp.TipoVehiculo = 'moto';";// Filtra solo los vehículos de tipo 'CARRO'
+
+$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+$solicitudes = []; // Inicializa el array
+
+if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $solicitudes[] = $row; // Almacena cada solicitud en el array
+    }
+}
+
+// Ahora puedes usar el array $solicitudes en tu HTML
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,17 +29,17 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parqueaderos-moto</title>
-    <link rel="stylesheet" href="css/moto.css?v=<?php echo (rand()); ?>">
+    <title>sets - MOTO</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria</b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 30px;color:aliceblue"> Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -69,7 +78,6 @@ try {
                             <div class="offcanvas-header">
                                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
 
-
                                 <center>
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
@@ -84,7 +92,7 @@ try {
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Gestor de inmobiliaria</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -95,7 +103,6 @@ try {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -105,91 +112,102 @@ try {
             </div>
         </nav>
     </header>
+    <br>
     <main>
-        <div id="chatContainer" class="chat-container">
-            <div class="chat-header">
+        <section class="chat-container" id="chatContainer">
+            <header class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
-            </div>
+            </header>
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
                 <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="container">
-            <div id="carro" class="tab-content active">
-                <div class="tabs">
-                    <a href="parqueaderocarro.php" class="tab-btn active" onclick="showTab('carro')"
-                        style="text-decoration: none;">Carro</a>
-                    <a href="paromoto.php" class="tab-btn" onclick="showTab('moto')"
-                        style="text-decoration: none;">Moto</a>
-                </div>
-                <section class="pius">
-                    <h3 style="text-align: center;">Parqueadero MOTO</h3>
-                </section>
-
-                <section class="pis">
-                    <h3 style="text-align: center;">Parqueadero Zona 1</h3>
-                </section>
-                <div class="search-bar-container">
-                    <div class="barra">
-                        <div class="sombra"></div>
-                        <input type="text" placeholder="Buscar parqueadero...">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </div>
-                    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                </div>
-                <div class="torress">
-                    <div class="container">
-                        <div class="row">
-                            <?php if (!empty($parqueaderos)): ?>
-                                <?php foreach ($parqueaderos as $index => $parqueadero): ?>
-                                    <div class="col-6 col-md-2 mb-4">
-                                        <div class="card text-center">
-                                            <h3 class="torres-title"><?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?></h3>
-                                            <img src="img/moto.png" alt="" class="product-img">
-
-                                            <button class="btn <?= ($parqueadero['disponibilidad'] === 'SI ESTA DISPONIBLE') ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
-                                                <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
-                                            </button>
-                                            <br>
-                                            <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
-                                            <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
-                                                    <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
-                                                </button>
-
-
-                                        </div>
-                                    </div>
-                                    <?php if (($index + 1) % 5 == 0): ?>
-                        </div>
-                        <div class="row">
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-                        </div>
-                    </div>
-                    <br>
-
-                </div>
-
-                <center><a href="hoariomoto.php" class="small-btn" style="text-decoration: none;">Ver Reservas</a></center>
-
-                <br>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                        <center>VOLVER</center>
-                    </a>
-                </div>
+        </section>
     </main>
+    <main>
+        <center>
+            <div class="alert alert-success" role="alert">
+                <h3>Panel de agendamiento</h3>
+            </div>
+
+        </center>
+
+        <div class="container">
+
+
+            <!-- Citas Agendadas -->
+            <div class="sidebar">
+             
+                <br>
+                <div class="barra">
+                    <div class="sombra"></div>
+                    <input type="text" placeholder="Buscar moto...">
+                    <ion-icon name="search-outline"></ion-icon>
+                </div>
+                <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                <br>
+                <div class="appointment-list">
+                    <center>
+
+                    </center>
+                    <?php foreach ($solicitudes as $solicitud): ?>
+                        <div class="appointment">
+                            <center>
+                                <div class="alert alert-success" role="alert">
+                                    <h3>Solicitud de agendamiento</h3>
+                                </div>
+
+                            </center>
+                            <center>
+                                <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
+                                <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>Fecha final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
+                                <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Numero de parqueadero:</strong> <?= date('d/m/Y', strtotime($solicitud['numParqueadero'])) ?></p>
+                                <p><strong>Placa del vehiculo</strong> <?= date('d/m/Y', strtotime($solicitud['placaVehiculo'])) ?></p>
+                                <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
+                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
+                                <p><strong>Propietario:</strong> <?= $solicitud['nombre_dueño'] ?></p>
+                                <p><strong>Moldeo:</strong> <?= $solicitud['modelo'] ?></p>
+                                <p><strong>Marca:</strong> <?= $solicitud['marca'] ?></p><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <!-- Formulario para aceptar la solicitud -->
+                                    <form action="procesar_MOTO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="aceptar">
+                                        <button type="submit" class="btn btn-success">Aceptar</button>
+                                    </form>
+
+                                    <!-- Formulario para dejar la solicitud como pendiente -->
+                                    <form action="procesar_MOTO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="pendiente">
+                                        <button type="submit" class="btn btn-warning">Pendiente</button>
+                                    </form>
+
+                                    <!-- Formulario para eliminar la solicitud -->
+                                    <form action="procesar_MOTO.php" method="POST">
+                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="accion" value="eliminar">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+
+                                </div>
+                            </center>
+                        </div>
+
+                    <?php endforeach; ?>
+
+                </div>
+            </div>
+    </main>
+    <a href="paromoto.php" class="btn btn-outline-success" style="font-size: 40px;">
+        <center>VOLVER</center>
+    </a>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -209,17 +227,6 @@ try {
                     item.style.display = 'none';
                 }
             });
-        }
-
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
     </script>
     <script>
@@ -260,7 +267,10 @@ try {
             });
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+    </main>
 </body>
 
 </html>
