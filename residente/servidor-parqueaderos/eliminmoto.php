@@ -11,16 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute([$id_parking])) {
             // Redirige con mensaje de éxito
-            header("Location: horariocarro.php?mensaje=exito");
+            header("Location: ../hoariomoto.php?mensaje=exito");
             exit();
         } else {
             // Redirige con mensaje de error
-            header("Location: horariocarro.php?mensaje=error");
+            header("Location: ../hoariomoto.php?mensaje=error");
             exit();
         }
     } else {
         // Si falta algún parámetro
-        header("Location: horariocarro.php?mensaje=error_parametros");
+        header("Location: ../hoariomoto.php?mensaje=error_parametros");
         exit();
     }
 }

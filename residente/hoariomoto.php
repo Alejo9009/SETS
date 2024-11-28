@@ -148,7 +148,6 @@ if ($stmt->rowCount() > 0) {
                                 <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
                                 <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
                                 <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
-                                <p><strong>Disponibilidad:</strong> <?= htmlspecialchars($solicitud['disponibilidad']) ?></p>
                                 <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
                                 <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
                                 <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
@@ -157,7 +156,7 @@ if ($stmt->rowCount() > 0) {
                                 <br>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
-                                    <form action="elimincarro.php" method="POST" style="display:inline;">
+                                    <form action="./servidor-parqueaderos/elimincarro.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>

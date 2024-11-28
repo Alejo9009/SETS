@@ -13,7 +13,7 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - PARQUEADERO-solicitar</title>
+    <title>SETS - Solicitar PMoto</title>
     <link rel="stylesheet" href="css/solictudparque.css?v=<?php echo (rand()); ?>s">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -79,7 +79,7 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -89,8 +89,8 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -110,95 +110,94 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> <br> <br>  <br><br> <br>
+        <br> <br> <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br> <br>  <br>
         <div class="container">
             <div class="login-content">
                 <div class="alert alert-success" role="alert">
                     Solicitar Parqueadero Moto
                 </div>
                 <img src="img/motocicleta.png" alt="Logo" class="imgp">
-                <form action="parking.php" method="post" class="p-4 border rounded bg-white">
-                    <!-- Campos principales -->
+                <form action="./servidor-parqueaderos/moting.php" method="POST" class="p-4 border rounded bg-white">
+                    <select name="numParqueadero" class="form-select" required>
+                        <option value="">Seleccione un parqueadero</option>
+                        <?php foreach ($parqueaderosDisponibles as $parqueadero): ?>
+                            <option value="<?php echo $parqueadero['numero_Parqueadero']; ?>">
+                                <?php echo $parqueadero['numero_Parqueadero']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                     <div class="mb-3">
-                        <label for="id_Aparta" class="form-label">ID Aparta</label>
+                        <label for="id_parking" class="form-label">ID del Parqueadero</label>
+                        <input type="number" name="id_parking" class="form-control" placeholder="Ingrese el ID del parqueadero" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_Aparta" class="form-label">ID Apartamento</label>
                         <input type="number" name="id_Aparta" class="form-control" placeholder="Ingrese el ID del apartamento" required>
                     </div>
                     <div class="mb-3">
+                        <label for="nombre_dueño" class="form-label">Nombre del Dueño</label>
+                        <input type="text" name="nombre_dueño" class="form-control" placeholder="Ingrese su nombre completo" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
                         <input type="date" name="fecha_inicio" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="fecha_final" class="form-label">Fecha Final</label>
-                        <input type="date" name="fecha_final" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="hora_inicio" class="form-label">Hora de Inicio</label>
                         <input type="time" name="hora_inicio" class="form-control" required>
                     </div>
                     <div class="mb-3">
+                        <label for="fecha_final" class="form-label">Fecha Final</label>
+                        <input type="date" name="fecha_final" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
                         <label for="hora_final" class="form-label">Hora Final</label>
                         <input type="time" name="hora_final" class="form-control" required>
                     </div>
+
                     <div class="mb-3">
-                        <label for="numParqueadero" class="form-label">Número de Parqueadero</label>
-                        <select name="numParqueadero" class="form-select" required>
-                            <option value="">Seleccione un parqueadero</option>
-                            <?php foreach ($parqueaderosDisponibles as $parqueadero): ?>
-                                <option value="<?php echo $parqueadero['numero_Parqueadero']; ?>">
-                                    <?php echo $parqueadero['numero_Parqueadero']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="placaVehiculo" class="form-label">Placa del Vehículo</label>
+                        <input type="text" name="placaVehiculo" class="form-control" placeholder="Ingrese la placa del vehículo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="colorVehiculo" class="form-label">Color del Vehículo</label>
+                        <input type="text" name="colorVehiculo" class="form-control" placeholder="Ingrese el color del vehículo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" name="marca" class="form-control" placeholder="Ingrese la marca del vehículo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <input type="text" name="modelo" class="form-control" placeholder="Ingrese el modelo del vehículo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="TipoVehiculo" class="form-label">Tipo de Vehículo</label>
+                        <input type="text" name="TipoVehiculo" class="form-control" placeholder="Ejemplo: Carro, Moto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionvehiculo" class="form-label">Descripción del Vehículo</label>
+                        <textarea name="descripcionvehiculo" class="form-control" placeholder="Descripción breve del vehículo"></textarea>
                     </div>
 
-                    <!-- Botón para mostrar más datos -->
-                    <button type="button" class="btn btn-outline-secondary btn-toggle" onclick="toggleDetails()">Mostrar más datos</button>
-
-                    <!-- Campos adicionales -->
-                    <div id="form-section" class="form-section">
-                        <div class="mb-3">
-                            <label for="placaVehiculo" class="form-label">Placa del Vehículo</label>
-                            <input type="text" name="placaVehiculo" class="form-control" placeholder="Ingrese la placa del vehículo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="colorVehiculo" class="form-label">Color del Vehículo</label>
-                            <input type="text" name="colorVehiculo" class="form-control" placeholder="Ingrese el color del vehículo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" name="marca" class="form-control" placeholder="Ingrese la marca del vehículo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="modelo" class="form-label">Modelo</label>
-                            <input type="text" name="modelo" class="form-control" placeholder="Ingrese el modelo del vehículo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcionvehiculo" class="form-label">Descripción</label>
-                            <textarea name="descripcionvehiculo" class="form-control" placeholder="Descripción breve del vehículo"></textarea>
-                        </div>
-                    </div>
-                    <!-- Botón para enviar -->
                     <button type="submit" class="btn btn-success">Solicitar</button>
                 </form>
             </div>
+       
+            </div>
+        </div>
 
-            <script>
+    </main>
+    <a href="parqueaderocarro.php" class="btn btn-danger btn-lg" style="position: absolute; bottom: 10px;">Volver</a>
+
+    <script>
                 function toggleDetails() {
                     const section = document.getElementById('form-section');
                     section.style.display = section.style.display === 'none' || section.style.display === '' ? 'block' : 'none';
                 }
             </script>
-            </div>
-        </div>
-    </main>
-    <a href="paromoto.php" class="btn btn-danger btn-lg">volver</a>
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
@@ -320,7 +319,6 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <a href="paromoto.php" class="btn btn-danger btn-lg">volver</a>
 </body>
 
 </html>
