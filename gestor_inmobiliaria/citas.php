@@ -3,14 +3,14 @@ include 'conexion.php';
 
 // Para respuesta
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['responder'])) {
-    $id = $_POST['id'];
+    $idcita = $_POST['idcita'];
     $respuesta = $_POST['respuesta'];
 
     // Ya al tener una respuesta y actualizar
-    $sql = "UPDATE citas SET respuesta = :respuesta, estado = 'respondida' WHERE id = :id";
+    $sql = "UPDATE cita SET respuesta = :respuesta, estado = 'respondida' WHERE idcita = :idcita";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['respuesta' => $respuesta, 'id' => $id])) {
+    if ($stmt->execute(['respuesta' => $respuesta, 'idcita' => $idcita])) {
     } else {
         echo "Error al enviar la respuesta.";
     }
@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $id = $_POST['delete_id'];
 
     // Borrar una cita
-    $sql = "DELETE FROM cita WHERE id = :id";
+    $sql = "DELETE FROM cita WHERE idcita = :idcita";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['id' => $id])) {
+    if ($stmt->execute(['idcita' => $idcita])) {
     } else {
         echo "Error al eliminar la cita.";
     }
@@ -162,10 +162,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars($cita['apa']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['respuesta']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['estado']); ?></td>
-
                                 <td>
-                               
-
                                     <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
                                         <input type="hidden" name="delete_id" value="<?php echo $cita['idcita']; ?>">
                                         <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
@@ -175,7 +172,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <?php if ($cita['estado'] == 'pendiente'): ?>
                                         <form action="" method="post">
-                                            <input type="hidden" name="id" value="<?php echo $cita['idcita']; ?>">
+                                            <input type="hidden" name="idcita" value="<?php echo $cita['idcita']; ?>">
                                             <textarea name="respuesta" required placeholder="Escribe tu respuesta aquí"></textarea>
                                             <button class="btn btn-secondary" type="submit" name="responder">Enviar Respuesta</button>
                                         </form>
