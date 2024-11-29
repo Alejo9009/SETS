@@ -163,18 +163,22 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                             </center>
                             <center>
-                                <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
-                                <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
-                                <p><strong>Fecha final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
-                                <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
-                                <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
-                                <p><strong>Numero de parqueadero:</strong> <?= date('d/m/Y', strtotime($solicitud['numParqueadero'])) ?></p>
-                                <p><strong>Placa del vehiculo</strong> <?= date('d/m/Y', strtotime($solicitud['placaVehiculo'])) ?></p>
-                                <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
-                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
-                                <p><strong>Propietario:</strong> <?= $solicitud['nombre_dueño'] ?></p>
-                                <p><strong>Moldeo:</strong> <?= $solicitud['modelo'] ?></p>
-                                <p><strong>Marca:</strong> <?= $solicitud['marca'] ?></p><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
+                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
+                                <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Hora de Inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
+                                <p><strong>Hora Final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['numParqueadero']) ?></p>
+                                <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
+                                <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
+                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
+                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
+                                <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
+                                <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
+                                <p><strong>Descripción del Vehículo:</strong> <?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></p>
+                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <!-- Formulario para aceptar la solicitud -->
                                     <form action="procesar_MOTO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
