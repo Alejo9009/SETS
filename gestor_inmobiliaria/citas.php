@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $id = $_POST['delete_id'];
 
     // Borrar una cita
-    $sql = "DELETE FROM citas WHERE id = :id";
+    $sql = "DELETE FROM cita WHERE id = :id";
     $stmt = $base_de_datos->prepare($sql);
 
     if ($stmt->execute(['id' => $id])) {
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
 }
 
 // Tener las citas
-$sql = "SELECT * FROM citas";
+$sql = "SELECT * FROM cita";
 $stmt = $base_de_datos->query($sql);
 $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -49,7 +49,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -103,9 +103,6 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
-                                        <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
                                         <li>
@@ -116,8 +113,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -147,28 +144,30 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Caracter</th>
                             <th>Fecha</th>
                             <th>Hora</th>
-                            <th>Estado</th>
+                            <th>Tipo</th>
+                            <th>Apartamento</th>
                             <th>Respuesta</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
-                            <th>Proceso</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($citas as $cita): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($cita['opcion']); ?></td>
-                                <td><?php echo htmlspecialchars($cita['fecha']); ?></td>
-                                <td><?php echo htmlspecialchars($cita['hora']); ?></td>
-                                <td><?php echo htmlspecialchars($cita['estado']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['fechacita']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['horacita']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['tipocita']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['apa']); ?></td>
                                 <td><?php echo htmlspecialchars($cita['respuesta']); ?></td>
+                                <td><?php echo htmlspecialchars($cita['estado']); ?></td>
+
                                 <td>
                                
 
                                     <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
-                                        <input type="hidden" name="delete_id" value="<?php echo $cita['id']; ?>">
+                                        <input type="hidden" name="delete_id" value="<?php echo $cita['idcita']; ?>">
                                         <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
                                         <link rel="stylesheet" href="administrar.css">
                                     </form>
@@ -176,7 +175,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <?php if ($cita['estado'] == 'pendiente'): ?>
                                         <form action="" method="post">
-                                            <input type="hidden" name="id" value="<?php echo $cita['id']; ?>">
+                                            <input type="hidden" name="id" value="<?php echo $cita['idcita']; ?>">
                                             <textarea name="respuesta" required placeholder="Escribe tu respuesta aquí"></textarea>
                                             <button class="btn btn-secondary" type="submit" name="responder">Enviar Respuesta</button>
                                         </form>

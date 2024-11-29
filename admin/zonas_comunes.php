@@ -20,7 +20,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS - zonas_comunes</title>
+    <title>SETS - Zonas_Comunes</title>
     <link rel="stylesheet" href="css/zonas_comunes.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -30,7 +30,7 @@ try {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -55,13 +55,10 @@ try {
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -80,11 +77,11 @@ try {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                         <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -97,8 +94,8 @@ try {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -132,7 +129,7 @@ try {
                         <div class="col-12 col-md-6 ">
                             <article class="zone">
                                 <button class="zone-type-btn">
-                                    <h3><?= htmlspecialchars($zona['TipoZonaid']); ?></h3>
+                                    <h3><?= htmlspecialchars($zona['idZona']); ?></h3>
                                 </button>
                                 <div class="video-wrapper">
                                     <video src="<?= htmlspecialchars($zona['url_videos']); ?>" autoplay loop muted></video>
@@ -140,7 +137,7 @@ try {
                                 <h2 class="zone-description"><?= htmlspecialchars($zona['descripcion']); ?></h2>
                                 <?php
                                 $pagina = '';
-                                switch ($zona['TipoZonaid']) {
+                                switch ($zona['idZona']) {
                                     case '2':
                                         $pagina = 'solicitarbbq.php';
                                         break;
@@ -153,20 +150,23 @@ try {
                                     case '4':
                                         $pagina = 'solicitarvoley.php';
                                         break;
+                                    case '5':
+                                        $pagina = 'solicitargym.php';
+                                        break;
                                     default:
                                         $pagina = '#';
                                         break;
                                 }
                                 ?>
-                                <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['TipoZonaid']); ?>" class="btn btn-outline-success">
-                                    Ver horario disponible
+                                <a href="<?= htmlspecialchars($pagina); ?>?id=<?= htmlspecialchars($zona['idZona']); ?>" class="btn btn-outline-success">
+                                    Ver Horario Disponible
                                 </a><br>
-                                <a class="btn btn-success" href="actualizarzona.php?TipoZonaid=<?= $zona['TipoZonaid'] ?>">
+                                <a class="btn btn-success" href="./actualizarzona.php?idZona=<?= $zona['idZona'] ?>">
                                     <center>
                                         <h3 style="font-size: 15px;">Editar</h3>
                                     </center>
                                 </a>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal<?= $zona['TipoZonaid'] ?>">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal<?= $zona['idZona'] ?>">
                                     Eliminar
                                 </button>
                             </article>
@@ -174,11 +174,11 @@ try {
                             <br>
 
                         </div>
-                        <div class="modal fade" id="confirmModal<?= $zona['TipoZonaid'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel<?= $zona['TipoZonaid'] ?>" aria-hidden="true">
+                        <div class="modal fade" id="confirmModal<?= $zona['idZona'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel<?= $zona['idZona'] ?>" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmModalLabel<?= $zona['TipoZonaid'] ?>">Confirmar Eliminación</h5>
+                                        <h5 class="modal-title" id="confirmModalLabel<?= $zona['idZona'] ?>">Confirmar Eliminación</h5>
                                   
                                     </div>
                                     <div class="modal-body">
@@ -186,8 +186,8 @@ try {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <form method="POST" action="eliminarzona.php">
-                                            <input type="hidden" name="TipoZonaid" value="<?= $zona['TipoZonaid'] ?>">
+                                        <form method="POST" action="./servidor-zonas/eliminarzona.php">
+                                            <input type="hidden" name="idZona" value="<?= $zona['idZona'] ?>">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
                                         </form>
                                     </div>
