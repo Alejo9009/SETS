@@ -2,8 +2,7 @@
 include_once "conexion.php";
 $query = "SELECT piso.numPiso, piso.descripcionPiso, apartamento.id_Apartamento, apartamento.descripcionApartamento
           FROM piso
-          INNER JOIN piso_apto ON piso.id_Piso = piso_apto.PISO
-          INNER JOIN apartamento ON apartamento.id_Apartamento = piso_apto.APTO";
+          INNER JOIN apartamento ON apartamento.id_Apartamento ";
 $stmt =  $base_de_datos->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
