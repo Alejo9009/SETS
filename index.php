@@ -8,7 +8,7 @@
 	<title>INICIO</title>
 	<link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
 	<link rel="stylesheet" href="index.css?v=<?php echo (rand()); ?>" />
 </head>
@@ -22,7 +22,7 @@
 				</div>
 				<div class="container-logo">
 					<center>
-						<img src="img/ico.png" alt="Icono de SETS" style="background-color: azure;">
+						<img src="img/ico.png" alt="Icono de SETS" style="background-color: azure;" />
 						<h1 class="logoss"><a>SETS</a></h1>
 					</center>
 				</div>
@@ -64,8 +64,8 @@
 			</div>
 		</section>
 	</center>
-	<br>
-	<br>
+	<br/>
+	<br/>
 	<section class="container specials" id="servicios">
 		<div class="alert alert-success z" role="alert">
 			<center><strong>Servicios</strong></center>
@@ -112,7 +112,7 @@
 				<div class="container-img">
 					<img src="img/pago.png" alt="Cafe Irish" />
 				</div>
-				<br>
+				<br />
 				<br>
 				<div class="content-card-product">
 					<div class="card-body">
