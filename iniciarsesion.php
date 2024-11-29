@@ -93,7 +93,7 @@ include_once "conexion.php";
     <main class="container">
         <div class="row">
             <section class="col-md-6 bg-white">
-                <form action="login.php" method="post">
+                <form action="" method="post">
                     <center>
                         <header class="text-center mb-4 d-flex flex-column align-items-center">
                             <img src="img/c.png" alt="Logo" class="mb-3">

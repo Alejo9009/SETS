@@ -6,7 +6,7 @@ if (!$base_de_datos) {
 }
 
 // Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT c.* FROM citas c WHERE c.estado = 'respondida'";
+$sql = "SELECT c.* FROM cita c WHERE c.estado = 'respondida'";
 $stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
 
 if (!$stmt) {
@@ -46,7 +46,7 @@ foreach ($citas as $row) {
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue">Gestor de inmobiliaria </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>

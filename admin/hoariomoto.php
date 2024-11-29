@@ -5,23 +5,22 @@ if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 
-// Consulta para obtener las solicitudes de parqueadero solo para carros
-$sql = "SELECT sp.*, e.estados, tv.descripcionvehiculo 
+
+$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
         FROM solicitud_parqueadero sp 
         LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        LEFT JOIN tipovehiculo tv ON sp.id_TipoVehiculo = tv.idtVehiculo 
-        WHERE tv.descripcionvehiculo = 'MOTO'"; // Filtra solo los vehículos de tipo 'CARRO'
+        WHERE sp.TipoVehiculo = 'moto';";
 
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
+$stmt = $base_de_datos->query($sql);
+$solicitudes = [];
 
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row;
     }
 }
 
-// Ahora puedes usar el array $solicitudes en tu HTML
+
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +29,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sets - MOTO</title>
+    <title>Sets - MOTO</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -38,9 +37,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -65,13 +64,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                            <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -91,10 +87,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -107,8 +103,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -133,17 +129,14 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <main>
         <center>
             <div class="alert alert-success" role="alert">
-                <h3>Agendacion de Parqueadero moto</h3>
+                <h3>Agendacion de Parqueadero Moto</h3>
             </div>
 
         </center>
 
         <div class="container">
-
-
-            <!-- Citas Agendadas -->
             <div class="sidebar">
-             
+
                 <br>
                 <div class="barra">
                     <div class="sombra"></div>
@@ -166,31 +159,38 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                             </center>
                             <center>
-                                <p><strong>Numero del Parqueadero :</strong> <?= $solicitud['id_parking'] ?></p>
-                                <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
-                                <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
-                                <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
-                                <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
-                                <p><strong>Color del Vehiculo:</strong> <?= $solicitud['colorVehiculo'] ?></p>
-                                <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['id_TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
+                            <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
+                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
+                                <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
+                                <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
+                                <p><strong>Hora de Inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
+                                <p><strong>Hora Final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
+                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['numParqueadero']) ?></p>
+                                <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
+                                <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
+                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
+                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
+                                <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
+                                <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
+                                <p><strong>Descripción del Vehículo:</strong> <?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></p>
                                 <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <!-- Formulario para aceptar la solicitud -->
-                                    <form action="procesar_MOTO.php" method="POST">
+                                    <form action="./servidor-parking/procesar_MOTO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="aceptar">
                                         <button type="submit" class="btn btn-success">Aceptar</button>
                                     </form>
 
                                     <!-- Formulario para dejar la solicitud como pendiente -->
-                                    <form action="procesar_MOTO.php" method="POST">
+                                    <form action="./servidor-parking/procesar_MOTO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="pendiente">
                                         <button type="submit" class="btn btn-warning">Pendiente</button>
                                     </form>
 
                                     <!-- Formulario para eliminar la solicitud -->
-                                    <form action="procesar_MOTO.php" method="POST">
+                                    <form action="./servidor-parking/procesar_MOTO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="eliminar">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
