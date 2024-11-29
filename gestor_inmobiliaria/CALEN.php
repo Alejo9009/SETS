@@ -1,36 +1,23 @@
 <?php
-// Conexión a la base de datos
 include_once "conexion.php";
 if (!$base_de_datos) {
-    exit('Error en la conexión a la base de datos.');
+    die('Error en la conexión a la base de datos: ' . print_r($base_de_datos->errorInfo(), true));
 }
-
-// Consulta para obtener las solicitudes de la cancha de fútbol con el nombre del estado
-$sql = "SELECT c.* FROM cita c WHERE c.estado = 'respondida'";
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-
+$sql = "SELECT idcita, tipocita, fechacita, horacita FROM cita ";
+$stmt = $base_de_datos->query($sql);
 if (!$stmt) {
-    exit('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
+    die('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
 }
-
-$citas = []; // Inicializa el array
-
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $citas[] = $row; // Almacena cada solicitud en el array
-    }
-}
-
+$citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $eventos = [];
 foreach ($citas as $row) {
     $eventos[] = [
-        'id' => $row['id'],
-        'title' => $row['opcion'],
-        'start' => $row['fecha'] . 'T' . $row['hora'],
+        'id' => $row['idcita'],
+        'title' => $row['tipocita'],
+        'start' => $row['fechacita'] . 'T' . $row['horacita'],
     ];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -46,8 +33,8 @@ foreach ($citas as $row) {
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue">Gestor de inmobiliaria </b></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+            <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 30px;color:aliceblue"> Gestor de inmobiliaria </b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -74,9 +61,6 @@ foreach ($citas as $row) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
                                             <center> <a href="../index.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
@@ -96,11 +80,11 @@ foreach ($citas as $row) {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                    <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -113,8 +97,8 @@ foreach ($citas as $row) {
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -153,6 +137,8 @@ foreach ($citas as $row) {
                             <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
                     </table>
+                    <br>
+                  <center> <h4 id="calendar-title">Citas Solicitadas : Resaltada en color verde </h4></center> 
                 </div>
             </div>
 
@@ -163,66 +149,69 @@ foreach ($citas as $row) {
                 
                 <a href="citas.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
             </center>
-    <script>
-        const calendarBody = document.getElementById('calendar-body');
-        const monthYearDisplay = document.getElementById('month-year');
-
-        const today = new Date();
-        let currentYear = today.getFullYear();
-        let currentMonth = today.getMonth();
-
-        const meses = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        function generarCalendario(mes, anio) {
-            const primerDia = new Date(anio, mes, 1).getDay(); // Día de la semana del primer día
-            const ultimoDia = new Date(anio, mes + 1, 0).getDate(); // Último día del mes
-            calendarBody.innerHTML = ''; // Limpiar el calendario
-
-            let fecha = 1;
-
-            for (let i = 0; i < 6; i++) { // Máximo 6 filas
-                const row = document.createElement('tr');
-
-                for (let j = 0; j < 7; j++) { // 7 días de la semana
+            <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarBody = document.getElementById('calendar-body');
+            const eventos = <?php echo json_encode($eventos); ?>;
+            const today = new Date();
+            let currentYear = today.getFullYear();
+            let currentMonth = today.getMonth();
+            const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            function generarCalendario(mes, anio) {
+                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                const firstDay = new Date(anio, mes, 1).getDay(); // Día de la semana del 1er día del mes
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate();
+                let date = 1;
+                const totalCells = 42; // 6 semanas * 7 días
+                let dayCounter = (firstDay === 0 ? 6 : firstDay - 1); // Ajustar para que lunes sea el primer día (ISO-8601)
+                for (let i = 0; i < totalCells; i++) {
+                    if (i % 7 === 0) {
+                        var row = document.createElement('tr'); // Nueva fila cada 7 días
+                    }
                     const cell = document.createElement('td');
-                    if (i === 0 && j < primerDia) {
-                        cell.textContent = ''; // Celdas vacías para los días previos
-                    } else if (fecha > ultimoDia) {
-                        break; // Si ya pasamos el último día del mes, salimos
-                    } else {
-                        cell.textContent = fecha; // Coloca el número de fecha
-                        fecha++;
+                    if (i >= dayCounter && date <= daysInMonth) {
+                        const formattedDate = `${anio}-${(mes + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+                        cell.textContent = date;
+                        // Resaltar las fechas con eventos
+                        eventos.forEach(evento => {
+                            if (evento.start.startsWith(formattedDate)) {
+                                cell.style.backgroundColor = '#c3e6cb'; // Color para eventos
+                                cell.title = evento.title; // Tooltip con información del evento
+                            }
+                        });
+                        date++; // Incrementar día
                     }
                     row.appendChild(cell);
+
+                    if (i % 7 === 6) {
+                        calendarBody.appendChild(row); // Agregar la fila al calendario
+                    }
                 }
-                calendarBody.appendChild(row);
+                document.getElementById('month-year').textContent = `${months[mes]} ${anio}`;
             }
-            monthYearDisplay.textContent = `${meses[mes]} ${anio}`; // Muestra el mes y el año
-        }
-
-        function prevMonth() {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
+            function prevMonth() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                generarCalendario(currentMonth, currentYear);
             }
+            function nextMonth() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                generarCalendario(currentMonth, currentYear);
+            }
+            // Generar el calendario inicial
             generarCalendario(currentMonth, currentYear);
-        }
 
-        function nextMonth() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generarCalendario(currentMonth, currentYear);
-        }
-
-        // Generar el calendario inicial
-        generarCalendario(currentMonth, currentYear);
+            // Eventos de los botones
+            document.getElementById('prev-month').addEventListener('click', prevMonth);
+            document.getElementById('next-month').addEventListener('click', nextMonth);
+        });
     </script>
 <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
