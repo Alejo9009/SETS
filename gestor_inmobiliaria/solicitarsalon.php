@@ -68,9 +68,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                       <center><a href="Perfil.php">Editar datos</a></center>
                     </li>
                     <li>
-                      <center><a href="#">Reportar problema</a></center>
-                    </li>
-                    <li>
                       <center> <a href="../index.php">Cerrar Sesión</a></center>
                     </li>
                   </ul>
@@ -91,7 +88,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                     </li>
                     <li>
                     <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
@@ -107,7 +104,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </ul>
 
             <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>

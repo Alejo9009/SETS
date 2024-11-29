@@ -67,9 +67,6 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
                                             <center> <a href="../index.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
@@ -89,7 +86,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                                         </li>
                                         <li>
                                         <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
@@ -104,8 +101,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             </center>
                         </ul>
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -174,8 +171,11 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                 <p><strong>Tipo de Vehiculo:</strong> <?= $solicitud['TipoVehiculo'] ?> - <?= $solicitud['descripcionvehiculo'] ?></p>
                                 <p><strong>Propietario:</strong> <?= $solicitud['nombre_dueño'] ?></p>
                                 <p><strong>Moldeo:</strong> <?= $solicitud['modelo'] ?></p>
-                                <p><strong>Marca:</strong> <?= $solicitud['marca'] ?></p><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <!-- Formulario para aceptar la solicitud -->
+                                <p><strong>Marca:</strong> <?= $solicitud['marca'] ?></p>
+                                <p><strong>Estado de solicitud:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?> </p>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                
+                                <!-- Formulario para aceptar la solicitud -->
                                     <form action="procesar_MOTO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="aceptar">

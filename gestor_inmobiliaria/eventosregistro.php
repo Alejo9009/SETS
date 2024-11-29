@@ -21,7 +21,6 @@
                     <a href="#" class="menu-button">Administrador </a>
                     <div class="dropdown-menu">
                         <a href="Perfil.html">Editar datos</a>
-                        <a href="#">Reportar problema</a>
                         <a href="index.html">Cerrar sesión</a>
                     </div>
                 </div>
@@ -40,8 +39,8 @@
                         </div>
                         <br>
                         <ul class="chat-links">
-                            <a href="#" class="chat-item" onclick="openChat('ADMI')">ADMI</a>
-                            <a href="#" class="chat-item" onclick="openChat('GUARDA DE SEGURIDAD')">GUARDA DE SEGURIDAD</a>
+                            <a href="#" class="chat-item" onclick="openChat('ADMI')">Admni</a>
+                            <a href="#" class="chat-item" onclick="openChat('GUARDA DE SEGURIDAD')">Guarda de seguridad</a>
                             <a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a>
                             <a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a>
                         </ul>

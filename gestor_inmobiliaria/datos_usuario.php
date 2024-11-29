@@ -44,9 +44,6 @@
                                                     <center><a href="Perfil.php">Editar datos</a></center>
                                                 </li>
                                                 <li>
-                                                    <center><a href="#">Reportar problema</a></center>
-                                                </li>
-                                                <li>
                                                     <center> <a href="../index.php">Cerrar sesión</a></center>
                                                 </li>
                                             </ul>
@@ -67,7 +64,7 @@
 
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
-                                                    <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                                                    <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                                                 </li>
                                     
                                                 <li>

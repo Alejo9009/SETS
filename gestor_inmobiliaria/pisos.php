@@ -68,9 +68,6 @@ foreach ($resultados as $fila) {
                       <center><a href="Perfil.php">Editar datos</a></center>
                     </li>
                     <li>
-                      <center><a href="#">Reportar problema</a></center>
-                    </li>
-                    <li>
                       <center> <a href="../index.php">Cerrar sesión</a></center>
                     </li>
                   </ul>
@@ -91,7 +88,7 @@ foreach ($resultados as $fila) {
 
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                     </li>
                     <li>
                     <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
@@ -107,7 +104,7 @@ foreach ($resultados as $fila) {
             </ul>
 
             <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
@@ -171,9 +168,6 @@ foreach ($resultados as $fila) {
                           <strong>Número:</strong> <?= htmlspecialchars($apartamento['id_Apartamento']) ?><br>
                           <strong>Descripción:</strong> <?= htmlspecialchars($apartamento['descripcionApartamento']) ?>
                         </div>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal<?= htmlspecialchars($apartamento['id_Apartamento']) ?>">
-                          Eliminar
-                        </button>
                       </div>
                     </div>
                     <div class="modal fade" id="confirmModal<?= htmlspecialchars($apartamento['id_Apartamento']) ?>" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel<?= htmlspecialchars($apartamento['id_Apartamento']) ?>" aria-hidden="true">

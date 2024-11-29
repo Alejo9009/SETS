@@ -86,7 +86,7 @@ if ($stmt->rowCount() > 0) {
 
                                     <ul class="dropdown-menu" role="menu">
                                     <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
+                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                     </li>
                     <li>
                     <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
