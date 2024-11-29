@@ -70,9 +70,7 @@
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
+                                
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -84,8 +82,8 @@
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -121,10 +119,9 @@
     <br>
     <div class="container">
         <section class="login-content">
-            <form action="insertaranuncio.php" method="post" enctype="multipart/form-data">
+        <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
                 <img src="img/alt.png" alt="Logo" class="imgp">
                 <h2 class="title">Añadir Anuncio</h2>
-
                 <div class="input-div one">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
                         <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
@@ -132,7 +129,6 @@
                     <div class="div">
                         <h5>Nombres Del Anuncio</h5>
                         <input type="text" class="input" id="titulo" name="titulo" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -141,8 +137,7 @@
                     </svg>
                     <div class="div">
                         <h5>Descripción Del Anuncio</h5>
-                        <input type="text" class="input" id="descripcionAnuncio" name="descripcionAnuncio" required>
-
+                        <input type="text" class="input" id="descripcion" name="descripcion" required>
                     </div>
                 </div>
                 <div class="input-div one">
@@ -153,7 +148,6 @@
                     <div class="div">
                         <h5 class="input-title">Fecha</h5>
                         <input type="date" class="input" id="fechaPublicacion" name="fechaPublicacion" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
@@ -171,9 +165,8 @@
                         <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
                     </svg>
                     <div class="div">
-                        <h5>Persona</h5>
+                        <h5>persona</h5>
                         <input type="text" class="input" id="persona" name="persona" required>
-
                     </div>
                 </div>
                 <div class="input-div one">
