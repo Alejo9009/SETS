@@ -18,9 +18,9 @@ if (isset($_POST['accion']) && isset($_POST['id_parking'])) {
     $stmt->execute([$id_solicitud]);
 
     if ($stmt->execute()) {
-        header("Location: hoariomoto.php?mensaje=exito");
+        header("Location: ../hoariomoto.php?mensaje=exito");
     } else {
-        header("Location: hoariomoto.php?mensaje=error");
+        header("Location: ../hoariomoto.php?mensaje=error");
     }
     exit();
 }

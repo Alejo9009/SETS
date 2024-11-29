@@ -21,7 +21,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parqueaderos </title>
+    <title>Sets - PCarro</title>
     <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -32,7 +32,7 @@ try {
         <div class="topbar">
             <nav class="navbar bg-body-tertiary fixed-top">
                 <div class="container-fluid" style="background-color: #0e2c0a;">
-                    <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMI</b></a>
+                    <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> ADMIN</b></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                         <span class="navbar-toggler-icon" style="color: white;"></span>
                     </button>
@@ -57,13 +57,10 @@ try {
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
-                                                <center><a href="Perfil.php">Editar datos</a></center>
+                                                <center><a href="Perfil.php">Editar Datos</a></center>
                                             </li>
                                             <li>
-                                                <center><a href="#">Reportar problema</a></center>
-                                            </li>
-                                            <li>
-                                                <center> <a href="../index.php">Cerrar sesión</a></center>
+                                                <center> <a href="../index.php">Cerrar Sesión</a></center>
                                             </li>
                                         </ul>
                                 </center>
@@ -82,12 +79,12 @@ try {
                                         <b style="font-size: 20px;"> CHAT</b>
 
                                         <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
-                                            </li>
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                            </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                        </li>
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                             </li>
@@ -99,8 +96,8 @@ try {
                             </ul>
 
                             <form class="d-flex mt-3" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
+                                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Buscar</button>
                             </form>
                         </div>
                     </div>
@@ -126,10 +123,7 @@ try {
         <br>
         <br>
         <br>
-
         <div class="container">
-
-
             <div id="carro" class="tab-content active">
                 <div class="tabs">
                     <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
@@ -183,7 +177,7 @@ try {
                     <?php endif; ?>
                     </center>
                 </div>
-                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver horario disponible</a> </center>
+                <center><a href="horariocarro.php" class="small-btn" style="text-decoration: none;">Ver Horario Disponible</a> </center>
             </div>
             <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
