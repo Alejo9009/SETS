@@ -7,11 +7,11 @@ if (isset($_POST['accion']) && isset($_POST['id_solicitud'])) {
     $accion = $_POST['accion'];
     
     if ($accion == 'aceptar') {
-        $sql = "UPDATE solicitud_zona SET estado = 1 WHERE ID_Apartament = ?"; // Cambia 'ID_Apartament' según tu estructura
+        $sql = "UPDATE solicitud_zona SET estado = 1 WHERE ID_Apartamentooss = ?"; // Cambia 'ID_Apartament' según tu estructura
     } elseif ($accion == 'pendiente') {
-        $sql = "UPDATE solicitud_zona SET estado = 2 WHERE ID_Apartament = ?"; // Cambia 'ID_Apartament' según tu estructura
+        $sql = "UPDATE solicitud_zona SET estado = 2 WHERE ID_Apartamentooss = ?"; // Cambia 'ID_Apartament' según tu estructura
     } elseif ($accion == 'eliminar') {
-        $sql = "DELETE FROM solicitud_zona WHERE ID_Apartament = ?"; // Cambia 'ID_Apartament' según tu estructura
+        $sql = "DELETE FROM solicitud_zona WHERE ID_Apartamentooss = ?"; // Cambia 'ID_Apartament' según tu estructura
     }
     
     $stmt = $base_de_datos->prepare($sql);
