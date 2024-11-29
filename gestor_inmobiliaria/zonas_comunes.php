@@ -154,8 +154,11 @@ try {
                                     case '4':
                                         $pagina = 'solicitarvoley.php';
                                         break;
+                                    case '5':
+                                        $pagina = 'solicitargym.php';
+                                        break;
                                     default:
-                                        $pagina = '#'; 
+                                        $pagina = '#';
                                         break;
                                 }
                                 ?>
