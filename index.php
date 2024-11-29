@@ -58,8 +58,7 @@
 			<div class="content-banner">
 
 				<h2>No hay bien alguno que no nos deleite si no lo compartimos.</h2>
-				<a href="./sets-api/src/components/login.jsx" class="btn btn-success  sd">Iniciar sesion</a>
-				<Link to="./sets-api/src/components/login.jsx" className="btn btn-success sd">Iniciar sesión</Link>
+				<a href="iniciarsesion.php" class="btn btn-success  sd">Iniciar sesion</a>
 				<a href="registrase.php" class="btn btn-success sd">Registrarse</a>
 			</div>
 		</section>
