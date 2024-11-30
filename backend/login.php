@@ -1,24 +1,13 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
 include_once "conexion.php";
 
-// Obtener datos del formulario (en formato JSON)
-$data = json_decode(file_get_contents('php://input'), true);
-$usuario = $data['usuario'] ?? '';
-$clave = $data['clave'] ?? '';
+// Obtener datos del formulario
+$usuario = $_POST['usuario'] ?? '';
+$clave = $_POST['clave'] ?? '';
 
 // Validar si los datos no están vacíos
 if (empty($usuario) || empty($clave)) {
-    echo json_encode(['error' => 'Usuario o clave no pueden estar vacíos.']);
-    exit();
+    die("Usuario o clave no pueden estar vacíos.");
 }
 
 try {
@@ -36,36 +25,40 @@ try {
         // Comparar la clave (verificar el hash de la clave)
         if (password_verify($clave, $claveHash)) {
             // Preparar la consulta para obtener el rol del usuario
-            $sql = "SELECT r.Roldescripcion FROM rol_registro rr
+            $sql = "SELECT r.Roldescripcion FROM rol_registro rr 
                     JOIN rol r ON rr.idROL = r.id 
                     WHERE rr.idRegistro = ?";
             $stmt = $base_de_datos->prepare($sql);
             $stmt->execute([$idRegistro]);
             $roles = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
 
-            // Crear un token JWT (solo un ejemplo básico)
-            $token = bin2hex(random_bytes(16)); // Para propósitos demostrativos
-
-            // Iniciar sesión con el token
+            // Iniciar sesión
             session_start();
             $_SESSION['usuario'] = $usuario;
             $_SESSION['roles'] = $roles;
-            $_SESSION['id_Registro'] = $idRegistro;
+            $_SESSION['id_Registro'] = $idRegistro; // Asegúrate de guardar el ID en la sesión
 
-            echo json_encode([
-                'token' => $token, // Este es un token de ejemplo, en producción usar JWT
-                'roles' => $roles,
-                'usuario' => $usuario
-            ]);
+            // Redirigir según el rol del usuario
+            if (in_array('admi', $roles)) {
+                header("Location: ../SETS/admi/inicioprincipal.php");
+            } elseif (in_array('residente', $roles)) {
+                header("Location: ../SETS/residente/inicioprincipal.php");
+            } elseif (in_array('administrador', $roles)) {
+                header("Location: ../SETS/administrador/inicioprincipal.php");
+            } elseif (in_array('Guarda de Seguridad', $roles)) {
+                header("Location: ../SETS/seguridad/inicioprincipal.php");
+            } else {
+                header("Location: ../SETS/error.html");
+            }
             exit();
         } else {
-            echo json_encode(['error' => 'Usuario o clave incorrectos.']);
+            echo "Usuario o clave incorrectos.";
         }
     } else {
-        echo json_encode(['error' => 'Usuario o clave incorrectos.']);
+        echo "Usuario o clave incorrectos.";
     }
 } catch (PDOException $e) {
-    echo json_encode(['error' => 'Error en la consulta: ' . $e->getMessage()]);
+    die("Error en la consulta: " . $e->getMessage());
 }
 
 // Cerrar conexión

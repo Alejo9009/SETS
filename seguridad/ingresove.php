@@ -1,26 +1,32 @@
 <?php
-include_once "conexion.php";
+include 'conexion.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
+    $idIngreso_Vehicular = $_POST['delete_idIngreso_Vehicular'];
 
-$query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad , uso FROM parqueadero";
-try {
-    $statement = $base_de_datos->prepare($query);
-    $statement->execute();
-    $parqueaderos = $statement->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error al ejecutar la consulta: " . $e->getMessage();
-    exit();
+
+    $sql = "DELETE FROM ingreso_vehicular WHERE idIngreso_Vehicular = :idIngreso_Vehicular";
+    $stmt = $base_de_datos->prepare($sql);
+
+    if ($stmt->execute(['idIngreso_Vehicular' => $idIngreso_Vehicular ])) {
+    } else {
+        echo "Error al eliminar el ingreso.";
+    }
 }
+$sql = "SELECT * FROM ingreso_vehicular";
+$stmt = $base_de_datos->query($sql);
+$Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS Parqueadero carro </title>
-    <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
+    <title>Sets - Ingreso vehicular</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/citasFormulario.css?v=<?php echo (rand()); ?>">
+</head>
 </head>
 
 <body>
@@ -96,89 +102,86 @@ try {
                     </div>
                 </div>
             </nav>
+            <div id="chatContainer" class="chat-container">
+                <div class="chat-header">
+                    <span id="chatHeader">Chat</span>
+                    <button class="close-btn" onclick="closeChat()">×</button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                    <button onclick="sendMessage()">Enviar</button>
+                </div>
+            </div>
     </header>
-    <br><br>
     <main>
-        <div id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3">
-            <div class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-        </div>
-        </div>
-        </header>
-        <br><br>
-        <br><br>
-        <br> <br>
-        <br> 
+        <br> <br> <br>
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Ingreso Vehicular </div>
         <div class="container">
-            <div id="carro" class="tab-content active">
-                <div class="tabs">
-                    <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
-                    <a href="paromoto.php" class="tab-btn" style="text-decoration: none;">Moto</a>
-                </div>
-                <section class="pius">
-                    <center>
-                        <h3>Parqueadero Carro</h3>
-                    </center>
-                </section>
-                <section class="pis">
-                    <center>
-                        <h3>Parqueadero Zona 1</h3>
-                    </center>
-                </section>
-                <div class="search-bar-container">
-                    <div class="barra">
-                        <input type="text" id="searchInput" placeholder="Buscar parqueadero...">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </div>
-                    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                </div>
-                <div class="torress">
-                    <center>
-                        <div class="container">
-                            <div class="row" id="parqueaderosContainer">
-                                <?php if (!empty($parqueaderos)): ?>
-                                    <?php foreach ($parqueaderos as $index => $parqueadero): ?>
-                                        <div class="col-6 col-md-2 mb-4 product-card" data-number="<?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?>">
-                                            <div class="card text-center">
-                                                <h3 class="torres-title"><?= htmlspecialchars($parqueadero['numero_Parqueadero']); ?></h3>
-                                                <img src="img/esta.png" alt="" class="product-img">
-                                                <button class="btn <?= ($parqueadero['disponibilidad'] === 'SI ESTA DISPONIBLE') ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
-                                                    <?= htmlspecialchars($parqueadero['disponibilidad']); ?>
-                                                </button>
-                                                <br>
-                                                <h8 style="font-size: 14PX;"><b> DISPONIBLE DESDE O APARTIR DE :</b></h8>
-                                                <button class="btn <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? 'btn-success' : 'btn-danger'; ?>" style="font-size: 13px;">
-                                                    <?= isset($parqueadero['uso']) && $parqueadero['uso'] !== NULL ? date('Y-m-d H:i:s', strtotime($parqueadero['uso'])) : ''; ?>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <?php if (($index + 1) % 5 == 0): ?>
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
+                    <form action="create.php" method="post">
+                        <fieldset>
+                            <center>
+                                <legend><b>Ingresar Ingreso</b> </legend>
+                            </center>
+                            <div class="mb-3">
+                                <label for="vehiculo" class="form-label">Vehiculo:</label>
+                                <input type="text" class="form-control" id="vehiculo" name="vehiculo" required>
                             </div>
-                            <div class="row">
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    </center>
+                            <div class="mb-3">
+                                <label for="PersonasIngreso" class="form-label">Nombre de Persona:</label>
+                                <input type="text" class="form-control" id="PersonasIngreso" name="PersonasIngreso" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaHora" class="form-label">Fecha y Hora:</label>
+                                <input type="datetime-local"  class="form-control"  id="fechaHora"  name="fechaHora"    required>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success" type="submit">Enviar</button>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
-            </div>
-            <br>
-      
-            <div class="d-flex justify-content-between">
-                <a href="ingresove.php" class="btn btn-outline-success" style=" font-size:30px;">
-                    <center>Ingreso Vehicular</center>
-                </a>
-                <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                    <center>VOLVER</center>
-                </a>
+                <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
+                    <center><h2>Panel de Ingresos</h2></center>
+                 <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">idIngreso_Vehicular</th>
+                                <th scope="col">Vehiculo</th>
+                                <th scope="col">fecha y Hora</th>
+                                <th scope="col">Nombre de Persona de Ingreso</th>
+                                <th scope="col">Acciones</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($Ingreso_Vehicular as $Ingreso_Vehicular): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['idIngreso_Vehicular']); ?></td>
+                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['vehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['fechaHora']); ?></td>
+                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['PersonasIngreso']); ?></td>
+                                    <td>
+                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar ?');">
+                                            <input type="hidden" name="delete_idIngreso_Vehicular" value="<?php echo $Ingreso_Vehicular['idIngreso_Vehicular']; ?>">
+                                            <button class="btn btn-danger mt-3 "type="submit" name="delete">Eliminar</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="container mt-5">
+                    <a href="parqueaderocarro.php" class="btn btn-success">Volver</a>
+                </div>
             </div>
         </div>
         <br>
@@ -271,6 +274,10 @@ try {
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
 </body>
 
 </html>
