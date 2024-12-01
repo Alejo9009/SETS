@@ -172,23 +172,22 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <!-- Formulario para aceptar la solicitud -->
-                                <form action="procesar_voley.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
+
+                                <form action="./servidor/procesar_voley.php" method="POST">
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> 
                                     <input type="hidden" name="accion" value="aceptar">
                                     <button type="submit" class="btn btn-success">Aceptar</button>
                                 </form>
 
-                                <!-- Formulario para dejar la solicitud como pendiente -->
-                                <form action="procesar_voley.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
+
+                                <form action="./servidor/procesar_voley.php" method="POST">
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> 
                                     <input type="hidden" name="accion" value="pendiente">
                                     <button type="submit" class="btn btn-warning">Pendiente</button>
                                 </form>
 
-                                <!-- Formulario para eliminar la solicitud -->
-                                <form action="procesar_voley.php" method="POST">
-                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
+                                <form action="./servidor/procesar_voley.php" method="POST">
+                                    <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> 
                                     <input type="hidden" name="accion" value="eliminar">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                 </form>

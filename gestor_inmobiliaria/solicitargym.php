@@ -171,20 +171,20 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
                             <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <form action="procesar_gym.php" method="POST">
+                                <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="aceptar">
                                     <button type="submit" class="btn btn-success">Aceptar</button>
                                 </form>
 
                                 
-                                <form action="procesar_gym.php" method="POST">
+                                <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="pendiente">
                                     <button type="submit" class="btn btn-warning">Pendiente</button>
                                 </form>
 
-                                <form action="procesar_gym.php" method="POST">
+                                <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>

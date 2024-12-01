@@ -177,7 +177,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                         <div class="icon">
                             <a href="citas.php" class="link-button">
                                 <img src="img/citas.png" alt="Citas con amd" class="medium-img">
-                                <button class="add-announcement">Citas con Admin</button>
+                                <button class="add-announcement">Citas</button>
                             </a>
                             </a>
                         </div>
