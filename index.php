@@ -1,3 +1,8 @@
+<?php
+header('Access-Control-Allow-Origin: http://localhost:3000/');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,13 +63,14 @@
 			<div class="content-banner">
 
 				<h2>No hay bien alguno que no nos deleite si no lo compartimos.</h2>
-				<a href="iniciarsesion.php" class="btn btn-success  sd">Iniciar sesion</a>
+
+				<a href="http://localhost:3000/" class="btn btn-success  sd">Iniciar sesion</a>
 				<a href="registrase.php" class="btn btn-success sd">Registrarse</a>
 			</div>
 		</section>
 	</center>
-	<br/>
-	<br/>
+	<br />
+	<br />
 	<section class="container specials" id="servicios">
 		<div class="alert alert-success z" role="alert">
 			<center><strong>Servicios</strong></center>
@@ -412,6 +418,7 @@
 			return new bootstrap.Popover(popoverTriggerEl);
 		});
 	</script>
+
 	<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

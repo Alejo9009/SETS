@@ -1,66 +1,61 @@
 <?php
+
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 include_once "conexion.php";
+header('Content-Type: application/json');
+session_start();
 
-// Obtener datos del formulario
-$usuario = $_POST['usuario'] ?? '';
-$clave = $_POST['clave'] ?? '';
 
-// Validar si los datos no están vacíos
-if (empty($usuario) || empty($clave)) {
-    die("Usuario o clave no pueden estar vacíos.");
+$data = json_decode(file_get_contents("php://input"), true);
+
+$Usuario = $data['usuario'] ?? ''; 
+$clave = $data['clave'] ?? '';
+
+if (empty($Usuario) || empty($clave)) {
+    http_response_code(400);
+    echo json_encode(["error" => "Usuario o clave no pueden estar vacíos."]);
+    exit();
 }
 
 try {
-    // Preparar la consulta para verificar el usuario
-    $sql = "SELECT id_Registro, Clave FROM registro WHERE Usuario = ?";
+
+    $sql = "SELECT id_Registro, Clave, idRol FROM registro WHERE Usuario = ?";
     $stmt = $base_de_datos->prepare($sql);
-    $stmt->execute([$usuario]);
+    $stmt->execute([$Usuario]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verificar si existe un usuario con esas credenciales
-    if ($row) {
+
+    if ($row && $clave === $row['Clave']) { 
         $idRegistro = $row['id_Registro'];
-        $claveHash = $row['Clave'];
+        $idRol = $row['idRol'];
 
-        // Comparar la clave (verificar el hash de la clave)
-        if (password_verify($clave, $claveHash)) {
-            // Preparar la consulta para obtener el rol del usuario
-            $sql = "SELECT r.Roldescripcion FROM rol_registro rr 
-                    JOIN rol r ON rr.idROL = r.id 
-                    WHERE rr.idRegistro = ?";
-            $stmt = $base_de_datos->prepare($sql);
-            $stmt->execute([$idRegistro]);
-            $roles = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        $_SESSION['Usuario'] = $Usuario;
+        $_SESSION['id_Registro'] = $idRegistro;
 
-            // Iniciar sesión
-            session_start();
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['roles'] = $roles;
-            $_SESSION['id_Registro'] = $idRegistro; // Asegúrate de guardar el ID en la sesión
+    
+        $sql_rol = "SELECT Roldescripcion FROM rol WHERE id = ?";
+        $stmt = $base_de_datos->prepare($sql_rol);
+        $stmt->execute([$idRol]);
+        $rol = $stmt->fetchColumn();
 
-            // Redirigir según el rol del usuario
-            if (in_array('admi', $roles)) {
-                header("Location: ../SETS/admi/inicioprincipal.php");
-            } elseif (in_array('residente', $roles)) {
-                header("Location: ../SETS/residente/inicioprincipal.php");
-            } elseif (in_array('administrador', $roles)) {
-                header("Location: ../SETS/administrador/inicioprincipal.php");
-            } elseif (in_array('Guarda de Seguridad', $roles)) {
-                header("Location: ../SETS/seguridad/inicioprincipal.php");
-            } else {
-                header("Location: ../SETS/error.html");
-            }
-            exit();
-        } else {
-            echo "Usuario o clave incorrectos.";
-        }
+        $_SESSION['roles'] = [$rol];
+
+
+        echo json_encode(["success" => true, "roles" => [$rol]]);
     } else {
-        echo "Usuario o clave incorrectos.";
+        http_response_code(401);
+        echo json_encode(["error" => "Usuario o clave incorrectos."]);
     }
 } catch (PDOException $e) {
-    die("Error en la consulta: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(["error" => "Error en el servidor: " . $e->getMessage()]);
 }
-
-// Cerrar conexión
-$base_de_datos = null;
-?>
