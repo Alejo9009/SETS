@@ -1,3 +1,8 @@
+<?php
+header('Access-Control-Allow-Origin: http://localhost:3000/');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,7 +35,7 @@
                         </div>
                     </div>
                     <input type="submit" class="btn btn-success  btn-lg" value="Enviar">
-                    <p><a href="iniciarsesion.php" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesión</a></p>
+                    <p><a href="http://localhost:3000/" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesión</a></p>
                 </form>
             </article>
         </section>

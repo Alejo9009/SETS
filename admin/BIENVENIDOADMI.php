@@ -17,7 +17,7 @@
         <img src="img/ajustes.png" alt="Bienvenida" style="width: 30%;">
        <br>
        <br>
-        <p><b>Estamos emocionados de tenerte con nosotros ADMI <br>,
+        <p><b>Estamos emocionados de tenerte con nosotros ADMIN <br>,
         Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar</a>

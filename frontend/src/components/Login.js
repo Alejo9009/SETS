@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
+import logo from "../assets/img/c.png";
 
 
 const Login = () => {
@@ -17,7 +18,7 @@ const Login = () => {
         clave,
       });
       const { roles } = response.data;
-  
+
       if (roles.includes("admin")) {
         window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
       } else if (roles.includes("residente")) {
@@ -34,36 +35,43 @@ const Login = () => {
     }
   };
   return (
-   
-    <div className="login-container">
-      <form onSubmit={handleLogin}>
-        <h2>Iniciar Sesión</h2>
-        <div>
-          <label>Usuario:</label>
-          <input
-            type="text"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Clave:</label>
-          <input
-            type="password"
-            value={clave}
-            onChange={(e) => setClave(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Ingresar</button>
-        <div className="d-flex justify-content-between" style={{ marginTop: "20px" }}>
-          <a href="http://localhost/SETS/registrase.php">Registrarse</a>
-          <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
-          <a href="http://localhost/SETS/">Volver</a>
-        </div>
-      </form>
+    <div className="container">
+      {/* Encabezado con logo y título */}
+      <header className="text-center mb-4 d-flex flex-column align-items-center">
+        <img src={logo} alt="Logo" /><br /> <p /><p />
+        <h2 className="title">SETS<br />BIENVENIDO</h2>
+      </header>
+      <div className="login-container">
+        <form onSubmit={handleLogin}>
+          <h2>Iniciar Sesión</h2>
+          <div>
+
+          <label>Usuario:</label>  
+            <input
+              type="text"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Clave:</label>
+            <input
+              type="password"
+              value={clave}
+              onChange={(e) => setClave(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button type="submit">Ingresar</button>
+          <div className="d-flex justify-content-between">
+            <a href="http://localhost/SETS/registrase.php">Registrarse</a>
+            <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
+            <a href="http://localhost/SETS/">Volver</a>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -6,35 +6,49 @@ html {
     font-family: 'Poppins', sans-serif;
     background: url('../../../img/t.jpg') no-repeat center center fixed;
     background-size: cover;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 99 15px; /* Ajusta el padding a 0 para evitar desalineaciones */
-    height: 100vh; /* Usa la altura completa de la ventana */
-    display: flex; /* Centrar el contenedor principal */
-    align-items: center;
-    justify-content: center;
-}
-
-.row {
-    width: 100%; /* Asegúrate de que ocupe todo el ancho */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Estilo de la tarjeta de login */
-.login-container {
-    max-width: 400px;
+body{
+    overflow: scroll;
+}
+.container {
+    max-width: 1200px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    margin: 0 auto; /* Centrar en caso de fallback */
-    width: 344px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; 
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    width: 100%;
+    max-width: 450px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header img {
+    max-width: 130px;
+    margin-bottom: 15px;
+}
+
+header h2 {
+    font-size: 24px;
+    color: #083d11;
+    text-align: center;
+}
+
+.login-container {
+    width: 100%;
+    padding: 20px;
 }
 
 form {
@@ -46,129 +60,47 @@ form {
 label {
     margin-bottom: 5px;
     color: #083d11;
+    text-align: center;
+    align-items: center;
 }
 
 input {
-    margin-bottom: 15px;
-    padding: 8px;
+    margin-bottom: 25px;
+    padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 88px;
+width: 389px;
 }
 
-/* Botón principal */
 button {
-    padding: 10px;
+    padding: 12px;
     background: linear-gradient(90deg, #12460d, #4ba281);
     color: #fff;
     border: none;
-    border-radius: 50px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
-
 }
 
 button:hover {
     background: linear-gradient(90deg, #4ba252, #66ea83, #2d7c54);
 }
 
-/* Estilos de enlaces */
-a {
-    color: #133f0a;
-    text-align: center;
-    margin-top: 15px;
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 17px;
 }
 
-a:hover {
+.d-flex a {
+    color: #12460d;
     text-decoration: none;
-    color: #27945170;
+    font-size: 19px;
 }
 
-/* Imagen en caso de dividir la pantalla */
-.col-md-6 {
-    padding: 0;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Para los campos de entrada */
-.input-div {
-    margin-bottom: 1.5rem;
-}
-
-.input-div h5 {
-    margin-bottom: 0.5rem;
-    color: #083d11;
-}
-
-/* Fondo del formulario */
-.bg-white {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-}
-
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #dfffe4;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #125835;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgb(8, 65, 22);
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #032b12;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #0b3d13;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.btn-submit {
-    display: inline-block;
-    width: 100%;
-    padding: 10px;
-    background-color: #083313;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.btn-submit:hover {
-    background-color: #076b3c;
+.d-flex a:hover {
+    text-decoration: underline;
+    color: #0c4d22;
 }

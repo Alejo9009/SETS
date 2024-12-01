@@ -18,7 +18,7 @@
         <img src="img/administrado.png" alt="Bienvenida" style="width: 30%;">
        <br>
      <br>
-        <p><b>Estamos emocionados de tenerte con nosotros ADMINISTRADOR<br>
+        <p><b>Estamos emocionados de tenerte con nosotros Gestor de Inmobiliaria<br>
          .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar </a>

@@ -21,6 +21,12 @@ $rol_result = $conn->query("SELECT * FROM rol");
 $roles = $rol_result->fetch_all(MYSQLI_ASSOC);
 
 $conn->close();
+
+
+header('Access-Control-Allow-Origin: http://localhost:3000/');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -176,7 +182,7 @@ $conn->close();
                     </div>
                     <br>
                     <div class="d-flex justify-content-between">
-                        <a href="iniciarsesion.php" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesion</a>
+                        <a href="http://localhost:3000/" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesion</a>
                         <a href="recuperarcontraseña.php" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Recuperar Contraseña</a>
                         <a href="index.php" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Volver</a>
                     </div>

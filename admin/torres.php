@@ -166,11 +166,12 @@ try {
     </div>
 
   </main>
-
-  </header>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">  VOLVER </a>
+  <div class="d-flex justify-content-between">
+    <a href="ingresoregi.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 9vh;">Ingreso Peatonal</a>
+    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 7vh;">Volver</a>
   </div>
+  </header>
+
 
   <script>
     document.querySelector('.admin-img').addEventListener('click', function() {
