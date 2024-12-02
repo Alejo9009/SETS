@@ -24,7 +24,7 @@ header('Access-Control-Allow-Headers: Content-Type');
                     <figure>
                         <img src="img/c.png" alt="Logo">
                     </figure>
-                    <h2 class="title">Recuperat Contraseña</h2>
+                    <h2 class="title">Recuperar Contraseña</h2>
                     <div class="input-div one">
                         <div class="i">
                             <i class="fas fa-envelope"></i>
