@@ -271,7 +271,12 @@ button, input {
     margin-right: 25px; 
 }
 
-
+b{
+  text-align: center;
+}
+p{
+  text-align: center;
+}
 
 
 

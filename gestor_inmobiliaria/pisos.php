@@ -1,27 +1,26 @@
 <?php
 include_once "conexion.php";
-$query = "SELECT piso.numPiso, piso.descripcionPiso, apartamento.id_Apartamento, apartamento.descripcionApartamento
-          FROM piso
-          INNER JOIN apartamento ON apartamento.id_Apartamento";
-$stmt =  $base_de_datos->prepare($query); 
+$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
+ORDER BY  p.numPiso, a.id_Apartamento,a.numApartamento";
+$stmt =  $base_de_datos->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 $pisos = [];
 foreach ($resultados as $fila) {
   $numPiso = $fila['numPiso'];
+
   if (!isset($pisos[$numPiso])) {
     $pisos[$numPiso] = [
       'descripcionPiso' => $fila['descripcionPiso'],
       'apartamentos' => []
     ];
   }
-
-  $pisos[$numPiso]['apartamentos'][] = [
-    'id_Apartamento' => $fila['id_Apartamento'],
-    'descripcionApartamento' => $fila['descripcionApartamento']
-  ];
+  if (isset($fila['numApartamento']) && isset($fila['descripcionApartamento'])) {
+    $pisos[$numPiso]['apartamentos'][] = [
+      'numApartamento' => $fila['numApartamento'],
+      'descripcionApartamento' => $fila['descripcionApartamento']
+    ];
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -165,7 +164,7 @@ foreach ($resultados as $fila) {
                     <div class="col-md-6 mb-3">
                       <div class="card card-apartamento">
                         <div class="card-body">
-                          <strong>Número:</strong> <?= htmlspecialchars($apartamento['id_Apartamento']) ?><br>
+                          <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
                           <strong>Descripción:</strong> <?= htmlspecialchars($apartamento['descripcionApartamento']) ?>
                         </div>
                       </div>

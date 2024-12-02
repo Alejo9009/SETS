@@ -101,6 +101,9 @@ body {
     width: calc(100% - 40px);
     margin: 0 auto;
 }
+b{
+  text-align: center;
+}
 
 .search-bar {
     width: calc(100% - 40px);

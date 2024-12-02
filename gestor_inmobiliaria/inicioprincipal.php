@@ -202,6 +202,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                             <img src="img/lupa.png" alt="Buscar" class="search-icon">
                         </form>
                     </div>
+                
                     <div id="announcements">
                         <?php
                         $sql = "SELECT * FROM anuncio";
