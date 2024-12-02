@@ -1,31 +1,24 @@
 <?php
-// Conexión a la base de datos
+
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "sets";
+$dbname = "set";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Obtener los tipos de documentos
+
 $tipodoc_result = $conn->query("SELECT * FROM tipodoc");
 $tipodocs = $tipodoc_result->fetch_all(MYSQLI_ASSOC);
 
-// Obtener los roles
 $rol_result = $conn->query("SELECT * FROM rol");
 $roles = $rol_result->fetch_all(MYSQLI_ASSOC);
 
 $conn->close();
-
-
-header('Access-Control-Allow-Origin: http://localhost:3000/');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 
 ?>
 <!DOCTYPE html>
@@ -92,7 +85,7 @@ header('Access-Control-Allow-Headers: Content-Type');
                         <h2 class="title text-center"><b>SETS <br>Registro </b></h2>
                     </header>
                 </center>
-                <form action="regi.php" method="post">
+                <form action="./backend/regi.php" method="post">
                     <fieldset class="form-group">
                         <legend class="fieldset-legend">Rol</legend>
                         <label for="rol">Rol:</label>
@@ -107,8 +100,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 
                     <fieldset class="form-group">
 
-                        <label for="rol">Escoge el numero segun el Rol:</label>
-                        <select id="id" name="id" class="form-select" required>
+                        <label for="idRol">Escoge el numero segun el Rol:</label>
+                        <select id="idRol" name="idRol" class="form-select" required>
                           <?php foreach ($roles as $role): ?>
                              <option value="<?php echo $role['id']; ?>"><?php echo $role['id']; ?></option>
                           <?php endforeach; ?>
@@ -119,60 +112,64 @@ header('Access-Control-Allow-Headers: Content-Type');
                     <fieldset class="form-group">
                         <legend class="fieldset-legend">Datos Personales</legend>
                         <div class="mb-3">
-                            <label for="tipoDocumento" class="form-label">Tipo de Documento:</label>
-                            <select id="tipoDocumento" name="tipoDocumento" class="form-select" required>
+                            <label for="Id_tipoDocumento" class="form-label">Tipo de Documento:</label>
+                            <select id="Id_tipoDocumento" name="Id_tipoDocumento" class="form-select" required>
                                 <?php foreach ($tipodocs as $doc): ?>
-                                    <option value="<?php echo $doc['idtDoc']; ?>"><?php echo $doc['DescripcionDoc']; ?></option>
+                                    <option value="<?php echo $doc['idtDoc']; ?>"><?php echo $doc['descripcionDoc']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="numeroDocumento" class="form-label">Número de Documento:</label>
-                            <input type="text" id="numeroDocumento" name="numeroDocumento" class="form-control" required>
+                            <input type="number" id="numeroDocumento" name="numeroDocumento" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="primerNombre" class="form-label">Primer Nombre:</label>
-                            <input type="text" id="primerNombre" name="primerNombre" class="form-control" required>
+                            <label for="PrimerNombre" class="form-label">Primer Nombre:</label>
+                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="segundoNombre" class="form-label">Segundo Nombre:</label>
-                            <input type="text" id="segundoNombre" name="segundoNombre" class="form-control" required>
+                            <label for="SegundoNombre" class="form-label">Segundo Nombre:</label>
+                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="primerApellido" class="form-label">Primer Apellido:</label>
-                            <input type="text" id="primerApellido" name="primerApellido" class="form-control" required>
+                            <label for="PrimerApellido" class="form-label">Primer Apellido:</label>
+                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="segundoApellido" class="form-label">Segundo Apellido:</label>
-                            <input type="text" id="segundoApellido" name="segundoApellido" class="form-control" required>
+                            <label for="SegundoApellido" class="form-label">Segundo Apellido:</label>
+                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="correo" class="form-label">Correo:</label>
-                            <input type="email" id="correo" name="correo" class="form-control" required>
+                            <label for="Correo" class="form-label">Correo:</label>
+                            <input type="email" id="Correo" name="Correo" class="form-control" required>
                         </div>
 
                         <fieldset class="form-group">
                             <legend class="fieldset-legend">Teléfono</legend>
                             <div class="mb-3">
-                                <label for="numeroTel" class="form-label">Número de Teléfono:</label>
-                                <input type="text" id="numeroTel" name="numeroTel" class="form-control" required>
+                                <label for="telefonoUno" class="form-label">Número de Teléfono 1:</label>
+                                <input type="number" id="telefonoUno" name="telefonoUno" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefonoDos" class="form-label">Número de Teléfono 2:</label>
+                                <input type="number" id="telefonoDos" name="telefonoDos" class="form-control" required>
                             </div>
                         </fieldset>
 
                         <div class="mb-3">
-                            <label for="usuario" class="form-label">Usuario:</label>
-                            <input type="text" id="usuario" name="usuario" class="form-control" required>
+                            <label for="Usuario" class="form-label">Usuario:</label>
+                            <input type="text" id="Usuario" name="Usuario" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="clave" class="form-label">Clave:</label>
-                            <input type="password" id="clave" name="clave" class="form-control" required>
+                            <label for="Clave" class="form-label">Clave:</label>
+                            <input type="password" id="Clave" name="Clave" class="form-control" required>
                         </div>
                     </fieldset>
 
