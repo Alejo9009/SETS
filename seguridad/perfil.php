@@ -231,6 +231,7 @@ if (!$userData) {
             <br>
             <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
+            <a href="pagos.php" class="btn btn-success">Inserta tus Pagos</a>
             <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 
     </div>
