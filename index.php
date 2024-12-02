@@ -277,7 +277,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 	<section class="contact" id="contact">
 		<div class="row">
 			<div class="form-container">
-				<form action="contactarnos.php" method="POST">
+				<form action="./backend/contactarnos.php" method="POST">
 					<h1 class="heading-12">Contáctanos</h1><br>
 					<input type="text" name="nombre" placeholder="Nombre" required>
 					<input type="email" name="correo" placeholder="Correo" required>
@@ -381,7 +381,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 					<p class="title-footer">Otros</p>
 					<div class="content">
 						<p>Si no puedes contactarnos, déjanos tu correo</p>
-						<form id="newsletterForm" method="POST" action="contacto.php">
+						<form id="newsletterForm" method="POST" action="./backend/contacto.php">
 							<input type="email" name="email" id="emailInput" placeholder="Ingresa el correo aquí..." required>
 							<button type="submit" class="btn btn-success">Enviar</button>
 						</form>
