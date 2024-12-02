@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             echo "<script>
                     alert('Contacto enviado con éxito.');
-                    window.location.href = 'index.php'; // Redirige a la página principal u otra página
+                    window.location.href = '../index.php'; // Redirige a la página principal u otra página
                   </script>";
         } else {
             echo "Error al enviar el contacto: " . $stmt->errorInfo();

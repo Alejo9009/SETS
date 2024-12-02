@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             echo "<script>
                     alert('Correo enviado con éxito.');
-                    window.location.href = 'index.php'; // Redirige a la página principal
+                    window.location.href = '../index.php'; // Redirige a la página principal
                   </script>";
         } else {
             echo "Error al enviar el correo: " . $stmt->errorInfo();
