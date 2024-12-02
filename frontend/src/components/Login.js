@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", { usuario, clave }); // Agrega este log
+    console.log("Datos enviados:", { usuario, clave }); 
     try {
       const response = await axios.post("http://localhost/sets/backend/login.php", {
         usuario,
