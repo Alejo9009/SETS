@@ -6,12 +6,12 @@ if (!$base_de_datos) {
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
         LEFT JOIN estado e ON sz.estado = e.idestado 
-        WHERE sz.ID_zonaComun = 3"; // Filtra solo las solicitudes para la cancha de fútbol
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
-$solicitudes = []; // Inicializa el array
-if ($stmt->rowCount() > 0) { // Verifica si hay resultados
+        WHERE sz.ID_zonaComun = 3"; 
+$stmt = $base_de_datos->query($sql); 
+$solicitudes = []; 
+if ($stmt->rowCount() > 0) { 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; // Almacena cada solicitud en el array
+        $solicitudes[] = $row; 
     }
 }
 ?>

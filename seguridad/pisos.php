@@ -1,6 +1,6 @@
 <?php
 include_once "conexion.php";
-$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
+$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  
 ORDER BY  p.numPiso, a.numApartamento";
 $stmt =  $base_de_datos->prepare($query);
 $stmt->execute();

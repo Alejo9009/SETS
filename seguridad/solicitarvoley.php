@@ -6,8 +6,8 @@ if (!$base_de_datos) {
 $sql = "SELECT sz.*, e.estados 
         FROM solicitud_zona sz 
         LEFT JOIN estado e ON sz.estado = e.idestado 
-        WHERE sz.ID_zonaComun = 4"; // Filtra solo las solicitudes para la cancha de fútbol
-$stmt = $base_de_datos->query($sql); // Usa $base_de_datos para ejecutar la consulta
+        WHERE sz.ID_zonaComun = 4"; 
+$stmt = $base_de_datos->query($sql); 
 $solicitudes = [];
 if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -192,39 +192,39 @@ if ($stmt->rowCount() > 0) {
             ];
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
-            // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
+
             const solicitudes = <?php echo json_encode($solicitudes); ?>;
-            // Función para generar el calendario del mes y año dados
+          
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                calendarBody.innerHTML = '';
                 monthYearDisplay.textContent = `${months[mes]} ${anio}`;
-                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7; // Lunes = 1
-                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); // Número de días en el mes
+                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); 
                 let date = 1;
-                // Crear filas para las semanas (hasta 6 semanas máximo)
+        
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('tr');
-                    // Crear celdas para cada día de la semana
+               
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
                         if (i === 0 && j < firstDayOfMonth) {
-                            cell.innerHTML = ''; // Celdas vacías antes del primer día
+                            cell.innerHTML = ''; 
                         } else if (date > daysInMonth) {
-                            break; // No más días en el mes
+                            break; 
                         } else {
                             const fechaActual = new Date(anio, mes, date);
-                            // Asignar el día a la celda
+                            
                             cell.textContent = date;
                             cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
-                            // Verificar si la fecha está solicitada
+                           
                             solicitudes.forEach(solicitud => {
                                 const fechaSolicitud = new Date(solicitud.fechainicio);
                                 if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                    cell.style.backgroundColor = '#84c9a1'; 
                                 }
                             });
-                            // Resaltar los fines de semana
-                            if (j === 6 || j === 7) { // Sábado y domingo
+                  
+                            if (j === 6 || j === 7) { 
                                 cell.style.color = 'green';
                             }
                             date++;
@@ -234,25 +234,25 @@ if ($stmt->rowCount() > 0) {
                     calendarBody.appendChild(row);
                 }
             }
-            // Función para cambiar al mes anterior
+          
             function prevMonth() {
                 currentMonth = (currentMonth - 1 + 12) % 12;
                 if (currentMonth === 11) currentYear--;
                 generarCalendario(currentMonth, currentYear);
             }
-            // Función para cambiar al siguiente mes
+        
             function nextMonth() {
                 currentMonth = (currentMonth + 1) % 12;
                 if (currentMonth === 0) currentYear++;
                 generarCalendario(currentMonth, currentYear);
             }
-            // Función para inicializar el calendario en el mes actual
+      
             function inicializarCalendario() {
                 generarCalendario(currentMonth, currentYear);
             }
-            // Inicializa el calendario con el mes y año actuales
+           
             inicializarCalendario();
-            // Asigna las funciones de cambio de mes a los botones de control
+            
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });

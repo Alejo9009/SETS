@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./REGISTRARSE.css";
+import "./registro.css";
 import logo from "../assets/img/c.png";  // Cambia esta ruta si tu logo está en otro directorio
 
 const Registro = () => {
