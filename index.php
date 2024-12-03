@@ -49,7 +49,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<div class="navbar-nav ms-auto fs-5">
-					<a class="nav-link " href="iniciarsesion.php"><b>INICIAR SESION</b></a>
+					<a class="nav-link " href="http://localhost:3000/login"><b>INICIAR SESION</b></a>
 					<a class="nav-link " href="#inicio"><b>Inicio</b></a>
 					<a class="nav-link" href="#servicios"><b>Servicios</b></a>
 					<a class="nav-link" href="#noso"><b>Nosotros </b></a>
@@ -64,8 +64,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 				<h2>No hay bien alguno que no nos deleite si no lo compartimos.</h2>
 
-				<a href="http://localhost:3000/" class="btn btn-success  sd">Iniciar sesion</a>
-				<a href="registrase.php" class="btn btn-success sd">Registrarse</a>
+				<a href="http://localhost:3000/login" class="btn btn-success  sd">Iniciar sesion</a>
+				<a href="http://localhost:3000/registro" class="btn btn-success sd">Registrarse</a>
 			</div>
 		</section>
 	</center>
@@ -79,6 +79,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 			<div class="card-product">
 				<div class="container-img">
+					<img src="img/w.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>

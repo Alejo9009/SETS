@@ -1,69 +1,83 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 
 include_once "conexion.php";
-
-try {
-
-    $idRol = $_POST['idRol'];
-    $PrimerNombre = $_POST['PrimerNombre'];
-    $SegundoNombre = $_POST['SegundoNombre'] ?? null;
-    $PrimerApellido = $_POST['PrimerApellido'];
-    $SegundoApellido = $_POST['SegundoApellido'] ?? null;
-    $Correo = $_POST['Correo'];
-    $Usuario = $_POST['Usuario'];
-    $Clave = password_hash($_POST['Clave'], PASSWORD_BCRYPT); 
-    $Id_tipoDocumento = $_POST['Id_tipoDocumento'];
-    $numeroDocumento = $_POST['numeroDocumento'];
-    $telefonoUno = $_POST['telefonoUno'];
-    $telefonoDos = $_POST['telefonoDos'] ?? null;
-    $rol = $_POST['rol'];
-
-    $base_de_datos->beginTransaction();
+header('Content-Type: application/json');
 
 
-    $sql = "INSERT INTO registro (idRol, PrimerNombre,SegundoNombre, PrimerApellido,SegundoApellido, Correo, Usuario, Clave, Id_tipoDocumento, numeroDocumento ,telefonoUno ,telefonoDos ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $base_de_datos->prepare($sql);
-    $stmt->execute([$idRol, $PrimerNombre,$SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $Clave, $Id_tipoDocumento, $numeroDocumento, $telefonoUno, $telefonoDos]);
+$data = json_decode(file_get_contents("php://input"), true);
 
 
-    $id_Registro  = $base_de_datos->lastInsertId();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (empty($data['Usuario']) || empty($data['Clave']) || empty($data['Correo']) || empty($data['idRol'])) {
+        http_response_code(400);
+        echo json_encode(["error" => "Todos los campos obligatorios deben completarse."]);
+        exit();
+    }
 
-    $sqlRoleDesc = "SELECT Roldescripcion FROM rol WHERE id = ?";
-    $stmtRoleDesc = $base_de_datos->prepare($sqlRoleDesc);
-    $stmtRoleDesc->execute([$rol]);
-    $rolDescripcion = $stmtRoleDesc->fetchColumn();
+    try {
+        $idRol = $data['idRol'];
+        $PrimerNombre = $data['PrimerNombre'];
+        $SegundoNombre = $data['SegundoNombre'] ?? null;
+        $PrimerApellido = $data['PrimerApellido'];
+        $SegundoApellido = $data['SegundoApellido'] ?? null;
+        $Correo = $data['Correo'];
+        $Usuario = $data['Usuario'];
+        $Clave = password_hash($data['Clave'], PASSWORD_BCRYPT);
+        $Id_tipoDocumento = $data['Id_tipoDocumento'];
+        $numeroDocumento = $data['numeroDocumento'];
+        $telefonoUno = $data['telefonoUno'];
+        $telefonoDos = $data['telefonoDos'] ?? null;
 
-    $base_de_datos->commit();
 
-} catch (Exception $e) {
+        $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Correo, Usuario, Clave, Id_tipoDocumento, numeroDocumento, telefonoUno, telefonoDos) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $base_de_datos->prepare($sql);
+        $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $Clave, $Id_tipoDocumento, $numeroDocumento, $telefonoUno, $telefonoDos]);
 
-    $base_de_datos->rollBack();
-    die("Error: " . $e->getMessage());
-} finally {
- 
-    $base_de_datos = null;
+        http_response_code(201);
+        echo json_encode(["message" => "Usuario registrado exitosamente."]);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Error en el servidor: " . $e->getMessage()]);
+    }
 }
 
 
-switch ($rolDescripcion) {
-    case 'admin':
-        header("Location: ../admin/BIENVENIDOADMI.php");
-        break;
-    case 'residente':
-        header("Location: ../residente/BIENVENIDORESIDENTE.php");
-        break;
-    case 'Gestor de Imobiliaria':
-        header("Location: ../gestor_inmobiliariar/BIENVENIDOADMINISTRADOR.php");
-        break;
-    case 'Guarda de Seguridad':
-        header("Location: ../seguridad/BIENVENIDOGUARDA.php");
-        break;
-    default:
-        header("Location: default_view.php");
-        break;
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+    if (isset($_GET['tipo'])) {
+        if ($_GET['tipo'] === 'roles') {
+          
+            try {
+                $result = $base_de_datos->query("SELECT id, Roldescripcion FROM rol");
+                $roles = $result->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($roles);
+            } catch (Exception $e) {
+                echo json_encode(["error" => "Error al obtener roles: " . $e->getMessage()]);
+            }
+        } elseif ($_GET['tipo'] === 'tipodocs') {
+            try {
+                $result = $base_de_datos->query("SELECT idtDoc, descripcionDoc FROM tipodoc");
+                $tipodocs = $result->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($tipodocs);
+            } catch (Exception $e) {
+                echo json_encode(["error" => "Error al obtener tipos de documento: " . $e->getMessage()]);
+            }
+        } else {
+            echo json_encode(["error" => "Tipo no válido"]);
+        }
+    } else {
+        echo json_encode(["error" => "Parámetro 'tipo' no encontrado"]);
+    }
 }
-
-exit();
-
 ?>
