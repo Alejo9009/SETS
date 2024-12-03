@@ -79,7 +79,6 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 			<div class="card-product">
 				<div class="container-img">
-					<img src="img/w.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
