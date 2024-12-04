@@ -174,22 +174,6 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
-                <input
-                    type="text"
-                    name="Usuario"
-                    placeholder="Usuario"
-                    value={formData.Usuario}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="Clave"
-                    placeholder="Clave"
-                    value={formData.Clave}
-                    onChange={handleChange}
-                    required
-                />
 
                 {/* Campo para Tipo de Documento */}
                 <select
@@ -228,6 +212,22 @@ const Registro = () => {
                     placeholder="Teléfono 2"
                     value={formData.telefonoDos}
                     onChange={handleChange}
+                />
+                   <input
+                    type="text"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    value={formData.Usuario}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="Clave"
+                    placeholder="Clave"
+                    value={formData.Clave}
+                    onChange={handleChange}
+                    required
                 />
 
                 <button type="submit">Registrar</button>
