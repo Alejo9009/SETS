@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./registro.css";
-import logo from "../assets/img/c.png";  // Cambia esta ruta si tu logo está en otro directorio
+import logo from "../assets/img/c.png";  
 
 const Registro = () => {
     const [formData, setFormData] = useState({
@@ -16,25 +16,25 @@ const Registro = () => {
         numeroDocumento: "",
         telefonoUno: "",
         telefonoDos: "",
-        idRol: "",  // Guardamos el rol como un valor numérico
+        idRol: "",  
     });
 
-    const [tipodocs, setTipodocs] = useState([]);  // Estado para los tipos de documento
-    const [roles, setRoles] = useState([]);  // Estado para los roles
+    const [tipodocs, setTipodocs] = useState([]); 
+    const [roles, setRoles] = useState([]); 
     const [mensaje, setMensaje] = useState("");
 
-    // Fetch datos de la API cuando el componente se monta
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Solicitar roles desde el endpoint correspondiente
+    
                 const rolResponse = await axios.get("http://localhost/sets/backend/regi.php?tipo=roles");
-                console.log("Roles:", rolResponse.data);  // Ver la respuesta de roles
+                console.log("Roles:", rolResponse.data);  
                 setRoles(rolResponse.data);
 
-                // Solicitar tipos de documentos desde el endpoint correspondiente
+                
                 const tipoDocResponse = await axios.get("http://localhost/sets/backend/regi.php?tipo=tipodocs");
-                console.log("Tipo de documentos:", tipoDocResponse.data);  // Ver la respuesta de tipos de documentos
+                console.log("Tipo de documentos:", tipoDocResponse.data);  
                 setTipodocs(tipoDocResponse.data);
             } catch (error) {
                 setMensaje("Error al cargar los datos.");
@@ -43,7 +43,7 @@ const Registro = () => {
         };
 
         fetchData();
-    }, []);  // Este efecto se ejecuta solo una vez al montar el componente
+    }, []);  
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,7 +51,7 @@ const Registro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Datos enviados:", formData);  // Log de los datos enviados
+        console.log("Datos enviados:", formData);  
 
         try {
             const response = await axios.post(
@@ -63,7 +63,7 @@ const Registro = () => {
             );
             setMensaje(response.data.message);
 
-            // Redirigir según el rol
+    
             if (formData.idRol === "1") {
                 window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
             } else if (formData.idRol === "4") {
@@ -76,7 +76,7 @@ const Registro = () => {
                 window.location.href = "http://localhost/SETS/error.html";
             }
 
-            // Limpiar el formulario
+
             setFormData({
                 PrimerNombre: "",
                 SegundoNombre: "",
@@ -89,7 +89,7 @@ const Registro = () => {
                 numeroDocumento: "",
                 telefonoUno: "",
                 telefonoDos: "",
-                idRol: "", // Limpiar también el rol
+                idRol: "", 
             });
         } catch (error) {
             setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
