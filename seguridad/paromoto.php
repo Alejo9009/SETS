@@ -53,7 +53,7 @@ try {
                                         </li>
 
                                         <li>
-                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
+                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>

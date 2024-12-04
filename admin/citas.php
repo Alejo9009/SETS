@@ -79,7 +79,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </li>
                                       
                                         <li>
-                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>

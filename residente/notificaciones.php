@@ -25,7 +25,7 @@ session_start();
                     <a href="#" class="menu-button">Residente</a>
                     <div class="dropdown-menu">
                         <a href="Perfil.html">Editar datos</a>
-                        <a href="index.html">Cerrar sesión</a>
+                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                     </div>
                 </div>
                 <a href="notificaciones.html">

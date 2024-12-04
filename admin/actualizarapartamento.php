@@ -22,7 +22,7 @@
                     <div class="dropdown-menu">
                         <li><a href="Perfil.html">Editar Datos</a></li>
                         <li><a href="#">Reportar Problema</a></li>
-                        <li><a href="index.html">Cerrar Sesión</a></li>
+                        <li><a href="../backend/logout.php">Cerrar Sesión</a></li>
                     </div>
                 </div>
                 <a href="notificaciones.html">

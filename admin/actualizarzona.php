@@ -62,7 +62,7 @@ if (isset($_GET['idZona'])) {
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                            <center> <a href="../index.php">Cerrar Sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar Sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
