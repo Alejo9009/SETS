@@ -22,7 +22,7 @@ header('Access-Control-Allow-Headers: Content-Type');
     <main>
         <section class="container">
             <article class="login-content">
-                <form action="recuperar.html" method="post">
+                <form action="recuperar.php" method="post">
                     <figure>
                         <img src="img/c.png" alt="Logo">
                     </figure>
