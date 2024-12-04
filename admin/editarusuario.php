@@ -23,7 +23,7 @@
                         <ul class="dropdown-menu">
                             <a href="Perfil.html">Editar datos</a>
                             <a href="#">Reportar problema</a>
-                            <a href="index.html">Cerrar sesión</a>
+                            <a href="../backend/logout.php">Cerrar sesión</a>
                         </ul>
                     </div>
                     <a href="notificaciones.html">

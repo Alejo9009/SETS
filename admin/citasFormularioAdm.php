@@ -54,7 +54,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <ul class="dropdown-menu">
                     <a href="Perfil.html">Editar datos</a>
                    <a href="#">Reportar problema</a>
-                    <a href="index.html">Cerrar sesión</a>
+                    <a href="../backend/logout.php">Cerrar sesión</a>
                 </ul>
                 <a href="notificaciones.html">
                     <img src="img/notificacion.png" alt="Notificaciones" class="notification">

@@ -21,7 +21,7 @@
                         <ul>
                             <a href="Perfil.html">Editar Datos</a>
                             <a href="#">Reportar Problema</a>
-                            <a href="index.html">Cerrar Sesión</a>
+                            <a href="../backend/logout.php">Cerrar Sesión</a>
                         </ul>
                     </div>
                 </div>
