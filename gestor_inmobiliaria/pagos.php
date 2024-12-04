@@ -19,7 +19,8 @@
                         <a href="#" class="menu-button">Administrador </a>
                         <ul class="dropdown-menu">
                             <li><a href="Perfil.html">Editar datos</a></li>
-                            <li><a href="index.html">Cerrar sesión</a></li>
+                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+
                         </ul>
                     </div>
                     <a href="notificaciones.html">
