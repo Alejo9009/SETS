@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+
+
 include_once "conexion.php";
 if (isset($_GET['ID_Apartamentooss'])) {
     $idSolicitud = $_GET['ID_Apartamentooss'];

@@ -1,5 +1,11 @@
 <?php
+
+session_start();
+
+
 include_once "conexion.php";
+
+
 
 if (isset($_GET['id_parking'])) {
     $idSolicitud = $_GET['id_parking'];

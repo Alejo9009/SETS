@@ -1,5 +1,7 @@
 <?php
 include_once "conexion.php";
+session_start();
+
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
@@ -57,7 +59,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center> <a href="../index.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>

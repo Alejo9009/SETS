@@ -2,13 +2,9 @@
 session_start();
 include_once "conexion.php";
 
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/login.php");
-    exit();
-}
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/registrase.php");
+
+if (!isset($_SESSION['Usuario'])) {
+    header("Location: http://localhost:3000/registro");
     exit();
 }
 
@@ -17,6 +13,7 @@ $idRegistro = $_SESSION['id_Registro'] ?? null;
 if ($idRegistro === null) {
     die("Error: ID de registro no está disponible en la sesión.");
 }
+
 
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

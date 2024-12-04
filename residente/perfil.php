@@ -1,16 +1,34 @@
 <?php
 session_start();
 include_once "conexion.php";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Cookie");
 
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/login.php");
+// archivo perfil.php
+session_start();
+
+if (!isset($_SESSION['id_Registro'])) {
+    // Si no está autenticado, redirige al inicio o a la página de login
+    header('Location: login.php');
     exit();
 }
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/registrase.php");
-    exit();
+
+// Obtener el ID del usuario desde la sesión
+$idRegistro = $_SESSION['id_Registro'];
+
+// Conectar a la base de datos y obtener los datos del usuario
+$sql = "SELECT * FROM registro WHERE id_Registro = ?";
+$stmt = $base_de_datos->prepare($sql);
+$stmt->execute([$idRegistro]);
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$userData) {
+    die("Error: No se encontraron datos del perfil.");
 }
+
+// Aquí ya puedes cargar los datos del perfil
+
 
 // Obtener el ID del usuario desde la sesión
 $idRegistro = $_SESSION['id_Registro'] ?? null;
@@ -75,11 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , rd.Roldescripcion  , r.imagenPerfil
         FROM registro r
-        JOIN telefono t ON r.id_Registro = t.person
-        JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
-        JOIN rol rd ON rr.idROL = rd.id
+        JOIN rol rd ON r.idROL = rd.id
         WHERE r.id_Registro = ?";
 $stmt = $base_de_datos->prepare($sql);
 $stmt->execute([$idRegistro]);

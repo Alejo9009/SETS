@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+
+
 include_once "conexion.php";
 // Verificar si se ha proporcionado el ID de la solicitud
 if (isset($_GET['ID_Apartamentooss'])) {

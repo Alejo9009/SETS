@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./registro.css";
-import logo from "../assets/img/c.png";  
+import "./REGISTRARSE.css";
+import logo from "../assets/img/c.png";  // Cambia esta ruta si tu logo está en otro directorio
 
 const Registro = () => {
     const [formData, setFormData] = useState({
@@ -16,25 +16,25 @@ const Registro = () => {
         numeroDocumento: "",
         telefonoUno: "",
         telefonoDos: "",
-        idRol: "",  
+        idRol: "",  // Guardamos el rol como un valor numérico
     });
 
-    const [tipodocs, setTipodocs] = useState([]); 
-    const [roles, setRoles] = useState([]); 
+    const [tipodocs, setTipodocs] = useState([]);  // Estado para los tipos de documento
+    const [roles, setRoles] = useState([]);  // Estado para los roles
     const [mensaje, setMensaje] = useState("");
 
-
+    // Fetch datos de la API cuando el componente se monta
     useEffect(() => {
         const fetchData = async () => {
             try {
-    
+                // Solicitar roles desde el endpoint correspondiente
                 const rolResponse = await axios.get("http://localhost/sets/backend/regi.php?tipo=roles");
-                console.log("Roles:", rolResponse.data);  
+                console.log("Roles:", rolResponse.data);  // Ver la respuesta de roles
                 setRoles(rolResponse.data);
 
-                
+                // Solicitar tipos de documentos desde el endpoint correspondiente
                 const tipoDocResponse = await axios.get("http://localhost/sets/backend/regi.php?tipo=tipodocs");
-                console.log("Tipo de documentos:", tipoDocResponse.data);  
+                console.log("Tipo de documentos:", tipoDocResponse.data);  // Ver la respuesta de tipos de documentos
                 setTipodocs(tipoDocResponse.data);
             } catch (error) {
                 setMensaje("Error al cargar los datos.");
@@ -43,7 +43,7 @@ const Registro = () => {
         };
 
         fetchData();
-    }, []);  
+    }, []);  // Este efecto se ejecuta solo una vez al montar el componente
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,7 +51,7 @@ const Registro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Datos enviados:", formData);  
+        console.log("Datos enviados:", formData);  // Log de los datos enviados
 
         try {
             const response = await axios.post(
@@ -63,7 +63,7 @@ const Registro = () => {
             );
             setMensaje(response.data.message);
 
-    
+            // Redirigir según el rol
             if (formData.idRol === "1") {
                 window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
             } else if (formData.idRol === "4") {
@@ -76,7 +76,7 @@ const Registro = () => {
                 window.location.href = "http://localhost/SETS/error.html";
             }
 
-
+            // Limpiar el formulario
             setFormData({
                 PrimerNombre: "",
                 SegundoNombre: "",
@@ -89,7 +89,7 @@ const Registro = () => {
                 numeroDocumento: "",
                 telefonoUno: "",
                 telefonoDos: "",
-                idRol: "", 
+                idRol: "", // Limpiar también el rol
             });
         } catch (error) {
             setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
@@ -98,7 +98,9 @@ const Registro = () => {
 
 
     return (
-        <div className="container">
+        <div>
+            <br /> <p /><p />
+            <br /> <p /><p />
             <br /> <p /><p />
             <header className="text-center mb-4 d-flex flex-column align-items-center">
                 <img src={logo} alt="Logo" /><br /> <p /><p />
@@ -131,6 +133,7 @@ const Registro = () => {
                     type="number"
                     id="idRol"
                     name="idRol"
+                    onChange={handleChange}
                     placeholder="Ingresa el numero del Rol  "
                     required
                 />
@@ -174,6 +177,22 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                <input
+                    type="text"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    value={formData.Usuario}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="Clave"
+                    placeholder="Clave"
+                    value={formData.Clave}
+                    onChange={handleChange}
+                    required
+                />
 
                 {/* Campo para Tipo de Documento */}
                 <select
@@ -213,28 +232,12 @@ const Registro = () => {
                     value={formData.telefonoDos}
                     onChange={handleChange}
                 />
-                   <input
-                    type="text"
-                    name="Usuario"
-                    placeholder="Usuario"
-                    value={formData.Usuario}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="Clave"
-                    placeholder="Clave"
-                    value={formData.Clave}
-                    onChange={handleChange}
-                    required
-                />
 
                 <button type="submit">Registrar</button>
             </form>
 
             <div className="d-flex justify-content-between">
-                <a href="http://localhost:3000/login">Iniciar Sesion</a>    
+                <a href="http://localhost:3000/login">Iniciar Sesion</a>
                 <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
                 <a href="http://localhost/SETS/">Volver</a>
             </div>
