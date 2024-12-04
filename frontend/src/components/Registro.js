@@ -98,9 +98,7 @@ const Registro = () => {
 
 
     return (
-        <div>
-            <br /> <p /><p />
-            <br /> <p /><p />
+        <div className="container">
             <br /> <p /><p />
             <header className="text-center mb-4 d-flex flex-column align-items-center">
                 <img src={logo} alt="Logo" /><br /> <p /><p />
@@ -133,7 +131,6 @@ const Registro = () => {
                     type="number"
                     id="idRol"
                     name="idRol"
-                    onChange={handleChange}
                     placeholder="Ingresa el numero del Rol  "
                     required
                 />
@@ -237,7 +234,7 @@ const Registro = () => {
             </form>
 
             <div className="d-flex justify-content-between">
-                <a href="http://localhost:3000/login">Iniciar Sesion</a>
+                <a href="http://localhost:3000/login">Iniciar Sesion</a>    
                 <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
                 <a href="http://localhost/SETS/">Volver</a>
             </div>

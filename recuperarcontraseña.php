@@ -35,7 +35,7 @@ header('Access-Control-Allow-Headers: Content-Type');
                         </div>
                     </div>
                     <input type="submit" class="btn btn-success  btn-lg" value="Enviar">
-                    <p><a href="http://localhost:3000/" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesión</a></p>
+                    <p><a href="http://localhost:3000/login" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesión</a></p>
                 </form>
             </article>
         </section>
