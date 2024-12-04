@@ -74,7 +74,7 @@ if (isset($_GET['id_parking'])) {
                                             <center><a href="#">Reportar problema</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="../index.php">Cerrar sesión</a></center>
+                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
