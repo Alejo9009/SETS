@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./REGISTRARSE.css";
+import "./registro.css";
 import logo from "../assets/img/c.png";  // Cambia esta ruta si tu logo está en otro directorio
 
 const Registro = () => {
@@ -98,9 +98,7 @@ const Registro = () => {
 
 
     return (
-        <div>
-            <br /> <p /><p />
-            <br /> <p /><p />
+        <div className="container">
             <br /> <p /><p />
             <header className="text-center mb-4 d-flex flex-column align-items-center">
                 <img src={logo} alt="Logo" /><br /> <p /><p />
@@ -177,22 +175,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
-                <input
-                    type="text"
-                    name="Usuario"
-                    placeholder="Usuario"
-                    value={formData.Usuario}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="Clave"
-                    placeholder="Clave"
-                    value={formData.Clave}
-                    onChange={handleChange}
-                    required
-                />
+              
 
                 {/* Campo para Tipo de Documento */}
                 <select
@@ -232,7 +215,22 @@ const Registro = () => {
                     value={formData.telefonoDos}
                     onChange={handleChange}
                 />
-
+  <input
+                    type="text"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    value={formData.Usuario}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="Clave"
+                    placeholder="Clave"
+                    value={formData.Clave}
+                    onChange={handleChange}
+                    required
+                />
                 <button type="submit">Registrar</button>
             </form>
 
