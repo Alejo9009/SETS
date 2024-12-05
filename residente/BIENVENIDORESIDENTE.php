@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+include_once "conexion.php";
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +16,7 @@
 <body>
     <header>
         <h1>¡Bienvenido a SETS!</h1>
-        <h2>Gracias por registrarse con nosotros.</h2>
+        <h2>Gracias por registrarte con nosotros.</h2>
     </header>
     <main>
         <img src="img/resi.png" alt="Bienvenida" style="width: 20%;">

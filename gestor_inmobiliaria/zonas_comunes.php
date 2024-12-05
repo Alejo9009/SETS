@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once "conexion.php";
 
 $query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
