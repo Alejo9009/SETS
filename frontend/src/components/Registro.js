@@ -192,7 +192,7 @@ const handleSubmit = async (e) => {
                 </select>
 
                 {/* Campo adicional para seleccionar el número del rol (se envía el mismo id del rol) */}
-                <label htmlFor="idRol">Ingresa el número del Rol:</label>
+                <label htmlFor="idRol">Ingresar el número del Rol:</label>
                 <input
                     type="number"
                     id="idRol"
