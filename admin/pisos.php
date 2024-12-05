@@ -1,4 +1,8 @@
 <?php
+
+
+session_start();
+
 include_once "conexion.php";
 $query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
 ORDER BY  p.numPiso, a.numApartamento";

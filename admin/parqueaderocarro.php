@@ -1,4 +1,8 @@
 <?php
+
+
+session_start();
+
 include_once "conexion.php";
 
 $query = "SELECT id_Parqueadero, numero_Parqueadero, disponibilidad ,uso  FROM parqueadero";

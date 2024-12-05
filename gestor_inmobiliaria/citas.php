@@ -1,4 +1,8 @@
 <?php
+
+
+session_start();
+
 include 'conexion.php';
 
 // Para respuesta
