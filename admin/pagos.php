@@ -1,4 +1,8 @@
 <?php
+
+
+session_start();
+
 include 'conexion.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $idcita = $_POST['delete_idPagos'];

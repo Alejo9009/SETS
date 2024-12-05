@@ -1,4 +1,8 @@
 <?php
+
+
+session_start();
+
 include_once "conexion.php";
 if (!$base_de_datos) {
     die('Error en la conexión a la base de datos: ' . print_r($base_de_datos->errorInfo(), true));

@@ -22,6 +22,20 @@ const Registro = () => {
     const [tipodocs, setTipodocs] = useState([]);  // Estado para los tipos de documento
     const [roles, setRoles] = useState([]);  // Estado para los roles
     const [mensaje, setMensaje] = useState("");
+    const [errors, setErrors] = useState({
+        PrimerNombre: "",
+        SegundoNombre: "",
+        PrimerApellido: "",
+        SegundoApellido: "",
+        Correo: "",
+        telefonoUno: "",
+        telefonoDos: "",
+        numeroDocumento: "",
+    });
+
+
+
+
 
     // Fetch datos de la API cuando el componente se monta
     useEffect(() => {
@@ -45,56 +59,108 @@ const Registro = () => {
         fetchData();
     }, []);  // Este efecto se ejecuta solo una vez al montar el componente
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+   // Función para manejar los cambios en los campos
+   const handleChange = (e) => {
+    const { name, value } = e.target;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Datos enviados:", formData);  // Log de los datos enviados
+    // Actualizar el formulario
+    setFormData({ ...formData, [name]: value });
 
-        try {
-            const response = await axios.post(
-                "http://localhost/sets/backend/regi.php",
-                formData,
-                {
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
-            setMensaje(response.data.message);
+    // Validación
+    let errorMessage = "";
 
-            // Redirigir según el rol
-            if (formData.idRol === "1") {
-                window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
-            } else if (formData.idRol === "4") {
-                window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
-            } else if (formData.idRol === "2") {
-                window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
-            } else if (formData.idRol === "3") {
-                window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
+    switch (name) {
+        case "PrimerNombre":
+        case "SegundoNombre":
+        case "PrimerApellido":
+        case "SegundoApellido":
+            // Verificar si contiene números
+            if (/\d/.test(value)) {
+                errorMessage = "Solo se deben colocar letras";
             } else {
-                window.location.href = "http://localhost/SETS/error.html";
+                errorMessage = "";
             }
+            break;
+        case "Correo":
+            // Verificar si es un correo válido
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailRegex.test(value)) {
+                errorMessage = "Correo no válido";
+            } else {
+                errorMessage = "";
+            }
+            break;
+        case "telefonoUno":
+        case "telefonoDos":
+        case "numeroDocumento":
+            // Verificar si es un número
+            if (!/^\d+$/.test(value)) {
+                errorMessage = "Solo se deben ingresar números";
+            } else {
+                errorMessage = "";
+            }
+            break;
+        default:
+            break;
+    }
 
-            // Limpiar el formulario
-            setFormData({
-                PrimerNombre: "",
-                SegundoNombre: "",
-                PrimerApellido: "",
-                SegundoApellido: "",
-                Correo: "",
-                Usuario: "",
-                Clave: "",
-                Id_tipoDocumento: "",
-                numeroDocumento: "",
-                telefonoUno: "",
-                telefonoDos: "",
-                idRol: "", // Limpiar también el rol
-            });
-        } catch (error) {
-            setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
+    setErrors({ ...errors, [name]: errorMessage });
+};
+
+// Manejar el envío del formulario
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Datos enviados:", formData);  // Log de los datos enviados
+
+    // Verificar si hay errores antes de enviar el formulario
+    if (Object.values(errors).some(error => error !== "")) {
+        setMensaje("Por favor, corrija los errores.");
+        return;
+    }
+
+    try {
+        const response = await axios.post(
+            "http://localhost/sets/backend/regi.php",
+            formData,
+            {
+                headers: { "Content-Type": "application/json" },
+            }
+        );
+        setMensaje(response.data.message);
+
+        // Redirigir según el rol
+        if (formData.idRol === "1") {
+            window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
+        } else if (formData.idRol === "4") {
+            window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
+        } else if (formData.idRol === "2") {
+            window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
+        } else if (formData.idRol === "3") {
+            window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
+        } else {
+            window.location.href = "http://localhost/SETS/error.html";
         }
-    };
+
+        // Limpiar el formulario
+        setFormData({
+            PrimerNombre: "",
+            SegundoNombre: "",
+            PrimerApellido: "",
+            SegundoApellido: "",
+            Correo: "",
+            Usuario: "",
+            Clave: "",
+            Id_tipoDocumento: "",
+            numeroDocumento: "",
+            telefonoUno: "",
+            telefonoDos: "",
+            idRol: "", // Limpiar también el rol
+        });
+    } catch (error) {
+        setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
+    }
+};
+
 
 
     return (
@@ -145,6 +211,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                 {errors.PrimerNombre && <p className="error">{errors.PrimerNombre}</p>}
                 <input
                     type="text"
                     name="SegundoNombre"
@@ -152,6 +219,7 @@ const Registro = () => {
                     value={formData.SegundoNombre}
                     onChange={handleChange}
                 />
+                 {errors.SegundoNombre && <p className="error">{errors.SegundoNombre}</p>}
                 <input
                     type="text"
                     name="PrimerApellido"
@@ -160,6 +228,8 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                {errors.PrimerApellido && <p className="error">{errors.PrimerApellido}</p>}
+
                 <input
                     type="text"
                     name="SegundoApellido"
@@ -167,6 +237,7 @@ const Registro = () => {
                     value={formData.SegundoApellido}
                     onChange={handleChange}
                 />
+                {errors.SegundoApellido && <p className="error">{errors.SegundoApellido}</p>}
                 <input
                     type="email"
                     name="Correo"
@@ -175,6 +246,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                {errors.Correo && <p className="error">{errors.Correo}</p>}
               
 
                 {/* Campo para Tipo de Documento */}
@@ -200,6 +272,8 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                {errors.numeroDocumento && <p className="error">{errors.numeroDocumento}</p>}
+
                 <input
                     type="number"
                     name="telefonoUno"
@@ -208,6 +282,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                 />
+                {errors.telefonoUno && <p className="error">{errors.telefonoUno}</p>}
                 <input
                     type="number"
                     name="telefonoDos"
@@ -215,6 +290,7 @@ const Registro = () => {
                     value={formData.telefonoDos}
                     onChange={handleChange}
                 />
+                {errors.telefonoDos && <p className="error">{errors.telefonoDos}</p>}
   <input
                     type="text"
                     name="Usuario"

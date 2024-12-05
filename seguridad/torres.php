@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once "conexion.php";
 $query = "SELECT id_Torre, numTorre, descripcionTorre FROM torre";
 try {
