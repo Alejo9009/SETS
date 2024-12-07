@@ -98,7 +98,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                         <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
                                         <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>

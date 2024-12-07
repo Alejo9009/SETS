@@ -59,7 +59,8 @@ if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
                         <br>
                         <div class="chat-links">
                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
-                            <a href="#" class="chat-item" onclick="openChat('Administrador')">Administrador</a>
+                           <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
+                                      
                             <a href="#" class="chat-item" onclick="openChat('Guarda De Seguridad')">Guarda DE Seguridad</a>
                             <a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a>
                         </div>

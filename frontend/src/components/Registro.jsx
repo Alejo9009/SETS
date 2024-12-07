@@ -180,6 +180,7 @@ const Registro = () => {
                     placeholder="Ingresa el numero del Rol  "
                     required
                 />
+                     {errors.idRol && <p className="error">{errors.idRol}</p>}
                 <h6><b> Informacion Personal :</b></h6>
                 {/* Otros campos de formulario */}
                 <input
