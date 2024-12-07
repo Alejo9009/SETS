@@ -3,24 +3,25 @@ session_start();
 include_once "conexion.php";
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, Cookie");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
-// archivo perfil.php
-session_start();
+$Usuario = $_SESSION['Usuario'] ?? null;
 
-if (!isset($_SESSION['id_Registro'])) {
-    // Si no está autenticado, redirige al inicio o a la página de login
-    header('Location: login.php');
+if (!$Usuario) {
+    header("Location: http://localhost/sets/login.php");
     exit();
 }
 
-// Obtener el ID del usuario desde la sesión
-$idRegistro = $_SESSION['id_Registro'];
+if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
+    exit();
+}
 
 // Conectar a la base de datos y obtener los datos del usuario
-$sql = "SELECT * FROM registro WHERE id_Registro = ?";
+$sql = "SELECT * FROM registro WHERE Usuario = ?";
 $stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$idRegistro]);
+$stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$userData) {
@@ -28,13 +29,6 @@ if (!$userData) {
 }
 
 // Aquí ya puedes cargar los datos del perfil
-
-
-// Obtener el ID del usuario desde la sesión
-$idRegistro = $_SESSION['id_Registro'] ?? null;
-if ($idRegistro === null) {
-    die("Error: ID de registro no está disponible en la sesión.");
-}
 
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -93,12 +87,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , rd.Roldescripcion  , r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+                rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
-        JOIN rol rd ON r.idROL = rd.id
-        WHERE r.id_Registro = ?";
+        JOIN rol rd ON r.idRol = rd.id
+        JOIN tipodoc td ON r.Id_tipoDocumento = td.idtDoc
+        WHERE r.Usuario = ?";
+
 $stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$idRegistro]);
+$stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$userData) {
@@ -122,7 +119,7 @@ if (!$userData) {
 
 <body>
     <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Residente </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
@@ -152,10 +149,7 @@ if (!$userData) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                            <center><a href="#">Reportar problema</a></center>
-                                        </li>
-                                        <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -175,13 +169,13 @@ if (!$userData) {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -189,10 +183,9 @@ if (!$userData) {
                                     </ul>
                             </center>
                         </ul>
-
                         <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -226,16 +219,20 @@ if (!$userData) {
                 <?php if ($userData['imagenPerfil']): ?>
                     <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
                 <?php endif; ?>
-                <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
-                <p>Primer Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
-                <p>Segundo Nombre: <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
-                <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
-                <p>Apellidos: <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
-                <p>Tipo de Documento Cedula . Numero : <?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
-                <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
-                <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
-                <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-                <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
+                <p><b>Rol:</b> <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
+                <p><b>Primer Nombre:</b> <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
+                <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
+                <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
+                <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
+
+                <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
+                <p><b>Teléfono 1:</b> <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
+                <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
+                <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
+                <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+                <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
+                <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
             <br>
