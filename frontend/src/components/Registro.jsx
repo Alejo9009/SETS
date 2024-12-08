@@ -94,55 +94,51 @@ const Registro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
+        // Verifica si hay errores en el formulario
         if (Object.values(errors).some((error) => error) || Object.values(formData).some((field) => !field)) {
             setMensaje("Por favor, corrija los errores antes de enviar.");
             return;
         }
-
+    
+        // Crear un objeto FormData
+        const formDataToSend = new FormData();
+        for (let key in formData) {
+            formDataToSend.append(key, formData[key]);
+        }
+    
         try {
-            const response = await axios.post("http://localhost/sets/backend/regi.php", formData, {
-                headers: { "Content-Type": "application/json" },
+            const response = await axios.post("http://localhost/sets/backend/regi.php", formDataToSend, {
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 withCredentials: true,
             });
-         // Obtener el idRol de la respuesta y redirigir
-         const {redirect} = response.data;
-
-         switch (redirect) {
-                case "1":
-                    window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
-                    break;
-                case "4":
-                    window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
-                    break;
-                case "2":
-                    window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
-                    break;
-                case "3":
-                    window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
-                    break;
-                default:
-                    window.location.href = "http://localhost/SETS/error.html";
+            const { redirect } = response.data;
+    
+            // Asegúrate de que 'redirect' esté siendo retornado correctamente en la respuesta
+            if (redirect) {
+                switch (redirect) {
+                    case "1":
+                        window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
+                        break;
+                    case "4":
+                        window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
+                        break;
+                    case "2":
+                        window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
+                        break;
+                    case "3":
+                        window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
+                        break;
+                    default:
+                        window.location.href = "http://localhost/SETS/error.html";
+                }
             }
-
-            setFormData({
-                PrimerNombre: "",
-                SegundoNombre: "",
-                PrimerApellido: "",
-                SegundoApellido: "",
-                Correo: "",
-                Usuario: "",
-                Clave: "",
-                Id_tipoDocumento: "",
-                numeroDocumento: "",
-                telefonoUno: "",
-                telefonoDos: "",
-                idRol: "",
-            });
         } catch (error) {
             setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
         }
     };
+    
+    
 
     return (
         <div className="container">

@@ -1,91 +1,115 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");  // Frontend React
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  // Permitir cookies
+header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+
+
 
 include_once "conexion.php";
-header('Content-Type: application/json');
 
-$data = json_decode(file_get_contents("php://input"), true);
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (
-        empty($data['Usuario']) || empty($data['idRol']) || empty($data['PrimerNombre']) || empty($data['PrimerApellido']) || empty($data['Correo']) ||
-        empty($data['Id_tipoDocumento']) || empty($data['numeroDocumento']) || empty($data['telefonoUno']) || empty($data['Clave'])
-    ) {
-        http_response_code(400);
-        echo json_encode(["error" => "Todos los campos obligatorios deben completarse."]);
-        exit();
+try {
+    // Verifica si la conexión a la base de datos se ha realizado correctamente
+    if (!$base_de_datos) {
+        throw new Exception("Error al conectar con la base de datos.");
     }
 
-    try {
-        $idRol = $data['idRol'];
-        $PrimerNombre = $data['PrimerNombre'];
-        $SegundoNombre = $data['SegundoNombre'] ?? null;
-        $PrimerApellido = $data['PrimerApellido'];
-        $SegundoApellido = $data['SegundoApellido'] ?? null;
-        $Correo = $data['Correo'];
-        $Id_tipoDocumento = $data['Id_tipoDocumento'];
-        $numeroDocumento = $data['numeroDocumento'];
-        $telefonoUno = $data['telefonoUno'];
-        $telefonoDos = $data['telefonoDos'] ?? null;
-        $Usuario = $data['Usuario'];
-        $Clave = password_hash($data['Clave'], PASSWORD_BCRYPT);
+    // Procesar solicitud POST
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $idRol = $_POST['idRol'];
+        $PrimerNombre = $_POST['PrimerNombre'];
+        $SegundoNombre = $_POST['SegundoNombre'] ?? null;
+        $PrimerApellido = $_POST['PrimerApellido'];
+        $SegundoApellido = $_POST['SegundoApellido'] ?? null;
+        $Correo = $_POST['Correo'];
+        $Id_tipoDocumento = $_POST['Id_tipoDocumento'];
+        $numeroDocumento = $_POST['numeroDocumento'];
+        $telefonoUno = $_POST['telefonoUno'];
+        $telefonoDos = $_POST['telefonoDos'] ?? null;
+        $Usuario = $_POST['Usuario'];
+        $Clave = password_hash($_POST['Clave'], PASSWORD_BCRYPT);
 
-        // Insertar en la base de datos
+        // Iniciar transacción
+        $base_de_datos->beginTransaction();
+
+        // Insertar datos en la tabla 'registro'
         $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Correo, Id_tipoDocumento, numeroDocumento, telefonoUno, telefonoDos, Usuario, Clave) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $base_de_datos->prepare($sql);
         $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Id_tipoDocumento, $numeroDocumento, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
 
-        // Iniciar sesión después de registrar al usuario
+        // Confirmar la transacción
+        $base_de_datos->commit();
+
+        // Iniciar sesión
         session_start();
         $_SESSION['Usuario'] = $Usuario;
         $_SESSION['idRol'] = $idRol;
         $_SESSION['Clave'] = $Clave;
-        
-        
-        // Responder con el idRol para que el frontend sepa a dónde redirigir
-        http_response_code(201);
-        echo json_encode([
-            "message" => "Usuario registrado exitosamente.",
-            "redirect" => $idRol // Mandar el idRol para usarlo en el frontend
-        ]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["error" => "Error en el servidor: " . $e->getMessage()]);
-    }
-}
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['tipo'])) {
-        if ($_GET['tipo'] === 'roles') {
-            try {
-                $result = $base_de_datos->query("SELECT id, Roldescripcion FROM rol");
-                $roles = $result->fetchAll(PDO::FETCH_ASSOC);
-                echo json_encode($roles);
-            } catch (Exception $e) {
-                echo json_encode(["error" => "Error al obtener roles: " . $e->getMessage()]);
-            }
-        } elseif ($_GET['tipo'] === 'tipodocs') {
-            try {
-                $result = $base_de_datos->query("SELECT idtDoc, descripcionDoc FROM tipodoc");
-                $tipodocs = $result->fetchAll(PDO::FETCH_ASSOC);
-                echo json_encode($tipodocs);
-            } catch (Exception $e) {
-                echo json_encode(["error" => "Error al obtener tipos de documento: " . $e->getMessage()]);
+
+        // Obtener la descripción del rol
+        $sqlRoleDesc = "SELECT Roldescripcion FROM rol WHERE id = ?";
+        $stmtRoleDesc = $base_de_datos->prepare($sqlRoleDesc);
+        $stmtRoleDesc->execute([$idRol]);
+        $rolDescripcion = $stmtRoleDesc->fetchColumn();
+
+        // Redirigir según el rol
+        $redirect = "";
+        switch ($rolDescripcion) {
+            case "admin":
+                $redirect = "1"; // Admin
+                break;
+            case "Gestor de Imobiliaria":
+                $redirect = "2"; // Gestor
+                break;
+            case "Guarda de Seguridad":
+                $redirect = "3"; // Seguridad
+                break;
+            case "residente":
+                $redirect = "4"; // Residente
+                break;
+            default:
+                $redirect = "error";
+                break;
+        }
+
+        // Enviar la respuesta al frontend con el rol asignado para redirigir
+        echo json_encode(['redirect' => $redirect]);
+    }
+
+    // Procesar solicitud GET
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if (isset($_GET['tipo'])) {
+            if ($_GET['tipo'] === 'roles') {
+                try {
+                    $result = $base_de_datos->query("SELECT id, Roldescripcion FROM rol");
+                    $roles = $result->fetchAll(PDO::FETCH_ASSOC);
+                    echo json_encode($roles);
+                } catch (Exception $e) {
+                    echo json_encode(["error" => "Error al obtener roles: " . $e->getMessage()]);
+                }
+            } elseif ($_GET['tipo'] === 'tipodocs') {
+                try {
+                    $result = $base_de_datos->query("SELECT idtDoc, descripcionDoc FROM tipodoc");
+                    $tipodocs = $result->fetchAll(PDO::FETCH_ASSOC);
+                    echo json_encode($tipodocs);
+                } catch (Exception $e) {
+                    echo json_encode(["error" => "Error al obtener tipos de documento: " . $e->getMessage()]);
+                }
+            } else {
+                echo json_encode(["error" => "Tipo no válido"]);
             }
         } else {
-            echo json_encode(["error" => "Tipo no válido"]);
+            echo json_encode(["error" => "Parámetro 'tipo' no encontrado"]);
         }
-    } else {
-        echo json_encode(["error" => "Parámetro 'tipo' no encontrado"]);
     }
+} catch (Exception $e) {
+    // En caso de error, deshacer la transacción
+    $base_de_datos->rollBack();
+    echo json_encode(["error" => "Error general: " . $e->getMessage()]);
+} finally {
+    // Cerrar la conexión
+    $base_de_datos = null;
 }
-?>
