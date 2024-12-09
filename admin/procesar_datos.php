@@ -1,20 +1,21 @@
 <?php
 session_start();
 include_once "conexion.php";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/login.php");
+$Usuario = $_SESSION['Usuario'] ?? null;
+
+if (!$Usuario) {
+    header("Location: http://localhost/sets/login.php");
     exit();
 }
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/registrase.php");
+
+if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
     exit();
-}
-// Obtener el ID del usuario desde la sesión
-$idRegistro = $_SESSION['id_Registro'] ?? null;
-if ($idRegistro === null) {
-    die("Error: ID de registro no está disponible en la sesión.");
 }
 
 // Manejar la subida de la imagen
@@ -54,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $targetFilePath = $targetDir . $fileName;
         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
             // Actualizar la base de datos con la ruta de la imagen
-            $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
+            $sql = "UPDATE registro SET imagenPerfil = ? WHERE Usuario = ?";
             $stmt = $base_de_datos->prepare($sql);
-            if ($stmt->execute([$targetFilePath, $idRegistro])) {
+            if ($stmt->execute([$targetFilePath, $Usuario])) {
                 echo "La imagen se ha subido correctamente.";
             } else {
                 echo "Hubo un error al actualizar la base de datos.";
@@ -65,46 +66,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Hubo un error al subir la imagen.";
         }
     }
-    
-    // Actualizar los demás datos del perfil
+
     $PrimerNombre = $_POST['profile-firstname'] ?? '';
     $SegundoNombre = $_POST['profile-secondname'] ?? '';
     $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
     $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
-    $email = $_POST['profile-email'] ?? '';
-    $usuario = $_POST['profile-username'] ?? '';
-    $telefono = $_POST['profile-phone'] ?? ''; // Cambié a 'profile-phone' para evitar confusiones
+    $Correo = $_POST['profile-email'] ?? '';
+    $Usuario = $_POST['profile-username'] ?? '';
+    $telefonoUno = $_POST['profile-phone1'] ?? '';
+    $telefonoDos = $_POST['profile-phone2'] ?? '';
 
     // Consulta SQL corregida para campos existentes en la base de datos
-    $sql = "UPDATE registro r
-    JOIN telefono t ON r.id_Registro = t.person
-    SET r.PrimerNombre = ?, 
-        r.SegundoNombre = ?, 
-        r.PrimerApellido = ?, 
-        r.SegundoApellido = ?, 
-        r.Correo = ?, 
-        r.Usuario = ?, 
-        t.numeroTel = ? 
-    WHERE r.id_Registro = ?";
-    
+    $sql = "UPDATE registro SET 
+        PrimerNombre = ?, 
+        SegundoNombre = ?, 
+        PrimerApellido = ?, 
+        SegundoApellido = ?, 
+        Correo = ?, 
+        telefonoUno = ?,
+        telefonoDos = ?,
+        Usuario = ? 
+    WHERE Usuario = ?";
+
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $email, $usuario, $telefono, $idRegistro])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos, $Usuario, $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
     }
+
+    // Actualizar la contraseña si se proporciona
     if (!empty($_POST['profile-password'])) {
         $clave = $_POST['profile-password'];
         // Encriptar la contraseña
         $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
-        $sql = "UPDATE registro SET Clave = ? WHERE id_Registro = ?";
+        $sql = "UPDATE registro SET Clave = ? WHERE Usuario = ?";
         $stmt = $base_de_datos->prepare($sql);
-        if ($stmt->execute([$claveEncriptada, $idRegistro])) {
+        if ($stmt->execute([$claveEncriptada, $Usuario])) {
             echo "Clave actualizada con éxito.";
         } else {
             echo "Error al actualizar la clave.";
         }
     }
+
+    // Asegúrate de que la sesión no se pierda
+    $_SESSION['Usuario'] = $Usuario;  // Esto mantiene la sesión activa
+
+    // Redirigir a la página de perfil
+    header("Location: perfil.php"); 
+    exit(); 
 }
 ?>
-

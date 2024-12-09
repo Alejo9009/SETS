@@ -1,38 +1,38 @@
 <?php
 session_start();
 include_once "conexion.php";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/login.php");
+$Usuario = $_SESSION['Usuario'] ?? null;
+
+if (!$Usuario) {
+    header("Location: http://localhost/sets/login.php");
     exit();
 }
 
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/registrase.php");
+if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
     exit();
 }
-// Obtener el ID del usuario desde la sesión
-// Obtener el ID del usuario desde la sesión
-$idRegistro = $_SESSION['id_Registro'] ?? null;
-if ($idRegistro === null) {
-    die("Error: ID de registro no está disponible en la sesión.");
-}
 
-// Recuperar los datos del usuario desde la base de datos
-$sql = "SELECT r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
+
+// Preparar la consulta para obtener los datos del perfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+                rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
-        JOIN telefono t ON r.id_Registro = t.person
-        JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
-        JOIN rol rd ON rr.idROL = rd.id
-        WHERE r.id_Registro = ?";
+        JOIN rol rd ON r.idRol = rd.id
+        JOIN tipodoc td ON r.Id_tipoDocumento = td.idtDoc
+        WHERE r.Usuario = ?";
+
 $stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$idRegistro]);
+$stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Verificar si se recuperaron datos
-if ($userData === false) {
-    die("Error: No se pudieron recuperar los datos del usuario.");
+if (!$userData) {
+    die("Error: No se encontraron datos del perfil.");
 }
 
 // Manejar la subida de la imagen
@@ -72,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $targetFilePath = $targetDir . $fileName;
         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
             // Actualizar la base de datos con la ruta de la imagen
-            $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
+            $sql = "UPDATE registro SET imagenPerfil = ? WHERE Usuario = ?";
             $stmt = $base_de_datos->prepare($sql);
-            if ($stmt->execute([$targetFilePath, $idRegistro])) {
+            if ($stmt->execute([$targetFilePath, $Usuario])) {
                 echo "La imagen se ha subido correctamente.";
             } else {
                 echo "Hubo un error al actualizar la base de datos.";
@@ -89,24 +89,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $SegundoNombre = $_POST['profile-secondname'] ?? '';
     $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
     $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
-    $email = $_POST['profile-email'] ?? '';
-    $usuario = $_POST['profile-username'] ?? '';
-    $telefono = $_POST['profile-phone'] ?? ''; // Cambié a 'profile-phone' para evitar confusiones
+    $Correo = $_POST['profile-email'] ?? '';
+    $Usuario = $_POST['profile-username'] ?? '';
+    $telefonoUno = $_POST['profile-phone1'] ?? ''; 
+    $telefonoDos = $_POST['profile-phone2'] ?? ''; 
 
     // Actualizar el perfil en la base de datos
-    $sql = "UPDATE registro r
-    JOIN telefono t ON r.id_Registro = t.person
-    SET r.PrimerNombre = ?, 
-        r.SegundoNombre = ?, 
-        r.PrimerApellido = ?, 
-        r.SegundoApellido = ?, 
-        r.Correo = ?, 
-        r.Usuario = ?, 
-        t.numeroTel = ? 
-    WHERE r.id_Registro = ?";
+    $sql = "UPDATE registro   SET 
+        PrimerNombre = ?, 
+        SegundoNombre = ?, 
+        PrimerApellido = ?, 
+        SegundoApellido = ?, 
+        Correo = ?, 
+        telefonoUno = ?,
+        telefonoDos = ?,
+        Usuario = ? 
+
+    WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $email, $usuario, $telefono, $idRegistro])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $telefonoUno, $telefonoDos, $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
@@ -117,9 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clave = $_POST['profile-password'];
         // Encriptar la contraseña
         $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
-        $sql = "UPDATE registro SET Clave = ? WHERE id_Registro = ?";
+        $sql = "UPDATE registro SET Clave = ? WHERE Usuario = ?";
         $stmt = $base_de_datos->prepare($sql);
-        if ($stmt->execute([$claveEncriptada, $idRegistro])) {
+        if ($stmt->execute([$claveEncriptada, $Usuario])) {
             echo "Clave actualizada con éxito.";
         } else {
             echo "Error al actualizar la clave.";
@@ -237,6 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <br>
     <br>
     <main>
+
         <section class="profile-card" style="border: 6px solid #052910;">
             <form action="procesar_datos.php" method="POST" enctype="multipart/form-data">
 
@@ -246,11 +249,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </center>
                 </div>
                 <div class="text-center">
-                    <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/resi.png'); ?>" alt="Imagen de Perfil" width="120"><br>
+                    <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/ajustes.png'); ?>" alt="Imagen de Perfil" width="120"><br>
                     <input type="file" name="imagenPerfil" onchange="mostrarImagenSeleccionada(this);" style="color: rgb(45, 110, 59);"><br>
                 </div>
-
-
                 <br>
                 <label for="profile-firstname">Primer Nombre:</label><br>
                 <input type="text" id="profile-firstname" name="profile-firstname" value="<?php echo htmlspecialchars($userData['PrimerNombre']); ?>"><br>
@@ -267,20 +268,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="profile-email">Correo Electrónico:</label><br>
                 <input type="email" id="profile-email" name="profile-email" value="<?php echo htmlspecialchars($userData['Correo']); ?>"><br>
 
+                <label for="profile-phone1">Teléfono Uno :</label><br>
+                <input type="text" id="profile-phone1" name="profile-phone1" value="<?php echo htmlspecialchars($userData['telefonoUno']); ?>"><br>
+                <label for="profile-phone2">Teléfono Dos:</label><br>
+                <input type="text" id="profile-phone2" name="profile-phone2" value="<?php echo htmlspecialchars($userData['telefonoDos']); ?>"><br>
+
                 <label for="profile-username">Usuario:</label><br>
                 <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>
 
-                <label for="profile-phone">Teléfono:</label><br>
-                <input type="text" id="profile-phone" name="profile-phone" value="<?php echo htmlspecialchars($userData['numeroTel']); ?>"><br>
-
                 <label for="profile-password">Nueva Contraseña:</label><br>
-                <input type="password" id="profile-password" name="profile-password"><br>
+                <input type="password" id="profile-password" name="profile-password" value="<?php echo htmlspecialchars($userData['Clave']); ?>"><br>
 
                 <input type="submit" value="Guardar Cambios" class="btn btn-success" style="margin-top: 10px;">
             </form>
         </section>
         <a href="perfil.php" type="button" class="btn btn-danger btn-lg">Volver</a>
     </main>
+    
 
     <script>
         function mostrarImagenSeleccionada(input) {

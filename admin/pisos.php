@@ -1,10 +1,24 @@
 <?php
-
-
 session_start();
+header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");  
+
+if (!isset($_SESSION['Usuario'])) {
+    header("Location: http://localhost/sets/login.php");
+    exit();
+}
+
+
+if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
+    exit();
+}
+
 
 include_once "conexion.php";
-$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
+$query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  
 ORDER BY  p.numPiso, a.numApartamento";
 $stmt =  $base_de_datos->prepare($query);
 $stmt->execute();
