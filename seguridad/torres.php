@@ -16,7 +16,6 @@ if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
     exit();
 }
 
-?>
 include_once "conexion.php";
 $query = "SELECT id_Torre, numTorre, descripcionTorre FROM torre";
 try {
