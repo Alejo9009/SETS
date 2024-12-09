@@ -5,17 +5,17 @@ import logo from "../assets/img/c.png";
 
 
 const Login = () => {
-  const [usuario, setUsuario] = useState("");
-  const [clave, setClave] = useState("");
+  const [Usuario, setUsuario] = useState("");
+  const [Clave, setClave] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", { usuario, clave }); 
+    console.log("Datos enviados:", { Usuario, Clave }); 
     try {
       const response = await axios.post("http://localhost/sets/backend/login.php", {
-        usuario,
-        clave,
+        Usuario,
+        Clave,
       });
       const { roles } = response.data;
 
@@ -49,7 +49,7 @@ const Login = () => {
           <label>Usuario:</label>  
             <input
               type="text"
-              value={usuario}
+              value={Usuario}
               onChange={(e) => setUsuario(e.target.value)}
               required
             />
@@ -58,7 +58,7 @@ const Login = () => {
             <label>Clave:</label>
             <input
               type="password"
-              value={clave}
+              value={Clave}
               onChange={(e) => setClave(e.target.value)}
               required
             />

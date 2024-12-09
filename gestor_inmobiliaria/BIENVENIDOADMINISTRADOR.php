@@ -36,6 +36,7 @@ if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
         <img src="img/administrado.png" alt="Bienvenida" style="width: 30%;">
        <br>
      <br>
+     <p><b>Registro Realizado Correctamente ! </b></p>
         <p><b>Estamos emocionados de tenerte con nosotros Gestor de Inmobiliaria<br>
          .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         

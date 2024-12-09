@@ -30,10 +30,12 @@ if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
     <header>
         <h1>¡Bienvenido a SETS!</h1>
         <h2>Gracias por registrarte con Nosotros.</h2>
+
     </header>
     <main>
         <img src="img/ajustes.png" alt="Bienvenida" style="width: 30%;">
        <br>
+       <p><b>Registro Realizado Correctamente ! </b></p>
        <br>
         <p><b>Estamos emocionados de tenerte con nosotros ADMIN <br>,
         Ahora Continua e Inicia en este nuevo Mundo:</b></p>
