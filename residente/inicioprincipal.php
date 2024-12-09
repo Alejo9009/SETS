@@ -20,7 +20,10 @@ if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
+
+
 $sql = "SELECT * FROM anuncio";
+
 $result = $base_de_datos->query($sql);
 if ($result->rowCount() > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {

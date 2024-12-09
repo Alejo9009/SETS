@@ -21,6 +21,7 @@ if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
 $sql = "SELECT * FROM anuncio";
+$sql = "SELECT * FROM registro";
 $result = $base_de_datos->query($sql);
 if ($result->rowCount() > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {

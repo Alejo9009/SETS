@@ -118,16 +118,16 @@ const Registro = () => {
             if (redirect) {
                 switch (redirect) {
                     case "1":
-                        window.location.href = "http://localhost:3000/login";
+                        window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
                         break;
                     case "4":
-                        window.location.href = "http://localhost:3000/login";
+                        window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
                         break;
                     case "2":
-                        window.location.href = "http://localhost:3000/login";
+                        window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
                         break;
                     case "3":
-                        window.location.href = "http://localhost:3000/login";
+                        window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
                         break;
                     default:
                         window.location.href = "http://localhost/SETS/error.html";
