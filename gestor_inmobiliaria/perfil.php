@@ -1,22 +1,34 @@
 <?php
 session_start();
 include_once "conexion.php";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/login.php");
+$Usuario = $_SESSION['Usuario'] ?? null;
+
+if (!$Usuario) {
+    header("Location: http://localhost/sets/login.php");
     exit();
 }
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../SETS/registrase.php");
+
+if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
     exit();
 }
 
-// Obtener el ID del usuario desde la sesión
-$idRegistro = $_SESSION['id_Registro'] ?? null;
-if ($idRegistro === null) {
-    die("Error: ID de registro no está disponible en la sesión.");
+// Conectar a la base de datos y obtener los datos del usuario
+$sql = "SELECT * FROM registro WHERE Usuario = ?";
+$stmt = $base_de_datos->prepare($sql);
+$stmt->execute([$Usuario]);
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$userData) {
+    die("Error: No se encontraron datos del perfil.");
 }
+
+// Aquí ya puedes cargar los datos del perfil
 
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -75,14 +87,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento , t.numeroTel, rd.Roldescripcion  , r.imagenPerfil
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+                rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
-        JOIN telefono t ON r.id_Registro = t.person
-        JOIN rol_registro rr ON r.id_Registro = rr.idRegistro
-        JOIN rol rd ON rr.idROL = rd.id
-        WHERE r.id_Registro = ?";
+        JOIN rol rd ON r.idRol = rd.id
+        JOIN tipodoc td ON r.Id_tipoDocumento = td.idtDoc
+        WHERE r.Usuario = ?";
+
 $stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$idRegistro]);
+$stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$userData) {
@@ -196,8 +209,7 @@ if (!$userData) {
         </section>
     </main>
     <br>
-    <br>
-    <br>
+   
     <div class="perfil">
         <center>
             <div class="alert alert-success" role="alert">
@@ -207,23 +219,27 @@ if (!$userData) {
                 <?php if ($userData['imagenPerfil']): ?>
                     <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
                 <?php endif; ?>
-                <p>Rol: <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
-                <p>Primer Nombre: <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
-                <p>Segundo Nombre: <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
-                <p>Apellidos: <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
-                <p>Apellidos: <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
-                <p>Tipo de Documento Cedula . Numero : <?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
-                <p>Teléfono: <?php echo htmlspecialchars($userData['numeroTel']); ?></p>
-                <p>Correo: <?php echo htmlspecialchars($userData['Correo']); ?></p>
-                <p>Usuario: <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-                <p>Eres la persona o tu numero de <br> registro fue el: <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
+                <p><b>Rol:</b> <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
+                <p><b>Primer Nombre:</b> <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
+                <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
+                <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
+                <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
+
+                <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
+                <p><b>Teléfono 1:</b> <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
+                <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
+                <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
+                <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+                <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
+                <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
             <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-            <a href="t.php" class="btn btn-success">Agregar mi vivienda</a>
+            <a href="t.php" class="btn btn-success">Agregar mi Vivienda</a>
 
-            <a href="inicioprincipal.php" class="btn btn-danger">volver</a>
+            <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 
     </div>
     </center>

@@ -1,24 +1,34 @@
 <?php
 
-
-session_start();
-
 include_once "conexion.php";
+session_start();
+header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");  
+
+
+if (!isset($_SESSION['Usuario'])) {
+    header("Location: http://localhost/sets/login.php");
+    exit();
+}
+
+if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
+    header("Location: http://localhost/sets/error.php");
+    exit();
+}
+
 if (!$base_de_datos) {
     exit('Error en la conexión a la base de datos.');
 }
-
 $sql = "SELECT * FROM anuncio";
 $result = $base_de_datos->query($sql);
-
 if ($result->rowCount() > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $isEvent = strpos($row["titulo"], "Evento") !== false;
     }
 }
 $query = isset($_GET['query']) ? $_GET['query'] : '';
-
-// Preparar la consulta SQL
 
 ?>
 <!DOCTYPE html>
