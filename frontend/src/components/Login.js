@@ -35,7 +35,7 @@ const Login = () => {
     <div className="container">
       {/* Encabezado con logo y título */}
       <header className="text-center mb-4 d-flex flex-column align-items-center">
-        <img src={logo} alt="Logo" /><br /> <p /><p />
+    <br /> <p /><p />
         <h2 className="title">SETS<br />BIENVENIDO</h2>
       </header>
       <div className="login-container">
