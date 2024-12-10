@@ -1,79 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Login.css";
-import logo from "../assets/img/c.png";
-
 
 const Login = () => {
-  const [usuario, setUsuario] = useState("");
-  const [clave, setClave] = useState("");
-  const [error, setError] = useState("");
+    const [formData, setFormData] = useState({
+        Usuario: "",
+        Clave: "",
+    });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log("Datos enviados:", { usuario, clave }); 
-    try {
-      const response = await axios.post("http://localhost/sets/backend/login.php", {
-        usuario,
-        clave,
-      });
-      const { roles } = response.data;
+    const [mensaje, setMensaje] = useState("");
+    const [cookiesValidas, setCookiesValidas] = useState(false);
 
-      if (roles.includes("admin")) {
-        window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
-      } else if (roles.includes("residente")) {
-        window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
-      } else if (roles.includes("Gestor de Imobiliaria")) {
-        window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
-      } else if (roles.includes("Guarda de Seguridad")) {
-        window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
-      } else {
-        window.location.href = "http://localhost/SETS/error.html";
-      }
-    } catch (err) {
-      setError(err.response?.data?.error || "Error al iniciar sesión.");
-    }
-  };
-  return (
-    <div className="container">
-      {/* Encabezado con logo y título */}
+    // Verificar cookies al cargar la página
+    useEffect(() => {
+        const verificarCookies = async () => {
+            try {
+                const response = await axios.get("http://localhost/sets/backend/login.php", {
+                    withCredentials: true,
+                });
+
+                if (response.data.mensaje === "Sesión válida, por favor ingrese su contraseña para continuar") {
+                    setCookiesValidas(true); // Cookies válidas, pero necesita confirmar la contraseña
+                } else {
+                    setCookiesValidas(false); // Las cookies no son válidas
+                }
+            } catch (error) {
+                console.error("Error al verificar cookies:", error);
+                setMensaje("Error al verificar la sesión.");
+            }
+        };
+
+        verificarCookies();
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!formData.Usuario || !formData.Clave) {
+            setMensaje("Por favor, ingrese usuario y contraseña.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost/sets/backend/login.php", formData, {
+                withCredentials: true,
+            });
+
+            if (response.data.redirect) {
+                window.location.href = `http://localhost/sets/${response.data.redirect}`;
+            } else {
+                setMensaje(response.data.error || "Error al iniciar sesión.");
+            }
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            setMensaje("Error al intentar iniciar sesión.");
+        }
+    };
+
+    return (
+      <div className="container">
+      <br /> <p /><p />
       <header className="text-center mb-4 d-flex flex-column align-items-center">
-        <img src={logo} alt="Logo" /><br /> <p /><p />
-        <h2 className="title">SETS<br />BIENVENIDO</h2>
-      </header>
-      <div className="login-container">
-        <form onSubmit={handleLogin}>
-          <h2>Iniciar Sesión</h2>
-          <div>
 
-          <label>Usuario:</label>  
-            <input
-              type="text"
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Clave:</label>
-            <input
-              type="password"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-              required
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <button type="submit">Ingresar</button>
-          <div className="d-flex justify-content-between">
-            <a href="http://localhost:3000/registro">Registrarse</a>
-            <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
-            <a href="http://localhost/SETS/">Volver</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+          <h1 className="title"><b>SETS<br />BIENVENIDO</b></h1>
+      </header>
+            {cookiesValidas && (
+                <p>Se detectó una sesión previa. Por favor, ingrese su contraseña para confirmar.</p>
+            )}
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    value={formData.Usuario}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="Clave"
+                    placeholder="Clave"
+                    value={formData.Clave}
+                    onChange={handleChange}
+                    required
+                />
+                <button type="submit">Iniciar sesión</button>
+            </form>
+            {mensaje && <p className="error">{mensaje}</p>}
+            <div className="d-flex justify-content-between">
+                <a href="http://localhost:3000/registro" className="r" >Registro</a>
+                <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php" className="e">Recuperar Contraseña</a>
+                <a href="http://localhost/SETS/" className="r" >Volver</a>
+            </div>
+        </div>
+        
+    );
 };
 
 export default Login;

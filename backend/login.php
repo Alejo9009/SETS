@@ -1,61 +1,56 @@
 <?php
-
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: GET, POST');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
 include_once "conexion.php";
-header('Content-Type: application/json');
+
 session_start();
 
+// Verificar si las cookies están activas y validar el usuario
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_COOKIE['Usuario']) && isset($_COOKIE['idRol'])) {
+        $Usuario = $_COOKIE['Usuario'];  // Asegúrate de que este nombre coincida con el de la cookie
+        $idRol = $_COOKIE['idRol'];      // Asegúrate de que este nombre coincida con el de la cookie
 
-$data = json_decode(file_get_contents("php://input"), true);
+        // Validar en la base de datos
+        $stmt = $base_de_datos->prepare("SELECT idRol, Clave FROM registro WHERE Usuario = ?");
+        $stmt->execute([$Usuario]);
+        $usuarioDB = $stmt->fetch();
 
-$Usuario = $data['usuario'] ?? ''; 
-$clave = $data['clave'] ?? '';
-
-if (empty($Usuario) || empty($clave)) {
-    http_response_code(400);
-    echo json_encode(["error" => "Usuario o clave no pueden estar vacíos."]);
-    exit();
+        if ($usuarioDB && $usuarioDB['idRol'] == $idRol) {
+            // Aquí las cookies son válidas, puedes proceder a permitir que el usuario inicie sesión
+            echo json_encode(['mensaje' => 'Sesión válida, por favor ingrese su contraseña para continuar']);
+        } else {
+            echo json_encode(['error' => 'Cookies inválidas']);
+        }
+    } else {
+        echo json_encode(['mensaje' => 'No hay cookies, se requiere inicio de sesión']);
+    }
 }
 
-try {
+// Validar credenciales del usuario al iniciar sesión (POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $Usuario = $_POST['Usuario'] ?? '';
+    $Clave = $_POST['Clave'] ?? '';
 
-    $sql = "SELECT id_Registro, Clave, idRol FROM registro WHERE Usuario = ?";
-    $stmt = $base_de_datos->prepare($sql);
-    $stmt->execute([$Usuario]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-    if ($row && $clave === $row['Clave']) { 
-        $idRegistro = $row['id_Registro'];
-        $idRol = $row['idRol'];
-
-        $_SESSION['Usuario'] = $Usuario;
-        $_SESSION['id_Registro'] = $idRegistro;
-
-    
-        $sql_rol = "SELECT Roldescripcion FROM rol WHERE id = ?";
-        $stmt = $base_de_datos->prepare($sql_rol);
-        $stmt->execute([$idRol]);
-        $rol = $stmt->fetchColumn();
-
-        $_SESSION['roles'] = [$rol];
-
-
-        echo json_encode(["success" => true, "roles" => [$rol]]);
-    } else {
-        http_response_code(401);
-        echo json_encode(["error" => "Usuario o clave incorrectos."]);
+    if (empty($Usuario) || empty($Clave)) {
+        echo json_encode(['error' => 'Usuario y contraseña requeridos.']);
+        exit;
     }
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(["error" => "Error en el servidor: " . $e->getMessage()]);
+
+    $stmt = $base_de_datos->prepare("SELECT idRol, Clave FROM registro WHERE Usuario = ?");
+    $stmt->execute([$Usuario]);
+    $usuarioDB = $stmt->fetch();
+
+    if ($usuarioDB && password_verify($Clave, $usuarioDB['Clave'])) {
+        // Iniciar sesión nuevamente con la contraseña verificada
+        $_SESSION['Usuario'] = $Usuario;
+        $_SESSION['idRol'] = $usuarioDB['idRol'];
+
+        echo json_encode(['mensaje' => 'Inicio de sesión exitoso', 'redirect' => 'residente/BIENVENIDORESIDENTE.php']);
+    } else {
+        echo json_encode(['error' => 'Credenciales incorrectas']);
+    }
 }
