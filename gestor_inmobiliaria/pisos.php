@@ -1,20 +1,48 @@
 <?php
+include_once "conexion.php";
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 
+// Verificar si el usuario está logueado
 if (!isset($_SESSION['Usuario'])) {
     header("Location: http://localhost/sets/login.php");
     exit();
 }
 
+// Obtener el nombre de usuario desde la sesión
+$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
+// Consultar el nombre completo usando solo el campo 'Usuario'
+$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
+$stmt = $base_de_datos->prepare($sqlUsuario);
+$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+$stmt->execute();
+$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Verificar que el usuario existe
+if ($datosUsuario) {
+    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
+} else {
+    // Si no se encuentra el usuario, redirigir a login
+    header("Location: http://localhost/sets/login.php");
+    exit();
+}
+
+// Redirigir si no es residente
+$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
+$stmtRol = $base_de_datos->prepare($sqlRol);
+$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+$stmtRol->execute();
+$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
+
+if ($datosRol['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
 
 include_once "conexion.php";
 $query = "SELECT  p.numPiso, p.descripcionPiso, a.numApartamento, a.descripcionApartamento FROM  piso p JOIN  apartamento a ON p.id_Piso = a.pisos  -- Relación entre piso y apartamento
@@ -56,8 +84,9 @@ foreach ($resultados as $fila) {
   <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-        <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria </b></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+      <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+      <b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
