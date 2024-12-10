@@ -30,6 +30,8 @@ if ($result->rowCount() > 0) {
         $isEvent = strpos($row["titulo"], "Evento") !== false;
     }
 }
+
+
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
 ?>
