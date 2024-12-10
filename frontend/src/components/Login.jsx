@@ -8,32 +8,35 @@ const Login = () => {
   const [Usuario, setUsuario] = useState("");
   const [Clave, setClave] = useState("");
   const [error, setError] = useState("");
-
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", { Usuario, Clave }); 
-    try {
-      const response = await axios.post("http://localhost/sets/backend/login.php", {
-        Usuario,
-        Clave,
-      });
-      const { roles } = response.data;
+    console.log("Datos enviados:", { Usuario, Clave });
 
-      if (roles.includes("admin")) {
-        window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
-      } else if (roles.includes("residente")) {
-        window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
-      } else if (roles.includes("Gestor de Imobiliaria")) {
-        window.location.href = "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php";
-      } else if (roles.includes("Guarda de Seguridad")) {
-        window.location.href = "http://localhost/SETS/seguridad/inicioprincipal.php";
-      } else {
-        window.location.href = "http://localhost/SETS/error.html";
-      }
+    try {
+        const response = await axios.post("http://localhost/sets/backend/login.php", {
+            Usuario,
+            Clave,
+        });
+
+        if (response.data.token) {
+            localStorage.setItem("authToken", response.data.token); // Guardar el token en localStorage
+            const { roles } = response.data;
+
+            if (roles.includes("admin")) {
+                window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
+            } else if (roles.includes("residente")) {
+                window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
+            } else {
+                window.location.href = "http://localhost/SETS/error.html";
+            }
+        } else {
+            setError(response.data.error);
+        }
     } catch (err) {
-      setError(err.response?.data?.error || "Error al iniciar sesión.");
+        setError(err.response?.data?.error || "Error al iniciar sesión.");
     }
-  };
+};
+
   return (
     <div className="container">
       {/* Encabezado con logo y título */}
