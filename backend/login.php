@@ -8,19 +8,19 @@ include_once "conexion.php";
 
 session_start();
 
-// Verificar si las cookies están activas y validar el usuario
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_COOKIE['Usuario']) && isset($_COOKIE['idRol'])) {
-        $Usuario = $_COOKIE['Usuario'];  // Asegúrate de que este nombre coincida con el de la cookie
-        $idRol = $_COOKIE['idRol'];      // Asegúrate de que este nombre coincida con el de la cookie
+        $Usuario = $_COOKIE['Usuario'];  
+        $idRol = $_COOKIE['idRol'];      
 
-        // Validar en la base de datos
+
         $stmt = $base_de_datos->prepare("SELECT idRol, Clave FROM registro WHERE Usuario = ?");
         $stmt->execute([$Usuario]);
         $usuarioDB = $stmt->fetch();
 
         if ($usuarioDB && $usuarioDB['idRol'] == $idRol) {
-            // Aquí las cookies son válidas, puedes proceder a permitir que el usuario inicie sesión
+            
             echo json_encode(['mensaje' => 'Sesión válida, por favor ingrese su contraseña para continuar']);
         } else {
             echo json_encode(['error' => 'Cookies inválidas']);
@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
-// Validar credenciales del usuario al iniciar sesión (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Usuario = $_POST['Usuario'] ?? '';
     $Clave = $_POST['Clave'] ?? '';
@@ -45,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuarioDB = $stmt->fetch();
 
     if ($usuarioDB && password_verify($Clave, $usuarioDB['Clave'])) {
-        // Iniciar sesión nuevamente con la contraseña verificada
+   
         $_SESSION['Usuario'] = $Usuario;
         $_SESSION['idRol'] = $usuarioDB['idRol'];
 
