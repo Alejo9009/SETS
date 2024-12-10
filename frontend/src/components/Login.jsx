@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Login.css";
+import logo from "../assets/img/c.png";
+
 
 const Login = () => {
-  const [Usuario, setUsuario] = useState("");
-  const [Clave, setClave] = useState("");
+  const [usuario, setUsuario] = useState("");
+  const [clave, setClave] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", { Usuario, Clave }); 
+    console.log("Datos enviados:", { usuario, clave }); 
     try {
       const response = await axios.post("http://localhost/sets/backend/login.php", {
-        Usuario,
-        Clave,
+        usuario,
+        clave,
       });
       const { roles } = response.data;
 
       if (roles.includes("admin")) {
-        window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
+        window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
       } else if (roles.includes("residente")) {
-        window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
+        window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
       } else if (roles.includes("Gestor de Imobiliaria")) {
-        window.location.href = "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php";
+        window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
       } else if (roles.includes("Guarda de Seguridad")) {
-        window.location.href = "http://localhost/SETS/seguridad/inicioprincipal.php";
+        window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
       } else {
         window.location.href = "http://localhost/SETS/error.html";
       }
@@ -35,7 +38,7 @@ const Login = () => {
     <div className="container">
       {/* Encabezado con logo y título */}
       <header className="text-center mb-4 d-flex flex-column align-items-center">
-    <br /> <p /><p />
+        <img src={logo} alt="Logo" /><br /> <p /><p />
         <h2 className="title">SETS<br />BIENVENIDO</h2>
       </header>
       <div className="login-container">
@@ -46,7 +49,7 @@ const Login = () => {
           <label>Usuario:</label>  
             <input
               type="text"
-              value={Usuario}
+              value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               required
             />
@@ -55,7 +58,7 @@ const Login = () => {
             <label>Clave:</label>
             <input
               type="password"
-              value={Clave}
+              value={clave}
               onChange={(e) => setClave(e.target.value)}
               required
             />

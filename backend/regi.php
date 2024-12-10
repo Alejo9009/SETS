@@ -5,15 +5,17 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
 
+
+
 include_once "conexion.php";
 
 try {
-   
+    // Verifica si la conexión a la base de datos se ha realizado correctamente
     if (!$base_de_datos) {
         throw new Exception("Error al conectar con la base de datos.");
     }
 
-
+    // Procesar solicitud POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $idRol = $_POST['idRol'];
         $PrimerNombre = $_POST['PrimerNombre'];
@@ -28,36 +30,56 @@ try {
         $Usuario = $_POST['Usuario'];
         $Clave = password_hash($_POST['Clave'], PASSWORD_BCRYPT);
 
-     
+        // Iniciar transacción
         $base_de_datos->beginTransaction();
 
-   
+        // Insertar datos en la tabla 'registro'
         $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Correo, Id_tipoDocumento, numeroDocumento, telefonoUno, telefonoDos, Usuario, Clave) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $base_de_datos->prepare($sql);
         $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Id_tipoDocumento, $numeroDocumento, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
 
-
+        // Confirmar la transacción
         $base_de_datos->commit();
 
-
+        // Iniciar sesión
         session_start();
         $_SESSION['Usuario'] = $Usuario;
         $_SESSION['idRol'] = $idRol;
         $_SESSION['Clave'] = $Clave;
 
 
-    
+        // Obtener la descripción del rol
         $sqlRoleDesc = "SELECT Roldescripcion FROM rol WHERE id = ?";
         $stmtRoleDesc = $base_de_datos->prepare($sqlRoleDesc);
         $stmtRoleDesc->execute([$idRol]);
         $rolDescripcion = $stmtRoleDesc->fetchColumn();
 
-      
-        echo json_encode(['redirect' => 'success']);
+        // Redirigir según el rol
+        $redirect = "";
+        switch ($rolDescripcion) {
+            case "admin":
+                $redirect = "1"; // Admin
+                break;
+            case "Gestor de Imobiliaria":
+                $redirect = "2"; // Gestor
+                break;
+            case "Guarda de Seguridad":
+                $redirect = "3"; // Seguridad
+                break;
+            case "residente":
+                $redirect = "4"; // Residente
+                break;
+            default:
+                $redirect = "error";
+                break;
+        }
+
+        // Enviar la respuesta al frontend con el rol asignado para redirigir
+        echo json_encode(['redirect' => $redirect]);
     }
 
-
+    // Procesar solicitud GET
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         if (isset($_GET['tipo'])) {
             if ($_GET['tipo'] === 'roles') {
@@ -84,10 +106,10 @@ try {
         }
     }
 } catch (Exception $e) {
-
+    // En caso de error, deshacer la transacción
     $base_de_datos->rollBack();
     echo json_encode(["error" => "Error general: " . $e->getMessage()]);
 } finally {
-
+    // Cerrar la conexión
     $base_de_datos = null;
 }

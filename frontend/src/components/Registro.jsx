@@ -100,30 +100,44 @@ const Registro = () => {
             setMensaje("Por favor, corrija los errores antes de enviar.");
             return;
         }
-   
+    
         // Crear un objeto FormData
         const formDataToSend = new FormData();
         for (let key in formData) {
             formDataToSend.append(key, formData[key]);
         }
-   
+    
         try {
             const response = await axios.post("http://localhost/sets/backend/regi.php", formDataToSend, {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 withCredentials: true,
             });
-   
+            const { redirect } = response.data;
+    
             // Asegúrate de que 'redirect' esté siendo retornado correctamente en la respuesta
-            if (response.data.redirect === 'success') {
-                window.location.href = "http://localhost:3000/login";  // Redirige a login
-            } else {
-                setMensaje("Hubo un error al registrar el usuario.");
+            if (redirect) {
+                switch (redirect) {
+                    case "1":
+                        window.location.href = "http://localhost/sets/admin/BIENVENIDOADMI.php";
+                        break;
+                    case "4":
+                        window.location.href = "http://localhost/sets/residente/BIENVENIDORESIDENTE.php";
+                        break;
+                    case "2":
+                        window.location.href = "http://localhost/sets/gestor_inmobiliaria/BIENVENIDOADMINISTRADOR.php";
+                        break;
+                    case "3":
+                        window.location.href = "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php";
+                        break;
+                    default:
+                        window.location.href = "http://localhost/SETS/error.html";
+                }
             }
         } catch (error) {
             setMensaje(error.response?.data?.error || "Error al registrar el usuario.");
         }
     };
-   
+    
     
 
     return (
