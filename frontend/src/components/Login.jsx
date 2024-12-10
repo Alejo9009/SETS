@@ -23,12 +23,17 @@ const Login = () => {
             const { roles } = response.data;
 
             if (roles.includes("admin")) {
-                window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
+              window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
             } else if (roles.includes("residente")) {
-                window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
+              window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
+            } else if (roles.includes("Gestor de Imobiliaria")) {
+              window.location.href = "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php";
+            } else if (roles.includes("Guarda de Seguridad")) {
+              window.location.href = "http://localhost/SETS/seguridad/inicioprincipal.php";
             } else {
-                window.location.href = "http://localhost/SETS/error.html";
+              window.location.href = "http://localhost/SETS/error.html";
             }
+            
         } else {
             setError(response.data.error);
         }
