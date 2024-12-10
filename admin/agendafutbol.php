@@ -1,20 +1,48 @@
 <?php
+include_once "conexion.php";
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 
+// Verificar si el usuario está logueado
 if (!isset($_SESSION['Usuario'])) {
     header("Location: http://localhost/sets/login.php");
     exit();
 }
 
+// Obtener el nombre de usuario desde la sesión
+$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+// Consultar el nombre completo usando solo el campo 'Usuario'
+$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
+$stmt = $base_de_datos->prepare($sqlUsuario);
+$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+$stmt->execute();
+$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Verificar que el usuario existe
+if ($datosUsuario) {
+    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
+} else {
+    // Si no se encuentra el usuario, redirigir a login
+    header("Location: http://localhost/sets/login.php");
+    exit();
+}
+
+// Redirigir si no es residente
+$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
+$stmtRol = $base_de_datos->prepare($sqlRol);
+$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+$stmtRol->execute();
+$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
+
+if ($datosRol['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,9 +61,9 @@ if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
         <nav class="topbar">
             <div class="menu-left">
                 <div class="admin-container">
-                    <img src="img/ajustes.png" alt="Admin" class="admin-img">
-                    <a class="menu-button" style="color: aliceblue;">Admin</a>
-                    <div class="dropdown-menu">
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+                 <div class="dropdown-menu">
                         <ul>
                             <a href="Perfil.html">Editar Datos</a>
                             <a href="#">Reportar Problema</a>
