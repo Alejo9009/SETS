@@ -35,8 +35,8 @@ if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
         <img src="img/guarda.png" alt="Bienvenida" style="width: 30%;">
        <br>
        <p><b>Registro Realizado Correctamente ! </b></p>
-        <p><b>Estamos Emocionados de tenerte con nosotros Guarda de Seguridad <br>
-         .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
+        <p><b>Estamos emocionados de tenerte con nosotros Guarda de Seguridad <br>
+         .Ahora Continua e Inicia en este Nuevo Mundo:</b></p>
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar</a>
     </main>

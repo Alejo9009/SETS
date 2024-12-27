@@ -71,8 +71,8 @@ try {
   <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-      <img src="img/guarda.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-      <b style="font-size: 40px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+      <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+      <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
@@ -160,6 +160,9 @@ try {
   </div>
   <br>
   <br>
+  <br>
+  <br>
+  <br>
   <main>
     <section class="anuncio">
       <center>
@@ -205,8 +208,8 @@ try {
   </header>
   <br>
   <div class="d-flex justify-content-between">
-    <a href="ingresoregi.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 9vh;">Ingreso Peatonal</a>
-    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px; width: 9vw; height: 7vh;">Volver</a>
+    <a href="ingresoregi.php" class="btn btn-success" style="font-size: 20px; width: 6vw; height: 8vh;">Ingreso Peatonal</a>
+    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 20px; width: 6vw; height: 5vh;">Volver</a>
   </div>
   <script>
     document.querySelector('.admin-img').addEventListener('click', function() {
@@ -280,5 +283,6 @@ try {
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
 </body>
 </html>
