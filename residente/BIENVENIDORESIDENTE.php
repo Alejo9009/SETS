@@ -36,7 +36,7 @@ if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
        <br>
        <br>
        <p><b>Registro Realizado Correctamente ! </b></p>
-        <p><b>Estamos emocionados de tenerte con nosotros Residente<br>,
+        <p><b>Estamos emocionados de tenerte con nosotros Residente<br>
         Ahora Continua e Inicia en este nuevo Mundo:</b></p>     
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar</a>
     </main>

@@ -68,10 +68,10 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -98,7 +98,7 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -124,7 +124,7 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -155,8 +155,8 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-        <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> <br> <br>  <br><br> <br>
-        <br> <br> <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br> <br>  <br>
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br><br>
         <div class="container">
             <div class="login-content">
                 <div class="alert alert-success" role="alert">
@@ -226,11 +226,14 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <button type="submit" class="btn btn-success">Solicitar</button>
                 </form>
+
             </div>
+
         </div>
         </div>
+        
     </main>
-    <a href="parqueaderocarro.php" class="btn btn-danger btn-lg" style="position: absolute; bottom: 10px;">Volver</a>
+    <a href="parqueaderocarro.php" class="btn btn-danger btn-lg" style="position: absolute; bottom: 10px; font-size: 20px;">Volver</a>
     <script>
         function toggleDetails() {
             const section = document.getElementById('form-section');
@@ -343,6 +346,7 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -358,4 +362,5 @@ $parqueaderosDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
+
 </html>

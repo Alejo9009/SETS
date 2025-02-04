@@ -53,15 +53,10 @@ const Login = () => {
     <div className="container">
       {/* Encabezado con logo y título */}
       <header className="text-center mb-4 d-flex flex-column align-items-center">
-<<<<<<< Updated upstream:frontend/src/components/Login.jsx
         <img src={logo} alt="Logo" />
         <h2 className="title">
           SETS<br />BIENVENIDO
         </h2>
-=======
-    
-        <h2 className="title">SETS<br />BIENVENIDO</h2>
->>>>>>> Stashed changes:frontend/src/components/Login.js
       </header>
 
       <div className="login-container">

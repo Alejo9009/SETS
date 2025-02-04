@@ -38,7 +38,7 @@ if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
      <br>
      <p><b>Registro Realizado Correctamente ! </b></p>
         <p><b>Estamos emocionados de tenerte con nosotros Gestor de Inmobiliaria<br>
-         .Ahora Continua e Inicia en este nuevo Mundo:</b></p>
+         Ahora Continua e Inicia en este nuevo Mundo:</b></p>
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar </a>
     </main>
