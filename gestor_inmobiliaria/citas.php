@@ -81,7 +81,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Citas</title>
+    <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/citasFormularioAdm.css?v=<?php echo (rand()); ?>">
 </head>
@@ -90,8 +91,8 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a><button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+            <img src="img/administrado.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+            <b style="font-size: 25px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a><button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -177,7 +178,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 mt-5">
             <div class="alert alert-success" role="alert">
-            <h2>Control de citas</h2>
+           <center> <h2><b>Control de citas</b></h2></center>
 </div>
               
                 <table class="table">
@@ -230,7 +231,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-<a class="btn btn-success" href="CALEN.php">ver Calendario</a>
+<a class="btn btn-success" href="CALEN.php">Ver Calendario</a>
 </div>
     </div>
    

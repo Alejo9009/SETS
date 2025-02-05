@@ -82,8 +82,8 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-      <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-      <b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+      <img src="img/administrado.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+      <b style="font-size: 25px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
@@ -164,14 +164,14 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
 <br>
 <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios disponibles - SALON COMUNAL</h2>
+            <h2><b>Horarios disponibles - SALON COMUNAL</b></h2>
         </div>
 
         <div class="container">
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="calendar-header">
-                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <h2 id="calendar-title"><b>Calendario de Disponibilidad</b></h2>
                         <br><p>
                         <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
@@ -200,7 +200,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
 
             <aside class="sidebar">
-                <h2>Agendaciones</h2>
+                <h2><b>Agendaciones</h2>
                 <div class="search-bar">
                     <input type="search" placeholder="Buscar agendaciones..." />
                     <ion-icon name="search-outline"></ion-icon>
@@ -208,7 +208,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                 <div class="appointment-list">
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
-                            <h3>SALON COMUNAL</h3>
+                            <h3>SALON COMUNAL</b></h3>
                             <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
                             <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
@@ -220,21 +220,21 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                           <form action="./servidor/procesar_salon.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="aceptar">
-                                    <button type="submit" class="btn btn-success">Aceptar</button>
+                                    <button type="submit" class="btn btn-success"><b>Aceptar</b></button>
                                 </form>
 
                                 <!-- Formulario para dejar la solicitud como pendiente -->
                                 <form action="./servidor/procesar_salon.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="pendiente">
-                                    <button type="submit" class="btn btn-warning">Pendiente</button>
+                                    <button type="submit" class="btn btn-warning"><b>Pendiente</b></button>
                                 </form>
 
                                 <!-- Formulario para eliminar la solicitud -->
                                 <form action="./servidor/procesar_salon.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                 </form>
                     </div>
                         </div>

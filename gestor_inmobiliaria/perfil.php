@@ -9,13 +9,13 @@ header("Access-Control-Allow-Credentials: true");
 $Usuario = $_SESSION['Usuario'] ?? null;
 
 if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
+  header("Location: http://localhost/sets/login.php");
+  exit();
 }
 
 if ($_SESSION['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
-    header("Location: http://localhost/sets/error.php");
-    exit();
+  header("Location: http://localhost/sets/error.php");
+  exit();
 }
 
 // Conectar a la base de datos y obtener los datos del usuario
@@ -25,65 +25,65 @@ $stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$userData) {
-    die("Error: No se encontraron datos del perfil.");
+  die("Error: No se encontraron datos del perfil.");
 }
 
 // Aquí ya puedes cargar los datos del perfil
 
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
-        $fileName = basename($_FILES['imagenPerfil']['name']);
-        $fileSize = $_FILES['imagenPerfil']['size'];
-        $fileType = $_FILES['imagenPerfil']['type'];
-        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+  if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
+    $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
+    $fileName = basename($_FILES['imagenPerfil']['name']);
+    $fileSize = $_FILES['imagenPerfil']['size'];
+    $fileType = $_FILES['imagenPerfil']['type'];
+    $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // Verificar si el archivo es una imagen real
-        $check = getimagesize($fileTmpPath);
-        if ($check === false) {
-            echo "El archivo no es una imagen.";
-            exit;
-        }
-
-        // Verificar el tamaño del archivo (máximo 2MB)
-        if ($fileSize > 2000000) {
-            echo "El archivo es demasiado grande.";
-            exit;
-        }
-
-        // Permitir ciertos formatos de archivo
-        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-        if (!in_array($fileExtension, $allowedTypes)) {
-            echo "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
-            exit;
-        }
-
-        // Definir la ruta de destino y mover el archivo
-        $targetDir = "uploads/";
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-        $targetFilePath = $targetDir . $fileName;
-        if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-            // Actualizar la base de datos con la ruta de la imagen
-            $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
-            $stmt = $base_de_datos->prepare($sql);
-            if ($stmt->execute([$targetFilePath, $idRegistro])) {
-                echo "La imagen se ha subido correctamente.";
-            } else {
-                echo "Hubo un error al actualizar la base de datos.";
-            }
-        } else {
-            echo "Hubo un error al subir la imagen.";
-            // Mostrar detalles del error
-            echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
-        }
-    } else {
-        echo "No se ha seleccionado ningún archivo o ocurrió un error en la subida.";
-        // Mostrar detalles del error
-        echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
+    // Verificar si el archivo es una imagen real
+    $check = getimagesize($fileTmpPath);
+    if ($check === false) {
+      echo "El archivo no es una imagen.";
+      exit;
     }
+
+    // Verificar el tamaño del archivo (máximo 2MB)
+    if ($fileSize > 2000000) {
+      echo "El archivo es demasiado grande.";
+      exit;
+    }
+
+    // Permitir ciertos formatos de archivo
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    if (!in_array($fileExtension, $allowedTypes)) {
+      echo "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
+      exit;
+    }
+
+    // Definir la ruta de destino y mover el archivo
+    $targetDir = "uploads/";
+    if (!is_dir($targetDir)) {
+      mkdir($targetDir, 0755, true);
+    }
+    $targetFilePath = $targetDir . $fileName;
+    if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
+      // Actualizar la base de datos con la ruta de la imagen
+      $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
+      $stmt = $base_de_datos->prepare($sql);
+      if ($stmt->execute([$targetFilePath, $idRegistro])) {
+        echo "La imagen se ha subido correctamente.";
+      } else {
+        echo "Hubo un error al actualizar la base de datos.";
+      }
+    } else {
+      echo "Hubo un error al subir la imagen.";
+      // Mostrar detalles del error
+      echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
+    }
+  } else {
+    echo "No se ha seleccionado ningún archivo o ocurrió un error en la subida.";
+    // Mostrar detalles del error
+    echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
+  }
 }
 
 // Preparar la consulta para obtener los datos del perfil
@@ -99,7 +99,7 @@ $stmt->execute([$Usuario]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$userData) {
-    die("Error: No se encontraron datos del perfil.");
+  die("Error: No se encontraron datos del perfil.");
 }
 ?>
 
@@ -108,20 +108,20 @@ if (!$userData) {
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETS -Editar Perfil</title>
-    <link rel="stylesheet" href="css/perfil.css?v=<?php echo (rand()); ?>">
-    <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SETS -Editar Perfil</title>
+  <link rel="stylesheet" href="css/perfil.css?v=<?php echo (rand()); ?>">
+  <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
-    <header>
+  <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-        <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 40px;color:aliceblue"> Administrador </b></a>
+        <img src="img/administrado.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;"><b style="font-size: 25px;color:aliceblue"> Administrador </b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
@@ -149,7 +149,7 @@ if (!$userData) {
                       <center><a href="Perfil.php">Editar datos</a></center>
                     </li>
                     <li>
-                    <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                      <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                     </li>
                   </ul>
@@ -172,7 +172,8 @@ if (!$userData) {
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
                     </li>
-                    <li>   <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                    <li>
+                      <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                     </li>
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
@@ -192,119 +193,117 @@ if (!$userData) {
         </div>
       </div>
     </nav>
-    </header>
-    <br><br>
-    <main>
-        <section class="chat-container" id="chatContainer">
-            <header class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </header>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-        </section>
-    </main>
-    <br>
-   
-    <div class="perfil">
-        <center>
-            <div class="alert alert-success" role="alert">
-                <h1>Perfil de Usuario</h1>
-            </div>
-            <div class="info-perfil">
-                <?php if ($userData['imagenPerfil']): ?>
-                    <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
-                <?php endif; ?>
-                <p><b>Rol:</b> <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
-                <p><b>Primer Nombre:</b> <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
-                <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
-                <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
-                <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
-                <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
+  </header>
+  <br><br>
+  <main>
+    <section class="chat-container" id="chatContainer">
+      <header class="chat-header">
+        <span id="chatHeader">Chat</span>
+        <button class="close-btn" onclick="closeChat()">×</button>
+      </header>
+      <div class="chat-messages" id="chatMessages">
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </section>
+  </main>
+  <br>
 
-                <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
-                <p><b>Teléfono 1:</b> <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
-                <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
-                <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
-                <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-                <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
-                <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
-            </div>
-            <br>
-            <br>
-            <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-            <a href="t.php" class="btn btn-success">Agregar mi Vivienda</a>
+  <div class="perfil">
+    <center>
+      <div class="alert alert-success" role="alert">
+        <h1>Perfil de Usuario</h1>
+      </div>
+      <div class="info-perfil">
+        <?php if ($userData['imagenPerfil']): ?>
+          <img src="<?php echo htmlspecialchars($userData['imagenPerfil']); ?>" alt="Imagen de Perfil" class="imagen-perfil">
+        <?php endif; ?>
+        <p><b>Rol:</b> <?php echo htmlspecialchars($userData['Roldescripcion']); ?></p>
+        <p><b>Primer Nombre:</b> <?php echo htmlspecialchars($userData['PrimerNombre']); ?></p>
+        <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
+        <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
+        <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+        <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
 
-            <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
+        <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
+        <p><b>Teléfono 1:</b> <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
+        <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
+        <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
+        <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
+        <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
+        <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
+      </div>
+      <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
+      <a href="t.php" class="btn btn-success">Agregar mi Vivienda</a>
 
-    </div>
-    </center>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        document.querySelector('.admin-img').addEventListener('click', function() {
-            document.querySelector('.dropdown-menu').classList.toggle('show');
-        });
+      <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 
-        document.querySelector('.chat-button').addEventListener('click', function() {
-            document.querySelector('.chat-menu').classList.toggle('show');
-        });
+  </div>
+  </center>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    document.querySelector('.admin-img').addEventListener('click', function() {
+      document.querySelector('.dropdown-menu').classList.toggle('show');
+    });
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+    document.querySelector('.chat-button').addEventListener('click', function() {
+      document.querySelector('.chat-menu').classList.toggle('show');
+    });
+
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
         }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        function openChat(chatName) {
-            const chatContainer = document.getElementById('chatContainer');
-            const chatHeader = document.getElementById('chatHeader');
-            chatHeader.textContent = chatName;
-            chatContainer.classList.add('show');
-        }
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    function openChat(chatName) {
+      const chatContainer = document.getElementById('chatContainer');
+      const chatHeader = document.getElementById('chatHeader');
+      chatHeader.textContent = chatName;
+      chatContainer.classList.add('show');
+    }
 
-        function closeChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.classList.remove('show');
-        }
+    function closeChat() {
+      const chatContainer = document.getElementById('chatContainer');
+      chatContainer.classList.remove('show');
+    }
 
-        function sendMessage() {
-            const messageInput = document.getElementById('chatInput');
-            const messageText = messageInput.value.trim();
-            if (messageText) {
-                const chatMessages = document.getElementById('chatMessages');
-                const messageElement = document.createElement('p');
-                messageElement.textContent = messageText;
-                chatMessages.appendChild(messageElement);
-                messageInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
+    function sendMessage() {
+      const messageInput = document.getElementById('chatInput');
+      const messageText = messageInput.value.trim();
+      if (messageText) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageElement = document.createElement('p');
+        messageElement.textContent = messageText;
+        chatMessages.appendChild(messageElement);
+        messageInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    }
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
         }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -80,9 +80,9 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
-             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/administrado.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 25px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -109,7 +109,7 @@ if ($stmt->rowCount() > 0) {
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                                         </li>
                                     </ul>
@@ -129,18 +129,18 @@ if ($stmt->rowCount() > 0) {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                    <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
-                    </li>
-                    <li>
-                    <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
-                    </li>
-                    <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
-                    </li>
-                    <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                    </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
+                                        </li>
                                     </ul>
                             </center>
                         </ul>
@@ -162,14 +162,14 @@ if ($stmt->rowCount() > 0) {
         <br>
         <br>
         <div class="alert alert-success g" role="alert">
-            <h2>Horarios Disponibles - Gimnasio</h2>
+            <h2><b>Horarios Disponibles - Gimnasio</b></h2>
         </div>
 
         <div class="container">
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="calendar-header">
-                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
+                        <h2 id="calendar-title"><b>Calendario de Disponibilidad</b></h2>
                         <br>
                         <p>
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
@@ -207,7 +207,7 @@ if ($stmt->rowCount() > 0) {
                 <div class="appointment-list">
                     <?php foreach ($solicitudes as $solicitud): ?>
                         <div class="appointment">
-                            <h3>Gimnasio</h3>
+                            <h3><b>Gimnasio</b></h3>
                             <p><strong>fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
                             <p><strong>fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
@@ -218,20 +218,20 @@ if ($stmt->rowCount() > 0) {
                                 <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="aceptar">
-                                    <button type="submit" class="btn btn-success">Aceptar</button>
+                                    <button type="submit" class="btn btn-success"><b>Aceptar</b></button>
                                 </form>
 
-                                
+
                                 <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="pendiente">
-                                    <button type="submit" class="btn btn-warning">Pendiente</button>
+                                    <button type="submit" class="btn btn-warning"><b>Pendiente</b></button>
                                 </form>
 
                                 <form action="./servidor/procesar_gym.php" method="POST">
                                     <input type="hidden" name="id_solicitud" value="<?= $solicitud['ID_Apartamentooss'] ?>"> <!-- o ID_zonaComun -->
                                     <input type="hidden" name="accion" value="eliminar">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                 </form>
                             </div>
                         </div>
