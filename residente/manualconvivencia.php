@@ -64,10 +64,10 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
         </div>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a>  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -93,7 +93,7 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -147,7 +147,7 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
         </div>
     </div>
     <main>
-        <br> <br>  <br>
+        <br> <br> <br>
         <h1 class="responsive-title"><b>Normas De Convivencia !</b></h1>
         <br>
         <center>
@@ -169,6 +169,7 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -188,10 +189,12 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -204,6 +207,7 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -218,4 +222,5 @@ if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>

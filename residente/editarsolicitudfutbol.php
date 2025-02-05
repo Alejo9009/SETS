@@ -81,10 +81,10 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -111,7 +111,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -170,7 +170,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <br><br><br>
     <div class="alert alert-success" role="alert">
         <h2 style="text-align: center;">Actualizar Solicitud de Agendación Futbol</h2>
-        <p><br>
+        <p>
     </div>
     <br>
     <div class="container">
@@ -178,7 +178,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
             <div class="container">
                 <form action="./servidor-zonas/procesar_editarfutbol.php" method="POST">
                     <img src="img/objetivo.png" alt="Logo" class="imgp">
-                    <br> <br>
+                
                     <input type="hidden" name="idSolicitud" value="<?= htmlspecialchars($solicitud['ID_Apartamentooss']) ?>">
                     <div class="form-group">
                         <label for="fechainicio">Fecha de Inicio:</label>
@@ -196,12 +196,15 @@ if (isset($_GET['ID_Apartamentooss'])) {
                         <label for="Hora_final">Hora de Finalización:</label>
                         <input type="time" name="Hora_final" value="<?= htmlspecialchars($solicitud['Hora_final']) ?>" required class="form-control">
                     </div>
-                    <br>
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 </form>
                 <br>
         </section>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
     <a href="solicitarfutbol.php" class="btn btn-danger btn-lg">volver</a>
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
@@ -231,10 +234,12 @@ if (isset($_GET['ID_Apartamentooss'])) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -247,6 +252,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -261,4 +267,5 @@ if (isset($_GET['ID_Apartamentooss'])) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>

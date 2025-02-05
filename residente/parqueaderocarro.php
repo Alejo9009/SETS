@@ -71,10 +71,10 @@ try {
         <div class="topbar">
             <nav class="navbar bg-body-tertiary fixed-top">
                 <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                    <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a>  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                    <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                    </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                         <span class="navbar-toggler-icon" style="color: white;"></span>
                     </button>
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -101,7 +101,7 @@ try {
                                                 <center><a href="Perfil.php">Editar datos</a></center>
                                             </li>
                                             <li>
-                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                                <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                             </li>
                                         </ul>
                                 </center>
@@ -124,8 +124,8 @@ try {
                                                 <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
                                             <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
+                                            </li>
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                             </li>
@@ -255,6 +255,7 @@ try {
             document.querySelector('.chat-button').addEventListener('click', function() {
                 document.querySelector('.chat-menu').classList.toggle('show');
             });
+
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -266,6 +267,7 @@ try {
                     }
                 });
             }
+
             function showTab(tabId) {
                 document.querySelectorAll('.tab-content').forEach(tab => {
                     tab.classList.remove('active');
@@ -284,10 +286,12 @@ try {
                 chatHeader.textContent = chatName;
                 chatContainer.classList.add('show');
             }
+
             function closeChat() {
                 const chatContainer = document.getElementById('chatContainer');
                 chatContainer.classList.remove('show');
             }
+
             function sendMessage() {
                 const messageInput = document.getElementById('chatInput');
                 const messageText = messageInput.value.trim();
@@ -300,6 +304,7 @@ try {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
+
             function filterChat() {
                 const searchInput = document.querySelector('.search-bar').value.toLowerCase();
                 const chatItems = document.querySelectorAll('.chat-item');
@@ -314,4 +319,5 @@ try {
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

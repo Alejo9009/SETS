@@ -79,10 +79,10 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a>  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -109,7 +109,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -153,7 +153,7 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
             </div>
         </nav>
     </header>
-    <br>  <br><br><br>
+    <br> <br>
     <main>
         <br> <br><br>
         <div class="alert alert-success g" role="alert">
@@ -166,13 +166,18 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                         <h2 id="calendar-title">Calendario de Disponibilidad </h2>
                         <br>
                         <p>
-                            <span id="month-year" style="color: #0e2c0a;"><b></b></span>
+                        <span id="month-year" style="color: #0e2c0a;"><b></b></span>
+                      
+                        
                         <div id="calendar-controls">
                             <button id="prev-month" onclick="prevMonth()">←</button>
                             <span id="month-year"></span>
                             <button id="next-month" onclick="nextMonth()">→</button>
                         </div>
+                       
                     </div>
+                    <span id="month-year" style="color: #0e2c0a;"><b></b></span>
+                      
                     <table id="calendar-table">
                         <thead>
                             <tr>
@@ -189,7 +194,9 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
                             <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
                     </table>
+                    
                 </div>
+               
             </div>
             <aside class="sidebar">
                 <h2>Agendadas</h2>
@@ -381,4 +388,5 @@ if ($stmt->rowCount() > 0) { // Verifica si hay resultados
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

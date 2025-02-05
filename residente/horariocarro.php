@@ -50,14 +50,14 @@ if (!$base_de_datos) {
 $sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
         FROM solicitud_parqueadero sp 
         LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        WHERE sp.TipoVehiculo = 'carro';"; 
+        WHERE sp.TipoVehiculo = 'carro';";
 
-$stmt = $base_de_datos->query($sql); 
-$solicitudes = []; 
+$stmt = $base_de_datos->query($sql);
+$solicitudes = [];
 
-if ($stmt->rowCount() > 0) { 
+if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; 
+        $solicitudes[] = $row;
     }
 }
 ?>
@@ -78,10 +78,10 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -108,7 +108,7 @@ if ($stmt->rowCount() > 0) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -134,7 +134,7 @@ if ($stmt->rowCount() > 0) {
                                             <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
                                         </li>
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
@@ -209,11 +209,11 @@ if ($stmt->rowCount() > 0) {
                                 <p><strong>Estado de la Solicitud:</strong> <?= htmlspecialchars($solicitud['estadoos']) ?></p>
                                 <br>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
+                                    <a href="car.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success"><b>Editar</b></a>
                                     <form action="./servidor-parqueaderos/elimincarro.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
                                         <input type="hidden" name="accion" value="eliminar">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                     </form>
                                 </div>
                             </center>
@@ -223,7 +223,9 @@ if ($stmt->rowCount() > 0) {
                 </div>
             </div>
     </main>
-    <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 40px;"><center>VOLVER</center></a>
+    <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 40px;">
+        <center>VOLVER</center>
+    </a>
     <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -231,6 +233,7 @@ if ($stmt->rowCount() > 0) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -250,10 +253,12 @@ if ($stmt->rowCount() > 0) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -266,6 +271,7 @@ if ($stmt->rowCount() > 0) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -282,4 +288,5 @@ if ($stmt->rowCount() > 0) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     </main>
 </body>
+
 </html>

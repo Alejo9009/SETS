@@ -67,6 +67,7 @@ if (isset($_GET['id_parking'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,14 +78,15 @@ if (isset($_GET['id_parking'])) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a> <b style="font-size: 40px;color:aliceblue"> Residente </b>
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+              
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -111,7 +113,7 @@ if (isset($_GET['id_parking'])) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -167,15 +169,14 @@ if (isset($_GET['id_parking'])) {
     </main>
     <br><br><br>
     <div class="alert alert-success" role="alert">
-        <h2 style="text-align: center;">Editar Solicitud de Agendación Parqueadero</h2>
-        <p><br></p>
+        <h2 style="text-align: center;font-size: 40px;">Editar Solicitud de Agendación Parqueadero</h2>
+        <p><br></p><br>
     </div>
     <br>
     <div class="container">
         <section class="login-content">
             <img src="img/moto.png" alt="Logo" class="imgp">
             <div class="container">
-
                 <form action="./servidor-parqueaderos/mott.php" method="POST">
                     <input type="hidden" name="id_parking" value="<?php echo $solicitud['id_parking']; ?>">
 
@@ -246,7 +247,8 @@ if (isset($_GET['id_parking'])) {
             </div>
         </section>
     </div>
-    <a href="hoariomoto.php" class="btn btn-danger btn-lg">Volver</a>
+    <br>
+    <a href="moto.php" class="btn btn-danger btn-lg">Volver</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

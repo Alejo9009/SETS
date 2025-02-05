@@ -12,7 +12,7 @@ if (!isset($_SESSION['Usuario'])) {
     exit();
 }
 
-$usuario = $_SESSION['Usuario']; 
+$usuario = $_SESSION['Usuario'];
 
 
 $sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
@@ -23,7 +23,7 @@ $datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; 
+    $nombreUsuario = $datosUsuario['Usuario'];
 } else {
 
     header("Location: http://localhost/sets/login.php");
@@ -37,7 +37,7 @@ $stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
 $stmtRol->execute();
 $datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
 
-if ($datosRol['idRol'] != 4) { 
+if ($datosRol['idRol'] != 4) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -45,6 +45,7 @@ if ($datosRol['idRol'] != 4) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,14 +57,15 @@ if ($datosRol['idRol'] != 4) {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a><button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a><button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -90,7 +92,7 @@ if ($datosRol['idRol'] != 4) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -147,9 +149,9 @@ if ($datosRol['idRol'] != 4) {
     <br><br><br><br><br><br><br><br>
     <div class="container">
         <section class="login-content">
-        <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
+            <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
                 <img src="img/alt.png" alt="Logo" class="imgp">
-                <h2 class="title">Añadir Anuncio</h2>
+                <h2 class="title"><b>Añadir Anuncio</b></h2>
                 <div class="input-div one">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
                         <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
@@ -221,6 +223,7 @@ if ($datosRol['idRol'] != 4) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -240,10 +243,12 @@ if ($datosRol['idRol'] != 4) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -256,6 +261,7 @@ if ($datosRol['idRol'] != 4) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -271,4 +277,5 @@ if ($datosRol['idRol'] != 4) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <br><br><br><br><br>
 </body>
+
 </html>

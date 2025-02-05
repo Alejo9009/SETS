@@ -16,7 +16,6 @@ if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
     exit();
 }
 
-session_start();
 
 
 include_once "conexion.php";
@@ -59,8 +58,8 @@ if (isset($_GET['id_parking'])) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                <b style="font-size: 40px;color:aliceblue"> Residente </b>
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Residente </b>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -144,12 +143,11 @@ if (isset($_GET['id_parking'])) {
             </div>
         </section>
     </main>
-    <br><br><br>
+    <br><br>
     <div class="alert alert-success" role="alert">
-        <h2 style="text-align: center;">Editar Solicitud de Agendación Parqueadero !</h2>
+        <h2 style="text-align: center;font-size: 20px;"><b>Editar Solicitud de Agendación Parqueadero !</b></h2>
         <p><br></p>
     </div>
-    <br>
     <div class="container">
         <section class="login-content">
             <img src="img/esta.png" alt="Logo" class="imgp">
@@ -217,7 +215,7 @@ if (isset($_GET['id_parking'])) {
                         <input type="text" name="descripcionvehiculo" value="<?= htmlspecialchars($solicitud['descripcionvehiculo']) ?>" required class="form-control">
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-success">Actualizar Solicitud</button>
+                    <button type="submit" class="btn btn-success"><b>Actualizar Solicitud</b></button>
                 </form>
             </div>
         </section>

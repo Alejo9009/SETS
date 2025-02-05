@@ -65,6 +65,7 @@ foreach ($citas as $row) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,15 +74,16 @@ foreach ($citas as $row) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -108,7 +110,7 @@ foreach ($citas as $row) {
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -157,11 +159,13 @@ foreach ($citas as $row) {
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="calendar-header">
-                        <h2 id="calendar-title">Calendario de Disponibilidad</h2>
-                        <p id="month-year" style="color: #0e2c0a;"><b></b></p>
+                        <h2 id="calendar-title" style="font-size: 25px;"><b>Calendario de Disponibilidad</b></h2>
+
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><-</button>
-                            <button id="next-month" onclick="nextMonth()">-></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                <
+                                    <button id="next-month" onclick="nextMonth()">>
+                            </button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -177,7 +181,9 @@ foreach ($citas as $row) {
                             </tr>
                         </thead>
                         <tbody id="calendar-body">
-       
+                            <center>
+                                <p id="month-year" style="color: #0e2c0a;"><b></b></p>
+                            </center>
                         </tbody>
                     </table>
                 </div>
@@ -185,8 +191,8 @@ foreach ($citas as $row) {
         </div>
     </main>
     <center>
-        <a href="citasFormulario.php" class="btn btn-success" style="font-size: 30px;">Solicitar</a>
-        <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
+        <a href="citasFormulario.php" class="btn btn-success" style="font-size: 25px;">Solicitar</a>
+        <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 25px;">Volver</a>
     </center>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -196,6 +202,7 @@ foreach ($citas as $row) {
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
             const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
             function generarCalendario(mes, anio) {
                 calendarBody.innerHTML = ''; // Limpia el contenido anterior
                 const firstDay = new Date(anio, mes, 1).getDay(); // Día de la semana del 1er día del mes
@@ -228,6 +235,7 @@ foreach ($citas as $row) {
                 }
                 document.getElementById('month-year').textContent = `${months[mes]} ${anio}`;
             }
+
             function prevMonth() {
                 currentMonth--;
                 if (currentMonth < 0) {
@@ -236,6 +244,7 @@ foreach ($citas as $row) {
                 }
                 generarCalendario(currentMonth, currentYear);
             }
+
             function nextMonth() {
                 currentMonth++;
                 if (currentMonth > 11) {
@@ -260,6 +269,7 @@ foreach ($citas as $row) {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -279,10 +289,12 @@ foreach ($citas as $row) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -295,6 +307,7 @@ foreach ($citas as $row) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');

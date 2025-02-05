@@ -28,7 +28,7 @@ if ($_SESSION['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
 </head>
 <body>
     <header>
-        <h1>¡Bienvenido a SETS!</h1>
+        <h1><b>¡Bienvenido a SETS!</b></h1>
         <h2>Gracias por registrarte con nosotros.</h2>
     </header>
     <main>

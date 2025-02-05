@@ -77,10 +77,10 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-</a>  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -107,7 +107,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <center><a href="Perfil.php">Editar datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -163,13 +163,15 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </section>
     <main>
         <br> <br> <br>
-        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Agendar Cita</div>
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;"><b>Agendar Cita</b></div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
                     <form action="createCita.php" method="post">
                         <fieldset>
-                          <center>  <legend ><b>Agendar</b> </legend></center>
+                            <center>
+                                <legend><b>formulario</b> </legend>
+                            </center>
                             <div class="mb-3">
                                 <label for="tipocita" class="form-label">Tipo de cita:</label>
                                 <select name="tipocita" id="tipocita" class="form-select">
@@ -197,8 +199,10 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Citas</h2></center>
-<br>
+                    <center>
+                        <h2><b>Panel de Citas</b></h2>
+                    </center>
+                    <br>
                     <table class="table">
                         <thead>
                             <tr>

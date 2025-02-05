@@ -146,10 +146,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/resi.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-<b style="font-size: 40px;color:aliceblue"> Residente  </b>
-</a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <b style="font-size: 30px;color:aliceblue"> Residente </b>
+                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -242,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="alert alert-success" role="alert">
                     <center>
-                        <h2 class="profile-name">Editar Perfil</h2>
+                        <h2 class="profile-name"><b>Editar Perfil</b></h2>
                     </center>
                 </div>
                 <div class="text-center">
@@ -250,36 +250,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" name="imagenPerfil" onchange="mostrarImagenSeleccionada(this);" style="color: rgb(45, 110, 59);"><br>
                 </div>
                 <br>
-                <label for="profile-firstname">Primer Nombre:</label><br>
+                <label for="profile-firstname"><b>Primer Nombre:</b></label><br>
                 <input type="text" id="profile-firstname" name="profile-firstname" value="<?php echo htmlspecialchars($userData['PrimerNombre']); ?>"><br>
 
-                <label for="profile-secondname">Segundo Nombre:</label><br>
+                <label for="profile-secondname"><b>Segundo Nombre:</b></label><br>
                 <input type="text" id="profile-secondname" name="profile-secondname" value="<?php echo htmlspecialchars($userData['SegundoNombre']); ?>"><br>
 
-                <label for="profile-firstlastname">Primer Apellido:</label><br>
+                <label for="profile-firstlastname"><b>Primer Apellido:</b></label><br>
                 <input type="text" id="profile-firstlastname" name="profile-firstlastname" value="<?php echo htmlspecialchars($userData['PrimerApellido']); ?>"><br>
 
-                <label for="profile-secondlastname">Segundo Apellido:</label><br>
+                <label for="profile-secondlastname"><b>Segundo Apellido:</b></label><br>
                 <input type="text" id="profile-secondlastname" name="profile-secondlastname" value="<?php echo htmlspecialchars($userData['SegundoApellido']); ?>"><br>
 
-                <label for="profile-email">Correo Electrónico:</label><br>
+                <label for="profile-email"><b>Correo Electrónico:</b></label><br>
                 <input type="email" id="profile-email" name="profile-email" value="<?php echo htmlspecialchars($userData['Correo']); ?>"><br>
 
-                <label for="profile-phone1">Teléfono Uno :</label><br>
+                <label for="profile-phone1"><b>Teléfono Uno :</b></label><br>
                 <input type="text" id="profile-phone1" name="profile-phone1" value="<?php echo htmlspecialchars($userData['telefonoUno']); ?>"><br>
-                <label for="profile-phone2">Teléfono Dos:</label><br>
+                <label for="profile-phone2"><b>Teléfono Dos:</b></label><br>
                 <input type="text" id="profile-phone2" name="profile-phone2" value="<?php echo htmlspecialchars($userData['telefonoDos']); ?>"><br>
 
-                <label for="profile-username">Usuario:</label><br>
+                <label for="profile-username"><b>Usuario:</b></label><br>
                 <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>
 
-                <label for="profile-password">Nueva Contraseña:</label><br>
+                <label for="profile-password"><b>Nueva Contraseña:</b></label><br>
                 <input type="password" id="profile-password" name="profile-password" value="<?php echo htmlspecialchars($userData['Clave']); ?>"><br>
 
                 <input type="submit" value="Guardar Cambios" class="btn btn-success" style="margin-top: 10px;">
             </form>
         </section>
-        <a href="perfil.php" type="button" class="btn btn-danger btn-lg">Volver</a>
+        <a href="perfil.php" type="button" class="btn btn-danger btn-lg"><b>Volver<b></a>
     </main>
 
     <script>
