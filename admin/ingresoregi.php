@@ -79,8 +79,8 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="topbar">
         <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-      <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-      <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+      <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+      <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
@@ -166,12 +166,12 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <main>
         <br> <br> <br>
-        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Ingreso Peatonal </div>
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;"><b>Ingreso Peatonal</b> </div>
         <div class="container">
             <div class="row">
 <center>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Ingresos</h2></center>
+                    <center><h2><b>Panel de Ingresos</b></h2></center>
                  <br>
                     <table class="table">
                         <thead>

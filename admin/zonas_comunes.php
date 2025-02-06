@@ -73,8 +73,8 @@ try {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+            <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -207,7 +207,7 @@ try {
                                 </a><br>
                                 <a class="btn btn-success" href="./actualizarzona.php?idZona=<?= $zona['idZona'] ?>">
                                     <center>
-                                        <h3 style="font-size: 15px;">Editar</h3>
+                                        <h3 style="font-size: 15px;"><b>Editar</b></h3>
                                     </center>
                                 </a>
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal<?= $zona['idZona'] ?>">
@@ -232,7 +232,7 @@ try {
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                         <form method="POST" action="./servidor-zonas/eliminarzona.php">
                                             <input type="hidden" name="idZona" value="<?= $zona['idZona'] ?>">
-                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                         </form>
                                     </div>
                                 </div>

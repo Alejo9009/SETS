@@ -82,8 +82,8 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+            <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -201,7 +201,7 @@ if ($stmt->rowCount() > 0) {
                         <div class="appointment">
                             <center>
                                 <div class="alert alert-success" role="alert">
-                                    <h3>Solicitud de Agendacion</h3>
+                                    <h3><b>Solicitud de Agendacion</b></h3>
                                 </div>
 
                             </center>
@@ -226,21 +226,21 @@ if ($stmt->rowCount() > 0) {
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="aceptar">
-                                        <button type="submit" class="btn btn-success">Aceptar</button>
+                                        <button type="submit" class="btn btn-success"><b>Aceptar</b></button>
                                     </form>
 
                                     <!-- Formulario para dejar la solicitud como pendiente -->
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="pendiente">
-                                        <button type="submit" class="btn btn-warning">Pendiente</button>
+                                        <button type="submit" class="btn btn-warning"><b>Pendiente</b></button>
                                     </form>
 
                                     <!-- Formulario para eliminar la solicitud -->
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
                                         <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
                                         <input type="hidden" name="accion" value="eliminar">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                     </form>
 
                                 </div>
@@ -252,7 +252,7 @@ if ($stmt->rowCount() > 0) {
                 </div>
             </div>
     </main>
-    <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 40px;">
+    <a href="parqueaderocarro.php" class="btn btn-outline-success" style="font-size: 30px;">
         <center>VOLVER</center>
     </a>
     <script>
