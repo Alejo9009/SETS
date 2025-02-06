@@ -7,7 +7,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
-  background: url() no-repeat center center fixed;
+  background: url(../img/3d-rendering-loft-scandinavian-living-room-with-working-table-bookshelf.jpg) no-repeat center center fixed;
   background-size: cover;
   overflow-y: scroll;
 }
@@ -18,6 +18,7 @@ body {
   margin: auto;
   text-align: center;
   padding-top: 1px; 
+  background-color: white;
 }
 
 .profile-image {
@@ -268,7 +269,7 @@ border-bottom: none;
 
 
 main {
-  background-color: white;
+
   padding: 15px;
   border-radius: 5px;
   margin-top: 20px;

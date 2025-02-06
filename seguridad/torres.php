@@ -208,8 +208,8 @@ try {
   </header>
   <br>
   <div class="d-flex justify-content-between">
-    <a href="ingresoregi.php" class="btn btn-success" style="font-size: 20px; width: 6vw; height: 8vh;">Ingreso Peatonal</a>
-    <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 20px; width: 6vw; height: 5vh;">Volver</a>
+    <a href="ingresoregi.php" class="btn-custom" style="font-size: 20px; ">Ingreso Peatonal</a>
+    <a href="inicioprincipal.php" class="btn-custom" style="font-size: 20px;">Volver</a>
   </div>
   <script>
     document.querySelector('.admin-img').addEventListener('click', function() {
