@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";  // Importar correctamente
+import { jwtDecode } from "jwt-decode";  
+import Cookies from "js-cookie";  // Importar Cookies
 import "./Login.css";
 import logo from "../assets/img/c.png";
 
@@ -11,47 +12,47 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", { Usuario, Clave });
 
     try {
-      const response = await axios.post("http://localhost/sets/backend/login.php", {
-        Usuario,
-        Clave,
-      });
+      console.log("📤 Datos enviados:", { Usuario, Clave });
+
+      const response = await axios.post(
+        "http://localhost/sets/backend/login.php",
+        { Usuario, Clave },
+        { withCredentials: true } 
+      );
+
+      console.log("📩 Respuesta del backend:", response.data);
 
       if (response.data.token) {
-        // Guardar el token en localStorage
-        localStorage.setItem("authToken", response.data.token);
+        // Guardar el token en una cookie
+        Cookies.set("authToken", response.data.token, { expires: 1 });
 
         // Decodificar el token JWT
         const decoded = jwtDecode(response.data.token);
-
-        // Obtener el rol desde el payload del token
         const { idRol } = decoded;
 
-        // Redirigir según el rol del usuario
-        if (idRol === 1) {
-          window.location.href = "http://localhost/sets/admin/inicioprincipal.php";
-        } else if (idRol === 2) {
-          window.location.href = "http://localhost/sets/residente/inicioprincipal.php";
-        } else if (idRol === 3) {
-          window.location.href = "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php";
-        } else if (idRol === 4) {
-          window.location.href = "http://localhost/sets/seguridad/inicioprincipal.php";
-        } else {
-          window.location.href = "http://localhost/sets/error.html";
-        }
+ 
+        const rutas = {
+          1: "http://localhost/sets/admin/inicioprincipal.php",
+          2: "http://localhost/sets/residente/inicioprincipal.php",
+          3: "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php",
+          4: "http://localhost/sets/seguridad/inicioprincipal.php",
+          default: "http://localhost/sets/error.html"
+        };
+
+        window.location.href = rutas[idRol] || rutas.default;
       } else {
         setError(response.data.error);
       }
     } catch (err) {
+      console.error("❌ Error:", err.response?.data || err.message);
       setError(err.response?.data?.error || "Error al iniciar sesión.");
     }
   };
 
   return (
     <div className="container">
-      {/* Encabezado con logo y título */}
       <header className="text-center mb-4 d-flex flex-column align-items-center">
         <img src={logo} alt="Logo" />
         <h2 className="title">

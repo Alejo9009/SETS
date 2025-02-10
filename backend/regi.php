@@ -25,13 +25,14 @@ try {
         $telefonoUno = $_POST['telefonoUno'];
         $telefonoDos = $_POST['telefonoDos'] ?? null;
         $Usuario = $_POST['Usuario'];
-        $ClavePlano = $_POST['Clave']; 
+        $Clave = $_POST['Clave']; 
 
-        if (empty($ClavePlano)) {
+        if (empty($Clave)) {
             throw new Exception("La contraseña no puede estar vacía.");
         }
 
-        $Clave = password_hash($ClavePlano, PASSWORD_BCRYPT);
+        $Clave = password_hash($Clave, PASSWORD_BCRYPT);
+        
 
         $base_de_datos->beginTransaction();
 
