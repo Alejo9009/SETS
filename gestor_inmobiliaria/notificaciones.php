@@ -6,42 +6,72 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
-// Verificar si el usuario está logueado
+
 if (!isset($_SESSION['Usuario'])) {
     header("Location: http://localhost/sets/login.php");
     exit();
 }
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
+$usuario = $_SESSION['Usuario'];
+
+
 $sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
 $stmt = $base_de_datos->prepare($sqlUsuario);
 $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
 $stmt->execute();
 $datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Verificar que el usuario existe
+
 if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
+    $nombreUsuario = $datosUsuario['Usuario'];
 } else {
-    // Si no se encuentra el usuario, redirigir a login
+
     header("Location: http://localhost/sets/login.php");
     exit();
 }
 
-// Redirigir si no es residente
+
 $sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
 $stmtRol = $base_de_datos->prepare($sqlRol);
 $stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
 $stmtRol->execute();
 $datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
 
-if ($datosRol['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
+if ($datosRol['idRol'] != 2) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+
+$sqlAnuncios = "SELECT * FROM anuncio ";
+$stmtAnuncios = $base_de_datos->prepare($sqlAnuncios);
+
+$stmtAnuncios->execute();
+$anuncios = $stmtAnuncios->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlCitas = "SELECT idcita, fechacita, horacita, tipocita FROM cita ORDER BY fechacita DESC, horacita DESC LIMIT 5";
+$stmtCitas = $base_de_datos->prepare($sqlCitas);
+$stmtCitas->execute();
+$citas = $stmtCitas->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sqlParqueadero = "SELECT id_parking, fecha_inicio, hora_inicio,TipoVehiculo, numParqueadero FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, hora_inicio DESC LIMIT 5";
+$stmtParqueadero = $base_de_datos->prepare($sqlParqueadero);
+$stmtParqueadero->execute();
+$parqueaderos = $stmtParqueadero->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sqlZonaComun = "SELECT ID_zonaComun, fechainicio, fechafinal FROM solicitud_zona ORDER BY fechainicio DESC LIMIT 5";
+$stmtZonaComun = $base_de_datos->prepare($sqlZonaComun);
+$stmtZonaComun->execute();
+$zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlRegistros = "SELECT id_Registro, PrimerNombre, PrimerApellido, Correo, numeroDocumento, telefonoUno  FROM registro  ORDER BY id_Registro DESC LIMIT 5";
+$stmtRegistros = $base_de_datos->prepare($sqlRegistros);
+$stmtRegistros->execute();
+$registros = $stmtRegistros->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,7 +80,7 @@ if ($datosRol['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notificaciones</title>
-    <link rel="stylesheet" href="css/notificaciones.css">
+    <link rel="stylesheet" href="css/notificaciones.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -58,43 +88,82 @@ if ($datosRol['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
 
 <body>
     <header>
-        <div class="topbar">
-            <div class="menu-left">
-                <div class="admin-container">
-                <img src="img/administrado.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                <b style="font-size: 40px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a> <div class="dropdown-menu">
-                        <a href="Perfil.html">Editar datos</a>
-                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+        <nav class="navbar bg-body-tertiary fixed-top">
+            <div class="container-fluid" style="background-color: #0e2c0a;">
+                <img src="img/administrado.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 25px;color:aliceblue"> Gestor de inmobiliaria - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                    <span class="navbar-toggler-icon" style="color: white;"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
 
+                        <center>
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
+                        </center>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                </div>
-                <a href="notificaciones.html">
-                    <img src="img/notificacion.png" alt="Notificaciones" class="notification">
-                </a>
-            </div>
-            <div class="menu-right">
-                <div class="chat">
-                    <a class="menu-button"></a>
-                    <img src="img/hablando.png" alt="Chat" class="chat-button" id="chatToggle">
-                    <a href="#" class="menu-button"></a>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
+                            </li>
+                            <center>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <b style="font-size: 20px;"> Perfil</b>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <center><a href="Perfil.php">Editar datos</a></center>
+                                        </li>
+                                        <li>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                        </li>
+                                    </ul>
+                            </center>
+                            </li>
+                            <div class="offcanvas-header">
+                                <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
 
-                    <img src="img/C.png" alt="Chat" class="chat-button">
-                    <div class="chat-menu">
-                        <div class="search-container">
-                            <input type="text" placeholder="Buscar" class="search-bar" onkeyup="filterChat()">
-                        </div>
-                        <br>
-                        <ul class="chat-links">
-                            <a href="#" class="chat-item" onclick="openChat('ADMI')">admin</a>
-                            <a href="#" class="chat-item" onclick="openChat('GUARDA DE SEGURIDAD')">Guarda de seguridad</a>
-                            <a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a>
-                          <a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a>
+
+                                <center>
+                                    <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                                </center>
+                            </div>
+                            <center>
+                                <li class="nav-item dropdown">
+                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b style="font-size: 20px;"> CHAT</b>
+
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('admi')">Admin</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
+                                        </li>
+                                        <li>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
+                                        </li>
+                                    </ul>
+                            </center>
                         </ul>
+
+                        <form class="d-flex mt-3" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
+    <br><br>
     <main>
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
@@ -108,184 +177,140 @@ if ($datosRol['idRol'] != 2) { // Solo si el rol es "residente" (idRol == 4)
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-        </div>
-        </header>
-        </div>
         </header>
 
         <main>
-            <div class="main">
-                <aside class="sidebar">
-                    <div class="menu">
-                        <a href="#" class="menu-item">Recibidos</a>
-                        <a href="#" class="menu-item">guardados</a>
-                        <a href="#" class="menu-item">Borradores</a>
-                        <a href="#" class="menu-item">Papelera</a>
-                        <a href="inicioprincipal.html" class="menu-item">volver</a>
+            <br>
+            <br>
+
+            <div class="container">
+                <center>
+                    <div class="alert alert-success" role="alert" style="font-size: 34px;">
+                        <b> NOTIFICACIONES</b>
                     </div>
-                </aside>
-                <section class="content">
+                </center>
+                <div class="email-list">
+                    <?php foreach ($citas as $cita): ?>
+                        <div class="email-item" onclick="toggleExpand(this)">
+                            <div class="email-sender">Cita: <?php echo htmlspecialchars($cita['tipocita']); ?></div>
+                            <div class="email-subject">Fecha: <?php echo htmlspecialchars($cita['fechacita']); ?> - Hora: <?php echo htmlspecialchars($cita['horacita']); ?></div>
+                            <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="./citas.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                <center>IR</center>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
                     <div class="email-list">
-                        <div class="barra">
-                            <div class="sombra"></div>
-                            <input type="text" id="searchInput" placeholder="Buscar notificación..." onkeyup="filterEmails()">
-                            <ion-icon name="search-outline"></ion-icon>
-                        </div>
-                        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Administración</div>
-                            <div class="email-subject">Mantenimiento Programado</div>
-                            <div class="email-snippet">Se llevará a cabo mantenimiento en el sistema de agua el 22 de agosto de 2024.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Comité de Seguridad</div>
-                            <div class="email-subject">Reunión de Seguridad</div>
-                            <div class="email-snippet">Reunión para discutir nuevas medidas de seguridad el 25 de agosto a las 18:00.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Junta de Condominio</div>
-                            <div class="email-subject">Nuevo Reglamento</div>
-                            <div class="email-snippet">Se ha actualizado el reglamento del condominio. Por favor, revisa los cambios en el portal.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Mantenimiento</div>
-                            <div class="email-subject">Problema de Fontanería</div>
-                            <div class="email-snippet">Hay un problema de fontanería en la Torre A. Se espera resolución para el 20 de agosto.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Eventos Sociales</div>
-                            <div class="email-subject">Fiesta de Verano</div>
-                            <div class="email-snippet">¡No te pierdas la fiesta de verano el 30 de agosto en el área de BBQ!</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Administración</div>
-                            <div class="email-subject">Actualización de Horarios</div>
-                            <div class="email-snippet">Los horarios de recepción se han actualizado. Consulta los nuevos horarios en el portal.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Servicios Generales</div>
-                            <div class="email-subject">Corte de Energía Programado</div>
-                            <div class="email-snippet">Habrá un corte de energía el 15 de agosto de 2024 entre las 10:00 y 14:00.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Área Verde</div>
-                            <div class="email-subject">Cuidado de Jardines</div>
-                            <div class="email-snippet">El mantenimiento de jardines en el área común se realizará el 23 de agosto.</div>
-                        </div>
-                
-                        <div class="email-item">
-                            <div class="email-sender">Reparaciones</div>
-                            <div class="email-subject">Reparación de Ascensores</div>
-                            <div class="email-snippet">Se está reparando el ascensor de la Torre B. Se espera finalizar el 18 de agosto.</div>
-                        </div>
+                        <?php foreach ($anuncios as $anuncio): ?>
+                            <div class="email-item" onclick="toggleExpand(this)">
+                                <div class="email-sender">Anuncio: <?php echo htmlspecialchars($anuncio['titulo']); ?></div>
+                                <div class="email-subject">Publicado el: <?php echo htmlspecialchars($anuncio['fechaPublicacion']); ?></div>
+                                <div class="email-snippet">Descripción: <?php echo htmlspecialchars($anuncio['descripcion']); ?></div>
+                                <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                                <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                    <center>IR</center>
+                                </a>
+                            </div>
+
+                        <?php endforeach; ?>
+
+                        <?php foreach ($parqueaderos as $parqueadero): ?>
+                            <div class="email-item" data-id="<?php echo $parqueadero['id_parking']; ?>">
+                                <b>Solicitud de Parqueadero</b><br>
+                                <b>Tipo Vehiculo:</b> <?php echo htmlspecialchars($parqueadero['TipoVehiculo']); ?><br>
+                                <b>Fecha Inicio:</b> <?php echo htmlspecialchars($parqueadero['fecha_inicio']); ?><br>
+                                <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['numParqueadero']); ?><br>
+                                <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                                <a href="./parqueaderocarro.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                    <center>IR CARRO</center>
+                                </a>
+                                <a href="./paromoto.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                    <center>IR MOTO</center>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php foreach ($zonasComunes as $zonaComun): ?>
+                            <div class="email-item" data-id="<?php echo $zonaComun['ID_zonaComun']; ?>">
+                                <b>Solicitud de Zona Común</b><br>
+                                <b>ID_zonaComun:</b> <?php echo htmlspecialchars($zonaComun['ID_zonaComun']); ?><br>
+                                <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
+                                <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
+                                <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                                <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                <center>IR </center>
+                            </a>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php foreach ($registros as $registro): ?>
+                            <div class="email-item" data-id="<?php echo $registro['id_Registro']; ?>">
+                                <b>Nuevo Registro</b><br>
+                                <b>Nombre:</b> <?php echo htmlspecialchars($registro['PrimerNombre'] . " " . $registro['PrimerApellido']); ?><br>
+                                <b>Correo:</b> <?php echo htmlspecialchars($registro['Correo']); ?><br>
+                                <b>Documento:</b> <?php echo htmlspecialchars($registro['numeroDocumento']); ?><br>
+                                <b>Teléfono:</b> <?php echo htmlspecialchars($registro['telefonoUno']); ?><br>
+                                <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                                <a href="./datos_usuario.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                                <center>IR A Datos de usuario </center>
+                            </a>
+                            </div>
+                        <?php endforeach; ?>
+
                     </div>
-                </section>
-                
-                <script>
-                    function filterEmails() {
-         
-                        let searchValue = document.getElementById('searchInput').value.toLowerCase();
-                        
-          
-                        let emailItems = document.querySelectorAll('.email-item');
-                        
-         
-                        emailItems.forEach(item => {
-         
-                            let sender = item.querySelector('.email-sender').textContent.toLowerCase();
-                            let subject = item.querySelector('.email-subject').textContent.toLowerCase();
-                            let snippet = item.querySelector('.email-snippet').textContent.toLowerCase();
-                            
-            
-                            if (sender.includes(searchValue) || subject.includes(searchValue) || snippet.includes(searchValue)) {
-                                item.style.display = ''; //
-                            } else {
-                                item.style.display = 'none'; 
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+
+                    let usuario = "<?php echo htmlspecialchars($nombreUsuario); ?>";
+
+
+                    let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
+
+
+                    document.querySelectorAll(".email-item").forEach(item => {
+                        let notifId = item.getAttribute("data-id");
+                        if (hiddenNotifications.includes(notifId)) {
+                            item.style.display = "none";
+                        }
+                    });
+
+                    // Manejar el evento de descartar notificaciones
+                    document.querySelectorAll(".remove-notif").forEach(button => {
+                        button.addEventListener("click", function() {
+                            let parent = this.parentElement;
+                            let notifId = parent.getAttribute("data-id");
+
+                            // Agregar la notificación a la lista de ocultas
+                            if (!hiddenNotifications.includes(notifId)) {
+                                hiddenNotifications.push(notifId);
                             }
+
+                            // Guardar en localStorage con el nombre del usuario
+                            localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
+
+                            // Ocultar la notificación
+                            parent.style.display = "none";
                         });
-                    }
-                </script>
+                    });
+                });
+            </script>
 
+        </main>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:30px;   background-color: #0e2c0a;">
+                <center>VOLVER</center>
+            </a>
+        </div>
 
-                        <script>
-                            document.querySelector('.admin-img').addEventListener('click', function () {
-                                document.querySelector('.dropdown-menu').classList.toggle('show');
-                            });
+        <script>
+            function toggleExpand(element) {
+                element.classList.toggle('expanded');
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-                            document.querySelector('.chat-button').addEventListener('click', function () {
-                                document.querySelector('.chat-menu').classList.toggle('show');
-                            });
-
-                            function filterChat() {
-                                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                                const chatItems = document.querySelectorAll('.chat-item');
-                                chatItems.forEach(item => {
-                                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
-                            }
-
-                            function showTab(tabId) {
-                                document.querySelectorAll('.tab-content').forEach(tab => {
-                                    tab.classList.remove('active');
-                                });
-                                document.querySelectorAll('.tab-btn').forEach(btn => {
-                                    btn.classList.remove('active');
-                                });
-                                document.getElementById(tabId).classList.add('active');
-                                document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
-                            }
-                        </script>
-                        <script>
-                            function openChat(chatName) {
-                                const chatContainer = document.getElementById('chatContainer');
-                                const chatHeader = document.getElementById('chatHeader');
-                                chatHeader.textContent = chatName;
-                                chatContainer.classList.add('show');
-                            }
-
-                            function closeChat() {
-                                const chatContainer = document.getElementById('chatContainer');
-                                chatContainer.classList.remove('show');
-                            }
-
-                            function sendMessage() {
-                                const messageInput = document.getElementById('chatInput');
-                                const messageText = messageInput.value.trim();
-                                if (messageText) {
-                                    const chatMessages = document.getElementById('chatMessages');
-                                    const messageElement = document.createElement('p');
-                                    messageElement.textContent = messageText;
-                                    chatMessages.appendChild(messageElement);
-                                    messageInput.value = '';
-                                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                                }
-                            }
-
-                            function filterChat() {
-                                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                                const chatItems = document.querySelectorAll('.chat-item');
-                                chatItems.forEach(item => {
-                                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
-                            }
-                        </script>
 </body>
 
 </html>

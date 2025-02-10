@@ -7,6 +7,9 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f1f1f1;
+    background: url(../img/FEE.jpg) no-repeat center center fixed;
+    background-size: cover;
+    overflow-y: scroll;
 }
 
 .container {
@@ -397,3 +400,35 @@ ion-icon {
     margin-left: 5px;
 }
 
+.email-item {
+    background-color: #f1fff3;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgb(1, 20, 15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-color: #02240f;
+  }
+  .email-item:hover {
+    box-shadow: 0 4px 8px rgba(3, 44, 8, 0.925);
+  }
+  .email-item.expanded {
+    background-color: #f9f9f9;
+  }
+  .email-sender {
+    font-weight: bold;
+    color: #071d06;
+  }
+  .email-subject {
+    color: #071b07;
+    margin-top: 5px;
+  }
+  .email-snippet {
+    color: #043822;
+    margin-top: 5px;
+    display: none;
+  }
+  .email-item.expanded .email-snippet {
+    display: block;
+  }
