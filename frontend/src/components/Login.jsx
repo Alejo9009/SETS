@@ -86,7 +86,7 @@ const Login = () => {
 
           <div className="d-flex justify-content-between">
             <a href="http://localhost:3000/registro">Registrarse</a>
-            <a href="http://localhost/SETS/recuperarcontrase%C3%B1a.php">Recuperar Contraseña</a>
+            <a href="http://localhost:3000/recuperarcontrase%C3%B1a">Recuperar Contraseña</a>
             <a href="http://localhost/SETS/">Volver</a>
           </div>
         </form>
