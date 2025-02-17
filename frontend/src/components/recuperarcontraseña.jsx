@@ -17,7 +17,6 @@ const RecuperarContraseña = () => {
       });
       const data = await response.json();
       console.log(data);
-      // Manejar la respuesta del servidor aquí
     } catch (error) {
       console.error("Error:", error);
     }
@@ -31,7 +30,7 @@ const RecuperarContraseña = () => {
             <figure>
               <img src={logo} alt="Logo" />
             </figure>
-            <h2 className="title">Recuperar Contraseña</h2>
+            <h2 className="title"><b>Recuperar Contraseña</b></h2>
             <div className="input-div one">
               <div className="div">
                 <input
