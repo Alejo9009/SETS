@@ -6,7 +6,6 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 require 'vendor/autoload.php';
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 include_once "conexion.php";
 
@@ -20,6 +19,8 @@ try {
         $PrimerApellido = $_POST['PrimerApellido'];
         $SegundoApellido = $_POST['SegundoApellido'] ?? null;
         $Correo = $_POST['Correo'];
+        $tipo_propietario = $_POST['tipo_propietario'];
+        $apartamento  = $_POST['apartamento'];
         $Id_tipoDocumento = $_POST['Id_tipoDocumento'];
         $numeroDocumento = $_POST['numeroDocumento'];
         $telefonoUno = $_POST['telefonoUno'];
@@ -32,30 +33,19 @@ try {
         }
 
         $Clave = password_hash($Clave, PASSWORD_BCRYPT);
-        
 
         $base_de_datos->beginTransaction();
 
-        $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Correo, Id_tipoDocumento, numeroDocumento, telefonoUno, telefonoDos, Usuario, Clave) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, apartamento , Correo, Id_tipoDocumento, numeroDocumento, tipo_propietario,telefonoUno, telefonoDos, Usuario, Clave) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?)";
         $stmt = $base_de_datos->prepare($sql);
-        $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Id_tipoDocumento, $numeroDocumento, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
+        $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido,$apartamento , $Correo, $Id_tipoDocumento, $numeroDocumento,$tipo_propietario, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
 
-        $base_de_datos->commit();
-
-        session_start();
-        $_SESSION['Usuario'] = $Usuario;
-        $_SESSION['idRol'] = $idRol;
-
-        // Obtener la descripción del rol
-        $sqlRoleDesc = "SELECT Roldescripcion FROM rol WHERE id = ?";
-        $stmtRoleDesc = $base_de_datos->prepare($sqlRoleDesc);
-        $stmtRoleDesc->execute([$idRol]);
-        $rolDescripcion = $stmtRoleDesc->fetchColumn();
+        $idRegistro = $base_de_datos->lastInsertId();
 
         // Generar token JWT
         $payload = [
-            "id" => $base_de_datos->lastInsertId(), // ID del usuario registrado
+            "id" => $idRegistro,
             "Usuario" => $Usuario,
             "Correo" => $Correo,
             "idRol" => $idRol,
@@ -64,28 +54,16 @@ try {
 
         $jwt = JWT::encode($payload, $secret_key, 'HS256');
 
+        // Guardar el token en la base de datos
+        $sqlToken = "INSERT INTO tokens (id_Registro, token, fecha_expiracion) VALUES (?, ?, ?)";
+        $stmtToken = $base_de_datos->prepare($sqlToken);
+        $fechaExpiracion = date('Y-m-d H:i:s', time() + (60 * 60 * 24)); // 24 horas desde ahora
+        $stmtToken->execute([$idRegistro, $jwt, $fechaExpiracion]);
+
+        $base_de_datos->commit();
+
         // Configurar la cookie en la respuesta
         setcookie("token", $jwt, time() + (60 * 60 * 24), "/", "", false, true);
-
-        // Redirección basada en el rol
-        $redirect = "";
-        switch ($rolDescripcion) {
-            case "admin":
-                $redirect = "1";
-                break;
-            case "Gestor de Imobiliaria":
-                $redirect = "2";
-                break;
-            case "Guarda de Seguridad":
-                $redirect = "3";
-                break;
-            case "residente":
-                $redirect = "4";
-                break;
-            default:
-                $redirect = "error";
-                break;
-        }
 
         echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
     }

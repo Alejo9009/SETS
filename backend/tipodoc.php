@@ -1,7 +1,7 @@
 
 <?php
 header('Content-Type: application/json');
-$conn = new mysqli("localhost", "root", "", "set");
+$conn = new mysqli("localhost", "root", "", "sets");
 
 if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));

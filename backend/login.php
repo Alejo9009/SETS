@@ -7,7 +7,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 // Incluir las librerías necesarias
 require_once 'vendor/autoload.php';
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+
 
 $secret_key = "tu_clave_secreta";  
 
