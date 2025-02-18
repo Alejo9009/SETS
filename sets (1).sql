@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2025 a las 03:52:54
+-- Tiempo de generación: 21-02-2025 a las 00:30:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -492,25 +492,6 @@ CREATE TABLE `contactarnos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `contacto`
---
-
-CREATE TABLE `contacto` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `contacto`
---
-
-INSERT INTO `contacto` (`id`, `email`, `fecha_registro`) VALUES
-(1, 'aq@gmail.com', '2025-02-16 14:26:54');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `directorio_servicios`
 --
 
@@ -526,17 +507,6 @@ CREATE TABLE `directorio_servicios` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estado`
---
-
-CREATE TABLE `estado` (
-  `idestado` int(11) NOT NULL,
-  `estados` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `ingreso_peatonal`
 --
 
@@ -544,20 +514,9 @@ CREATE TABLE `ingreso_peatonal` (
   `idIngreso_Peatonal` int(11) NOT NULL,
   `personasIngreso` varchar(45) NOT NULL,
   `horaFecha` datetime NOT NULL,
-  `documento` varchar(2009) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ingreso_vehicular`
---
-
-CREATE TABLE `ingreso_vehicular` (
-  `idIngreso_Vehicular` int(11) NOT NULL,
-  `vehiculo` varchar(45) NOT NULL,
-  `fechaHora` datetime NOT NULL,
-  `PersonasIngreso` varchar(45) NOT NULL
+  `documento` varchar(2009) NOT NULL,
+  `tipo_ingreso` enum('vehiculo','visitante') NOT NULL,
+  `placa` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -580,147 +539,16 @@ CREATE TABLE `pagos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `parqueadero_apartamento`
+-- Estructura de tabla para la tabla `parqueadero`
 --
 
-CREATE TABLE `parqueadero_apartamento` (
+CREATE TABLE `parqueadero` (
   `id_parqueadero` int(11) NOT NULL,
-  `numero_Parqueadero` int(11) NOT NULL,
+  `numero_parqueadero` int(11) NOT NULL,
+  `id_apartamento` int(11) NOT NULL,
   `uso` datetime NOT NULL,
-  `id_apartamento` int(11) NOT NULL
+  `disponibilidad` varchar(222) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `parqueadero_visitante`
---
-
-CREATE TABLE `parqueadero_visitante` (
-  `id_parqueadero` int(11) NOT NULL,
-  `numero_Parqueadero` int(11) NOT NULL,
-  `uso` datetime NOT NULL,
-  `disponibilidad` enum('libre','ocupado') NOT NULL DEFAULT 'libre'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `piso`
---
-
-CREATE TABLE `piso` (
-  `id_Piso` varchar(10) NOT NULL,
-  `numPiso` varchar(10) NOT NULL,
-  `descripcionPiso` varchar(222) DEFAULT NULL,
-  `id_Torre` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `piso`
---
-
-INSERT INTO `piso` (`id_Piso`, `numPiso`, `descripcionPiso`, `id_Torre`) VALUES
-('10A', '10A', 'Piso 10A', 1),
-('10B', '10B', 'Piso 10B', 2),
-('10C', '10C', 'Piso 10C', 3),
-('10D', '10D', 'Piso 10D', 4),
-('10E', '10E', 'Piso 10E', 5),
-('10F', '10F', 'Piso 10F', 6),
-('10G', '10G', 'Piso 10G', 7),
-('10H', '10H', 'Piso 10H', 8),
-('10I', '10I', 'Piso 10I', 9),
-('10J', '10J', 'Piso 10J', 10),
-('1A', '1A', 'Piso 1A', 1),
-('1B', '1B', 'Piso 1B', 2),
-('1C', '1C', 'Piso 1C', 3),
-('1D', '1D', 'Piso 1D', 4),
-('1E', '1E', 'Piso 1E', 5),
-('1F', '1F', 'Piso 1F', 6),
-('1G', '1G', 'Piso 1G', 7),
-('1H', '1H', 'Piso 1H', 8),
-('1I', '1I', 'Piso 1I', 9),
-('1J', '1J', 'Piso 1J', 10),
-('2A', '2A', 'Piso 2A', 1),
-('2B', '2B', 'Piso 2B', 2),
-('2C', '2C', 'Piso 2C', 3),
-('2D', '2D', 'Piso 2D', 4),
-('2E', '2E', 'Piso 2E', 5),
-('2F', '2F', 'Piso 2F', 6),
-('2G', '2G', 'Piso 2G', 7),
-('2H', '2H', 'Piso 2H', 8),
-('2I', '2I', 'Piso 2I', 9),
-('2J', '2J', 'Piso 2J', 10),
-('3A', '3A', 'Piso 3A', 1),
-('3B', '3B', 'Piso 3B', 2),
-('3C', '3C', 'Piso 3C', 3),
-('3D', '3D', 'Piso 3D', 4),
-('3E', '3E', 'Piso 3E', 5),
-('3F', '3F', 'Piso 3F', 6),
-('3G', '3G', 'Piso 3G', 7),
-('3H', '3H', 'Piso 3H', 8),
-('3I', '3I', 'Piso 3I', 9),
-('3J', '3J', 'Piso 3J', 10),
-('4A', '4A', 'Piso 4A', 1),
-('4B', '4B', 'Piso 4B', 2),
-('4C', '4C', 'Piso 4C', 3),
-('4D', '4D', 'Piso 4D', 4),
-('4E', '4E', 'Piso 4E', 5),
-('4F', '4F', 'Piso 4F', 6),
-('4G', '4G', 'Piso 4G', 7),
-('4H', '4H', 'Piso 4H', 8),
-('4I', '4I', 'Piso 4I', 9),
-('4J', '4J', 'Piso 4J', 10),
-('5A', '5A', 'Piso 5A', 1),
-('5B', '5B', 'Piso 5B', 2),
-('5C', '5C', 'Piso 5C', 3),
-('5D', '5D', 'Piso 5D', 4),
-('5E', '5E', 'Piso 5E', 5),
-('5F', '5F', 'Piso 5F', 6),
-('5G', '5G', 'Piso 5G', 7),
-('5H', '5H', 'Piso 5H', 8),
-('5I', '5I', 'Piso 5I', 9),
-('5J', '5J', 'Piso 5J', 10),
-('6A', '6A', 'Piso 6A', 1),
-('6B', '6B', 'Piso 6B', 2),
-('6C', '6C', 'Piso 6C', 3),
-('6D', '6D', 'Piso 6D', 4),
-('6E', '6E', 'Piso 6E', 5),
-('6F', '6F', 'Piso 6F', 6),
-('6G', '6G', 'Piso 6G', 7),
-('6H', '6H', 'Piso 6H', 8),
-('6I', '6I', 'Piso 6I', 9),
-('6J', '6J', 'Piso 6J', 10),
-('7A', '7A', 'Piso 7A', 1),
-('7B', '7B', 'Piso 7B', 2),
-('7C', '7C', 'Piso 7C', 3),
-('7D', '7D', 'Piso 7D', 4),
-('7E', '7E', 'Piso 7E', 5),
-('7F', '7F', 'Piso 7F', 6),
-('7G', '7G', 'Piso 7G', 7),
-('7H', '7H', 'Piso 7H', 8),
-('7I', '7I', 'Piso 7I', 9),
-('7J', '7J', 'Piso 7J', 10),
-('8A', '8A', 'Piso 8A', 1),
-('8B', '8B', 'Piso 8B', 2),
-('8C', '8C', 'Piso 8C', 3),
-('8D', '8D', 'Piso 8D', 4),
-('8E', '8E', 'Piso 8E', 5),
-('8F', '8F', 'Piso 8F', 6),
-('8G', '8G', 'Piso 8G', 7),
-('8H', '8H', 'Piso 8H', 8),
-('8I', '8I', 'Piso 8I', 9),
-('8J', '8J', 'Piso 8J', 10),
-('9A', '9A', 'Piso 9A', 1),
-('9B', '9B', 'Piso 9B', 2),
-('9C', '9C', 'Piso 9C', 3),
-('9D', '9D', 'Piso 9D', 4),
-('9E', '9E', 'Piso 9E', 5),
-('9F', '9F', 'Piso 9F', 6),
-('9G', '9G', 'Piso 9G', 7),
-('9H', '9H', 'Piso 9H', 8),
-('9I', '9I', 'Piso 9I', 9),
-('9J', '9J', 'Piso 9J', 10);
 
 -- --------------------------------------------------------
 
@@ -763,7 +591,7 @@ CREATE TABLE `rol` (
 --
 
 INSERT INTO `rol` (`id`, `Roldescripcion`) VALUES
-(1111, 'admin'),
+(1, 'admin'),
 (2222, 'Guarda de Seguridad'),
 (3333, 'residente'),
 (4444, 'Dueño');
@@ -771,49 +599,21 @@ INSERT INTO `rol` (`id`, `Roldescripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `salida_peatonal`
+-- Estructura de tabla para la tabla `solicitud_parqueadero`
 --
 
-CREATE TABLE `salida_peatonal` (
-  `idSalida_Peatonal` int(11) NOT NULL,
-  `personasSalida` varchar(45) NOT NULL,
-  `horaFechaEntrada` datetime NOT NULL,
-  `horaFechaSalida` datetime NOT NULL,
-  `documento` varchar(2009) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `salida_vehicular`
---
-
-CREATE TABLE `salida_vehicular` (
-  `idSalida_Vehicular` int(11) NOT NULL,
-  `vehiculo` varchar(45) NOT NULL,
-  `fechaHoraSalida` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `solicitud_parqueadero_visitante`
---
-
-CREATE TABLE `solicitud_parqueadero_visitante` (
+CREATE TABLE `solicitud_parqueadero` (
   `id_solicitud` int(11) NOT NULL,
-  `id_parqueadero` int(11) NOT NULL,
   `id_apartamento` int(11) NOT NULL,
+  `parqueadero_visitante` enum('V1','V2','V3','V4','V5') NOT NULL,
   `nombre_visitante` varchar(100) NOT NULL,
   `placaVehiculo` varchar(45) NOT NULL,
   `colorVehiculo` varchar(45) NOT NULL,
-  `TipoVehiculo` varchar(100) NOT NULL,
+  `tipoVehiculo` varchar(100) NOT NULL,
   `modelo` varchar(90) NOT NULL,
   `marca` varchar(100) NOT NULL,
-  `fecha_inicio` date NOT NULL,
-  `hora_inicio` time NOT NULL,
-  `fecha_final` date NOT NULL,
-  `hora_final` time NOT NULL,
+  `fecha_inicio` datetime NOT NULL,
+  `fecha_final` datetime NOT NULL,
   `estado` enum('pendiente','aprobado','rechazado') NOT NULL DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -828,11 +628,9 @@ CREATE TABLE `solicitud_zona` (
   `ID_zonaComun` int(100) NOT NULL,
   `fechainicio` date NOT NULL,
   `fechafinal` date NOT NULL,
-  `uso_de_servicio` enum('publico','privado') NOT NULL,
-  `aforo` int(222) NOT NULL,
   `Hora_inicio` time NOT NULL,
   `Hora_final` time NOT NULL,
-  `estado` int(11) DEFAULT NULL
+  `estado` enum('ACEPTADA','PENDIENTE','RECHAZADA') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -853,7 +651,6 @@ CREATE TABLE `tipodoc` (
 INSERT INTO `tipodoc` (`idtDoc`, `descripcionDoc`) VALUES
 (1, 'Cedula de Ciudadanía'),
 (2, 'Cédula de ciudadanía digital'),
-(3, 'Cédula de ciudadanía-digital – Duplicado'),
 (4, 'Cédulas de Extranjería');
 
 -- --------------------------------------------------------
@@ -869,34 +666,6 @@ CREATE TABLE `tokens` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_expiracion` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `torre`
---
-
-CREATE TABLE `torre` (
-  `id_Torre` int(11) NOT NULL,
-  `numTorre` int(11) DEFAULT NULL,
-  `descripcionTorre` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `torre`
---
-
-INSERT INTO `torre` (`id_Torre`, `numTorre`, `descripcionTorre`) VALUES
-(1, 1, 'TorreA'),
-(2, 2, 'TorreB'),
-(3, 3, 'TorreC'),
-(4, 4, 'TorreD'),
-(5, 5, 'TorreE'),
-(6, 6, 'TorreF'),
-(7, 7, 'TorreG'),
-(8, 8, 'TorreH'),
-(9, 9, 'TorreI'),
-(10, 10, 'TorreJ');
 
 -- --------------------------------------------------------
 
@@ -920,16 +689,13 @@ CREATE TABLE `zona_comun` (
 --
 ALTER TABLE `anuncio`
   ADD PRIMARY KEY (`idAnuncio`),
-  ADD KEY `fk_anuncio_persona` (`persona`),
-  ADD KEY `fk_anuncio_apartamento` (`apart`);
+  ADD KEY `fk_anuncio_persona` (`persona`);
 
 --
 -- Indices de la tabla `apartamento`
 --
 ALTER TABLE `apartamento`
-  ADD PRIMARY KEY (`id_Apartamento`),
-  ADD KEY `fk_apartamento_torre` (`torrres`),
-  ADD KEY `fk_apartamento_piso` (`pisos`);
+  ADD PRIMARY KEY (`id_Apartamento`);
 
 --
 -- Indices de la tabla `cita`
@@ -945,22 +711,10 @@ ALTER TABLE `contactarnos`
   ADD PRIMARY KEY (`idcontactarnos`);
 
 --
--- Indices de la tabla `contacto`
---
-ALTER TABLE `contacto`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `directorio_servicios`
 --
 ALTER TABLE `directorio_servicios`
   ADD PRIMARY KEY (`id_contacto`);
-
---
--- Indices de la tabla `estado`
---
-ALTER TABLE `estado`
-  ADD PRIMARY KEY (`idestado`);
 
 --
 -- Indices de la tabla `ingreso_peatonal`
@@ -969,36 +723,17 @@ ALTER TABLE `ingreso_peatonal`
   ADD PRIMARY KEY (`idIngreso_Peatonal`);
 
 --
--- Indices de la tabla `ingreso_vehicular`
---
-ALTER TABLE `ingreso_vehicular`
-  ADD PRIMARY KEY (`idIngreso_Vehicular`);
-
---
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`idPagos`);
 
 --
--- Indices de la tabla `parqueadero_apartamento`
+-- Indices de la tabla `parqueadero`
 --
-ALTER TABLE `parqueadero_apartamento`
+ALTER TABLE `parqueadero`
   ADD PRIMARY KEY (`id_parqueadero`),
-  ADD KEY `fk_parqueadero_apartamento` (`id_apartamento`);
-
---
--- Indices de la tabla `parqueadero_visitante`
---
-ALTER TABLE `parqueadero_visitante`
-  ADD PRIMARY KEY (`id_parqueadero`);
-
---
--- Indices de la tabla `piso`
---
-ALTER TABLE `piso`
-  ADD PRIMARY KEY (`id_Piso`),
-  ADD KEY `id_Torre` (`id_Torre`);
+  ADD KEY `id_apartamento` (`id_apartamento`);
 
 --
 -- Indices de la tabla `registro`
@@ -1016,31 +751,18 @@ ALTER TABLE `rol`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `salida_peatonal`
+-- Indices de la tabla `solicitud_parqueadero`
 --
-ALTER TABLE `salida_peatonal`
-  ADD PRIMARY KEY (`idSalida_Peatonal`);
-
---
--- Indices de la tabla `salida_vehicular`
---
-ALTER TABLE `salida_vehicular`
-  ADD PRIMARY KEY (`idSalida_Vehicular`);
-
---
--- Indices de la tabla `solicitud_parqueadero_visitante`
---
-ALTER TABLE `solicitud_parqueadero_visitante`
+ALTER TABLE `solicitud_parqueadero`
   ADD PRIMARY KEY (`id_solicitud`),
-  ADD KEY `fk_solicitud_apartamento` (`id_apartamento`);
+  ADD KEY `id_apartamento` (`id_apartamento`);
 
 --
 -- Indices de la tabla `solicitud_zona`
 --
 ALTER TABLE `solicitud_zona`
-  ADD KEY `fk_solicitud_zona_comun` (`ID_zonaComun`),
-  ADD KEY `fk_solicitud_estado` (`estado`),
-  ADD KEY `fk_solicitud_apartamento24` (`ID_Apartamentooss`);
+  ADD KEY `fkidZona` (`ID_zonaComun`),
+  ADD KEY `fkid_Apartamento5` (`ID_Apartamentooss`);
 
 --
 -- Indices de la tabla `tipodoc`
@@ -1054,12 +776,6 @@ ALTER TABLE `tipodoc`
 ALTER TABLE `tokens`
   ADD PRIMARY KEY (`id_token`),
   ADD KEY `id_Registro` (`id_Registro`);
-
---
--- Indices de la tabla `torre`
---
-ALTER TABLE `torre`
-  ADD PRIMARY KEY (`id_Torre`);
 
 --
 -- Indices de la tabla `zona_comun`
@@ -1096,22 +812,10 @@ ALTER TABLE `contactarnos`
   MODIFY `idcontactarnos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `contacto`
---
-ALTER TABLE `contacto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT de la tabla `directorio_servicios`
 --
 ALTER TABLE `directorio_servicios`
   MODIFY `id_contacto` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `estado`
---
-ALTER TABLE `estado`
-  MODIFY `idestado` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_peatonal`
@@ -1120,27 +824,15 @@ ALTER TABLE `ingreso_peatonal`
   MODIFY `idIngreso_Peatonal` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `ingreso_vehicular`
---
-ALTER TABLE `ingreso_vehicular`
-  MODIFY `idIngreso_Vehicular` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
   MODIFY `idPagos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `parqueadero_apartamento`
+-- AUTO_INCREMENT de la tabla `parqueadero`
 --
-ALTER TABLE `parqueadero_apartamento`
-  MODIFY `id_parqueadero` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `parqueadero_visitante`
---
-ALTER TABLE `parqueadero_visitante`
+ALTER TABLE `parqueadero`
   MODIFY `id_parqueadero` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1156,21 +848,9 @@ ALTER TABLE `rol`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4446;
 
 --
--- AUTO_INCREMENT de la tabla `salida_peatonal`
+-- AUTO_INCREMENT de la tabla `solicitud_parqueadero`
 --
-ALTER TABLE `salida_peatonal`
-  MODIFY `idSalida_Peatonal` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `salida_vehicular`
---
-ALTER TABLE `salida_vehicular`
-  MODIFY `idSalida_Vehicular` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `solicitud_parqueadero_visitante`
---
-ALTER TABLE `solicitud_parqueadero_visitante`
+ALTER TABLE `solicitud_parqueadero`
   MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1187,15 +867,7 @@ ALTER TABLE `tokens`
 -- Filtros para la tabla `anuncio`
 --
 ALTER TABLE `anuncio`
-  ADD CONSTRAINT `fk_anuncio_apartamento` FOREIGN KEY (`apart`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_anuncio_persona` FOREIGN KEY (`persona`) REFERENCES `registro` (`id_Registro`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `apartamento`
---
-ALTER TABLE `apartamento`
-  ADD CONSTRAINT `fk_apartamento_piso` FOREIGN KEY (`pisos`) REFERENCES `piso` (`id_Piso`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_apartamento_torre` FOREIGN KEY (`torrres`) REFERENCES `torre` (`id_Torre`);
 
 --
 -- Filtros para la tabla `cita`
@@ -1204,16 +876,10 @@ ALTER TABLE `cita`
   ADD CONSTRAINT `fk_cita_apartamento` FOREIGN KEY (`apa`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `parqueadero_apartamento`
+-- Filtros para la tabla `parqueadero`
 --
-ALTER TABLE `parqueadero_apartamento`
-  ADD CONSTRAINT `fk_parqueadero_apartamento` FOREIGN KEY (`id_apartamento`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `piso`
---
-ALTER TABLE `piso`
-  ADD CONSTRAINT `piso_ibfk_1` FOREIGN KEY (`id_Torre`) REFERENCES `torre` (`id_Torre`) ON DELETE CASCADE;
+ALTER TABLE `parqueadero`
+  ADD CONSTRAINT `parqueadero_ibfk_1` FOREIGN KEY (`id_apartamento`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `registro`
@@ -1224,20 +890,17 @@ ALTER TABLE `registro`
   ADD CONSTRAINT `fk_registro_tipodoc` FOREIGN KEY (`Id_tipoDocumento`) REFERENCES `tipodoc` (`idtDoc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `solicitud_parqueadero_visitante`
+-- Filtros para la tabla `solicitud_parqueadero`
 --
-ALTER TABLE `solicitud_parqueadero_visitante`
-  ADD CONSTRAINT `fk_solicitud_apartamento` FOREIGN KEY (`id_apartamento`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `solicitud_parqueadero`
+  ADD CONSTRAINT `solicitud_parqueadero_ibfk_1` FOREIGN KEY (`id_apartamento`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `solicitud_zona`
 --
 ALTER TABLE `solicitud_zona`
-  ADD CONSTRAINT `fk_solicitud_apartamento2` FOREIGN KEY (`ID_Apartamentooss`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_solicitud_apartamento24` FOREIGN KEY (`ID_Apartamentooss`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_solicitud_estado` FOREIGN KEY (`estado`) REFERENCES `estado` (`idestado`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_solicitud_zona_comun` FOREIGN KEY (`ID_zonaComun`) REFERENCES `zona_comun` (`idZona`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fkid_Apartamento` FOREIGN KEY (`ID_Apartamentooss`) REFERENCES `apartamento` (`id_Apartamento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk` FOREIGN KEY (`ID_zonaComun`) REFERENCES `zona_comun` (`idZona`),
+  ADD CONSTRAINT `fkidZona` FOREIGN KEY (`ID_zonaComun`) REFERENCES `zona_comun` (`idZona`),
   ADD CONSTRAINT `fkid_Apartamento5` FOREIGN KEY (`ID_Apartamentooss`) REFERENCES `apartamento` (`id_Apartamento`);
 
 --
