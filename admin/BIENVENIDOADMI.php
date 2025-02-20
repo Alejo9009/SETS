@@ -11,7 +11,7 @@ if (!isset($_SESSION['Usuario'])) {
 }
 
 
-if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+if ($_SESSION['idRol'] != 1111) { // Solo si el rol es "residente" (idRol == 4)
     header("Location: http://localhost/sets/error.php");
     exit();
 }

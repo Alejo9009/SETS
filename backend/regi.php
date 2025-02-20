@@ -9,7 +9,7 @@ use Firebase\JWT\JWT;
 
 include_once "conexion.php";
 
-$secret_key = "tu_clave_secreta"; // Usa una clave segura
+$secret_key = "tu_clave_secreta"; 
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -26,7 +26,7 @@ try {
         $telefonoUno = $_POST['telefonoUno'];
         $telefonoDos = $_POST['telefonoDos'] ?? null;
         $Usuario = $_POST['Usuario'];
-        $Clave = $_POST['Clave']; 
+        $Clave = $_POST['Clave'];
 
         if (empty($Clave)) {
             throw new Exception("La contraseña no puede estar vacía.");
@@ -39,7 +39,7 @@ try {
         $sql = "INSERT INTO registro (idRol, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, apartamento , Correo, Id_tipoDocumento, numeroDocumento, tipo_propietario,telefonoUno, telefonoDos, Usuario, Clave) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?)";
         $stmt = $base_de_datos->prepare($sql);
-        $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido,$apartamento , $Correo, $Id_tipoDocumento, $numeroDocumento,$tipo_propietario, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
+        $stmt->execute([$idRol, $PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $apartamento, $Correo, $Id_tipoDocumento, $numeroDocumento, $tipo_propietario, $telefonoUno, $telefonoDos, $Usuario, $Clave]);
 
         $idRegistro = $base_de_datos->lastInsertId();
 
@@ -49,22 +49,43 @@ try {
             "Usuario" => $Usuario,
             "Correo" => $Correo,
             "idRol" => $idRol,
-            "exp" => time() + (60 * 60 * 24) // Expira en 24 horas
+            "exp" => time() + (60 * 60 * 24) 
         ];
 
         $jwt = JWT::encode($payload, $secret_key, 'HS256');
 
-        // Guardar el token en la base de datos
+
         $sqlToken = "INSERT INTO tokens (id_Registro, token, fecha_expiracion) VALUES (?, ?, ?)";
         $stmtToken = $base_de_datos->prepare($sqlToken);
-        $fechaExpiracion = date('Y-m-d H:i:s', time() + (60 * 60 * 24)); // 24 horas desde ahora
+        $fechaExpiracion = date('Y-m-d H:i:s', time() + (60 * 60 * 24)); 
         $stmtToken->execute([$idRegistro, $jwt, $fechaExpiracion]);
 
         $base_de_datos->commit();
 
-        // Configurar la cookie en la respuesta
+     
         setcookie("token", $jwt, time() + (60 * 60 * 24), "/", "", false, true);
 
+        // Determinar la redirección según el rol
+        $redirect = "";
+        switch ($idRol) {
+            case 1111:
+                $redirect = "1111"; // Admin
+                break;
+            case 2222:
+                $redirect = "2222"; // Guarda de Seguridad
+                break;
+            case 3333:
+                $redirect = "3333"; // Residente
+                break;
+            case 4444:
+                $redirect = "4444"; // Dueño
+                break;
+            default:
+                $redirect = "error";
+                break;
+        }
+
+        // Enviar la respuesta al frontend con el rol asignado para redirigir
         echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
     }
 
@@ -99,6 +120,6 @@ try {
     }
     echo json_encode(["error" => "Error general: " . $e->getMessage()]);
 } finally {
-    // Cerrar la conexión
+    
     $base_de_datos = null;
 }

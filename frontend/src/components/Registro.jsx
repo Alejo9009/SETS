@@ -119,6 +119,8 @@ const Registro = () => {
             }
         );
 
+        console.log(response.data); // Depuración: Verifica la respuesta del backend
+
         const { redirect, token } = response.data;
 
         if (token) {
@@ -127,10 +129,10 @@ const Registro = () => {
 
         if (redirect) {
             const rutas = {
-                1: "http://localhost/sets/admin/BIENVENIDOADMI.php",
-                2: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
-                3: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
-                4: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
+                1111: "http://localhost/sets/admin/BIENVENIDOADMI.php",
+                2222: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
+                3333: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
+                4444: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
                 error: "http://localhost/SETS/error.html",
             };
             window.location.href = rutas[redirect] || rutas["error"];
@@ -141,7 +143,6 @@ const Registro = () => {
         );
     }
 };
-
   return (
     <div className="container">
       <br /> <p />
