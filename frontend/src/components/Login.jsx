@@ -1,98 +1,94 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";  
-import Cookies from "js-cookie";  // Importar Cookies
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./Login.css";
 import logo from "../assets/img/c.png";
 
 const Login = () => {
-  const [Usuario, setUsuario] = useState("");
-  const [Clave, setClave] = useState("");
-  const [error, setError] = useState("");
+    const [formData, setFormData] = useState({
+        Usuario: "",
+        Clave: "",
+    });
+    const [mensaje, setMensaje] = useState("");
+    const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-    try {
-      console.log("📤 Datos enviados:", { Usuario, Clave });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      const response = await axios.post(
-        "http://localhost/sets/backend/login.php",
-        { Usuario, Clave },
-        { withCredentials: true } 
-      );
+        try {
+            const response = await axios.post(
+                "http://localhost/sets/backend/login.php",
+                formData,
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
 
-      console.log("📩 Respuesta del backend:", response.data);
+            const { redirect, token } = response.data;
 
-      if (response.data.token) {
-        // Guardar el token en una cookie
-        Cookies.set("authToken", response.data.token, { expires: 1 });
+            if (token) {
+                Cookies.set("token", token, { expires: 1 }); // Almacenar el token en una cookie
+            }
 
-        // Decodificar el token JWT
-        const decoded = jwtDecode(response.data.token);
-        const { idRol } = decoded;
+            if (redirect) {
+                const rutas = {
+                    1111: "/admin",
+                    2222: "/seguridad",
+                    3333: "/residente",
+                    4444: "/dueño",
+                    error: "/error",
+                };
+                navigate(rutas[redirect] || rutas["error"]);
+            }
+        } catch (error) {
+            setMensaje(error.response?.data?.error || "Error al iniciar sesión.");
+        }
+    };
 
- 
-        const rutas = {
-          1: "http://localhost/sets/admin/inicioprincipal.php",
-          2: "http://localhost/sets/residente/inicioprincipal.php",
-          3: "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php",
-          4: "http://localhost/sets/seguridad/inicioprincipal.php",
-          default: "http://localhost/sets/error.html"
-        };
-
-        window.location.href = rutas[idRol] || rutas.default;
-      } else {
-        setError(response.data.error);
-      }
-    } catch (err) {
-      console.error("❌ Error:", err.response?.data || err.message);
-      setError(err.response?.data?.error || "Error al iniciar sesión.");
-    }
-  };
-
-  return (
-    <div className="container">
+    return (
+      <div className="container">
       <header className="text-center mb-4 d-flex flex-column align-items-center">
         <img src={logo} alt="Logo" />
         <h2 className="title">
           SETS<br />BIENVENIDO
         </h2>
       </header>
-
-      <div className="login-container">
-        <form onSubmit={handleLogin}>
-          <h2>Iniciar Sesión</h2>
-          <div>
-            <label>Usuario:</label>
-            <input
-              type="text"
-              value={Usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Clave:</label>
-            <input
-              type="password"
-              value={Clave}
-              onChange={(e) => setClave(e.target.value)}
-              required
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <button type="submit">Ingresar</button>
-
-          <div className="d-flex justify-content-between">
+        
+            <h2>Iniciar Sesión</h2>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    value={formData.Usuario}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="Clave"
+                    placeholder="Contraseña"
+                    value={formData.Clave}
+                    onChange={handleChange}
+                    required
+                />
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            {mensaje && <p className="error">{mensaje}</p>}
+            <div className="d-flex justify-content-between">
             <a href="http://localhost:3000/registro">Registrarse</a>
             <a href="http://localhost:3000/recuperarcontrase%C3%B1a">Recuperar Contraseña</a>
             <a href="http://localhost/SETS/">Volver</a>
           </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Login;

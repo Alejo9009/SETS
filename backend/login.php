@@ -1,70 +1,83 @@
 <?php
 header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-// Incluir las librerías necesarias
-require_once 'vendor/autoload.php';
+require 'vendor/autoload.php';
 use Firebase\JWT\JWT;
 
+include_once "conexion.php";
 
-$secret_key = "tu_clave_secreta";  
+$secret_key = "tu_clave_secreta"; // La misma clave usada en el registro
 
-include_once "conexion.php"; 
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents("php://input"), true);
 
-// Obtener datos del frontend
-$input_data = json_decode(file_get_contents("php://input"), true);
-$Usuario = $input_data['Usuario'] ?? '';
-$Clave = $input_data['Clave'] ?? '';
+        $Usuario = $data['Usuario'];
+        $Clave = $data['Clave'];
 
-if (!$Usuario || !$Clave) {
-    echo json_encode(["error" => "❌ Faltan credenciales"]);
-    exit;
+        if (empty($Usuario) || empty($Clave)) {
+            throw new Exception("Usuario y contraseña son obligatorios.");
+        }
+
+        // Buscar el usuario en la base de datos
+        $sql = "SELECT id_Registro, Usuario, Clave, idRol FROM registro WHERE Usuario = ?";
+        $stmt = $base_de_datos->prepare($sql);
+        $stmt->execute([$Usuario]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            throw new Exception("Usuario no encontrado.");
+        }
+
+        // Verificar la contraseña
+        if (!password_verify($Clave, $user['Clave'])) {
+            throw new Exception("Contraseña incorrecta.");
+        }
+
+        // Buscar el token existente en la tabla tokens
+        $sqlToken = "SELECT token FROM tokens WHERE id_Registro = ? AND fecha_expiracion > NOW()";
+        $stmtToken = $base_de_datos->prepare($sqlToken);
+        $stmtToken->execute([$user['id_Registro']]);
+        $tokenData = $stmtToken->fetch(PDO::FETCH_ASSOC);
+
+        if (!$tokenData) {
+            throw new Exception("No se encontró un token válido para este usuario.");
+        }
+
+        $jwt = $tokenData['token'];
+
+        // Configurar la cookie en la respuesta
+        setcookie("token", $jwt, time() + (60 * 60 * 24), "/", "", false, true);
+
+        // Determinar la redirección según el rol
+        $redirect = "";
+        switch ($user['idRol']) {
+            case 1111:
+                $redirect = "1111"; // Admin
+                break;
+            case 2222:
+                $redirect = "2222"; // Guarda de Seguridad
+                break;
+            case 3333:
+                $redirect = "3333"; // Residente
+                break;
+            case 4444:
+                $redirect = "4444"; // Dueño
+                break;
+            default:
+                $redirect = "error";
+                break;
+        }
+
+        // Enviar la respuesta al frontend
+        echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
+    }
+} catch (Exception $e) {
+    echo json_encode(["error" => $e->getMessage()]);
+} finally {
+    // Cerrar la conexión
+    $base_de_datos = null;
 }
-
-// Buscar el usuario en  base de datos
-$stmt = $base_de_datos->prepare("SELECT idRol, Clave FROM registro WHERE Usuario = ?");
-$stmt->execute([$Usuario]);
-$UsuarioDB = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar si  usuario existe
-if (!$UsuarioDB) {
-    echo json_encode(["error" => "❌ Usuario no encontrado"]);
-    exit;
-}
-
-// Verificar si contraseña es correcta
-if (!password_verify($Clave, $UsuarioDB['Clave'])) {
-    echo json_encode(["error" => "❌ Clave incorrecta"]);
-    exit;
-}
-
-// Crear el payload del JWT
-$payload = [
-    "Usuario" => $Usuario,
-    "idRol" => $UsuarioDB['idRol'],
-    "iat" => time(),
-    "exp" => time() + 3600 
-];
-
-// Generar el token JWT
-$jwt = JWT::encode($payload, $secret_key, 'HS256');
-
-// Guardar el token en una cookie segura
-setcookie("authToken", $jwt, [
-    "expires" => time() + 3600,
-    "path" => "/",
-    "domain" => "localhost",
-    "secure" => false,  
-    "httponly" => true, 
-    "samesite" => "Lax"
-]);
-
-
-echo json_encode([
-    "mensaje" => "Inicio de sesión exitoso",
-    "token" => $jwt,
-    "idRol" => $UsuarioDB['idRol']
-]);
-?>
