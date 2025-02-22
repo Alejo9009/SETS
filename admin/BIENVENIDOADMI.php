@@ -3,12 +3,12 @@ require '../backend/authMiddleware.php';
 
 $decoded = authenticate();
 
-
+// Ahora puedes usar $decoded para obtener la información del usuario
 $idRegistro = $decoded->id;
 $Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
-
+// Verifica el rol del usuario
 if ($idRol != 1111) { // Solo si el rol es "admin" (idRol == 1111)
     header("Location: http://localhost/sets/error.php");
     exit();

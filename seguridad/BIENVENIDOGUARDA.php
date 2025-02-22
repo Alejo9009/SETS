@@ -1,17 +1,13 @@
 <?php
-session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+require '../backend/authMiddleware.php';
 
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$decoded = authenticate();
 
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
-if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }

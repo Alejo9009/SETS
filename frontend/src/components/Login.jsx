@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import "./Login.css";
 import logo from "../assets/img/c.png";
 
-
 const Login = () => {
     const [formData, setFormData] = useState({
         Usuario: "",
@@ -41,11 +40,12 @@ const Login = () => {
             if (redirect) {
                 const rutas = {
                     1111: "http://localhost/sets/admin/inicioprincipal.php",
+                    2222: "http://localhost/sets/seguridad/inicioprincipal.php",
                     3333: "http://localhost/sets/residente/inicioprincipal.php",
                     4444: "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php",
-                    2222: "http://localhost/sets/seguridad/inicioprincipal.php",
                     error: "http://localhost/SETS/error.html",
                 };
+                // Redirigir a la URL correspondiente
                 window.location.href = rutas[redirect] || rutas["error"];
             }
         } catch (error) {
@@ -61,7 +61,6 @@ const Login = () => {
                     SETS<br />BIENVENIDO
                 </h2>
             </header>
-
             <h2>Iniciar Sesión</h2>
             <form onSubmit={handleSubmit}>
                 <input

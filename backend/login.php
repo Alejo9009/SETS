@@ -9,18 +9,19 @@ use Firebase\JWT\JWT;
 
 include_once "conexion.php";
 
-$secret_key = "tu_clave_secreta"; // La misma clave usada en el registro
+$secret_key = "tu_clave_secreta"; // Asegúrate de que sea la misma clave usada en el registro
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        $Usuario = $data['Usuario'];
-        $Clave = $data['Clave'];
-
-        if (empty($Usuario) || empty($Clave)) {
+        // Validar datos de entrada
+        if (empty($data['Usuario']) || empty($data['Clave'])) {
             throw new Exception("Usuario y contraseña son obligatorios.");
         }
+
+        $Usuario = $data['Usuario'];
+        $Clave = $data['Clave'];
 
         // Buscar el usuario en la base de datos
         $sql = "SELECT id_Registro, Usuario, Clave, idRol FROM registro WHERE Usuario = ?";

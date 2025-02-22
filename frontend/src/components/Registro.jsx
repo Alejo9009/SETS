@@ -105,44 +105,44 @@ const Registro = () => {
     // Verificar si hay errores antes de enviar
     const hasErrors = Object.values(errors).some((error) => error);
     if (hasErrors) {
-      setMensaje("Por favor corrige los errores antes de enviar.");
-      return;
+        setMensaje("Por favor corrige los errores antes de enviar.");
+        return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost/sets/backend/regi.php",
-        formData,
-        {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          withCredentials: true,
+        const response = await axios.post(
+            "http://localhost/sets/backend/regi.php",
+            formData,
+            {
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                withCredentials: true,
+            }
+        );
+
+        console.log(response.data); // Depuración: Verifica la respuesta del backend
+
+        const { redirect, token } = response.data;
+
+        if (token) {
+            Cookies.set("token", token, { expires: 1 });
         }
-      );
 
-      console.log(response.data); // Depuración: Verifica la respuesta del backend
-
-      const { redirect, token } = response.data;
-
-      if (token) {
-        Cookies.set("token", token, { expires: 1 });
-      }
-
-      if (redirect) {
-        const rutas = {
-          1111: "http://localhost/sets/admin/BIENVENIDOADMI.php",
-          2222: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
-          3333: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
-          4444: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
-          error: "http://localhost/SETS/error.html",
-        };
-        window.location.href = rutas[redirect] || rutas["error"];
-      }
+        if (redirect) {
+            const rutas = {
+                1111: "http://localhost/sets/admin/BIENVENIDOADMI.php",
+                2222: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
+                3333: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
+                4444: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
+                error: "http://localhost/SETS/error.html",
+            };
+            window.location.href = rutas[redirect] || rutas["error"];
+        }
     } catch (error) {
-      setMensaje(
-        error.response?.data?.error || "Error al registrar el usuario."
-      );
+        setMensaje(
+            error.response?.data?.error || "Error al registrar el usuario."
+        );
     }
-  };
+};
   return (
     <div className="container">
       <br /> <p />
