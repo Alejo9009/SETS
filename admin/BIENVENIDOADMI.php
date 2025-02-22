@@ -1,17 +1,15 @@
 <?php
-session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+require '../backend/authMiddleware.php';
 
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$decoded = authenticate();
 
 
-if ($_SESSION['idRol'] != 1111) { // Solo si el rol es "residente" (idRol == 4)
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
+
+
+if ($idRol != 1111) { // Solo si el rol es "admin" (idRol == 1111)
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -30,7 +28,6 @@ if ($_SESSION['idRol'] != 1111) { // Solo si el rol es "residente" (idRol == 4)
     <header>
         <h1><b>¡Bienvenido a SETS!</b></h1>
         <h2>Gracias por registrarte con Nosotros.</h2>
-
     </header>
     <main>
         <img src="img/ajustes.png" alt="Bienvenida" style="width: 30%;">
@@ -42,6 +39,5 @@ if ($_SESSION['idRol'] != 1111) { // Solo si el rol es "residente" (idRol == 4)
         
         <a href="inicioprincipal.php" class="btn btn-success btn-lg">Iniciar</a>
     </main>
-   
 </body>
 </html>

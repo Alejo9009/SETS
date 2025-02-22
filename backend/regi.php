@@ -85,7 +85,7 @@ try {
                 break;
         }
 
-        // Enviar la respuesta al frontend con el rol asignado para redirigir
+
         echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
     }
 
