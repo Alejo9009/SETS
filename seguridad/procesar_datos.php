@@ -1,23 +1,23 @@
 <?php
+require '../backend/authMiddleware.php';
 session_start();
-include_once "conexion.php";
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-$Usuario = $_SESSION['Usuario'] ?? null;
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
 
-if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
+include_once "conexion.php";
 // Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Usuario = $_POST['profile-username'] ?? '';
     $telefonoUno = $_POST['profile-phone1'] ?? '';
     $telefonoDos = $_POST['profile-phone2'] ?? '';
+    $apartamento = $_POST['profile-apartamento'] ?? '';
 
     // Consulta SQL corregida para campos existentes en la base de datos
     $sql = "UPDATE registro SET 
@@ -85,11 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Correo = ?, 
         telefonoUno = ?,
         telefonoDos = ?,
+        apartamento = ?,
         Usuario = ? 
     WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos, $Usuario, $Usuario])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos,$apartamento, $Usuario, $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";

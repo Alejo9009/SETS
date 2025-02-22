@@ -1,58 +1,45 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
-
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
-    header("Location: http://localhost/sets/error.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
 
-
-$query = "SELECT id_Torre, numTorre, descripcionTorre FROM torre";
-try {
-  $statement = $base_de_datos->prepare($query);
-  $statement->execute();
-  $torre = $statement->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-  echo "Error al ejecutar la consulta: " . $e->getMessage();
+if ($idRol != 2222) {
+  header("Location: http://localhost/sets/error.php");
   exit();
+}
+
+include_once "conexion.php";
+
+$query = "SELECT numApartamento, pisos, torre FROM apartamento ORDER BY torre, pisos, numApartamento";
+$stmt = $base_de_datos->prepare($query);
+$stmt->execute();
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$torres = [];
+foreach ($resultados as $fila) {
+  $torre = $fila['torre'];
+  $piso = $fila['pisos'];
+
+  if (!isset($torres[$torre])) {
+    $torres[$torre] = [];
+  }
+
+  if (!isset($torres[$torre][$piso])) {
+    $torres[$torre][$piso] = [];
+  }
+
+  $torres[$torre][$piso][] = [
+    'numApartamento' => $fila['numApartamento']
+  ];
 }
 ?>
 <!DOCTYPE html>
@@ -61,9 +48,9 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SETS -Torre </title>
+  <title>SETS - Pisos</title>
   <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-  <link rel="stylesheet" href="css/torres.css?v=<?php echo (rand()); ?>">
+  <link rel="stylesheet" href="css/pisos.css?v=<?php echo (rand()); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
@@ -71,9 +58,9 @@ try {
   <header>
     <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
-      <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-      <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
-       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+        <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+        <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -99,7 +86,7 @@ try {
                       <center><a href="Perfil.php">Editar Datos</a></center>
                     </li>
                     <li>
-                    <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                      <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                     </li>
                   </ul>
@@ -107,6 +94,7 @@ try {
               </li>
               <div class="offcanvas-header">
                 <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
+
                 <center>
                   <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                 </center>
@@ -145,144 +133,174 @@ try {
   </header>
   <br><br>
   <main>
-    <section id="chatContainer" class="chat-container  z-3 position-fixed p-5 rounded-3 ">
-      <div class="chat-header">
-        <span id="chatHeader">Chat</span>
-        <button class="close-btn" onclick="closeChat()">×</button>
-      </div>
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-        <button onclick="sendMessage()">Enviar</button>
-      </div>
+    <section id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
+            <header class="chat-header">
+                <span id="chatHeader">Chat</span>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </header>
+            <div class="chat-messages" id="chatMessages">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+  
     </section>
-  </main>
-  </div>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <main>
-    <section class="anuncio">
-      <center>
-        <h2 style="color: rgb(11, 51, 21); text-align:center ; font-size: 60px;">Torre</h2>
-      </center>
-    </section>
-    <section class="announcements">
-      <br>
+    <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
+      <b>Pisos y Apartamentos</b>
+    </div>
+    <div class="container">
       <div class="barra">
         <div class="sombra"></div>
-        <form onsubmit="return searchTowers();">
-          <input type="text" id="search-input" placeholder="Buscar torre...">
-          <ion-icon name="search-outline"></ion-icon>
-        </form>
+        <input type="text" placeholder="Buscar Piso...">
+        <ion-icon name="search-outline"></ion-icon>
       </div>
       <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       <br>
-      <div id="tower-container" class="container">
-        <?php if (!empty($torre)): ?>
-          <div class="row">
-            <?php foreach ($torre as $index => $torre): ?>
-              <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <center>
-                  <div class="card">
-                    <img src="img/yy.jpg" class="" alt="Imagen del apartamento" style="border: 3px solid #14c55e;">
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-outline-success" onclick="cambiarTorre(-1)">← Anterior</button>
+            <h2 id="torreActual" style="text-align: center;">Torre 1</h2>
+            <button class="btn btn-outline-success" onclick="cambiarTorre(1)">Siguiente →</button>
+          </div>
+          <div id="contenidoTorre">
+            <?php foreach ($torres as $torre => $pisos): ?>
+              <div class="torre" data-torre="<?= $torre ?>" style="display: <?= $torre == 1 ? 'block' : 'none' ?>;">
+                <?php foreach ($pisos as $piso => $apartamentos): ?>
+                  <div class="card shadow mb-4">
+                    <div class="card-header bg-success text-white">
+                      <h2 class="mb-0" style="text-align: center;"><b>Piso: <?= htmlspecialchars($piso) ?></b></h2>
+                    </div>
                     <div class="card-body">
-                      <h5 class="card-title"><?= htmlspecialchars($torre['numTorre']); ?></h5>
-                      <h2 class="card-text"><?= htmlspecialchars($torre['descripcionTorre']); ?></h2><br>
-                      <a href="pisos.php" style="font-size: 30px;" class="btn-custom">Pisos</a><br>
+                      <h4 style="text-align: center;"><b>Apartamentos:</b></h4>
+                      <div class="row">
+                        <?php foreach ($apartamentos as $apartamento): ?>
+                          <div class="col-md-6 mb-3">
+                            <div class="card card-apartamento">
+                              <div class="card-body">
+                                <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
+                              </div>
+                            </div>
+                          </div>
+                        <?php endforeach; ?>
+                      </div>
                     </div>
                   </div>
-                </center>
+                <?php endforeach; ?>
               </div>
             <?php endforeach; ?>
           </div>
-        <?php else: ?>
-          <p>No se encontraron Torres.</p>
-        <?php endif; ?>
+        </div>
       </div>
-    </section>
-  </main>
-  </header>
-  <br>
-  <div class="d-flex justify-content-between">
-    <a href="ingresoregi.php" class="btn-custom" style="font-size: 20px; ">Ingreso Peatonal</a>
-    <a href="inicioprincipal.php" class="btn-custom" style="font-size: 20px;">Volver</a>
-  </div>
-  <script>
-    document.querySelector('.admin-img').addEventListener('click', function() {
-      document.querySelector('.dropdown-menu').classList.toggle('show');
-    });
-    document.querySelector('.chat-button').addEventListener('click', function() {
-      document.querySelector('.chat-menu').classList.toggle('show');
-    });
-    function filterChat() {
-      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-      const chatItems = document.querySelectorAll('.chat-item');
-      chatItems.forEach(item => {
-        if (item.textContent.toLowerCase().includes(searchInput)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-  </script>
-  <script>
-    function searchTowers() {
-      var query = document.getElementById('search-input').value;
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a href="./inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;"> VOLVER</a>
+    </div>
+    <script type="text/javascript" src="JAVA/main.js"></script>
+    <script>
+      let torres = <?= json_encode(array_keys($torres)) ?>;
+      let torreActual = 1;
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'toers.php?query=' + encodeURIComponent(query), true);
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          document.getElementById('tower-container').innerHTML = xhr.responseText;
-        } else {
-          console.error('Error en la búsqueda:', xhr.statusText);
-        }
-      };
-      xhr.send();
-      return false;
-    }
-  </script>
-  <script>
-    function openChat(chatName) {
-      const chatContainer = document.getElementById('chatContainer');
-      const chatHeader = document.getElementById('chatHeader');
-      chatHeader.textContent = chatName;
-      chatContainer.classList.add('show');
-    }
-    function closeChat() {
-      const chatContainer = document.getElementById('chatContainer');
-      chatContainer.classList.remove('show');
-    }
-    function sendMessage() {
-      const messageInput = document.getElementById('chatInput');
-      const messageText = messageInput.value.trim();
-      if (messageText) {
-        const chatMessages = document.getElementById('chatMessages');
-        const messageElement = document.createElement('p');
-        messageElement.textContent = messageText;
-        chatMessages.appendChild(messageElement);
-        messageInput.value = '';
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+      function cambiarTorre(direccion) {
+        torreActual += direccion;
+        if (torreActual < 1) torreActual = torres.length;
+        if (torreActual > torres.length) torreActual = 1;
+
+        document.querySelectorAll('.torre').forEach(torre => {
+          torre.style.display = 'none';
+        });
+
+        document.querySelector(`.torre[data-torre="${torreActual}"]`).style.display = 'block';
+        document.getElementById('torreActual').textContent = `Torre ${torreActual}`;
       }
-    }
-    function filterChat() {
-      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-      const chatItems = document.querySelectorAll('.chat-item');
-      chatItems.forEach(item => {
-        if (item.textContent.toLowerCase().includes(searchInput)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script type="text/javascript" src="JAVA/main.js"></script>
+    <script>
+      document.querySelector('.admin-img').addEventListener('click', function() {
+        document.querySelector('.dropdown-menu').classList.toggle('show');
       });
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
+      document.querySelector('.chat-button').addEventListener('click', function() {
+        document.querySelector('.chat-menu').classList.toggle('show');
+      });
+
+      function filterChat() {
+        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+          if (item.textContent.toLowerCase().includes(searchInput)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+    </script>
+    <script>
+      function buscar() {
+        var input = document.getElementById("inputBusqueda").value.toLowerCase();
+        var lista = document.getElementById("listaElementos");
+        var items = lista.getElementsByTagName("li");
+        for (var i = 0; i < items.length; i++) {
+          var elemento = items[i].textContent || items[i].innerText;
+          if (elemento.toLowerCase().indexOf(input) > -1) {
+            items[i].style.display = "";
+          } else {
+            items[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+    <script>
+      function openChat(chatName) {
+        const chatContainer = document.getElementById('chatContainer');
+        const chatHeader = document.getElementById('chatHeader');
+        chatHeader.textContent = chatName;
+        chatContainer.classList.add('show');
+      }
+
+      function closeChat() {
+        const chatContainer = document.getElementById('chatContainer');
+        chatContainer.classList.remove('show');
+      }
+
+      function sendMessage() {
+        const messageInput = document.getElementById('chatInput');
+        const messageText = messageInput.value.trim();
+        if (messageText) {
+          const chatMessages = document.getElementById('chatMessages');
+          const messageElement = document.createElement('p');
+          messageElement.textContent = messageText;
+          chatMessages.appendChild(messageElement);
+          messageInput.value = '';
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+      }
+
+      function filterChat() {
+        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+          if (item.textContent.toLowerCase().includes(searchInput)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </header>
 </body>
+
 </html>

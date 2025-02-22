@@ -1,26 +1,26 @@
 <?php
+require '../backend/authMiddleware.php';
 session_start();
-include_once "conexion.php";
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-$Usuario = $_SESSION['Usuario'] ?? null;
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
 
-if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
+include_once "conexion.php";
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.apartamento , r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
                 rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
         JOIN rol rd ON r.idRol = rd.id
@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Usuario = $_POST['profile-username'] ?? '';
     $telefonoUno = $_POST['profile-phone1'] ?? '';
     $telefonoDos = $_POST['profile-phone2'] ?? '';
+    $apartamento = $_POST['profile-apartamento'] ?? '';
 
     // Actualizar el perfil en la base de datos
     $sql = "UPDATE registro   SET 
@@ -103,12 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Correo = ?, 
         telefonoUno = ?,
         telefonoDos = ?,
+        apartamento = ?,
         Usuario = ? 
 
     WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $telefonoUno, $telefonoDos, $Usuario])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $telefonoUno, $telefonoDos,$apartamento, $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
@@ -197,11 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('admin')">Admin</a></center>
                                         </li>
-                                        <center>
-                                            <li>
-                                                <a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a>
-                                            </li>
-                                        </center>
+                                      
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -271,6 +269,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="profile-phone1" name="profile-phone1" value="<?php echo htmlspecialchars($userData['telefonoUno']); ?>"><br>
                 <label for="profile-phone2">Teléfono Dos:</label><br>
                 <input type="text" id="profile-phone2" name="profile-phone2" value="<?php echo htmlspecialchars($userData['telefonoDos']); ?>"><br>
+                <label for="profile-apartamento">Apartamento:</label><br>
+                <input type="text" id="profile-apartamento" name="profile-apartamento" value="<?php echo htmlspecialchars($userData['apartamento']); ?>"><br>
+
 
                 <label for="profile-username">Usuario:</label><br>
                 <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>

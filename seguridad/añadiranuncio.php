@@ -1,48 +1,16 @@
 <?php
-include_once "conexion.php";
-session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+require '../backend/authMiddleware.php';
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$decoded = authenticate();
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,7 +32,7 @@ if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
             <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -114,9 +82,7 @@ if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                        
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -153,7 +119,8 @@ if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
     <br>
     <br>
     <br>
-    <br>
+    <br><br>
+    <br><br>
     <br><br>
     <br>
     <br><br><br>
@@ -211,6 +178,16 @@ if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
                     <div class="div">
                         <h5>Persona</h5>
                         <input type="text" class="input" id="persona" name="persona" required>
+
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-easel" viewBox="0 0 16 16">
+                        <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0M2 3v7h12V3z" />
+                    </svg>
+                    <div class="div">
+                        <h5>apartamento</h5>
+                        <input type="text" class="input" id="apart" name="apart" required>
 
                     </div>
                 </div>

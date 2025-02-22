@@ -1,32 +1,23 @@
 <?php
+require '../backend/authMiddleware.php';
 session_start();
-include_once "conexion.php";
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-$Usuario = $_SESSION['Usuario'] ?? null;
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
 
-if ($_SESSION['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
-// Conectar a la base de datos y obtener los datos del usuario
-$sql = "SELECT * FROM registro WHERE Usuario = ?";
-$stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$Usuario]);
-$userData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$userData) {
-    die("Error: No se encontraron datos del perfil.");
-}
+include_once "conexion.php";
 
 // Aquí ya puedes cargar los datos del perfil
 
@@ -87,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.apartamento , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
                 rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
         JOIN rol rd ON r.idRol = rd.id
@@ -174,11 +165,7 @@ if (!$userData) {
                                         <li>
                                         <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                        <center>
-                                            <li>
-                                                <a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a>
-                                            </li>
-                                        </center>
+                                     
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -234,6 +221,7 @@ if (!$userData) {
                 <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
                 <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
                 <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p><b>Apartamento:</b> <?php echo  htmlspecialchars($userData['apartamento']); ?></p>
                 <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
 
                 <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>

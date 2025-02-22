@@ -1,44 +1,24 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-
-$usuario = $_SESSION['Usuario'];
-
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario'];
-} else {
-
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
 
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 3) {
+if ($idRol != 2222) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
+
 
 
 
@@ -49,7 +29,7 @@ $stmtAnuncios->execute();
 $anuncios = $stmtAnuncios->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sqlParqueadero = "SELECT id_parking, fecha_inicio, hora_inicio, numParqueadero FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, hora_inicio DESC LIMIT 5";
+$sqlParqueadero = "SELECT 	id_solicitud, 	fecha_inicio, 	fecha_final, parqueadero_visitante FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, 	fecha_final DESC LIMIT 5";
 $stmtParqueadero = $base_de_datos->prepare($sqlParqueadero);
 $stmtParqueadero->execute();
 $parqueaderos = $stmtParqueadero->fetchAll(PDO::FETCH_ASSOC);
@@ -80,7 +60,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
             <nav class="navbar bg-body-tertiary fixed-top">
                 <div class="container-fluid" style="background-color: #0e2c0a;">
                     <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                    <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+                    <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                         <span class="navbar-toggler-icon" style="color: white;"></span>
                     </button>
@@ -128,9 +108,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                            </li>
+                                           
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                             </li>

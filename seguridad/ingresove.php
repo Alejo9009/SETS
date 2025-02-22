@@ -1,75 +1,52 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
-
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 3) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
+include_once "conexion.php";
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    $idIngreso_Vehicular = $_POST['delete_idIngreso_Vehicular'];
+    $id_solicitud = $_POST['delete_id_solicitud'];
 
-
-    $sql = "DELETE FROM ingreso_vehicular WHERE idIngreso_Vehicular = :idIngreso_Vehicular";
+    $sql = "DELETE FROM solicitud_parqueadero WHERE id_solicitud = :id_solicitud";
     $stmt = $base_de_datos->prepare($sql);
 
-    if ($stmt->execute(['idIngreso_Vehicular' => $idIngreso_Vehicular ])) {
+    if ($stmt->execute(['id_solicitud' => $id_solicitud])) {
+       
     } else {
-        echo "Error al eliminar el ingreso.";
+        echo "Error al eliminar la solicitud.";
     }
 }
-$sql = "SELECT * FROM ingreso_vehicular";
+
+
+$sql = "SELECT * FROM solicitud_parqueadero";
 $stmt = $base_de_datos->query($sql);
-$Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sets - Ingreso vehicular</title>
+    <title>SETS - Parqueadero Visitante</title>
+    <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/citasFormulario.css?v=<?php echo (rand()); ?>">
-</head>
 </head>
 
 <body>
@@ -77,9 +54,9 @@ $Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="topbar">
             <nav class="navbar bg-body-tertiary fixed-top">
                 <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
-                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                    <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                    <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                         <span class="navbar-toggler-icon" style="color: white;"></span>
                     </button>
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -105,14 +82,13 @@ $Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <center><a href="Perfil.php">Editar Datos</a></center>
                                             </li>
                                             <li>
-                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                                <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                             </li>
                                         </ul>
                                 </center>
                                 </li>
                                 <div class="offcanvas-header">
                                     <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
-
                                     <center>
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
@@ -121,14 +97,11 @@ $Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <li class="nav-item dropdown">
                                         <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <b style="font-size: 20px;"> CHAT</b>
-
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                            </li>
+                                      
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                             </li>
@@ -146,87 +119,73 @@ $Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
-            <div id="chatContainer" class="chat-container">
-                <div class="chat-header">
-                    <span id="chatHeader">Chat</span>
-                    <button class="close-btn" onclick="closeChat()">×</button>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                    <button onclick="sendMessage()">Enviar</button>
-                </div>
-            </div>
+        </div>
     </header>
     <main>
-        <br> <br> <br>
-        <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Ingreso Vehicular </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
-                    <form action="create.php" method="post">
-                        <fieldset>
-                            <center>
-                                <legend><b>Ingresar Ingreso</b> </legend>
-                            </center>
-                            <div class="mb-3">
-                                <label for="vehiculo" class="form-label">Vehiculo:</label>
-                                <input type="text" class="form-control" id="vehiculo" name="vehiculo" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="PersonasIngreso" class="form-label">Nombre de Persona:</label>
-                                <input type="text" class="form-control" id="PersonasIngreso" name="PersonasIngreso" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fechaHora" class="form-label">Fecha y Hora:</label>
-                                <input type="datetime-local"  class="form-control"  id="fechaHora"  name="fechaHora"    required>
-                            </div>
+        <br><br>
+        <br><br>
+        <br><br>
 
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-success" type="submit">Enviar</button>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Ingresos</h2></center>
-                 <br>
+        <div class="container">
+            <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;"><b>Solicitudes de Parqueadero Visitante</b></div>
+
+
+            <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
+          
+                <br>
+              
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">idIngreso_Vehicular</th>
-                                <th scope="col">Vehiculo</th>
-                                <th scope="col">fecha y Hora</th>
-                                <th scope="col">Nombre de Persona de Ingreso</th>
-                                <th scope="col">Acciones</th>
-
+                                <th scope="col" style="font-size: 20px;">ID Solicitud</th>
+                                <th scope="col"style="font-size: 20px;">Apartamento</th>
+                                <th scope="col"style="font-size: 20px;">Parqueadero Visitante</th>
+                                <th scope="col"style="font-size: 20px;">Nombre del Visitante</th>
+                                <th scope="col"style="font-size: 20px;">Placa del Vehículo</th>
+                                <th scope="col"style="font-size: 20px;">Color del Vehículo</th>
+                                <th scope="col"style="font-size: 20px;">Tipo de Vehículo</th>
+                                <th scope="col"style="font-size: 20px;">Modelo</th>
+                                <th scope="col"style="font-size: 20px;">Marca</th>
+                                <th scope="col"style="font-size: 20px;">Fecha de Inicio</th>
+                                <th scope="col"style="font-size: 20px;">Fecha Final</th>
+                                <th scope="col"style="font-size: 20px;">Estado</th>
+                                <th scope="col"style="font-size: 20px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($Ingreso_Vehicular as $Ingreso_Vehicular): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['idIngreso_Vehicular']); ?></td>
-                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['vehiculo']); ?></td>
-                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['fechaHora']); ?></td>
-                                    <td><?php echo htmlspecialchars($Ingreso_Vehicular['PersonasIngreso']); ?></td>
+                            <?php foreach ($solicitudes as $solicitud): ?>
+                                <tr  style="font-size: 15px;">
+                                    <td style="font-size: 15px;"><?php echo htmlspecialchars($solicitud['id_solicitud']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['id_apartamento']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['parqueadero_visitante']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['nombre_visitante']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['placaVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['colorVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['tipoVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['modelo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['marca']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['fecha_inicio']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['fecha_final']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
                                     <td>
-                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar ?');">
-                                            <input type="hidden" name="delete_idIngreso_Vehicular" value="<?php echo $Ingreso_Vehicular['idIngreso_Vehicular']; ?>">
-                                            <button class="btn btn-danger mt-3 "type="submit" name="delete">Eliminar</button>
+                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta solicitud?');">
+                                            <input type="hidden" name="delete_id_solicitud" value="<?php echo $solicitud['id_solicitud']; ?>">
+                                            <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
                                         </form>
                                     </td>
-
-                                </tr>
+                                </trstyle=>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </div>
-                <br>
-                <div class="container mt-5">
-                    <a href="parqueaderocarro.php" class="btn btn-success">Volver</a>
-                </div>
+  
             </div>
+            <br>
+
+            <div class="container mt-5">
+                <a href="parqueaderocarro.php" class="btn btn-success">Volver</a>
+            </div>
+
+        </div>
         </div>
         <br>
         </div>
@@ -318,10 +277,6 @@ $Ingreso_Vehicular = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
-
 </body>
 
 </html>
