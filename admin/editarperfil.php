@@ -1,22 +1,23 @@
 <?php
+require '../backend/authMiddleware.php';
 session_start();
-include_once "conexion.php";
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-$Usuario = $_SESSION['Usuario'] ?? null;
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
 
-if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 1111) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
 
 
 // Preparar la consulta para obtener los datos del perfil
@@ -199,9 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
+                                      
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>

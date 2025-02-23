@@ -1,58 +1,27 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 1111) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
-
-if (!$base_de_datos) {
-    exit('Error en la conexión a la base de datos.');
-}
+include_once "conexion.php";
 
 
-$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
-        FROM solicitud_parqueadero sp 
-        LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        WHERE sp.TipoVehiculo = 'carro';";
+
+$sql = "SELECT * FROM solicitud_parqueadero WHERE tipoVehiculo = 'carro'";
 
 $stmt = $base_de_datos->query($sql);
 $solicitudes = [];
@@ -82,9 +51,9 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
-             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -130,9 +99,7 @@ if ($stmt->rowCount() > 0) {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                       
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -181,7 +148,7 @@ if ($stmt->rowCount() > 0) {
         <div class="container">
 
 
-            <!-- Citas Agendadas -->
+
             <div class="sidebar">
 
                 <br>
@@ -206,42 +173,40 @@ if ($stmt->rowCount() > 0) {
 
                             </center>
                             <center>
-                                <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
-                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
+                                <p><strong>id de la solicitud :</strong> <?= htmlspecialchars($solicitud['id_solicitud']) ?></p>
+                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_apartamento']) ?></p>
                                 <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
                                 <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
-                                <p><strong>Hora de Inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
-                                <p><strong>Hora Final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
-                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['numParqueadero']) ?></p>
+                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['parqueadero_visitante']) ?></p>
                                 <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
                                 <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
-                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
-                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
+                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['tipoVehiculo']) ?></p>
+                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_visitante']) ?></p>
                                 <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
                                 <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
-                                <p><strong>Descripción del Vehículo:</strong> <?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></p>
-                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estadoos'] ?> - <?= $solicitud['estados'] ?></p>
+                                <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <!-- Formulario para aceptar la solicitud -->
+                                  
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
-                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
-                                        <input type="hidden" name="accion" value="aceptar">
+                                        <input type="hidden" name="id_solicitud" value="<?= $solicitud['id_solicitud'] ?>">
+                                        <input type="hidden" name="accion" value="aprobado"> <!-- Antes: "aceptar" -->
                                         <button type="submit" class="btn btn-success"><b>Aceptar</b></button>
                                     </form>
 
                                     <!-- Formulario para dejar la solicitud como pendiente -->
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
-                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
+                                        <input type="hidden" name="id_solicitud" value="<?= $solicitud['id_solicitud'] ?>">
                                         <input type="hidden" name="accion" value="pendiente">
                                         <button type="submit" class="btn btn-warning"><b>Pendiente</b></button>
                                     </form>
 
                                     <!-- Formulario para eliminar la solicitud -->
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
-                                        <input type="hidden" name="id_parking" value="<?= $solicitud['id_parking'] ?>"> <!-- o ID_zonaComun -->
-                                        <input type="hidden" name="accion" value="eliminar">
+                                        <input type="hidden" name="id_solicitud" value="<?= $solicitud['id_solicitud'] ?>">
+                                        <input type="hidden" name="accion" value="rechazado"> <!-- Antes: "eliminar" -->
                                         <button type="submit" class="btn btn-danger"><b>Eliminar</b></button>
                                     </form>
+
 
                                 </div>
                             </center>

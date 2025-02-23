@@ -1,36 +1,25 @@
 <?php
+require '../backend/authMiddleware.php';
 session_start();
-include_once "conexion.php";
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-$Usuario = $_SESSION['Usuario'] ?? null;
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-if (!$Usuario) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
 
-if ($_SESSION['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 1111) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
-// Conectar a la base de datos y obtener los datos del usuario
-$sql = "SELECT * FROM registro WHERE Usuario = ?";
-$stmt = $base_de_datos->prepare($sql);
-$stmt->execute([$Usuario]);
-$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+include_once "conexion.php";
 
-if (!$userData) {
-    die("Error: No se encontraron datos del perfil.");
-}
 
-// Aquí ya puedes cargar los datos del perfil
-
-// Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
@@ -173,9 +162,7 @@ if (!$userData) {
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('admi')">Admi</a></center>
                                         </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('ADMINISTRADOR')">Administrador</a></center>
-                                        </li>
+                                      
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>

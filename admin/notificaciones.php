@@ -1,46 +1,24 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
+
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
 
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-
-$usuario = $_SESSION['Usuario'];
-
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario'];
-} else {
-
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 1) {
+if ($idRol != 1111) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
+
 
 
 $sqlAnuncios = "SELECT * FROM anuncio ";
@@ -55,7 +33,7 @@ $stmtCitas->execute();
 $citas = $stmtCitas->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sqlParqueadero = "SELECT id_parking, fecha_inicio, hora_inicio,TipoVehiculo, numParqueadero FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, hora_inicio DESC LIMIT 5";
+$sqlParqueadero = "SELECT 	id_solicitud, fecha_inicio, fecha_final,TipoVehiculo, parqueadero_visitante FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, fecha_final DESC LIMIT 5";
 $stmtParqueadero = $base_de_datos->prepare($sqlParqueadero);
 $stmtParqueadero->execute();
 $parqueaderos = $stmtParqueadero->fetchAll(PDO::FETCH_ASSOC);
@@ -71,10 +49,6 @@ $stmtRegistros = $base_de_datos->prepare($sqlRegistros);
 $stmtRegistros->execute();
 $registros = $stmtRegistros->fetchAll(PDO::FETCH_ASSOC);
 
-$sqlContactos = "SELECT * FROM contacto ORDER BY fecha_registro DESC LIMIT 5";
-$stmtContactos = $base_de_datos->prepare($sqlContactos);
-$stmtContactos->execute();
-$contactos = $stmtContactos->fetchAll(PDO::FETCH_ASSOC);
 
 $sqlContactarnos = "SELECT * FROM contactarnos ORDER BY fecha DESC LIMIT 5";
 $stmtContactarnos = $base_de_datos->prepare($sqlContactarnos);
@@ -100,7 +74,7 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-                <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?> </b></a>
+                <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?> </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -147,9 +121,7 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                       
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -228,10 +200,10 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                     <br>
                     <?php foreach ($parqueaderos as $parqueadero): ?>
-                        <div class="email-item" data-id="<?php echo $parqueadero['id_parking']; ?>">
+                        <div class="email-item" data-id="<?php echo $parqueadero['id_solicitud']; ?>">
                             <b>Solicitud de Parqueadero</b><br>
                             <b>Fecha Inicio:</b> <?php echo htmlspecialchars($parqueadero['fecha_inicio']); ?><br>
-                            <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['numParqueadero']); ?><br>
+                            <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['parqueadero_visitante']); ?><br>
                             <b>Tipo Vehiculo:</b> <?php echo htmlspecialchars($parqueadero['TipoVehiculo']); ?><br>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
                             <a href="./parqueaderocarro.php" class="btn btn-outline-success" style="font-size:15px;  ">
@@ -274,18 +246,7 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
                         <br>
                     <?php endforeach; ?>
                     <br>
-                    <?php foreach ($contactos as $contacto): ?>
-                        <div class="email-item" data-id="<?php echo $contacto['id']; ?>">
-                            <b>Nuevo Contacto</b><br>
-                            <b>Email:</b> <?php echo htmlspecialchars($contacto['email']); ?><br>
-                            <b>Fecha de Registro:</b> <?php echo htmlspecialchars($contacto['fecha_registro']); ?><br>
-                            <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
-                            <a href="./correos.php" class="btn btn-outline-success" style="font-size:15px;  ">
-                                <center>IR</center>
-                            </a>
-                        </div>
-                        <br>
-                    <?php endforeach; ?>
+               
                     <br>
                     <?php foreach ($contactarnos as $mensaje): ?>
                         <div class="email-item" data-id="<?php echo $mensaje['idcontactarnos']; ?>">

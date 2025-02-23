@@ -146,8 +146,10 @@ foreach ($resultados as $fila) {
             </div>
   
     </section>
+    <br>
+    <br>
     <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
-      <b>Pisos y Apartamentos</b>
+    <b>Torre Pisos y Apartamentos</b>
     </div>
     <div class="container">
       <div class="barra">

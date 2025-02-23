@@ -1,47 +1,25 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 1) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 1111) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
+
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
@@ -80,7 +58,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav class="navbar bg-body-tertiary fixed-top">
       <div class="container-fluid" style="background-color: #0e2c0a;">
       <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-      <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+      <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?>  </b></a>
        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
           <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
@@ -127,9 +105,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <b style="font-size: 20px;"> CHAT</b>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                    </li>
+                  
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                     </li>
@@ -180,8 +156,9 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th scope="col">Nombre de Persona de Ingreso</th>
                                 <th scope="col">fecha y Hora</th>
                                 <th scope="col">Tipo y Numero de Documento</th>
+                                <th scope="col">Tipo ingreso</th>
                                 <th scope="col">Acciones</th>
-
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -191,6 +168,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?php echo htmlspecialchars($Ingreso_Peatonal['personasIngreso']); ?></td>
                                     <td><?php echo htmlspecialchars($Ingreso_Peatonal['horaFecha']); ?></td>
                                     <td><?php echo htmlspecialchars($Ingreso_Peatonal['documento']); ?></td>
+                                    <td><?php echo htmlspecialchars($Ingreso_Peatonal['tipo_ingreso']); ?></td>
                                     <td>
                                         <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar ?');">
                                             <input type="hidden" name="delete_idIngreso_Peatonal" value="<?php echo $Ingreso_Peatonal['idIngreso_Peatonal']; ?>">

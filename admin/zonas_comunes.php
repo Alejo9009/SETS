@@ -21,7 +21,7 @@ include_once "conexion.php";
 
 
 
-$query = "SELECT idZona, descripcion, url_videos FROM zona_comun";
+$query = "SELECT idZona, descripcion,  costo_alquiler, url_videos FROM zona_comun";
 
 try {
     $statement = $base_de_datos->prepare($query);
@@ -97,9 +97,7 @@ try {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                         <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                       
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -155,6 +153,8 @@ try {
                                     <video src="<?= htmlspecialchars($zona['url_videos']); ?>" autoplay loop muted></video>
                                 </div>
                                 <h2 class="zone-description"><?= htmlspecialchars($zona['descripcion']); ?></h2>
+                                <h6>Costo de Alquiler</h6>
+                                <h2 class="zone-description"><?= htmlspecialchars($zona['costo_alquiler']); ?></h2>
                                 <?php
                                 $pagina = '';
                                 switch ($zona['idZona']) {

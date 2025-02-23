@@ -20,9 +20,8 @@ if ($idRol != 1111) {
 include_once "conexion.php";
 
 
-$sql = "SELECT sz.*, e.estados 
+$sql = "SELECT sz.*
         FROM solicitud_zona sz 
-        LEFT JOIN estado e ON sz.estado = e.idestado 
         WHERE sz.ID_zonaComun = 4";
 
 $stmt = $base_de_datos->query($sql);
@@ -53,7 +52,7 @@ if ($stmt->rowCount() > 0) {
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
             <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($nombreUsuario); ?>  </b></a>
+            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?>  </b></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
@@ -100,9 +99,7 @@ if ($stmt->rowCount() > 0) {
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                      
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -184,7 +181,7 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> - <?= $solicitud['estados'] ?></p>
+                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
                                 <form action="./servidor-zonas/procesar_voley.php" method="POST">
