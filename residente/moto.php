@@ -1,62 +1,40 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
-
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 3333) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
-if (!$base_de_datos) {
-    exit('Error en la conexión a la base de datos.');
-}
-$sql = "SELECT sp.*, e.estados, sp.TipoVehiculo 
-        FROM solicitud_parqueadero sp 
-        LEFT JOIN estado e ON sp.estadoos = e.idestado 
-        WHERE sp.TipoVehiculo = 'moto';";
-$stmt = $base_de_datos->query($sql);
-$solicitudes = [];
-if ($stmt->rowCount() > 0) {
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row;
+include_once "conexion.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
+    $id_solicitud = $_POST['delete_id_solicitud'];
+
+    $sql = "DELETE FROM solicitud_parqueadero WHERE id_solicitud = :id_solicitud";
+    $stmt = $base_de_datos->prepare($sql);
+
+    if ($stmt->execute(['id_solicitud' => $id_solicitud])) {
+     
+    } else {
+        echo "Error al eliminar la solicitud.";
     }
 }
+
+$sql = "SELECT * FROM solicitud_parqueadero WHERE tipoVehiculo = 'moto'";
+
+$stmt = $base_de_datos->query($sql);
+$solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,223 +42,302 @@ if ($stmt->rowCount() > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sets - MOTO</title>
+    <title>SETS - Parqueadero Visitante</title>
+    <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-    <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
-            <div class="container-fluid" style="background-color: #0e2c0a;">
-                <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+<header>
+        <div class="topbar">
+            <nav class="navbar bg-body-tertiary fixed-top">
+                <div class="container-fluid" style="background-color: #0e2c0a;">
+                    <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
-                </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
-                    <span class="navbar-toggler-icon" style="color: white;"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
+                    <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($Usuario); ?> </b>
+                    </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                        <span class="navbar-toggler-icon" style="color: white;"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <img src="img/C.png" alt="Logo" width="90" height="94" class="d-inline-block align-text-top">
 
-                        <center>
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
-                        </center>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
-                            </li>
                             <center>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <b style="font-size: 20px;"> Perfil</b>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="Perfil.php">Editar datos</a></center>
-                                        </li>
-                                        <li>
-                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
-                                        </li>
-                                    </ul>
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="text-align: center;">SETS</h5>
                             </center>
-                            </li>
-                            <div class="offcanvas-header">
-                                <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <center><a class="nav-link active" aria-current="page" href="#" style="font-size: 20px;"><b>Inicio</b></a></center>
+                                </li>
                                 <center>
-                                    <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <b style="font-size: 20px;"> Perfil</b>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <center><a href="Perfil.php">Editar datos</a></center>
+                                            </li>
+                                            <li>
+                                                <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            </li>
+                                        </ul>
                                 </center>
-                            </div>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b style="font-size: 20px;"> CHAT</b>
+                                </li>
+                                <div class="offcanvas-header">
+                                    <img src="img/notificacion.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top">
 
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
-                        </ul>
-                        <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Buscar</button>
-                        </form>
+
+                                    <center>
+                                        <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
+                                    </center>
+                                </div>
+                                <center>
+                                    <li class="nav-item dropdown">
+                                        <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <b style="font-size: 20px;"> CHAT</b>
+
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
+                                            </li>
+                                            <li>
+                                                <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
+                                            </li>
+                                        </ul>
+                                </center>
+                            </ul>
+                            <form class="d-flex mt-3" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Buscar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
     </header>
-    <br>
     <main>
-        <section class="chat-container z-3 position-absolute p-5 rounded-3" id="chatContainer">
-            <header class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </header>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-        </section>
-    </main>
-    <main>
-        <center>
-            <div class="alert alert-success" role="alert">
-                <h3>Agendacion de Parqueadero moto</h3>
-            </div>
-        </center>
+        <br><br>
+        <br><br> 
         <div class="container">
-            <div class="sidebar">
-                <br>
-                <div class="barra">
-                    <div class="sombra"></div>
-                    <input type="text" placeholder="Buscar moto...">
-                    <ion-icon name="search-outline"></ion-icon>
-                </div>
-                <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-                <br>
-                <div class="appointment-list">
-                    <center>
-                        <div class="alert alert-success" role="alert">
-                            <h3>Mis Agendaciones</h3>
-                        </div>
-                    </center>
-                    <?php foreach ($solicitudes as $solicitud): ?>
-                        <div class="appointment">
+            <div class="alert alert-success" role="alert" style="text-align: center; font-size: 30px;">Solicitudes de Parqueadero Visitante Moto</div>
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
+                    <form action="./servidor-parqueaderos/mott.php" method="post">
+                        <fieldset>
                             <center>
-                                <p><strong>Numero del Parqueadero :</strong> <?= htmlspecialchars($solicitud['id_parking']) ?></p>
-                                <p><strong>Numero de Apartamento:</strong> <?= htmlspecialchars($solicitud['id_Aparta']) ?></p>
-                                <p><strong>Fecha de Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_inicio'])) ?></p>
-                                <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fecha_final'])) ?></p>
-                                <p><strong>Hora de Inicio:</strong> <?= date('h:i A', strtotime($solicitud['hora_inicio'])) ?></p>
-                                <p><strong>Hora Final:</strong> <?= date('h:i A', strtotime($solicitud['hora_final'])) ?></p>
-                                <p><strong>Numero del Parqueadero:</strong> <?= htmlspecialchars($solicitud['numParqueadero']) ?></p>
-                                <p><strong>Placa del Vehículo:</strong> <?= htmlspecialchars($solicitud['placaVehiculo']) ?></p>
-                                <p><strong>Color del Vehículo:</strong> <?= htmlspecialchars($solicitud['colorVehiculo']) ?></p>
-                                <p><strong>Tipo de Vehículo:</strong> <?= htmlspecialchars($solicitud['TipoVehiculo']) ?></p>
-                                <p><strong>Nombre del Dueño:</strong> <?= htmlspecialchars($solicitud['nombre_dueño']) ?></p>
-                                <p><strong>Modelo del Vehículo:</strong> <?= htmlspecialchars($solicitud['modelo']) ?></p>
-                                <p><strong>Marca del Vehículo:</strong> <?= htmlspecialchars($solicitud['marca']) ?></p>
-                                <p><strong>Descripción del Vehículo:</strong> <?= htmlspecialchars($solicitud['descripcionvehiculo']) ?></p>
-                                <p><strong>Estado de la Solicitud:</strong> <?= htmlspecialchars($solicitud['estadoos']) ?></p>
-                                <br>
-                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <a href="motoo.php?id_parking=<?= htmlspecialchars($solicitud['id_parking']) ?>" class="btn btn-success">Editar</a>
-                                    <form action="./servidor-parqueaderoS/eliminmoto.php" method="POST" style="display:inline;">
-                                        <input type="hidden" name="id_parking" value="<?= htmlspecialchars($solicitud['id_parking']) ?>">
-                                        <input type="hidden" name="accion" value="eliminar">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </div>
+                                <legend><b>Nueva Solicitud</b></legend>
                             </center>
-                        </div>
-                        <hr>
-                    <?php endforeach; ?>
+                            <div class="mb-3">
+                                <label for="id_apartamento" class="form-label" style="font-size: 15px;">Apartamento:</label>
+                                <input type="text" class="form-control" id="id_apartamento" name="id_apartamento" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="parqueadero_visitante" class="form-label" style="font-size: 15px;">Parqueadero Visitante:</label>
+                                <select class="form-control" id="parqueadero_visitante" name="parqueadero_visitante" required>
+                                    <option value="V1">V1</option>
+                                    <option value="V2">V2</option>
+                                    <option value="V3">V3</option>
+                                    <option value="V4">V4</option>
+                                    <option value="V5">V5</option>
+                                    <option value="V6">V6</option>
+                                    <option value="V7">V7</option>
+                                    <option value="V8">V8</option>
+                                    <option value="V9">V9</option>
+                                    <option value="V10">V10</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre_visitante" class="form-label" style="font-size: 15px;">Nombre del Visitante:</label>
+                                <input type="text" class="form-control" id="nombre_visitante" name="nombre_visitante" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="placaVehiculo" class="form-label" style="font-size: 15px;" >Placa del Vehículo:</label>
+                                <input type="text" class="form-control" id="placaVehiculo" name="placaVehiculo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="colorVehiculo" class="form-label" style="font-size: 15px;" >Color del Vehículo:</label>
+                                <input type="text" class="form-control" id="colorVehiculo" name="colorVehiculo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoVehiculo" class="form-label" style="font-size: 15px;">Tipo de Vehículo:</label>
+                                <input type="text" class="form-control" id="tipoVehiculo" name="tipoVehiculo"  placeholder="moto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modelo" class="form-label" style="font-size: 15px;">Modelo:</label>
+                                <input type="text" class="form-control" id="modelo" name="modelo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="marca" class="form-label" style="font-size: 15px;" >Marca:</label>
+                                <input type="text" class="form-control" id="marca" name="marca" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha_inicio" class="form-label" style="font-size: 15px;">Fecha de Inicio:</label>
+                                <input type="datetime-local" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha_final" class="form-label" style="font-size: 15px;" >Fecha Final:</label>
+                                <input type="datetime-local" class="form-control" id="fecha_final" name="fecha_final" required>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success" type="submit" style="font-size: 15px;" >Enviar Solicitud</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
+                    <center><h2>Panel de Solicitudes</h2></center>
+                    <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="font-size: 15px;">ID Solicitud</th>
+                                <th scope="col" style="font-size: 15px;">Apartamento</th>
+                                <th scope="col" style="font-size: 15px;">Parqueadero Visitante</th>
+                                <th scope="col" style="font-size: 15px;">Nombre del Visitante</th>
+                                <th scope="col" style="font-size: 15px;">Placa del Vehículo</th>
+                                <th scope="col" style="font-size: 15px;">Color del Vehículo</th>
+                                <th scope="col" style="font-size: 15px;" >Tipo de Vehículo</th>
+                                <th scope="col" style="font-size: 15px;">Modelo</th>
+                                <th scope="col" style="font-size: 15px;" >Marca</th>
+                                <th scope="col" style="font-size: 15px;">Fecha de Inicio</th>
+                                <th scope="col" style="font-size: 15px;">Fecha Final</th>
+                                <th scope="col" style="font-size: 15px;">Estado</th>
+                                <th scope="col" style="font-size: 15px;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($solicitudes as $solicitud): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($solicitud['id_solicitud']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['id_apartamento']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['parqueadero_visitante']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['nombre_visitante']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['placaVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['colorVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['tipoVehiculo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['modelo']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['marca']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['fecha_inicio']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['fecha_final']); ?></td>
+                                    <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
+                                    <td>
+                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta solicitud?');">
+                                            <input type="hidden" name="delete_id_solicitud" value="<?php echo $solicitud['id_solicitud']; ?>">
+                                            <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="container mt-5">
+                    <a href="./paromoto.php" class="btn btn-success">Volver</a>
                 </div>
             </div>
-    </main>
-    <a href="paromoto.php" class="btn btn-outline-success" style="font-size: 40px;">
-        <center>VOLVER</center>
-    </a>
-    <script>
-        document.querySelector('.admin-img').addEventListener('click', function() {
-            document.querySelector('.dropdown-menu').classList.toggle('show');
-        });
-        document.querySelector('.chat-button').addEventListener('click', function() {
-            document.querySelector('.chat-menu').classList.toggle('show');
-        });
+        </div>
+        <br>
+        </div>
+        <br>
+        </div>
+        <script>
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.product-card');
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+                cards.forEach(card => {
+                    const number = card.getAttribute('data-number').toLowerCase();
+                    if (number.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
-        }
-    </script>
-    <script>
-        function openChat(chatName) {
-            const chatContainer = document.getElementById('chatContainer');
-            const chatHeader = document.getElementById('chatHeader');
-            chatHeader.textContent = chatName;
-            chatContainer.classList.add('show');
-        }
+        </script>
+        <script>
+            document.querySelector('.admin-img').addEventListener('click', function() {
+                document.querySelector('.dropdown-menu').classList.toggle('show');
+            });
 
-        function closeChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.classList.remove('show');
-        }
+            document.querySelector('.chat-button').addEventListener('click', function() {
+                document.querySelector('.chat-menu').classList.toggle('show');
+            });
 
-        function sendMessage() {
-            const messageInput = document.getElementById('chatInput');
-            const messageText = messageInput.value.trim();
-            if (messageText) {
-                const chatMessages = document.getElementById('chatMessages');
-                const messageElement = document.createElement('p');
-                messageElement.textContent = messageText;
-                chatMessages.appendChild(messageElement);
-                messageInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             }
-        }
 
-        function filterChat() {
-            const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
+            function showTab(tabId) {
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById(tabId).classList.add('active');
+                document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+            }
+        </script>
+        <script>
+            function openChat(chatName) {
+                const chatContainer = document.getElementById('chatContainer');
+                const chatHeader = document.getElementById('chatHeader');
+                chatHeader.textContent = chatName;
+                chatContainer.classList.add('show');
+            }
+
+            function closeChat() {
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.classList.remove('show');
+            }
+
+            function sendMessage() {
+                const messageInput = document.getElementById('chatInput');
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    const chatMessages = document.getElementById('chatMessages');
+                    const messageElement = document.createElement('p');
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                    messageInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
-            });
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    </main>
+            }
+
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

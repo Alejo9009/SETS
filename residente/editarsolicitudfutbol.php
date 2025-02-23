@@ -1,47 +1,24 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000");  
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Credentials: true");  
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario; 
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 3333) { 
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
+
 
 
 // Verificar si se ha proporcionado el ID de la solicitud
@@ -70,7 +47,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SETS - Actualizar Futbol </title>
-    <link rel="stylesheet" href="css/azoy.css?v=<?php echo (rand()); ?>">
+    <link rel="stylesheet" href="css/fut.css?v=<?php echo (rand()); ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
@@ -83,7 +60,7 @@ if (isset($_GET['ID_Apartamentooss'])) {
             <div class="container-fluid" style="background-color: #0e2c0a;">
                 <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($Usuario); ?> </b>
                 </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>

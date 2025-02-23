@@ -9,6 +9,10 @@ body {
     overflow: hidden;
     overflow-y: scroll;
     background-size: cover;
+    overflow: hidden;
+    background: url(../img/ball-hitting-net.jpg) no-repeat center center fixed;
+    background-size: cover;
+    overflow-y: scroll;
 }
 
 .container {

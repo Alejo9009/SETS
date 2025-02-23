@@ -1,59 +1,62 @@
 <?php
-include_once "conexion.php";  
+include_once "conexion.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (isset($_POST['id_parking'])) {
-        $idSolicitud = $_POST['id_parking'];
-    } else {
-        die("Error: 'id_parking' no está definido en el formulario.");
+    if (!isset(
+        $_POST['id_apartamento'],
+        $_POST['parqueadero_visitante'],
+        $_POST['nombre_visitante'],
+        $_POST['placaVehiculo'],
+        $_POST['colorVehiculo'],
+        $_POST['tipoVehiculo'],
+        $_POST['modelo'],
+        $_POST['marca'],
+        $_POST['fecha_inicio'],
+        $_POST['fecha_final']
+    )) {
+        die("Error: Datos incompletos.");
     }
 
-
-    $id_Aparta = $_POST['id_Aparta'];
-    $fecha_inicio = $_POST['fecha_inicio'];
-    $hora_inicio = $_POST['hora_inicio'];
-    $fecha_final = $_POST['fecha_final'];
-    $hora_final = $_POST['hora_final'];
-    $numParqueadero = $_POST['numParqueadero'];
+  
+    $id_apartamento = $_POST['id_apartamento'];
+    $parqueadero_visitante = $_POST['parqueadero_visitante'];
+    $nombre_visitante = $_POST['nombre_visitante'];
     $placaVehiculo = $_POST['placaVehiculo'];
     $colorVehiculo = $_POST['colorVehiculo'];
-    $TipoVehiculo = $_POST['TipoVehiculo'];
+    $tipoVehiculo = $_POST['tipoVehiculo'];
     $modelo = $_POST['modelo'];
     $marca = $_POST['marca'];
-    $descripcionvehiculo = $_POST['descripcionvehiculo'];
+    $fecha_inicio = $_POST['fecha_inicio'];
+    $fecha_final = $_POST['fecha_final'];
 
-    $query = "UPDATE solicitud_parqueadero 
-              SET id_Aparta = :id_Aparta, fecha_inicio = :fecha_inicio, hora_inicio = :hora_inicio, fecha_final = :fecha_final, 
-                  hora_final = :hora_final, numParqueadero = :numParqueadero, placaVehiculo = :placaVehiculo, 
-                  colorVehiculo = :colorVehiculo, TipoVehiculo = :TipoVehiculo, modelo = :modelo, marca = :marca, 
-                  descripcionvehiculo = :descripcionvehiculo 
-              WHERE id_parking = :id_parking";
+
+    $query = "INSERT INTO solicitud_parqueadero 
+                (id_apartamento, parqueadero_visitante, nombre_visitante, placaVehiculo, colorVehiculo, 
+                tipoVehiculo, modelo, marca, fecha_inicio, fecha_final, estado) 
+              VALUES 
+                (:id_apartamento, :parqueadero_visitante, :nombre_visitante, :placaVehiculo, :colorVehiculo, 
+                :tipoVehiculo, :modelo, :marca, :fecha_inicio, :fecha_final, 'pendiente')";
 
     $statement = $base_de_datos->prepare($query);
 
 
-    $statement->bindParam(':id_Aparta', $id_Aparta);
-    $statement->bindParam(':fecha_inicio', $fecha_inicio);
-    $statement->bindParam(':hora_inicio', $hora_inicio);
-    $statement->bindParam(':fecha_final', $fecha_final);
-    $statement->bindParam(':hora_final', $hora_final);
-    $statement->bindParam(':numParqueadero', $numParqueadero);
+    $statement->bindParam(':id_apartamento', $id_apartamento); 
+    $statement->bindParam(':parqueadero_visitante', $parqueadero_visitante);
+    $statement->bindParam(':nombre_visitante', $nombre_visitante);
     $statement->bindParam(':placaVehiculo', $placaVehiculo);
     $statement->bindParam(':colorVehiculo', $colorVehiculo);
-    $statement->bindParam(':TipoVehiculo', $TipoVehiculo);
+    $statement->bindParam(':tipoVehiculo', $tipoVehiculo);
     $statement->bindParam(':modelo', $modelo);
     $statement->bindParam(':marca', $marca);
-    $statement->bindParam(':descripcionvehiculo', $descripcionvehiculo);
-    $statement->bindParam(':id_parking', $idSolicitud);
-
+    $statement->bindParam(':fecha_inicio', $fecha_inicio);
+    $statement->bindParam(':fecha_final', $fecha_final);
 
     if ($statement->execute()) {
-        echo "Solicitud actualizada correctamente.";
-        header("Location: ../horariocarro.php");   
+        echo "Solicitud creada correctamente.";
+        header("Location: ../horariocarro.php");
         exit();
     } else {
-        echo "Error al actualizar la solicitud.";
+        echo "Error al registrar la solicitud.";
     }
 }
-?>

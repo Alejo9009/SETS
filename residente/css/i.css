@@ -1,3 +1,10 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  background: url(../img/u.jpg) no-repeat center center fixed;
+  background-size: cover;
+  overflow-y: scroll;
+}
 
 .topbar {
     display: flex;
@@ -30,6 +37,17 @@
     height: 80px;
     cursor: pointer;
   }
+
+  #infoSeleccionada {
+    display: none;
+    padding: 16px;
+    width: 280px;
+    height: 200px;
+    background-color: #e7fae0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+}
   
   .notification {
     width: 50px;
