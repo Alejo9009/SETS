@@ -22,14 +22,14 @@ include_once "conexion.php";
 
 
 
-$sqlAnuncios = "SELECT * FROM anuncio ";
+$sqlAnuncios = "SELECT * FROM anuncio";
 $stmtAnuncios = $base_de_datos->prepare($sqlAnuncios);
 
 $stmtAnuncios->execute();
 $anuncios = $stmtAnuncios->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sqlParqueadero = "SELECT 	id_solicitud, 	fecha_inicio, 	fecha_final, parqueadero_visitante FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, 	fecha_final DESC LIMIT 5";
+$sqlParqueadero = "SELECT 	 id_solicitud, fecha_inicio, fecha_final,TipoVehiculo,parqueadero_visitante FROM solicitud_parqueadero ORDER BY fecha_inicio DESC, fecha_final DESC LIMIT 5";
 $stmtParqueadero = $base_de_datos->prepare($sqlParqueadero);
 $stmtParqueadero->execute();
 $parqueaderos = $stmtParqueadero->fetchAll(PDO::FETCH_ASSOC);
@@ -164,16 +164,26 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                             <div class="email-subject">Publicado el: <?php echo htmlspecialchars($anuncio['fechaPublicacion']); ?></div>
                             <div class="email-snippet">Descripción: <?php echo htmlspecialchars($anuncio['descripcion']); ?></div>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                            <center>IR</center>
+                        </a>
                         </div>
                     <?php endforeach; ?>
 
                     <?php foreach ($parqueaderos as $parqueadero): ?>
-                        <div class="email-item" data-id="<?php echo $parqueadero['id_parking']; ?>">
+                        <div class="email-item" data-id="<?php echo $parqueadero['id_solicitud']; ?>">
                             <b>Solicitud de Parqueadero</b><br>
                             <b>Fecha Inicio:</b> <?php echo htmlspecialchars($parqueadero['fecha_inicio']); ?><br>
-                            <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['numParqueadero']); ?><br>
+                            <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['parqueadero_visitante']); ?><br>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="./parqueaderocarro.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                            <center>IR CARRO</center>
+                        </a>
+                        <a href="./paromoto.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                            <center>IR MOTO</center>
+                        </a>
                         </div>
+                        
                     <?php endforeach; ?>
 
                     <?php foreach ($zonasComunes as $zonaComun): ?>
@@ -182,7 +192,11 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                             <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
                             <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;  ">
+                            <center>IR </center>
+                        </a>
                         </div>
+
                     <?php endforeach; ?>
                 </div>
             </div>
