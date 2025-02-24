@@ -1,32 +1,35 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 1111) { 
+if ($idRol != 1111) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
 include_once "conexion.php";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    $idcita = $_POST['delete_idPagos'];
+    $idPagos = $_POST['delete_idPagos'];
 
-    // Borrar una cita
+    // Borrar un pago
     $sql = "DELETE FROM pagos WHERE idPagos = :idPagos";
     $stmt = $base_de_datos->prepare($sql);
 
     if ($stmt->execute(['idPagos' => $idPagos])) {
+        echo "<script>
+                alert('Pago eliminado con éxito.');
+                window.location.href = 'pagos.php'; // Redirige a la página principal
+              </script>";
     } else {
         echo "Error al eliminar el pago.";
     }
@@ -49,11 +52,11 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?>  </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/ajustes.png" alt="Logo" width="80" height="84" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 40px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -99,7 +102,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                         
+
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -143,17 +146,47 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
                     <form action="createCita.php" method="post">
                         <fieldset>
-                          <center>  <legend ><b>Insertar </b> </legend></center>
-
+                            <center>
+                                <legend><b>Insertar Pago</b></legend>
+                            </center>
                             <div class="mb-3">
-                                <label for="pagoPor" class="form-label">Pagos se Hace Por:</label>
+                                <label for="pagoPor" class="form-label">Pago Por:</label>
                                 <input type="text" class="form-control" id="pagoPor" name="pagoPor" required>
                             </div>
                             <div class="mb-3">
                                 <label for="cantidad" class="form-label">Cantidad:</label>
-                                <input type="number" class="form-control"  id="cantidad" name="cantidad" required>
+                                <input type="number" class="form-control" id="cantidad" name="cantidad" step="0.01" required>
                             </div>
-                          
+                            <div class="mb-3">
+                                <label for="mediopago" class="form-label">Medio de Pago:</label>
+                                <select class="form-control" id="mediopago" name="mediopago" required>
+                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="Transferencia">Transferencia</option>
+                                    <option value="Tarjeta">Tarjeta</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="apart" class="form-label">Apartamento:</label>
+                                <input type="text" class="form-control" id="apart" name="apart" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaPago" class="form-label">Fecha de Pago:</label>
+                                <input type="date" class="form-control" id="fechaPago" name="fechaPago" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="referenciaPago" class="form-label">Referencia de Pago:</label>
+                                <input type="text" class="form-control" id="referenciaPago" name="referenciaPago">
+                            </div>
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado:</label>
+                                <select class="form-control" id="estado" name="estado" required>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Pagado">Pagado</option>
+                                    <option value="Vencido">Vencido</option>
+                                </select>
+                            </div>
                             <div class="d-grid gap-2">
                                 <button class="btn btn-success" type="submit">Enviar</button>
                             </div>
@@ -161,37 +194,51 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Citas</h2></center>
-<br>
+                    <center>
+                        <h2>Panel de Citas</h2>
+                    </center>
+                    <br>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Id del Pago</th>
-                                <th scope="col">PAGO Hacer EN</th>
-                                <th scope="col">Cantidad del Pago</th>
-                                <th scope="col">Estado del Pago</th>
-                                <th scope="col">Apartamento</th>
+                                <th scope="col">idPagos</th>
+                                <th scope="col">pagoPor</th>
+                                <th scope="col">cantidad</th>
+                                <th scope="col">mediopago</th>
+                                <th scope="col">apart</th>
+                                <th scope="col">fechaPago</th>
+                                <th scope="col">referenciaPago</th>
+                                <th scope="col">estado</th>
                                 <th scope="col">Acciones</th>
-
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($pagos as $pagos): ?>
+                            <?php foreach ($pagos as $pago): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($pagos['idPagos']); ?></td>
-                                    <td><?php echo htmlspecialchars($pagos['pagoPor']); ?></td>
-                                    <td><?php echo htmlspecialchars($pagos['cantidad']); ?></td>
-                                    <td><?php echo htmlspecialchars($pagos['confirmacion']); ?></td>
-                                    <td><?php echo htmlspecialchars($pagos['apart']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['idPagos']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['pagoPor']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['cantidad']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['mediopago']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['apart']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['fechaPago']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['referenciaPago']); ?></td>
+                                    <td><?php echo htmlspecialchars($pago['estado']); ?></td>
                                     <td>
-
-
-                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta Pago?');">
-                                            <input type="hidden" name="delete_idPagos" value="<?php echo $pagos['idPagos']; ?>">
-                                            <button class="btn btn-danger mt-3 type=" submit" name="delete">Eliminar</button>
+                                        <form action="cambiarEstadoPago.php" method="post" style="display: inline;">
+                                            <input type="hidden" name="idPagos" value="<?php echo $pago['idPagos']; ?>">
+                                            <select name="nuevoEstado" class="form-select" onchange="this.form.submit()">
+                                                <option value="Pendiente" <?php echo ($pago['estado'] == 'Pendiente') ? 'selected' : ''; ?>>Pendiente</option>
+                                                <option value="Pagado" <?php echo ($pago['estado'] == 'Pagado') ? 'selected' : ''; ?>>Pagado</option>
+                                                <option value="Vencido" <?php echo ($pago['estado'] == 'Vencido') ? 'selected' : ''; ?>>Vencido</option>
+                                            </select>
                                         </form>
                                     </td>
-
+                                    <td>
+                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este pago?');">
+                                            <input type="hidden" name="delete_idPagos" value="<?php echo $pago['idPagos']; ?>">
+                                            <button class="btn btn-danger" type="submit" name="delete">Eliminar</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -262,6 +309,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

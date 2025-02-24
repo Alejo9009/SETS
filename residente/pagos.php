@@ -1,47 +1,24 @@
 <?php
-include_once "conexion.php";
+require '../backend/authMiddleware.php';
 session_start();
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
+$decoded = authenticate();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['Usuario'])) {
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
+$idRegistro = $decoded->id;
+$Usuario = $decoded->Usuario;
+$idRol = $decoded->idRol;
 
-// Obtener el nombre de usuario desde la sesión
-$usuario = $_SESSION['Usuario']; // Se asume que 'Usuario' es el nombre de usuario que está en la sesión
 
-// Consultar el nombre completo usando solo el campo 'Usuario'
-$sqlUsuario = "SELECT Usuario FROM registro WHERE Usuario = :usuario";
-$stmt = $base_de_datos->prepare($sqlUsuario);
-$stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmt->execute();
-$datosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Verificar que el usuario existe
-if ($datosUsuario) {
-    $nombreUsuario = $datosUsuario['Usuario']; // Guardar solo el nombre de usuario
-} else {
-    // Si no se encuentra el usuario, redirigir a login
-    header("Location: http://localhost/sets/login.php");
-    exit();
-}
-
-// Redirigir si no es residente
-$sqlRol = "SELECT idRol FROM registro WHERE Usuario = :usuario";
-$stmtRol = $base_de_datos->prepare($sqlRol);
-$stmtRol->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-$stmtRol->execute();
-$datosRol = $stmtRol->fetch(PDO::FETCH_ASSOC);
-
-if ($datosRol['idRol'] != 4) { // Solo si el rol es "residente" (idRol == 4)
+if ($idRol != 3333) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
+
+include_once "conexion.php";
+
 
 
 
@@ -82,7 +59,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="container-fluid" style="background-color: #0e2c0a;">
                     <img src="img/resi.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
 
-                    <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($nombreUsuario); ?> </b>
+                    <b style="font-size: 30px;color:aliceblue"> Residente - <?php echo htmlspecialchars($Usuario); ?> </b>
                     </a> <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                         <span class="navbar-toggler-icon" style="color: white;"></span>
                     </button>
@@ -166,7 +143,8 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
     </header>
     <main>
-        <br> <br> <br>
+        <br> <br> <br>  <br>
+
         <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Pagos </div>
         <div class="container">
             <center>
@@ -177,15 +155,19 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h2>Panel de Mis PAGOS</h2>
                             </center>
                             <br>
+                            <br> <br> 
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">idPagos</th>
-                                        <th scope="col">Pago Realizado Por</th>
-                                        <th scope="col">Cantidad del Pago</th>
-                                        <th scope="col">Medio de Pago</th>
-                                        <th scope="col">Acciones</th>
-
+                                        <th scope="col" style="font-size: 20px;" >idPagos</th>
+                                        <th scope="col" style="font-size: 20px;">pagoPor</th>
+                                        <th scope="col" style="font-size: 20px;">cantidad</th>
+                                        <th scope="col"style="font-size: 20px;" >mediopago</th>
+                                        <th scope="col" style="font-size: 20px;" >apart</th>
+                                        <th scope="col" style="font-size: 20px;" >fechaPago</th>
+                                        <th scope="col"style="font-size: 20px;" >referenciaPago</th>
+                                        <th scope="col" style="font-size: 20px;"  >estado</th>
+                                       <center><th scope="col" style="font-size: 20px;">Acciones</th></center> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -195,11 +177,27 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?php echo htmlspecialchars($pagos['pagoPor']); ?></td>
                                             <td><?php echo htmlspecialchars($pagos['cantidad']); ?></td>
                                             <td><?php echo htmlspecialchars($pagos['mediopago']); ?></td>
+                                            <td><?php echo htmlspecialchars($pagos['apart']); ?></td>
+                                            <td><?php echo htmlspecialchars($pagos['fechaPago']); ?></td>
+                                            <td><?php echo htmlspecialchars($pagos['referenciaPago']); ?></td>
+                                            <td ><?php echo htmlspecialchars($pagos['estado']); ?></td>
                                             <td>
-                                                <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar ?');">
-                                                    <input type="hidden" name="delete_idPagos" value="<?php echo $pagos['idPagos']; ?>">
-                                                    <button class="btn btn-danger mt-3 " type="submit" name="delete">Eliminar</button>
+                                                <form action="cambiarEstadoPago.php" method="post" style="display: inline;">
+                                                    <input type="hidden" name="idPagos" value="<?php echo $pagos['idPagos']; ?>">
+                                                    <select name="nuevoEstado" class="form-select" onchange="this.form.submit()">
+                                                        <option value="Pendiente" <?php echo ($pagos['estado'] == 'Pendiente') ? 'selected' : ''; ?>>Pendiente</option>
+                                                        <option value="Pagado" <?php echo ($pagos['estado'] == 'Pagado') ? 'selected' : ''; ?>>Pagado</option>
+                                                        <option value="Vencido" <?php echo ($pagos['estado'] == 'Vencido') ? 'selected' : ''; ?>>Vencido</option>
+                                                    </select>
                                                 </form>
+                                            </td>
+                                            <td>
+                                                <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este pago?');">
+                                                    <input type="hidden" name="delete_idPagos" value="<?php echo $pagos['idPagos']; ?>">
+                                                    <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
+                                                </form>
+
+                                                
                                             </td>
 
                                         </tr>
