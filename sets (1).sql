@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-02-2025 a las 03:43:50
+-- Tiempo de generación: 28-02-2025 a las 13:15:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -522,21 +522,6 @@ INSERT INTO `contactarnos` (`idcontactarnos`, `nombre`, `correo`, `telefono`, `c
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `directorio_servicios`
---
-
-CREATE TABLE `directorio_servicios` (
-  `id_contacto` int(11) NOT NULL,
-  `nombre_contacto` varchar(100) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `tipo_servicio` enum('Seguridad','Emergencia','Gas','Electricidad','Agua','Salud','Administración','Otros') NOT NULL,
-  `descripcion` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `ingreso_peatonal`
 --
 
@@ -572,6 +557,15 @@ CREATE TABLE `pagos` (
   `estado` enum('Pendiente','Pagado','Vencido') NOT NULL DEFAULT 'Pendiente',
   `referenciaPago` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`idPagos`, `pagoPor`, `cantidad`, `mediopago`, `apart`, `fechaPago`, `estado`, `referenciaPago`) VALUES
+(4, 'Reserva Zona BBQ', 50.00, 'Tarjeta', '102A', '2025-02-22', 'Vencido', 'TARJ567890'),
+(7, 'REEW', 233223.00, 'Efectivo', '202A', '2025-02-27', 'Pagado', 'ETRRE'),
+(9, 'SDDDDDDDD', 99999999.99, 'Tarjeta', '404A', '2025-02-20', 'Vencido', 'weewew');
 
 -- --------------------------------------------------------
 
@@ -633,9 +627,10 @@ CREATE TABLE `registro` (
 --
 
 INSERT INTO `registro` (`id_Registro`, `idRol`, `PrimerNombre`, `SegundoNombre`, `PrimerApellido`, `SegundoApellido`, `apartamento`, `Correo`, `Usuario`, `Clave`, `Id_tipoDocumento`, `numeroDocumento`, `telefonoUno`, `telefonoDos`, `imagenPerfil`, `tipo_propietario`) VALUES
-(15, 3333, 'dsa', 'fsd', 'fdsf', 'santos', '202A', 'sfd@gmail.com', 'james', '$2y$10$oTxanqEg8QJwv.5sXiw3DOWh4b3cIak21o6Z2CIVHAV1bEfOYmdCu', 2, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
 (16, 2222, 'dfs', 'fsd', 'sfd', 'sfd', '303D', 'sfdq@gmail.com', 'santos', '$2y$10$xb/vzKGfiXxOKa448aiTbepKrzQlMhzyM6BBOc0lC5eNr5kyN5Y92', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
-(18, 1111, 'dsads', 'sdsd', 'sdds', 'messi', '101A', 'weweqq@gmail.com', 'messi', '$2y$10$bJFE9MfKViIJrKbCqied8eV9myLJe6sguvPhX5AmePagPScXZCZzy', 1, 1221212121, 2147483647, 2147483647, NULL, 'dueño');
+(19, 1111, 'df', 'fdfd', 'fd', 'ffd', '101A', 'df@gmail.com', 'messi', '$2y$10$GlsRkl0yQLudfDgfAWPRReT/ZADdAaU86hJSLQCLbvjXmtMhhimy2', 1, 2147483647, 2147483647, 2147483647, NULL, 'dueño'),
+(20, 3333, 'we', 'e', 'e', 'e', '303A', 'eqq@gmail.com', 'james', '$2y$10$G3.cRFeHHN44.ZJEwogYbuoWZcqj6Gk7wvdmSF.GTLx2of0VlMuwu', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
+(28, 2222, 'ew', 'we', 'ew', 'ew', '1002J', 'ew@gmail.com', 'ronaldo', '$2y$10$Va6Y7rC1wxQc9JlOhRsPjODkDv83DaW5a1H02xJWDRtDaH3q29R8.', 1, 2121212121, 2132332232, 2147483647, NULL, 'residente');
 
 -- --------------------------------------------------------
 
@@ -685,7 +680,7 @@ CREATE TABLE `solicitud_parqueadero` (
 
 INSERT INTO `solicitud_parqueadero` (`id_solicitud`, `id_apartamento`, `parqueadero_visitante`, `nombre_visitante`, `placaVehiculo`, `colorVehiculo`, `tipoVehiculo`, `modelo`, `marca`, `fecha_inicio`, `fecha_final`, `estado`) VALUES
 (1, '1002E', 'V10', 'Tadej Pogachar', '32ds45', 'Blanco', 'Moto', '2002', 'suzuki', '2025-02-27 10:22:13', '2025-02-20 21:22:13', 'aprobado'),
-(3, '202A', 'V1', 'PEDRI', 'SDDWE22', 'ROJO', 'CARRO', 'DSDS34', 'DSDSDS', '2025-02-14 12:55:00', '2025-02-26 12:55:00', 'aprobado'),
+(3, '202A', 'V1', 'PEDRI', 'SDDWE22', 'ROJO', 'CARRO', 'DSDS34', 'DSDSDS', '2025-02-14 12:55:00', '2025-02-26 12:55:00', 'pendiente'),
 (5, '404D', 'V1', 'DYG', 'GFD', 'GFD', 'DFG', 'GFD', 'FGD', '2025-02-27 13:06:00', '2025-02-27 13:06:00', 'pendiente'),
 (7, '202A', 'V1', 'gjh', 'gjh', 'reerw', 'moto', 'ewew', 'wew', '2025-02-26 13:09:00', '2025-02-17 13:09:00', 'pendiente');
 
@@ -756,9 +751,10 @@ CREATE TABLE `tokens` (
 --
 
 INSERT INTO `tokens` (`id_token`, `id_Registro`, `token`, `fecha_creacion`, `fecha_expiracion`) VALUES
-(15, 15, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1IiwiVXN1YXJpbyI6ImphbWVzIiwiQ29ycmVvIjoic2ZkQGdtYWlsLmNvbSIsImlkUm9sIjoiMzMzMyIsImV4cCI6MTc0MDQxNjc4N30.vk1G6ECCXmZJhEVH-oMGmc4k0jgGGiFiV55WItiwzeg', '2025-02-23 17:06:27', '2025-02-24 18:06:27'),
 (16, 16, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2IiwiVXN1YXJpbyI6InNhbnRvcyIsIkNvcnJlbyI6InNmZHFAZ21haWwuY29tIiwiaWRSb2wiOiIyMjIyIiwiZXhwIjoxNzQwNDIxNDY2fQ.lWaDiyxEq-PHI7YpI4tWsRaTodqR6oEZ1JTj6PUl37I', '2025-02-23 18:24:26', '2025-02-24 19:24:26'),
-(18, 18, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE4IiwiVXN1YXJpbyI6Im1lc3NpIiwiQ29ycmVvIjoid2V3ZXFxQGdtYWlsLmNvbSIsImlkUm9sIjoiMTExMSIsImV4cCI6MTc0MDQ1MDY1M30.zrAS2PndglmsAx6xvDqf0INRYBm7QiTi7Z9_m4Gzov4', '2025-02-24 02:30:53', '2025-02-25 03:30:53');
+(19, 19, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE5IiwiVXN1YXJpbyI6Im1lc3NpIiwiQ29ycmVvIjoiZGZAZ21haWwuY29tIiwiaWRSb2wiOiIxMTExIiwiZXhwIjoxNzQwNTM4NTY5fQ.HUq_qwna3xaNrfK_7tggsZU-tJS3Mn6evdWcTaSNxnA', '2025-02-25 02:56:09', '2025-02-26 03:56:09'),
+(20, 20, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIwIiwiVXN1YXJpbyI6ImphbWVzIiwiQ29ycmVvIjoiZXFxQGdtYWlsLmNvbSIsImlkUm9sIjoiMzMzMyIsImV4cCI6MTc0MDU0NDEwMH0.Oz8uk5F1GJdn0e12xnEe-XoWM8hcuL0sw-cDddGhdWs', '2025-02-25 04:28:20', '2025-02-26 05:28:20'),
+(21, 28, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjI4IiwiVXN1YXJpbyI6InJvbmFsZG8iLCJDb3JyZW8iOiJld0BnbWFpbC5jb20iLCJpZFJvbCI6IjIyMjIiLCJleHAiOjE3NDA1NzkwMjB9.j_pT9dd3Jk4GjsgakTr6cH1Jyv9kSJTalzSdemnlUQo', '2025-02-25 14:10:20', '2025-02-26 15:10:20');
 
 -- --------------------------------------------------------
 
@@ -814,12 +810,6 @@ ALTER TABLE `cita`
 --
 ALTER TABLE `contactarnos`
   ADD PRIMARY KEY (`idcontactarnos`);
-
---
--- Indices de la tabla `directorio_servicios`
---
-ALTER TABLE `directorio_servicios`
-  ADD PRIMARY KEY (`id_contacto`);
 
 --
 -- Indices de la tabla `ingreso_peatonal`
@@ -912,12 +902,6 @@ ALTER TABLE `contactarnos`
   MODIFY `idcontactarnos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT de la tabla `directorio_servicios`
---
-ALTER TABLE `directorio_servicios`
-  MODIFY `id_contacto` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `ingreso_peatonal`
 --
 ALTER TABLE `ingreso_peatonal`
@@ -927,7 +911,7 @@ ALTER TABLE `ingreso_peatonal`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `idPagos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPagos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `parqueadero`
@@ -939,7 +923,7 @@ ALTER TABLE `parqueadero`
 -- AUTO_INCREMENT de la tabla `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `id_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -957,7 +941,7 @@ ALTER TABLE `solicitud_parqueadero`
 -- AUTO_INCREMENT de la tabla `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas

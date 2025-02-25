@@ -49,43 +49,40 @@ try {
             "Usuario" => $Usuario,
             "Correo" => $Correo,
             "idRol" => $idRol,
-            "exp" => time() + (60 * 60 * 24) 
+            "exp" => time() + 3600 // 1 hora de expiración
         ];
 
         $jwt = JWT::encode($payload, $secret_key, 'HS256');
 
-
         $sqlToken = "INSERT INTO tokens (id_Registro, token, fecha_expiracion) VALUES (?, ?, ?)";
         $stmtToken = $base_de_datos->prepare($sqlToken);
-        $fechaExpiracion = date('Y-m-d H:i:s', time() + (60 * 60 * 24)); 
+        $fechaExpiracion = date('Y-m-d H:i:s', time() + 3600); // 1 hora de expiración
         $stmtToken->execute([$idRegistro, $jwt, $fechaExpiracion]);
 
         $base_de_datos->commit();
 
-     
-        setcookie("token", $jwt, time() + (60 * 60 * 24), "/", "", false, true);
+        setcookie("token", $jwt, time() + 3600, "/", "", false, true); // 1 hora de expiración
 
-        // Determinar la redirección según el rol
         $redirect = "";
         switch ($idRol) {
             case 1111:
-                $redirect = "1111"; // Admin
+                $redirect = "1111"; 
                 break;
             case 2222:
-                $redirect = "2222"; // Guarda de Seguridad
+                $redirect = "2222"; 
                 break;
             case 3333:
-                $redirect = "3333"; // Residente
+                $redirect = "3333"; 
                 break;
             case 4444:
-                $redirect = "4444"; // Dueño
+                $redirect = "4444"; 
                 break;
             default:
                 $redirect = "error";
                 break;
         }
 
-        // Enviar la respuesta al frontend con el rol asignado para redirigir
+
         echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
     }
 
