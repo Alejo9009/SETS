@@ -1,24 +1,41 @@
 import React, { useState } from "react";
 import "./Login.css";
 import logo from "../assets/img/c.png";
+import { useNavigate } from "react-router-dom";
 
 const RecuperarContraseña = () => {
   const [correo, setCorreo] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setCargando(true);
+    setMensaje("");
+
     try {
-      const response = await fetch("http://localhost:3000/recuperar.php", {
+      const response = await fetch("http://localhost/sets/backend/recuperarcontrsena.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ correo }),
       });
+
       const data = await response.json();
-      console.log(data);
+
+      if (response.ok) {
+        setMensaje(data.mensaje);
+        // Redirigir a la página de cambio de contraseña con el token
+        navigate(`/cambiar-contrasena?token=${data.token}`);
+      } else {
+        setMensaje(data.error || "Error al procesar la solicitud.");
+      }
     } catch (error) {
-      console.error("Error:", error);
+      setMensaje("Error de conexión. Inténtalo de nuevo más tarde.");
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -47,13 +64,15 @@ const RecuperarContraseña = () => {
             <input
               type="submit"
               className="btn btn-success btn-lg"
-              value="Enviar"
+              value={cargando ? "Enviando..." : "Enviar"}
+              disabled={cargando}
             />
+            {mensaje && <p className="mensaje">{mensaje}</p>}
             <div className="d-flex justify-content-between">
               <a href="http://localhost:3000/login" className="r">
                 Iniciar Sesion
               </a>
-             
+              <a href="http://localhost:3000/registro">Registrarse</a>
               <a href="http://localhost/SETS/" className="r">
                 Volver
               </a>

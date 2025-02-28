@@ -56,12 +56,12 @@ try {
 
         $sqlToken = "INSERT INTO tokens (id_Registro, token, fecha_expiracion) VALUES (?, ?, ?)";
         $stmtToken = $base_de_datos->prepare($sqlToken);
-        $fechaExpiracion = date('Y-m-d H:i:s', time() + 3600); // 1 hora de expiración
+        $fechaExpiracion = date('Y-m-d H:i:s', time() + 3800); // 1 hora de expiración
         $stmtToken->execute([$idRegistro, $jwt, $fechaExpiracion]);
 
         $base_de_datos->commit();
 
-        setcookie("token", $jwt, time() + 3600, "/", "", false, true); // 1 hora de expiración
+        setcookie("token", $jwt, time() + 3800, "/", "", false, true); // 1 hora de expiración
 
         $redirect = "";
         switch ($idRol) {

@@ -3,6 +3,8 @@ import axios from "axios";
 import "./registro.css";
 import logo from "../assets/img/c.png";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 
 const Registro = () => {
   const [formData, setFormData] = useState({
@@ -102,7 +104,7 @@ const Registro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verificar si hay errores antes de enviar
+
     const hasErrors = Object.values(errors).some((error) => error);
     if (hasErrors) {
         setMensaje("Por favor corrige los errores antes de enviar.");
@@ -119,7 +121,7 @@ const Registro = () => {
             }
         );
 
-        console.log(response.data); // Depuración: Verifica la respuesta del backend
+        console.log(response.data); 
 
         const { redirect, token } = response.data;
 
@@ -128,23 +130,36 @@ const Registro = () => {
         }
 
         if (redirect) {
-            const rutas = {
-                1111: "http://localhost/sets/admin/BIENVENIDOADMI.php",
-                2222: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
-                3333: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
-                4444: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
-                error: "http://localhost/SETS/error.html",
-            };
-            window.location.href = rutas[redirect] || rutas["error"];
+ 
+            toast.success("Registro realizado correctamente", {
+                position: "top-right",
+                autoClose: 2000, 
+                onClose: () => {
+                    const rutas = {
+                        1111: "http://localhost/sets/admin/BIENVENIDOADMI.php",
+                        2222: "http://localhost/sets/seguridad/BIENVENIDOGUARDA.php",
+                        3333: "http://localhost/sets/residente/BIENVENIDORESIDENTE.php",
+                        4444: "http://localhost/sets/dueño/BIENVENIDORESIDENTE.php",
+                        error: "http://localhost/SETS/error.html",
+                    };
+                    window.location.href = rutas[redirect] || rutas["error"];
+                },
+            });
         }
     } catch (error) {
         setMensaje(
             error.response?.data?.error || "Error al registrar el usuario."
         );
+        toast.error("Error al registrar el usuario", {
+            position: "top-right",
+            autoClose: 3000,
+        });
     }
-};
+  };
+
   return (
     <div className="container">
+      <ToastContainer /> {/* Contenedor para las notificaciones */}
       <br /> <p />
       <p />
       <header className="text-center mb-4 d-flex flex-column align-items-center">
@@ -164,7 +179,7 @@ const Registro = () => {
         <b>Selecciona tu rol :</b>
       </h6>
       <form onSubmit={handleSubmit}>
-        {/* Campo para Rol */}
+     
         <select
           name="idRol"
           value={formData.idRol}
@@ -192,7 +207,7 @@ const Registro = () => {
         <h6>
           <b> Informacion Personal :</b>
         </h6>
-        {/* Otros campos de formulario */}
+   
         <input
           type="text"
           name="PrimerNombre"
@@ -244,7 +259,7 @@ const Registro = () => {
         />
         {errors.Correo && <p className="error">{errors.Correo}</p>}
 
-        {/* Campo para Tipo de Documento */}
+        
         <select
           name="Id_tipoDocumento"
           value={formData.Id_tipoDocumento}

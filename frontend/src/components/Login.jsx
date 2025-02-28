@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 import logo from "../assets/img/c.png";
 
@@ -34,27 +36,38 @@ const Login = () => {
             const { redirect, token } = response.data;
 
             if (token) {
-                Cookies.set("token", token, { expires: 1 }); // Almacenar el token en una cookie
+                Cookies.set("token", token, { expires: 1 }); 
             }
 
             if (redirect) {
-                const rutas = {
-                    1111: "http://localhost/sets/admin/inicioprincipal.php",
-                    2222: "http://localhost/sets/seguridad/inicioprincipal.php",
-                    3333: "http://localhost/sets/residente/inicioprincipal.php",
-                    4444: "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php",
-                    error: "http://localhost/SETS/error.html",
-                };
-                // Redirigir a la URL correspondiente
-                window.location.href = rutas[redirect] || rutas["error"];
+                toast.success("Inicio de sesión exitoso", {
+                    position: "top-right",
+                    autoClose: 2000, 
+                    onClose: () => {
+                        const rutas = {
+                            1111: "http://localhost/sets/admin/inicioprincipal.php",
+                            2222: "http://localhost/sets/seguridad/inicioprincipal.php",
+                            3333: "http://localhost/sets/residente/inicioprincipal.php",
+                            4444: "http://localhost/sets/gestor_inmobiliaria/inicioprincipal.php",
+                            error: "http://localhost/SETS/error.html",
+                        };
+                   
+                        window.location.href = rutas[redirect] || rutas["error"];
+                    },
+                });
             }
         } catch (error) {
             setMensaje(error.response?.data?.error || "Error al iniciar sesión.");
+            toast.error("Error al iniciar sesión", {
+                position: "top-right",
+                autoClose: 3000,
+            });
         }
     };
 
     return (
         <div className="container">
+            <ToastContainer /> {/* Contenedor para las notificaciones */}
             <header className="text-center mb-4 d-flex flex-column align-items-center">
                 <img src={logo} alt="Logo" />
                 <h2 className="title">
