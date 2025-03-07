@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2025 a las 13:15:30
+-- Tiempo de generación: 07-03-2025 a las 16:00:34
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -629,8 +629,10 @@ CREATE TABLE `registro` (
 INSERT INTO `registro` (`id_Registro`, `idRol`, `PrimerNombre`, `SegundoNombre`, `PrimerApellido`, `SegundoApellido`, `apartamento`, `Correo`, `Usuario`, `Clave`, `Id_tipoDocumento`, `numeroDocumento`, `telefonoUno`, `telefonoDos`, `imagenPerfil`, `tipo_propietario`) VALUES
 (16, 2222, 'dfs', 'fsd', 'sfd', 'sfd', '303D', 'sfdq@gmail.com', 'santos', '$2y$10$xb/vzKGfiXxOKa448aiTbepKrzQlMhzyM6BBOc0lC5eNr5kyN5Y92', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
 (19, 1111, 'df', 'fdfd', 'fd', 'ffd', '101A', 'df@gmail.com', 'messi', '$2y$10$GlsRkl0yQLudfDgfAWPRReT/ZADdAaU86hJSLQCLbvjXmtMhhimy2', 1, 2147483647, 2147483647, 2147483647, NULL, 'dueño'),
-(20, 3333, 'we', 'e', 'e', 'e', '303A', 'eqq@gmail.com', 'james', '$2y$10$G3.cRFeHHN44.ZJEwogYbuoWZcqj6Gk7wvdmSF.GTLx2of0VlMuwu', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
-(28, 2222, 'ew', 'we', 'ew', 'ew', '1002J', 'ew@gmail.com', 'ronaldo', '$2y$10$Va6Y7rC1wxQc9JlOhRsPjODkDv83DaW5a1H02xJWDRtDaH3q29R8.', 1, 2121212121, 2132332232, 2147483647, NULL, 'residente');
+(41, 1111, 'ewwe', 'wewe', 'weew', 'weew', '202B', 'wweq@gmail.com', 'james', '$2y$10$JljTQ.fgkmpAA.kprePeyOh7mamZCLEUiSx3AD/XbRv.ynF0LXfnS', 1, 1122233223, 2147483647, 2147483647, NULL, 'dueño'),
+(48, 3333, 'sd', 'sd', 'sd', 'sd', '303A', 'sdqqq@gmail.com', 'maradona', '$2y$10$M2PLk8TNg/TEURgBy/UIxukeNmQmbUimiNcCBzTCPxH1a1BbFd3om', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente'),
+(49, 3333, 'xss', 'sdsdssd', 'sdsdsdsd', 'sdsdsd', '401A', 'r@gmail.com', 'ronaldo', '$2y$10$lxWJmv6GxUUjJKj7fe/clu.jOfrsVZtbQ/Yu/.XmXKSJBRmiGKRWS', 1, 1232232323, 2147483647, 2147483647, NULL, 'residente'),
+(50, 3333, 'sdsd', 'gfgfgfgfgf', 'fggfgfgfgf', 'dsdssd', '501A', 't@gmail.com', 'zidane', '$2y$10$CxBHOQRt8L/7XaevMZVj5O2gsf3FpH6kF1yVWjtlFYtIMpxZ.8lEy', 1, 2147483647, 2147483647, 2147483647, NULL, 'residente');
 
 -- --------------------------------------------------------
 
@@ -753,8 +755,10 @@ CREATE TABLE `tokens` (
 INSERT INTO `tokens` (`id_token`, `id_Registro`, `token`, `fecha_creacion`, `fecha_expiracion`) VALUES
 (16, 16, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2IiwiVXN1YXJpbyI6InNhbnRvcyIsIkNvcnJlbyI6InNmZHFAZ21haWwuY29tIiwiaWRSb2wiOiIyMjIyIiwiZXhwIjoxNzQwNDIxNDY2fQ.lWaDiyxEq-PHI7YpI4tWsRaTodqR6oEZ1JTj6PUl37I', '2025-02-23 18:24:26', '2025-02-24 19:24:26'),
 (19, 19, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE5IiwiVXN1YXJpbyI6Im1lc3NpIiwiQ29ycmVvIjoiZGZAZ21haWwuY29tIiwiaWRSb2wiOiIxMTExIiwiZXhwIjoxNzQwNTM4NTY5fQ.HUq_qwna3xaNrfK_7tggsZU-tJS3Mn6evdWcTaSNxnA', '2025-02-25 02:56:09', '2025-02-26 03:56:09'),
-(20, 20, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIwIiwiVXN1YXJpbyI6ImphbWVzIiwiQ29ycmVvIjoiZXFxQGdtYWlsLmNvbSIsImlkUm9sIjoiMzMzMyIsImV4cCI6MTc0MDU0NDEwMH0.Oz8uk5F1GJdn0e12xnEe-XoWM8hcuL0sw-cDddGhdWs', '2025-02-25 04:28:20', '2025-02-26 05:28:20'),
-(21, 28, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjI4IiwiVXN1YXJpbyI6InJvbmFsZG8iLCJDb3JyZW8iOiJld0BnbWFpbC5jb20iLCJpZFJvbCI6IjIyMjIiLCJleHAiOjE3NDA1NzkwMjB9.j_pT9dd3Jk4GjsgakTr6cH1Jyv9kSJTalzSdemnlUQo', '2025-02-25 14:10:20', '2025-02-26 15:10:20');
+(28, 41, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQxIiwiVXN1YXJpbyI6ImphbWVzIiwiQ29ycmVvIjoid3dlcUBnbWFpbC5jb20iLCJpZFJvbCI6IjExMTEiLCJleHAiOjE3NDEwOTgxMDZ9.zuLjE4BMBC6CyKQJ9I4BOnJkHxMgVEuSAE4EVBK1X1s', '2025-03-04 13:21:46', '2025-03-04 15:21:46'),
+(33, 48, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ4IiwiVXN1YXJpbyI6Im1hcmFkb25hIiwiQ29ycmVvIjoic2RxcXFAZ21haWwuY29tIiwiaWRSb2wiOiIzMzMzIiwiZXhwIjoxNzQxMjk2NzczfQ.FAzXMYJ1MleC8EpWn0sFQrUzSL1DEEVy6JLJf-A5zuM', '2025-03-06 20:32:53', '2025-03-06 22:32:53'),
+(34, 49, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ5IiwiVXN1YXJpbyI6InJvbmFsZG8iLCJDb3JyZW8iOiJyQGdtYWlsLmNvbSIsImlkUm9sIjoiMzMzMyIsImV4cCI6MTc0MTM2MDcyOX0.ggVT1OA68PRk6jSLKMOVU9J2pt6VaV3APVzOsnVSepQ', '2025-03-07 14:18:49', '2025-03-07 16:22:09'),
+(35, 50, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjUwIiwiVXN1YXJpbyI6InppZGFuZSIsIkNvcnJlbyI6InRAZ21haWwuY29tIiwiaWRSb2wiOiIzMzMzIiwiZXhwIjoxNzQxMzYyODg5fQ.UI05VqhfNOCdUF5oaqSldn5YSBd-Xv4nF8NJ5Vl_y00', '2025-03-07 14:54:49', '2025-03-07 16:58:09');
 
 -- --------------------------------------------------------
 
@@ -923,7 +927,7 @@ ALTER TABLE `parqueadero`
 -- AUTO_INCREMENT de la tabla `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `id_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -941,7 +945,7 @@ ALTER TABLE `solicitud_parqueadero`
 -- AUTO_INCREMENT de la tabla `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Restricciones para tablas volcadas
