@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `anuncio` (
   `idAnuncio` int(11) NOT NULL,
-  `titulo` varchar(45) DEFAULT NULL,
+  `titulo` varchar(15) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fechaPublicacion` date DEFAULT NULL,
   `horaPublicacion` time DEFAULT NULL,
   `persona` int(11) NOT NULL,
-  `apart` varchar(222) NOT NULL,
+  `apart` varchar(10) NOT NULL,
   `img_anuncio` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -529,9 +529,9 @@ CREATE TABLE `ingreso_peatonal` (
   `idIngreso_Peatonal` int(11) NOT NULL,
   `personasIngreso` varchar(45) NOT NULL,
   `horaFecha` datetime NOT NULL,
-  `documento` varchar(2009) NOT NULL,
+  `documento` varchar(20) NOT NULL,
   `tipo_ingreso` enum('vehiculo','visitante') NOT NULL,
-  `placa` varchar(250) DEFAULT NULL
+  `placa` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -549,8 +549,8 @@ INSERT INTO `ingreso_peatonal` (`idIngreso_Peatonal`, `personasIngreso`, `horaFe
 
 CREATE TABLE `pagos` (
   `idPagos` int(11) NOT NULL,
-  `pagoPor` varchar(100) NOT NULL,
-  `cantidad` decimal(10,2) NOT NULL,
+  `pagoPor` varchar(50) NOT NULL,
+  `cantidad` decimal(20,2) NOT NULL,
   `mediopago` enum('Efectivo','Transferencia','Tarjeta','Cheque','Otro') NOT NULL,
   `apart` varchar(112) NOT NULL,
   `fechaPago` date NOT NULL,
