@@ -51,7 +51,7 @@ try {
         $jwt = $tokenData['token'];
 
         // Configurar la cookie en la respuesta
-        setcookie("token", $jwt, time() + 3800, "/", "", false, true);
+        setcookie("token", $jwt, time() + 3900, "/", "", false, true);
 
         // Determinar la redirección según el rol
         $redirect = "";

@@ -61,7 +61,7 @@ try {
 
         $base_de_datos->commit();
 
-        setcookie("token", $jwt, time() + 3800, "/", "", false, true); // 1 hora de expiración
+        setcookie("token", $jwt, time() + 3900, "/", "", false, true); // 1 hora de expiración
 
         $redirect = "";
         switch ($idRol) {
