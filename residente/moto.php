@@ -105,9 +105,7 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                            </li>
+                                          
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                             </li>

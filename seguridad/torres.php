@@ -148,6 +148,7 @@ foreach ($resultados as $fila) {
     </section>
     <br>
     <br>
+    <br>
     <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
     <b>Torre Pisos y Apartamentos</b>
     </div>
@@ -201,6 +202,9 @@ foreach ($resultados as $fila) {
     <br>
     <br>
     <br>
+
+      <a href="./ingresoregi.php" class="btn btn-outline-success" style=" font-size:30px;"> Ingreso peatonal</a>
+
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       <a href="./inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;"> VOLVER</a>
     </div>

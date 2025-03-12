@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.apartamento , r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.apartamento , r.tipo_propietario,  r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
                 rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
         JOIN rol rd ON r.idRol = rd.id
@@ -221,9 +221,11 @@ if (!$userData) {
                 <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
                 <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
                 <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p><b>Tipo Propietario:</b><?php echo htmlspecialchars($userData['tipo_propietario']); ?></p>
                 <p><b>Apartamento:</b> <?php echo  htmlspecialchars($userData['apartamento']); ?></p>
                 <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
-
+               
+                
                 <p><b>Numero de Documento </b><?php echo htmlspecialchars($userData['numeroDocumento']); ?></p>
                 <p><b>Teléfono 1:</b> <?php echo htmlspecialchars($userData['telefonoUno']); ?></p>
                 <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>

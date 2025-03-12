@@ -77,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Preparar la consulta para obtener los datos del perfil
-$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.apartamento, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
+
+$sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido,r.tipo_propietario, r.Clave , r.apartamento, r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
                 rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
         JOIN rol rd ON r.idRol = rd.id
@@ -163,9 +163,7 @@ if (!$userData) {
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a></center>
-                                        </li>
+                                        
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
                                         </li>
@@ -216,6 +214,7 @@ if (!$userData) {
                 <p><b>Segundo Nombre:</b> <?php echo htmlspecialchars($userData['SegundoNombre']); ?></p>
                 <p><b>Primer Apellidos:</b> <?php echo htmlspecialchars($userData['PrimerApellido']); ?></p>
                 <p><b>Segundo Apellidos:</b> <?php echo  htmlspecialchars($userData['SegundoApellido']); ?></p>
+                <p><b>Tipo Propietario:</b><?php echo htmlspecialchars($userData['tipo_propietario']); ?></p>
                 <p><b>Apartamento: </b><?php echo htmlspecialchars($userData['apartamento']); ?></p>
                 <p><b>Tipo de Documento:</b> <?php echo htmlspecialchars($userData['tipodoc']); ?></p>
 
