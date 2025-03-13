@@ -179,16 +179,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?php echo htmlspecialchars($pagos['fechaPago']); ?></td>
                                             <td><?php echo htmlspecialchars($pagos['referenciaPago']); ?></td>
                                             <td ><?php echo htmlspecialchars($pagos['estado']); ?></td>
-                                            <td>
-                                                <form action="cambiarEstadoPago.php" method="post" style="display: inline;">
-                                                    <input type="hidden" name="idPagos" value="<?php echo $pagos['idPagos']; ?>">
-                                                    <select name="nuevoEstado" class="form-select" onchange="this.form.submit()">
-                                                        <option value="Pendiente" <?php echo ($pagos['estado'] == 'Pendiente') ? 'selected' : ''; ?>>Pendiente</option>
-                                                        <option value="Pagado" <?php echo ($pagos['estado'] == 'Pagado') ? 'selected' : ''; ?>>Pagado</option>
-                                                        <option value="Vencido" <?php echo ($pagos['estado'] == 'Vencido') ? 'selected' : ''; ?>>Vencido</option>
-                                                    </select>
-                                                </form>
-                                            </td>
+
                                             <td>
                                                 <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este pago?');">
                                                     <input type="hidden" name="delete_idPagos" value="<?php echo $pagos['idPagos']; ?>">

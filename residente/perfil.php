@@ -223,7 +223,7 @@ if (!$userData) {
                 <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
                 <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
                 <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-                <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
+               
                 <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
