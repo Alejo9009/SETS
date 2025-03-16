@@ -127,108 +127,106 @@ include_once "conexion.php";
             <h1>Datos De Usuarios !</h1>
         </div>
         <center>
-            <div class="barra">
-                <div class="sombra"></div>
-                <input type="text" placeholder="Buscar usuario..." id="searchInput">
-                <ion-icon name="search-outline"></ion-icon>
-            </div>
-        </center>
-        <main>
-
+        <div class="barra">
+            <div class="sombra"></div>
+            <input type="text" placeholder="Buscar usuario..." id="searchInput">
+            <ion-icon name="search-outline"></ion-icon>
+        </div>
+    </center>
+    <main>
         <section>
-    <br>
-    <table class="user-table table table-striped">
-        <thead>
-            <tr>
-                <th class="cc">N°</th>
-                <th class="cc">Rol</th>
-                <th class="cc">Tipo de Documento</th>
-                <th class="cc">Número de Documento</th>
-                <th class="cc">Nombre</th>
-                <th class="cc">Apellido</th>
-                <th class="cc">Apartamento</th>
-                <th class="cc">Correo</th>
-                <th class="cc">telefonoUno</th>
-                <th class="cc">tipo_propietario</th>
-                <th class="cc">Usuario</th>
-                <th class="cc">Contraseña</th>
-                <th class="cc">Imagen Perfil</th>
-                <th class="cc">Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-        // Conexión a la base de datos
-        try {
-            include_once "conexion.php";
+            <br>
+            <table class="user-table table table-striped" id="userTable">
+                <thead>
+                    <tr>
+                        <th class="cc">N°</th>
+                        <th class="cc">Rol</th>
+                        <th class="cc">Tipo de Documento</th>
+                        <th class="cc">Número de Documento</th>
+                        <th class="cc">Nombre</th>
+                        <th class="cc">Apellido</th>
+                        <th class="cc">Apartamento</th>
+                        <th class="cc">Correo</th>
+                        <th class="cc">telefonoUno</th>
+                        <th class="cc">tipo_propietario</th>
+                        <th class="cc">Usuario</th>
+                        <th class="cc">Contraseña</th>
+                        <th class="cc">Imagen Perfil</th>
+                        <th class="cc">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+             
+                    try {
+                        include_once "conexion.php";
 
-            // Realizamos una consulta que une las tablas para obtener el rol
-            $stmt = $base_de_datos->query("
-                SELECT r.*,  rol.Roldescripcion 
-                FROM registro r 
-                LEFT JOIN rol ON r.idROL = rol.id
-            ");
+               
+                        $stmt = $base_de_datos->query("
+                            SELECT r.*, rol.Roldescripcion 
+                            FROM registro r 
+                            LEFT JOIN rol ON r.idROL = rol.id
+                        ");
 
-            if ($stmt === false) {
-                echo "<tr><td colspan='11'>Error en la consulta SQL.</td></tr>";
-            } else {
-                $i = 1; // Contador para el número de fila
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    if ($row) { // Asegúrate de que $row no sea falso
-                        $primerNombre = $row['PrimerNombre'] ?? 'Sin Nombre'; // Proporciona un valor predeterminado
-                        $segundoNombre = $row['SegundoNombre'] ?? '';
-                        $primerApellido = $row['PrimerApellido'] ?? '';
-                        $segundoApellido = $row['SegundoApellido'] ?? '';
-                        $apartamento = $row['apartamento'] ?? '';
-                        $correo = $row['Correo'] ?? '';
-                        $telefonoUno = $row['telefonoUno'] ?? '';
-                        $tipo_propietario = $row['tipo_propietario'] ?? '';
-                        $usuario = $row['Usuario'] ?? '';
-                        $clave = $row['Clave'] ?? '';
-                        $imagenPerfil = $row['imagenPerfil'] ?? '';
-                        $rolDescripcion = $row['Roldescripcion'] ?? 'Sin Rol'; // Proporciona un valor predeterminado
-
-                        echo "<tr>
-                            <td>$i</td>
-                            <td>$rolDescripcion</td> <!-- Mostrar rol real -->
-                            <td>Cédula</td> <!-- Ajusta según el tipo de documento -->
-                            <td>{$row['numeroDocumento']}</td>
-                            <td>$primerNombre</td>
-                            <td>$primerApellido</td>
-                            <td>$apartamento</td>
-                            <td>$correo</td>
-                            <td>$telefonoUno</td> 
-                            <td>$tipo_propietario</td>
-                            <td>$usuario</td>
-                            <td>$clave</td>
-                            <td>";
-                        if ($imagenPerfil) {
-                            echo "<img src='$imagenPerfil' alt='Imagen Perfil' width='50' height='50'>";
+                        if ($stmt === false) {
+                            echo "<tr><td colspan='14'>Error en la consulta SQL.</td></tr>";
                         } else {
-                            echo "Sin Imagen";
+                            $i = 1; 
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                if ($row) { 
+                                    $primerNombre = $row['PrimerNombre'] ?? 'Sin Nombre'; 
+                                    $segundoNombre = $row['SegundoNombre'] ?? '';
+                                    $primerApellido = $row['PrimerApellido'] ?? '';
+                                    $segundoApellido = $row['SegundoApellido'] ?? '';
+                                    $apartamento = $row['apartamento'] ?? '';
+                                    $correo = $row['Correo'] ?? '';
+                                    $telefonoUno = $row['telefonoUno'] ?? '';
+                                    $tipo_propietario = $row['tipo_propietario'] ?? '';
+                                    $usuario = $row['Usuario'] ?? '';
+                                    $clave = $row['Clave'] ?? '';
+                                    $imagenPerfil = $row['imagenPerfil'] ?? '';
+                                    $rolDescripcion = $row['Roldescripcion'] ?? 'Sin Rol'; 
+
+                                    echo "<tr>
+                                        <td>$i</td>
+                                        <td>$rolDescripcion</td> <!-- Mostrar rol real -->
+                                        <td>Cédula</td> <!-- Ajusta según el tipo de documento -->
+                                        <td>{$row['numeroDocumento']}</td>
+                                        <td>$primerNombre</td>
+                                        <td>$primerApellido</td>
+                                        <td>$apartamento</td>
+                                        <td>$correo</td>
+                                        <td>$telefonoUno</td> 
+                                        <td>$tipo_propietario</td>
+                                        <td>$usuario</td>
+                                        <td>$clave</td>
+                                        <td>";
+                                    if ($imagenPerfil) {
+                                        echo "<img src='$imagenPerfil' alt='Imagen Perfil' width='50' height='50'>";
+                                    } else {
+                                        echo "Sin Imagen";
+                                    }
+                                    echo "</td>
+                                        <td>
+                                            <a href='eliminar_usuario.php?id_Registro=" . htmlspecialchars($row['id_Registro']) . "' class='btn btn-danger' onclick=\"return confirm('¿Estás seguro de que deseas eliminar este usuario?')\">ELIMINAR</a>
+                                        </td>
+                                    </tr>";
+
+                                    $i++;
+                                } else {
+                                    
+                                    echo "<tr><td colspan='14'>No hay usuarios disponibles.</td></tr>";
+                                }
+                            }
                         }
-                        echo "</td>
-                            <td>
-                                <a href='eliminar_usuario.php?id_Registro=" . htmlspecialchars($row['id_Registro']) . "' class='btn btn-danger' onclick=\"return confirm('¿Estás seguro de que deseas eliminar este usuario?')\">ELIMINAR</a>
-                            </td>
-                        </tr>";
-
-                        $i++;
-                    } else {
-                        // Manejo si no hay más filas
-                        echo "<tr><td colspan='11'>No hay usuarios disponibles.</td></tr>";
+                    } catch (PDOException $e) {
+                        echo "<tr><td colspan='14'>Error: " . $e->getMessage() . "</td></tr>";
                     }
-                }
-            }
-        } catch (PDOException $e) {
-            echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</section>
-
-        </main>
+                    ?>
+                </tbody>
+            </table>
+        </section>
+    </main>
         <center>
             <a href="inicioprincipal.php" class="btn btn-success btn-lg">
                 <center>Volver</center>
@@ -257,6 +255,40 @@ include_once "conexion.php";
                 });
             }
         </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const table = document.getElementById("userTable");
+            const rows = table.getElementsByTagName("tr");
+
+            searchInput.addEventListener("input", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                // Recorrer todas las filas de la tabla (excepto la primera, que es el encabezado)
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const cells = row.getElementsByTagName("td");
+                    let match = false;
+
+                  
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent.toLowerCase();
+                        if (cellText.includes(searchText)) {
+                            match = true;
+                            break; 
+                        }
+                    }
+
+                
+                    if (match) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+        });
+    </script>
         <script>
             function openChat(chatName) {
                 const chatContainer = document.getElementById('chatContainer');
