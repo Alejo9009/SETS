@@ -130,73 +130,67 @@ include_once "conexion.php";
            <center><h4>Responder Dudas e Inquietudes</h4></center> 
         </div>
         <center>
-            <div class="barra">
-                <div class="sombra"></div>
-                <input type="text" placeholder="Buscar contacto..." id="searchInput">
-                <ion-icon name="search-outline"></ion-icon>
-            </div>
-        </center>
-        <main>
-
-            <section>
-                <br>
-                <table class="user-table table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="cc">Id_Contactarnos</th>
-                            <th class="cc">Nombre</th>
-                            <th class="cc">Correo</th>
-                            <th class="cc">Telefono</th>
-                            <th class="cc">Comentario</th>
-                            <th class="cc">Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <div class="barra">
+            <div class="sombra"></div>
+            <input type="text" placeholder="Buscar contacto..." id="searchInput">
+            <ion-icon name="search-outline"></ion-icon>
+        </div>
+    </center>
+    <main>
+        <section>
+            <br>
+            <table class="user-table table table-striped" id="contactTable">
+                <thead>
+                    <tr>
+                        <th class="cc">Id_Contactarnos</th>
+                        <th class="cc">Nombre</th>
+                        <th class="cc">Correo</th>
+                        <th class="cc">Telefono</th>
+                        <th class="cc">Comentario</th>
+                        <th class="cc">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
-// Conexión a la base de datos
-try {
-    include_once "conexion.php";
+                    // Conexión a la base de datos
+                    try {
+                        include_once "conexion.php";
 
-    // Realizamos una consulta que une las tablas para obtener el rol
-    $stmt = $base_de_datos->query("
-       SELECT c.idcontactarnos, c.nombre, c.correo, c.telefono, c.comentario, c.fecha
-FROM contactarnos c;
+                        // Realizamos una consulta que une las tablas para obtener el rol
+                        $stmt = $base_de_datos->query("
+                            SELECT c.idcontactarnos, c.nombre, c.correo, c.telefono, c.comentario, c.fecha
+                            FROM contactarnos c;
+                        ");
 
-    ");
+                        $i = 1; // Contador para el número de fila
 
-    $i = 1; // Contador para el número de fila
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $idcontactarnos = $row['idcontactarnos'];
+                            $nombre = $row['nombre'];
+                            $correo = $row['correo'];
+                            $telefono = $row['telefono'];
+                            $comentario = $row['comentario'];
+                            $fecha = $row['fecha'];
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $idcontactarnos = $row['idcontactarnos'];
-        $nombre = $row['nombre'];
-        $correo = $row['correo'];
-        $telefono = $row['telefono'];
-        $comentario = $row['comentario'];
-        $fecha = $row['fecha'];
- 
-        echo "<tr>
-            <td>$idcontactarnos</td>
-            <td>$nombre</td> <!-- Mostrar rol real -->
-              <td>$correo</td>
-            <td>{$row['telefono']}</td>
-            <td>$comentario</td>
-            <td>$fecha</td>
-            ";
+                            echo "<tr>
+                                <td>$idcontactarnos</td>
+                                <td>$nombre</td>
+                                <td>$correo</td>
+                                <td>$telefono</td>
+                                <td>$comentario</td>
+                                <td>$fecha</td>
+                            </tr>";
 
-        echo "</td></tr>";
-
-        $i++;
-    }
-} catch (PDOException $e) {
-    echo "<tr><td colspan='11'>Error: " . $e->getMessage() . "</td></tr>";
-}
-?>
-
-                    </tbody>
-                </table>
-
-            </section>
-        </main>
+                            $i++;
+                        }
+                    } catch (PDOException $e) {
+                        echo "<tr><td colspan='6'>Error: " . $e->getMessage() . "</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
+    </main>
         <center>
             <a href="inicioprincipal.php" class="btn btn-success btn-lg">
                 <center>Volver </center>
@@ -263,6 +257,39 @@ FROM contactarnos c;
                 });
             }
         </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const table = document.getElementById("contactTable");
+            const rows = table.getElementsByTagName("tr");
+
+            searchInput.addEventListener("input", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const cells = row.getElementsByTagName("td");
+                    let match = false;
+
+                 
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent.toLowerCase();
+                        if (cellText.includes(searchText)) {
+                            match = true;
+                            break; 
+                        }
+                    }
+
+           
+                    if (match) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+        });
+    </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
