@@ -45,9 +45,9 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -75,7 +75,7 @@ if ($stmt->rowCount() > 0) {
                                         </li>
 
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                                         </li>
                                     </ul>
@@ -97,7 +97,7 @@ if ($stmt->rowCount() > 0) {
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                     
+
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -134,9 +134,10 @@ if ($stmt->rowCount() > 0) {
                         <p>
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><</button>
-                            <span id="month-year"></span>
-                            <button id="next-month" onclick="nextMonth()">></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                <
+                                    <span id="month-year"></span>
+                                    <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -159,12 +160,18 @@ if ($stmt->rowCount() > 0) {
             <aside class="sidebar">
                 <h2>Agendaciones</h2>
                 <div class="search-bar">
-                    <input type="search" placeholder="Buscar agendaciones..." />
+                    <input type="search" id="searchInput" placeholder="Buscar ..." />
                     <ion-icon name="search-outline"></ion-icon>
                 </div>
-                <div class="appointment-list">
+                <div class="appointment-list" id="appointmentList">
                     <?php foreach ($solicitudes as $solicitud): ?>
-                        <div class="appointment">
+                        <div class="appointment"
+                            data-fecha-inicio="<?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?>"
+                            data-fecha-final="<?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?>"
+                            data-hora-inicio="<?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?>"
+                            data-hora-final="<?= date('h:i A', strtotime($solicitud['Hora_final'])) ?>"
+                            data-apartamento="<?= $solicitud['ID_Apartamentooss'] ?>"
+                            data-estado="<?= $solicitud['estado'] ?>">
                             <h3>ZONA BBQ</h3>
                             <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
                             <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
@@ -274,16 +281,58 @@ if ($stmt->rowCount() > 0) {
         });
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const appointmentList = document.getElementById('appointmentList');
+            const appointments = appointmentList.getElementsByClassName('appointment');
+
+            // Función para filtrar 
+            function filterAppointments(searchText) {
+                Array.from(appointments).forEach(function(appointment) {
+                    const fechaInicio = appointment.getAttribute('data-fecha-inicio').toLowerCase();
+                    const fechaFinal = appointment.getAttribute('data-fecha-final').toLowerCase();
+                    const horaInicio = appointment.getAttribute('data-hora-inicio').toLowerCase();
+                    const horaFinal = appointment.getAttribute('data-hora-final').toLowerCase();
+                    const apartamento = appointment.getAttribute('data-apartamento').toLowerCase();
+                    const estado = appointment.getAttribute('data-estado').toLowerCase();
+
+                    if (
+                        fechaInicio.includes(searchText) ||
+                        fechaFinal.includes(searchText) ||
+                        horaInicio.includes(searchText) ||
+                        horaFinal.includes(searchText) ||
+                        apartamento.includes(searchText) ||
+                        estado.includes(searchText)
+                    ) {
+                        appointment.style.display = 'block'; // Muestra
+                    } else {
+                        appointment.style.display = 'none'; // Oculta 
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', function() {
+                const searchText = searchInput.value.toLowerCase();
+                filterAppointments(searchText);
+            });
+
+
+            filterAppointments('');
+        });
+    </script>
+    <script>
         function openChat(chatName) {
             const chatContainer = document.getElementById('chatContainer');
             const chatHeader = document.getElementById('chatHeader');
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -296,6 +345,7 @@ if ($stmt->rowCount() > 0) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -310,4 +360,5 @@ if ($stmt->rowCount() > 0) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
