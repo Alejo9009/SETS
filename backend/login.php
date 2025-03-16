@@ -9,7 +9,7 @@ use Firebase\JWT\JWT;
 
 include_once "conexion.php";
 
-$secret_key = "tu_clave_secreta"; // Asegúrate de que sea la misma clave usada en el registro
+$secret_key = "tu_clave_secreta"; 
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -23,7 +23,7 @@ try {
         $Usuario = $data['Usuario'];
         $Clave = $data['Clave'];
 
-        // Buscar el usuario en la base de datos
+        // Buscar el usuario 
         $sql = "SELECT id_Registro, Usuario, Clave, idRol FROM registro WHERE Usuario = ?";
         $stmt = $base_de_datos->prepare($sql);
         $stmt->execute([$Usuario]);
@@ -33,12 +33,12 @@ try {
             throw new Exception("Usuario no encontrado.");
         }
 
-        // Verificar la contraseña
+        // Verificar 
         if (!password_verify($Clave, $user['Clave'])) {
             throw new Exception("Contraseña incorrecta.");
         }
 
-        // Buscar el token existente en la tabla tokens
+       
         $sqlToken = "SELECT token FROM tokens WHERE id_Registro = ? AND fecha_expiracion > NOW()";
         $stmtToken = $base_de_datos->prepare($sqlToken);
         $stmtToken->execute([$user['id_Registro']]);
@@ -51,34 +51,34 @@ try {
         $jwt = $tokenData['token'];
 
         // Configurar la cookie en la respuesta
-        setcookie("token", $jwt, time() + 3900, "/", "", false, true);
+        setcookie("token", $jwt, time() + 3900, "/", "localhost", false, true);
 
         // Determinar la redirección según el rol
         $redirect = "";
         switch ($user['idRol']) {
             case 1111:
-                $redirect = "1111"; // Admin
+                $redirect = "1111"; 
                 break;
             case 2222:
-                $redirect = "2222"; // Guarda de Seguridad
+                $redirect = "2222"; 
                 break;
             case 3333:
-                $redirect = "3333"; // Residente
+                $redirect = "3333"; 
                 break;
             case 4444:
-                $redirect = "4444"; // Dueño
+                $redirect = "4444"; 
                 break;
             default:
                 $redirect = "error";
                 break;
         }
 
-        // Enviar la respuesta al frontend
+
         echo json_encode(['redirect' => $redirect, 'token' => $jwt]);
     }
 } catch (Exception $e) {
     echo json_encode(["error" => $e->getMessage()]);
 } finally {
-    // Cerrar la conexión
+
     $base_de_datos = null;
 }

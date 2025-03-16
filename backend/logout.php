@@ -1,16 +1,23 @@
 <?php
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
-
-// Eliminar la cookie
-setcookie('auth_token', '', time() - 3900, "/", "localhost", false, true);
 
 
-session_destroy();
+if (setcookie("token", "", time() - 3900, "/", "localhost", false, true)) {
+    echo "Cookie eliminada.<br>";
+} else {
+    echo "Error al eliminar la cookie.<br>";
+}
 
+
+$_SESSION = array();
+echo "Variables de sesión eliminadas.<br>";
+
+
+if (session_destroy()) {
+    echo "Sesión destruida.<br>";
+} else {
+    echo "Error al destruir la sesión.<br>";
+}
 
 header("Location: http://localhost/SETS/");
 exit();
