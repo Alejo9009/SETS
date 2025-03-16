@@ -278,6 +278,17 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         }
     </script>
+     <br> <br>  <br>   <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
+        <footer> 
+  <div class="footer-content">
+    <p>&copy; 2025 Mi Aplicación. Todos los derechos reservados.</p>
+    <ul>
+      <li><a href="#">Términos y Condiciones</a></li>
+      <li><a href="#">Política de Privacidad</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
