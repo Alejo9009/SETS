@@ -214,27 +214,26 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
 
     <script>
        document.addEventListener("DOMContentLoaded", function () {
-    // Obtener el usuario actual (puedes usar el nombre de usuario o ID)
+  
     let usuario = "<?php echo htmlspecialchars($Usuario); ?>";
 
-    // Obtener las notificaciones descartadas del localStorage
+   
     let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
 
-    // Ocultar las notificaciones descartadas
+    // Ocultar notificaciones descartadas
     document.querySelectorAll(".email-item").forEach(item => {
         let notifId = item.getAttribute("data-id");
         if (hiddenNotifications.includes(notifId)) {
-            item.style.display = "none"; // Ocultar la notificación
+            item.style.display = "none"; // Ocultar
         }
     });
 
-    // Manejar el evento de descartar notificaciones
     document.querySelectorAll(".remove-notif").forEach(button => {
         button.addEventListener("click", function () {
             let parent = this.parentElement;
             let notifId = parent.getAttribute("data-id");
 
-            // Agregar la notificación a la lista de ocultas
+            // Agregar la notificación
             if (!hiddenNotifications.includes(notifId)) {
                 hiddenNotifications.push(notifId);
             }
@@ -242,7 +241,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
             // Guardar en localStorage con el nombre del usuario
             localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
 
-            // Ocultar la notificación
+        
             parent.style.display = "none";
         });
     });

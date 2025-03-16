@@ -1,18 +1,18 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 2222) { 
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -108,7 +108,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                             </li>
-                                           
+
                                             <li>
                                                 <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                             </li>
@@ -159,85 +159,84 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="email-list">
                     <?php foreach ($anuncios as $anuncio): ?>
-                        <div class="email-item" onclick="toggleExpand(this)">
+                        <div class="email-item" data-id="anuncio_<?php echo $anuncio['idAnuncio']; ?>">
                             <div class="email-sender">Anuncio: <?php echo htmlspecialchars($anuncio['titulo']); ?></div>
                             <div class="email-subject">Publicado el: <?php echo htmlspecialchars($anuncio['fechaPublicacion']); ?></div>
                             <div class="email-snippet">Descripción: <?php echo htmlspecialchars($anuncio['descripcion']); ?></div>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
-                            <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:15px;  ">
-                            <center>IR</center>
-                        </a>
+                            <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:15px;">
+                                <center>IR</center>
+                            </a>
                         </div>
                     <?php endforeach; ?>
 
                     <?php foreach ($parqueaderos as $parqueadero): ?>
-                        <div class="email-item" data-id="<?php echo $parqueadero['id_solicitud']; ?>">
+                        <div class="email-item" data-id="parqueadero_<?php echo $parqueadero['id_solicitud']; ?>">
                             <b>Solicitud de Parqueadero</b><br>
+                            <b>Tipo Vehiculo:</b> <?php echo htmlspecialchars($parqueadero['TipoVehiculo']); ?><br>
                             <b>Fecha Inicio:</b> <?php echo htmlspecialchars($parqueadero['fecha_inicio']); ?><br>
                             <b>Parqueadero:</b> <?php echo htmlspecialchars($parqueadero['parqueadero_visitante']); ?><br>
                             <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
-                            <a href="./parqueaderocarro.php" class="btn btn-outline-success" style="font-size:15px;  ">
-                            <center>IR CARRO</center>
-                        </a>
-                        <a href="./paromoto.php" class="btn btn-outline-success" style="font-size:15px;  ">
-                            <center>IR MOTO</center>
-                        </a>
+                            <a href="./parqueaderocarro.php" class="btn btn-outline-success" style="font-size:15px;">
+                                <center>IR CARRO</center>
+                            </a>
+                            <a href="./paromoto.php" class="btn btn-outline-success" style="font-size:15px;">
+                                <center>IR MOTO</center>
+                            </a>
                         </div>
-                        
                     <?php endforeach; ?>
 
                     <?php foreach ($zonasComunes as $zonaComun): ?>
-                        <div class="email-item" data-id="<?php echo $zonaComun['ID_zonaComun']; ?>">
-                            <b>Solicitud de Zona Común</b><br>
-                            <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
-                            <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
-                            <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
-                            <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;  ">
-                            <center>IR </center>
-                        </a>
-                        </div>
-
-                    <?php endforeach; ?>
+                <div class="email-item" data-id="zona_<?php echo $zonaComun['ID_zonaComun']; ?>">
+                    <b>Solicitud de Zona Común</b><br>
+                    <b>ID_zonaComun:</b> <?php echo htmlspecialchars($zonaComun['ID_zonaComun']); ?><br>
+                    <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
+                    <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
+                    <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                    <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;">
+                        <center>IR</center>
+                    </a>
+                </div>
+            <?php endforeach; ?>
                 </div>
             </div>
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-          
-                let usuario = "<?php echo htmlspecialchars($nombreUsuario); ?>";
+       document.addEventListener("DOMContentLoaded", function () {
+  
+    let usuario = "<?php echo htmlspecialchars($Usuario); ?>";
 
-               
-                let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
+   
+    let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
 
-      
-                document.querySelectorAll(".email-item").forEach(item => {
-                    let notifId = item.getAttribute("data-id");
-                    if (hiddenNotifications.includes(notifId)) {
-                        item.style.display = "none";
-                    }
-                });
+    // Ocultar notificaciones descartadas
+    document.querySelectorAll(".email-item").forEach(item => {
+        let notifId = item.getAttribute("data-id");
+        if (hiddenNotifications.includes(notifId)) {
+            item.style.display = "none"; // Ocultar
+        }
+    });
 
-                // Manejar el evento de descartar notificaciones
-                document.querySelectorAll(".remove-notif").forEach(button => {
-                    button.addEventListener("click", function() {
-                        let parent = this.parentElement;
-                        let notifId = parent.getAttribute("data-id");
+    document.querySelectorAll(".remove-notif").forEach(button => {
+        button.addEventListener("click", function () {
+            let parent = this.parentElement;
+            let notifId = parent.getAttribute("data-id");
 
-                        // Agregar la notificación a la lista de ocultas
-                        if (!hiddenNotifications.includes(notifId)) {
-                            hiddenNotifications.push(notifId);
-                        }
+            // Agregar la notificación
+            if (!hiddenNotifications.includes(notifId)) {
+                hiddenNotifications.push(notifId);
+            }
 
-                        // Guardar en localStorage con el nombre del usuario
-                        localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
+            // Guardar en localStorage con el nombre del usuario
+            localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
 
-                        // Ocultar la notificación
-                        parent.style.display = "none";
-                    });
-                });
-            });
-        </script>
+        
+            parent.style.display = "none";
+        });
+    });
+});
+    </script>
 
         </main>
 
