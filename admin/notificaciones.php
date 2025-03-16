@@ -267,41 +267,40 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <script>
-                document.addEventListener("DOMContentLoaded", function() {
+       document.addEventListener("DOMContentLoaded", function () {
+  
+    let usuario = "<?php echo htmlspecialchars($Usuario); ?>";
 
-                    let usuario = "<?php echo htmlspecialchars($nombreUsuario); ?>";
+   
+    let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
 
+    // Ocultar notificaciones descartadas
+    document.querySelectorAll(".email-item").forEach(item => {
+        let notifId = item.getAttribute("data-id");
+        if (hiddenNotifications.includes(notifId)) {
+            item.style.display = "none"; // Ocultar
+        }
+    });
 
-                    let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
+    document.querySelectorAll(".remove-notif").forEach(button => {
+        button.addEventListener("click", function () {
+            let parent = this.parentElement;
+            let notifId = parent.getAttribute("data-id");
 
+            // Agregar la notificación
+            if (!hiddenNotifications.includes(notifId)) {
+                hiddenNotifications.push(notifId);
+            }
 
-                    document.querySelectorAll(".email-item").forEach(item => {
-                        let notifId = item.getAttribute("data-id");
-                        if (hiddenNotifications.includes(notifId)) {
-                            item.style.display = "none";
-                        }
-                    });
+            // Guardar en localStorage con el nombre del usuario
+            localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
 
-                    // Manejar el evento de descartar notificaciones
-                    document.querySelectorAll(".remove-notif").forEach(button => {
-                        button.addEventListener("click", function() {
-                            let parent = this.parentElement;
-                            let notifId = parent.getAttribute("data-id");
-
-                            // Agregar la notificación a la lista de ocultas
-                            if (!hiddenNotifications.includes(notifId)) {
-                                hiddenNotifications.push(notifId);
-                            }
-
-                            // Guardar en localStorage con el nombre del usuario
-                            localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
-
-                            // Ocultar la notificación
-                            parent.style.display = "none";
-                        });
-                    });
-                });
-            </script>
+        
+            parent.style.display = "none";
+        });
+    });
+});
+    </script>
 
         </main>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
