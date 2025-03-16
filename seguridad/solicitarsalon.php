@@ -135,7 +135,7 @@ if ($stmt->rowCount() > 0) {
                         <div id="calendar-controls">
                             <button id="prev-month" onclick="prevMonth()"><</button>
                             <span id="month-year"></span>
-                            <button id="next-month" onclick="nextMonth()">><</button>
+                            <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -159,12 +159,18 @@ if ($stmt->rowCount() > 0) {
             <aside class="sidebar">
                 <h2>Agendadas</h2>
                 <div class="search-bar">
-                    <input type="search" placeholder="Buscar agendaciones..." />
+                    <input type="search" id="searchInput" placeholder="Buscar ..." />
                     <ion-icon name="search-outline"></ion-icon>
                 </div>
-                <div class="appointment-list">
+                <div class="appointment-list" id="appointmentList">
                     <?php foreach ($solicitudes as $solicitud): ?>
-                        <div class="appointment">
+                        <div class="appointment"
+                            data-fecha-inicio="<?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?>"
+                            data-fecha-final="<?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?>"
+                            data-hora-inicio="<?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?>"
+                            data-hora-final="<?= date('h:i A', strtotime($solicitud['Hora_final'])) ?>"
+                            data-apartamento="<?= $solicitud['ID_Apartamentooss'] ?>"
+                            data-estado="<?= $solicitud['estado'] ?>">
                             <h3>SALON COMUNAL</h3>
                             <p><strong>Fecha Inicio:</strong> <?= date('d/m/Y', strtotime($solicitud['fechainicio'])) ?></p>
                             <p><strong>Fecha Final:</strong> <?= date('d/m/Y', strtotime($solicitud['fechafinal'])) ?></p>
@@ -271,6 +277,47 @@ if ($stmt->rowCount() > 0) {
             // Asigna las funciones de cambio de mes a los botones de control
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const appointmentList = document.getElementById('appointmentList');
+            const appointments = appointmentList.getElementsByClassName('appointment');
+
+            // Función para filtrar 
+            function filterAppointments(searchText) {
+                Array.from(appointments).forEach(function(appointment) {
+                    const fechaInicio = appointment.getAttribute('data-fecha-inicio').toLowerCase();
+                    const fechaFinal = appointment.getAttribute('data-fecha-final').toLowerCase();
+                    const horaInicio = appointment.getAttribute('data-hora-inicio').toLowerCase();
+                    const horaFinal = appointment.getAttribute('data-hora-final').toLowerCase();
+                    const apartamento = appointment.getAttribute('data-apartamento').toLowerCase();
+                    const estado = appointment.getAttribute('data-estado').toLowerCase();
+
+                    if (
+                        fechaInicio.includes(searchText) ||
+                        fechaFinal.includes(searchText) ||
+                        horaInicio.includes(searchText) ||
+                        horaFinal.includes(searchText) ||
+                        apartamento.includes(searchText) ||
+                        estado.includes(searchText)
+                    ) {
+                        appointment.style.display = 'block'; // Muestra
+                    } else {
+                        appointment.style.display = 'none'; // Oculta 
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', function() {
+                const searchText = searchInput.value.toLowerCase();
+                filterAppointments(searchText);
+            });
+
+
+            filterAppointments('');
         });
     </script>
     <script>
