@@ -166,10 +166,11 @@ foreach ($citas as $row) {
         </div>
     </main>
     <center>
-        <a href="citasFormulario.php" class="btn btn-success" style="font-size: 25px;">Solicitar</a>
-        <a href="inicioprincipal.php" class="btn btn-success" style="font-size: 25px;">Volver</a>
-    </center>
-    <script>
+    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Solicitar</a>
+        <br>
+        <br>
+        <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const eventos = <?php echo json_encode($eventos); ?>;
@@ -303,7 +304,7 @@ foreach ($citas as $row) {
          <br>
         <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 Mi Aplicación. Todos los derechos reservados.</p>
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>

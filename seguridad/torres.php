@@ -202,11 +202,9 @@ foreach ($resultados as $fila) {
     <br>
     <br>
     <br>
-
-      <a href="./ingresoregi.php" class="btn btn-outline-success" style=" font-size:30px;"> Ingreso peatonal</a>
-
+    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <a href="./inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;"> VOLVER</a>
+    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Ingreso Peatonal</a>
     </div>
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
@@ -309,7 +307,7 @@ foreach ($resultados as $fila) {
   <br>
         <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 Mi Aplicación. Todos los derechos reservados.</p>
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>

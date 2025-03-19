@@ -196,11 +196,10 @@ try {
                     </div>
                 </center>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
-                <center>VOLVER</center>
-            </a>
-        </div>
+        <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
+
+    
+        
         <br>
         </div>
         <br>
@@ -293,7 +292,7 @@ try {
         <br>
         <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 Mi Aplicación. Todos los derechos reservados.</p>
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>

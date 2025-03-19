@@ -315,7 +315,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <br>
         <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 Mi Aplicación. Todos los derechos reservados.</p>
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>
