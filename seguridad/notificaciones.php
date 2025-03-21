@@ -252,6 +252,11 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                 <center>VOLVER</center>
             </a>
         </div>
-</body>
 
+</body>
+<br>
+<br>
+<br>
+<br>
+        
 </html>

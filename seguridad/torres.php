@@ -149,6 +149,8 @@ foreach ($resultados as $fila) {
     <br>
     <br>
     <br>
+    <br>
+    <br>
     <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
     <b>Torre Pisos y Apartamentos</b>
     </div>
@@ -199,13 +201,12 @@ foreach ($resultados as $fila) {
       </div>
     </div>
     <br>
-    <br>
-    <br>
-    <br>
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
+
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Ingreso Peatonal</a>
+    <a href="./ingresoregi.php" class="btn btn-outline-success" style="font-size: 30px;">Ingreso Peatonal</a>
     </div>
+    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
+
     <script type="text/javascript" src="JAVA/main.js"></script>
     <script>
       let torres = <?= json_encode(array_keys($torres)) ?>;
@@ -305,9 +306,12 @@ foreach ($resultados as $fila) {
     </script>
   
   <br>
+  <br>
+  <br>
+  <br>
         <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+    <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>

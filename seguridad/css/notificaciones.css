@@ -444,3 +444,45 @@ ion-icon {
 .email-item.expanded .email-snippet {
   display: block;
 }
+
+
+
+
+
+
+footer {
+  background-color: #1c3326;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  
+}
+
+.footer-content {
+  max-width: 13200px;
+  margin: 34 auto;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  display: inline;
+  margin-right: 15px;
+}
+
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer ul li a:hover {
+  color: #00aaff;
+}

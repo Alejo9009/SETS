@@ -182,6 +182,7 @@ try {
                     </center>
                 </div>
             </div>
+            <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="inicioprincipal.php" class="btn btn-outline-success" style=" font-size:30px;">
                     <center>VOLVER</center>
@@ -286,4 +287,15 @@ try {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<br>
+        <footer> 
+  <div class="footer-content">
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+    <ul>
+      <li><a href="#">Términos y Condiciones</a></li>
+      <li><a href="#">Política de Privacidad</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
 </html>
