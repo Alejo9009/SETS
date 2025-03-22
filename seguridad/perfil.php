@@ -19,10 +19,7 @@ if ($idRol != 2222) {
 
 include_once "conexion.php";
 
-// Aquí ya puedes cargar los datos del perfil
 
-// Manejar la subida de la imagen
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
         $fileName = basename($_FILES['imagenPerfil']['name']);
@@ -30,54 +27,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileType = $_FILES['imagenPerfil']['type'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // Verificar si el archivo es una imagen real
+       
         $check = getimagesize($fileTmpPath);
         if ($check === false) {
             echo "El archivo no es una imagen.";
             exit;
         }
 
-        // Verificar el tamaño del archivo (máximo 2MB)
+        
         if ($fileSize > 2000000) {
             echo "El archivo es demasiado grande.";
             exit;
         }
 
-        // Permitir ciertos formatos de archivo
+
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
         if (!in_array($fileExtension, $allowedTypes)) {
             echo "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
             exit;
         }
 
-        // Definir la ruta de destino y mover el archivo
+     
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0755, true);
         }
         $targetFilePath = $targetDir . $fileName;
         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-            // Actualizar la base de datos con la ruta de la imagen
-            $sql = "UPDATE registro SET imagenPerfil = ? WHERE id_Registro = ?";
+           
+            $sql = "UPDATE registro SET imagenPerfil = ? WHERE Usuario = ?";
             $stmt = $base_de_datos->prepare($sql);
-            if ($stmt->execute([$targetFilePath, $idRegistro])) {
+            if ($stmt->execute([$targetFilePath, $Usuario])) {
                 echo "La imagen se ha subido correctamente.";
             } else {
                 echo "Hubo un error al actualizar la base de datos.";
             }
         } else {
             echo "Hubo un error al subir la imagen.";
-            // Mostrar detalles del error
-            echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
         }
-    } else {
-        echo "No se ha seleccionado ningún archivo o ocurrió un error en la subida.";
-        // Mostrar detalles del error
-        echo "Error de PHP: " . $_FILES['imagenPerfil']['error'];
     }
-}
 
-// Preparar la consulta para obtener los datos del perfil
+
+
 $sql = "SELECT r.id_Registro, r.PrimerNombre, r.SegundoNombre, r.PrimerApellido, r.Clave , r.apartamento , r.tipo_propietario,  r.SegundoApellido, r.Correo, r.Usuario, r.numeroDocumento,
                 rd.Roldescripcion, r.imagenPerfil, td.descripcionDoc AS tipodoc, r.telefonoUno, r.telefonoDos
         FROM registro r
@@ -231,13 +222,13 @@ if (!$userData) {
                 <p><b>Teléfono 2: </b><?php echo htmlspecialchars($userData['telefonoDos']); ?></p>
                 <p><b>Correo: </b><?php echo htmlspecialchars($userData['Correo']); ?></p>
                 <p><b>Usuario:</b> <?php echo htmlspecialchars($userData['Usuario']); ?></p>
-                <p><b>Clave: </b><?php echo htmlspecialchars($userData['Clave']); ?></p>
+              
                 <p><b>Eres la persona o tu numero de <br> registro fue el:</b> <?php echo htmlspecialchars($userData['id_Registro']); ?></p>
             </div>
             <br>
             <br>
             <a href="editarperfil.php" class="btn btn-success">Actualizar Datos</a>
-
+            <a href="../backend/logout.php" class="btn btn-danger">Cerrar sesión</a>
 
             <a href="inicioprincipal.php" class="btn btn-danger">Volver</a>
 
