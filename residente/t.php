@@ -199,7 +199,7 @@ include_once "conexion.php";
             localStorage.setItem('pisoSeleccionado', piso);
             localStorage.setItem('apartamentoSeleccionado', apartamento);
 
-            alert('Selección guardada correctamente.');
+            alert('informacion guardada correctamente.');
         }
 
         function mostrarInformacion() {
@@ -228,7 +228,7 @@ include_once "conexion.php";
             }
         }
 
-        // Llamar a la función al cargar la página
+       
         window.onload = cargarSeleccion;
     </script>
     <script>

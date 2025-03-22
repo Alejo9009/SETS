@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </center>
                 </div>
                 <div class="text-center">
-                    <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/resi.png'); ?>" alt="Imagen de Perfil" width="120"><br>
+                    <img id="imagenSeleccionada" src="<?php echo htmlspecialchars($userData['imagenPerfil'] ?? 'img/resi.png'); ?>" alt="Imagen de Perfil" width="120"><br><br>
                     <input type="file" name="imagenPerfil" onchange="mostrarImagenSeleccionada(this);" style="color: rgb(45, 110, 59);"><br>
                 </div>
                 <br>

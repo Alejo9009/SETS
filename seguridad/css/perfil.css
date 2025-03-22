@@ -51,7 +51,7 @@ h1 {
 }
 
 .info-perfil img.imagen-perfil {
-    border-radius: 100%;
+    border-radius: 10%;
     max-width: 250px;
     max-height: 150px;
     display: block;
