@@ -331,4 +331,18 @@ include_once "conexion.php";
 
 </body>
 
+<br>
+    <br>
+    <br>
+    <footer> 
+  <div class="footer-content">
+    <li >&copy; 2025 SETS. Todos los derechos reservados.</li>
+    <ul>
+      <li><a href="#">Términos y Condiciones</a></li>
+      <li><a href="#">Política de Privacidad</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
+
 </html>
