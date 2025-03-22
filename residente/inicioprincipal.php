@@ -371,8 +371,11 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
         </main>
     </main>
     </header>
+    <br>
+         <br>
+         <br>
     <footer>
-        <br>
+        
   <div class="footer-content">
     <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
     <ul>

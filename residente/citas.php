@@ -166,7 +166,7 @@ foreach ($citas as $row) {
         </div>
     </main>
     <center>
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Solicitar</a>
+    <a href="./citasFormulario.php" class="btn btn-outline-success" style="font-size: 30px;">Solicitar</a>
         <br>
         <br>
         <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
