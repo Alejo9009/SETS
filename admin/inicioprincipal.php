@@ -408,9 +408,12 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </main>
     </main>
+    <br>
+    <br>
+    <br>
     <footer> 
   <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+    <li >&copy; 2025 SETS. Todos los derechos reservados.</li>
     <ul>
       <li><a href="#">Términos y Condiciones</a></li>
       <li><a href="#">Política de Privacidad</a></li>
