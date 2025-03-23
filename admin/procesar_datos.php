@@ -11,7 +11,6 @@ $idRegistro = $decoded->id;
 $Usuario = $decoded->Usuario; 
 $idRol = $decoded->idRol;
 
-
 if ($idRol != 1111) { 
     header("Location: http://localhost/sets/error.php");
     exit();
@@ -19,8 +18,6 @@ if ($idRol != 1111) {
 
 include_once "conexion.php";
 
-
-// Manejar la subida de la imagen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['imagenPerfil']) && $_FILES['imagenPerfil']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['imagenPerfil']['tmp_name'];
@@ -69,29 +66,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+ 
     $PrimerNombre = $_POST['profile-firstname'] ?? '';
     $SegundoNombre = $_POST['profile-secondname'] ?? '';
     $PrimerApellido = $_POST['profile-firstlastname'] ?? '';
     $SegundoApellido = $_POST['profile-secondlastname'] ?? '';
     $Correo = $_POST['profile-email'] ?? '';
-    $Usuario = $_POST['profile-username'] ?? '';
     $telefonoUno = $_POST['profile-phone1'] ?? '';
     $telefonoDos = $_POST['profile-phone2'] ?? '';
 
-    // Consulta SQL corregida para campos existentes en la base de datos
+
+    // Actualizar el perfil en la base de datos
     $sql = "UPDATE registro SET 
-        PrimerNombre = ?, 
-        SegundoNombre = ?, 
-        PrimerApellido = ?, 
-        SegundoApellido = ?, 
-        Correo = ?, 
-        telefonoUno = ?,
-        telefonoDos = ?,
-        Usuario = ? 
-    WHERE Usuario = ?";
+            PrimerNombre = ?, 
+            SegundoNombre = ?, 
+            PrimerApellido = ?, 
+            SegundoApellido = ?, 
+            Correo = ?, 
+            telefonoUno = ?,
+            telefonoDos = ?
+      
+            WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos, $Usuario, $Usuario])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos,$Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
@@ -100,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Actualizar la contraseña si se proporciona
     if (!empty($_POST['profile-password'])) {
         $clave = $_POST['profile-password'];
-        // Encriptar la contraseña
         $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
         $sql = "UPDATE registro SET Clave = ? WHERE Usuario = ?";
         $stmt = $base_de_datos->prepare($sql);
@@ -111,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Asegúrate de que la sesión no se pierda
-    $_SESSION['Usuario'] = $Usuario;  // Esto mantiene la sesión activa
+    // Mantener la sesión activa
+    $_SESSION['Usuario'] = $Usuario;
 
     // Redirigir a la página de perfil
     header("Location: perfil.php"); 
