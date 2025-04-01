@@ -10,12 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["accion"])) {
     $fechaPublicacion = $_POST['fechaPublicacion'];
     $horaPublicacion = $_POST['horaPublicacion'];
     $persona = $_POST['persona'];
-    $apart = $_POST['apart'];
+
     $img_anuncio = $_POST['img_anuncio'];
 
     
-    $sql = "INSERT INTO anuncio (titulo, descripcion, fechaPublicacion, horaPublicacion,persona, apart, img_anuncio) 
-            VALUES (:titulo, :descripcion, :fechaPublicacion, :horaPublicacion,:persona, :apart, :img_anuncio)";
+    $sql = "INSERT INTO anuncio (titulo, descripcion, fechaPublicacion, horaPublicacion,persona, img_anuncio) 
+            VALUES (:titulo, :descripcion, :fechaPublicacion, :horaPublicacion,:persona,  :img_anuncio)";
     
     
     $stmt = $base_de_datos->prepare($sql);
@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["accion"])) {
     $stmt->bindParam(':fechaPublicacion', $fechaPublicacion, PDO::PARAM_STR);
     $stmt->bindParam(':horaPublicacion', $horaPublicacion, PDO::PARAM_STR);
     $stmt->bindParam(':persona', $persona, PDO::PARAM_INT);
-    $stmt->bindParam(':apart', $apart, PDO::PARAM_STR);
     $stmt->bindParam(':img_anuncio', $img_anuncio, PDO::PARAM_STR);
 
 

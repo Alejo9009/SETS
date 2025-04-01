@@ -269,9 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="profile-phone1" name="profile-phone1" value="<?php echo htmlspecialchars($userData['telefonoUno']); ?>"><br>
                 <label for="profile-phone2">Teléfono Dos:</label><br>
                 <input type="text" id="profile-phone2" name="profile-phone2" value="<?php echo htmlspecialchars($userData['telefonoDos']); ?>"><br>
-                <label for="profile-apartamento">Apartamento:</label><br>
-                <input type="text" id="profile-apartamento" name="profile-apartamento" value="<?php echo htmlspecialchars($userData['apartamento']); ?>"><br>
-
+        
 
                 <label for="profile-username">Usuario:</label><br>
                 <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>

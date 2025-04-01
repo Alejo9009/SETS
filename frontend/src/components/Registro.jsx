@@ -104,17 +104,30 @@ const Registro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Filtramos los errores para eliminar los de campos que no son requeridos
+    const filteredErrors = {...errors};
+    if (formData.idRol === "2222") {
+      delete filteredErrors.tipo_propietario;
+      delete filteredErrors.apartamento;
+    }
 
-    const hasErrors = Object.values(errors).some((error) => error);
+    const hasErrors = Object.values(filteredErrors).some((error) => error);
     if (hasErrors) {
         setMensaje("Por favor corrige los errores antes de enviar.");
         return;
     }
 
+    // Preparamos los datos a enviar
+    const dataToSend = {...formData};
+    if (formData.idRol === "2222") {
+      dataToSend.tipo_propietario = "";
+      dataToSend.apartamento = "";
+    }
+
     try {
         const response = await axios.post(
             "http://localhost/sets/backend/regi.php",
-            formData,
+            dataToSend,
             {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 withCredentials: true,
@@ -130,7 +143,6 @@ const Registro = () => {
         }
 
         if (redirect) {
- 
             toast.success("Registro realizado correctamente", {
                 position: "top-right",
                 autoClose: 2000, 
@@ -159,7 +171,7 @@ const Registro = () => {
 
   return (
     <div className="container">
-      <ToastContainer /> {/* Contenedor para las notificaciones */}
+      <ToastContainer />
       <br /> <p />
       <p />
       <header className="text-center mb-4 d-flex flex-column align-items-center">
@@ -179,7 +191,6 @@ const Registro = () => {
         <b>Selecciona tu rol :</b>
       </h6>
       <form onSubmit={handleSubmit}>
-     
         <select
           name="idRol"
           value={formData.idRol}
@@ -259,7 +270,6 @@ const Registro = () => {
         />
         {errors.Correo && <p className="error">{errors.Correo}</p>}
 
-        
         <select
           name="Id_tipoDocumento"
           value={formData.Id_tipoDocumento}
@@ -285,25 +295,31 @@ const Registro = () => {
         {errors.numeroDocumento && (
           <p className="error">{errors.numeroDocumento}</p>
         )}
-        <select
-          name="tipo_propietario"
-          value={formData.tipo_propietario}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccionar Tipo de Propietario</option>
-          <option value="dueño">Dueño</option>
-          <option value="residente">Residente</option>
-          <option value="ambos">Ambos</option>
-        </select>
-        <input
-          type="text"
-          name="apartamento"
-          placeholder="Número de apartamento"
-          value={formData.apartamento}
-          onChange={handleChange}
-          required
-        />
+
+        {/* Campos condicionales para tipo_propietario y apartamento */}
+        {formData.idRol !== "2222" && (
+          <>
+            <select
+              name="tipo_propietario"
+              value={formData.tipo_propietario}
+              onChange={handleChange}
+              required={formData.idRol !== "2222"}
+            >
+              <option value="">Seleccionar Tipo de Propietario</option>
+              <option value="dueño">Dueño</option>
+              <option value="residente">Residente</option>
+              <option value="ambos">Ambos</option>
+            </select>
+            <input
+              type="text"
+              name="apartamento"
+              placeholder="Número de apartamento"
+              value={formData.apartamento}
+              onChange={handleChange}
+              required={formData.idRol !== "2222"}
+            />
+          </>
+        )}
 
         <input
           type="number"

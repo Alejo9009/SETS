@@ -74,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Correo = $_POST['profile-email'] ?? '';
     $telefonoUno = $_POST['profile-phone1'] ?? '';
     $telefonoDos = $_POST['profile-phone2'] ?? '';
-    $apartamento = $_POST['profile-apartamento'] ?? '';
 
     // Actualizar el perfil en la base de datos
     $sql = "UPDATE registro SET 
@@ -84,12 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SegundoApellido = ?, 
             Correo = ?, 
             telefonoUno = ?,
-            telefonoDos = ?,
-            apartamento = ?
+            telefonoDos = ?
             WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos, $apartamento, $Usuario])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $telefonoUno, $telefonoDos,  $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
