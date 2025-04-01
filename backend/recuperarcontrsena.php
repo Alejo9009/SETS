@@ -6,15 +6,15 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 include_once "conexion.php";
 
-// Incluir PHPMailer (asegúrate de tenerlo instalado via Composer)
+
 require './vendor/autoload.php';
 
-// Función mejorada para enviar correo con PHPMailer
+
 function enviarCorreoPHPMailer($destinatario, $token) {
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     
     try {
-        // Configuración Gmail
+     
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
@@ -36,9 +36,10 @@ function enviarCorreoPHPMailer($destinatario, $token) {
         $mail->Subject = 'Restablece tu contraseña en SETS';
         
         $mail->Body = "
+          
             <h2>Restablecimiento de contraseña</h2>
             <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
-            <p><a href='$enlace' style='background: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Restablecer contraseña</a></p>
+            <p><a href='$enlace' style='background:rgb(24, 56, 28); color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Restablecer contraseña</a></p>
             <p>Si no solicitaste este cambio, ignora este mensaje.</p>
             <p>El enlace expirará en 15 minutos.</p>
         ";
@@ -70,14 +71,14 @@ try {
             throw new Exception("Formato de correo inválido.");
         }
 
-        // Buscar el usuario
+        
         $sql = "SELECT id_Registro FROM registro WHERE Correo = ?";
         $stmt = $base_de_datos->prepare($sql);
         $stmt->execute([$correo]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Buscar token existente válido
+
             $sqlToken = "SELECT token FROM tokens 
                         WHERE id_Registro = ? AND fecha_expiracion > NOW()";
             $stmtToken = $base_de_datos->prepare($sqlToken);
@@ -85,7 +86,7 @@ try {
             $tokenData = $stmtToken->fetch(PDO::FETCH_ASSOC);
 
             if (!$tokenData) {
-                // Si no hay token válido, crear uno nuevo
+
                 $token = bin2hex(random_bytes(32));
                 $fecha_expiracion = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 
@@ -100,7 +101,7 @@ try {
                 $token = $tokenData['token'];
             }
 
-            // Enviar correo con PHPMailer
+         
             if (enviarCorreoPHPMailer($correo, $token)) {
                 echo json_encode([
                     'mensaje' => 'Se ha enviado un enlace de recuperación a tu correo.'
@@ -109,7 +110,7 @@ try {
                 throw new Exception("Error al enviar el correo. Por favor, inténtalo más tarde.");
             }
         } else {
-            // Mensaje genérico para evitar enumeración de usuarios
+            
             echo json_encode([
                 'mensaje' => 'Si el correo existe, recibirás un enlace de recuperación.'
             ]);
