@@ -203,7 +203,7 @@ include_once "conexion.php";
                     </svg>
                     <div class="div">
                         <h5>Subir Imagen</h5>
-                        <input type="" class="input" id="img_anuncio" name="img_anuncio" required>
+                        <input type="" class="input" id="img_anuncio" name="img_anuncio" placeholder="img/alertas.png"  required>
                     </div>
                 </div>
                 <input type="submit" class="btn btn-success" value="Enviar">
