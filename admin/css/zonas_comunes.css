@@ -79,32 +79,8 @@ body {
     border-bottom: none;
 }
 
-.chat {
-    position: relative;
-}
 
-.chat-button {
-    width: 64px;
-    height: 64px;
-    cursor: pointer;
-    margin-right: 10px;
-}
 
-.chat-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 280px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgb(4, 71, 43);
-    border: 5px solid #053505;
-    z-index: 1;
-}
-
-.chat-menu.show {
-    display: block;
-}
 
 .search-container {
     position: relative;
@@ -119,22 +95,6 @@ body {
     border-radius: 5px;
 }
 
-.chat-links {
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.chat-item {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #428666;
-    border-bottom: 5px solid #0e6447;
-}
-
-.chat-item:last-child {
-    border-bottom: none;
-}
 
 main {
     background-color: white;
@@ -180,28 +140,7 @@ h1 {
     font-size: 16px;
 }
 
-.chat-button {
-    width: 94px;
-    height: 94px;
-    cursor: pointer;
-    margin-right: 15px;
-}
 
-.chat-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 200px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgb(4, 71, 43);
-    border: 5px solid #053505;
-    z-index: 1;
-}
-
-.chat-menu.show {
-    display: block;
-}
 
 .search-container {
     display: flex;
@@ -297,68 +236,7 @@ h1 {
 
 
 
-.chat-container {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 400px;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-}
 
-.chat-container.show {
-    display: flex;
-}
-
-.chat-header {
-    background-color: #0b775c;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.chat-messages {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-.chat-input {
-    display: flex;
-    padding: 10px;
-    background-color: #eee;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.chat-input button {
-    padding: 10px;
-    margin-left: 10px;
-    background-color: #0b775c;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-}
 footer {
     background-color: #1c3326;
     color: #fff;
