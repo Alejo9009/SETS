@@ -113,17 +113,21 @@ include_once "conexion.php";
     <br><br><br>
     <br>
 
-    <section id="chatContainer" class="chat-container position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-        <div class="chat-header">
-            <span id="chatHeader">Chat</span>
-            <button class="close-btn" onclick="closeChat()">×</button>
+    <main>
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
+                <span id="chatHeader">Chat</span>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
         </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-    </section>
+
+    </main>
     </main>
     <br>
     <br>

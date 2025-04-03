@@ -96,24 +96,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b style="font-size: 20px;"> CHAT</b>
-
-                                    <ul class="dropdown-menu" role="menu">
-
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
+                            
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
@@ -126,18 +109,21 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </nav>
     </header>
     <br><br>
-    <section class="chat-container" id="chatContainer">
-        <header class="chat-header">
-            <span id="chatHeader">Chat</span>
-            <button class="close-btn" onclick="closeChat()">×</button>
-        </header>
-        <div class="chat-messages" id="chatMessages">
+    <main>
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
+                <span id="chatHeader">Chat</span>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
         </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-    </section>
+
+    </main>
     <main>
         <br> <br> <br>
         <div class="alert alert-success" role="alert" style="text-align: center; font-size :30px;">Insertar Pagos</div>
@@ -309,7 +295,84 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
-    
+        <script>
+                const searchInput = document.getElementById('searchInput');
+                const announcements = document.querySelectorAll('.announcement');
+
+
+                searchInput.addEventListener('input', function() {
+                    const filter = searchInput.value.toLowerCase();
+
+
+                    announcements.forEach(function(announcement) {
+                        const text = announcement.textContent.toLowerCase();
+                        if (text.includes(filter)) {
+                            announcement.style.display = 'block';
+                        } else {
+                            announcement.style.display = 'none';
+                        }
+                    });
+                });
+            </script>
+            <script>
+                document.querySelector('.admin-img').addEventListener('click', function() {
+                    document.querySelector('.dropdown-menu').classList.toggle('show');
+                });
+
+                document.querySelector('.chat-button').addEventListener('click', function() {
+                    document.querySelector('.chat-menu').classList.toggle('show');
+                });
+
+                function filterChat() {
+                    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                    const chatItems = document.querySelectorAll('.chat-item');
+                    chatItems.forEach(item => {
+                        if (item.textContent.toLowerCase().includes(searchInput)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
+            <script>
+                function openChat(chatName) {
+                    const chatContainer = document.getElementById('chatContainer');
+                    const chatHeader = document.getElementById('chatHeader');
+                    chatHeader.textContent = chatName;
+                    chatContainer.classList.add('show');
+                }
+
+                function closeChat() {
+                    const chatContainer = document.getElementById('chatContainer');
+                    chatContainer.classList.remove('show');
+                }
+
+                function sendMessage() {
+                    const messageInput = document.getElementById('chatInput');
+                    const messageText = messageInput.value.trim();
+                    if (messageText) {
+                        const chatMessages = document.getElementById('chatMessages');
+                        const messageElement = document.createElement('p');
+                        messageElement.textContent = messageText;
+                        chatMessages.appendChild(messageElement);
+                        messageInput.value = '';
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }
+
+                function filterChat() {
+                    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                    const chatItems = document.querySelectorAll('.chat-item');
+                    chatItems.forEach(item => {
+                        if (item.textContent.toLowerCase().includes(searchInput)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <br>
     <br>

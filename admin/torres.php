@@ -132,19 +132,20 @@ foreach ($resultados as $fila) {
     </header>
   <br><br>
   <main>
-    <section id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-            <header class="chat-header">
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
-            </header>
+            </div>
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
-  
-    </section>
+        </div>
+
+    </main>
     <br>
     <br>
     <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">

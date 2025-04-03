@@ -146,20 +146,7 @@ $contactarnos = $stmtContactarnos->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <br>
     <br><br>
-    <main>
-        <div id="chatContainer" class="chat-container">
-            <div class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-        </div>
-        </header>
+  
 
 
         <main>

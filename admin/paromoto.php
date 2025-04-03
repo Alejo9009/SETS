@@ -132,10 +132,12 @@ try {
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+
+    </main>
         <br>
         <br>
         <br>

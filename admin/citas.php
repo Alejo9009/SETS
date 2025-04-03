@@ -139,6 +139,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </nav>
+        <main>
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
@@ -147,10 +148,12 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+
+    </main>
     </header>
     <br><br><br><br>
     <div class="container">

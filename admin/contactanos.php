@@ -141,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         </header>
         <br><br>
 
+        <main>
         <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
@@ -149,10 +150,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+
+    </main>
         <br><br>
         <br><br>
         <div class="alert alert-success" role="alert">
