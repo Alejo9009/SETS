@@ -138,7 +138,7 @@ try {
         <div class="container">
             <div id="carro" class="tab-content active">
                 <div class="tabs">
-                    <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
+                    <a href="parqueaderocarro.php" class="tab-btn active" style="text-decoration: none;">Carro</a>
                     <a href="paromoto.php" class="tab-btn" style="text-decoration: none;">Moto</a>
                 </div>
                 <section class="pius">
