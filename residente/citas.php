@@ -98,24 +98,7 @@ foreach ($citas as $row) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                            <center>
-                                <li class="nav-item dropdown">
-                                    <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b style="font-size: 20px;"> CHAT</b>
-
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
-                                        </li>
-                                       
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Guarda de Seguridad')">Guarda de Seguridad</a></center>
-                                        </li>
-                                        <li>
-                                            <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                        </li>
-                                    </ul>
-                            </center>
+                           
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -135,6 +118,7 @@ foreach ($citas as $row) {
                 <div class="calendar">
                     <div class="calendar-header">
                         <h2 id="calendar-title" style="font-size: 25px;"><b>Calendario de Disponibilidad</b></h2>
+
 
                         <div id="calendar-controls">
                             <button id="prev-month" onclick="prevMonth()">
@@ -160,7 +144,10 @@ foreach ($citas as $row) {
                                 <p id="month-year" style="color: #0e2c0a;"><b></b></p>
                             </center>
                         </tbody>
+                        
                     </table>
+                    <br>
+                    <center> <h4 id="calendar-title">Citas Solicitadas : Resaltada en color verde </h4></center> 
                 </div>
             </div>
         </div>
