@@ -2,18 +2,18 @@
 
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 2222) { 
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -39,9 +39,9 @@ include_once "conexion.php";
         </div>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -67,7 +67,7 @@ include_once "conexion.php";
                                             <center><a href="Perfil.php">Editar Datos</a></center>
                                         </li>
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
                                         </li>
                                     </ul>
                             </center>
@@ -88,7 +88,7 @@ include_once "conexion.php";
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                    
+                             
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -196,17 +196,17 @@ include_once "conexion.php";
             });
         }
     </script>
-        <br>
-        <footer> 
-  <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
+    <br>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 

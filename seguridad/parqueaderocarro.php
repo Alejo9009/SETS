@@ -118,7 +118,7 @@ try {
     </header>
     <br><br>
     <main>
-        <div id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3">
+        <div id="chatContainer" class="chat-container">
             <div class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
@@ -126,10 +126,11 @@ try {
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
+    </main>
         </div>
         </header>
         <br><br>
@@ -137,7 +138,7 @@ try {
         <div class="container">
             <div id="carro" class="tab-content active">
                 <div class="tabs">
-                    <a href="parqueaderocarro..php" class="tab-btn active" style="text-decoration: none;">Carro</a>
+                    <a href="parqueaderocarro.php" class="tab-btn active" style="text-decoration: none;">Carro</a>
                     <a href="paromoto.php" class="tab-btn" style="text-decoration: none;">Moto</a>
                 </div>
                 <section class="pius">

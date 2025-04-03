@@ -1,18 +1,18 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 2222) { 
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -32,6 +32,7 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,13 +41,14 @@ try {
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -73,7 +75,7 @@ try {
                                         </li>
 
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                                         </li>
                                     </ul>
@@ -93,9 +95,9 @@ try {
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                        <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
+                                            <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                  
+                                     
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -103,6 +105,7 @@ try {
                                             <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
                                         </li>
                                     </ul>
+
                             </center>
                         </ul>
                         <form class="d-flex mt-3" role="search">
@@ -116,18 +119,19 @@ try {
     </header>
     <br><br>
     <main>
-        <section class="chat-container z-3 position-absolute p-5 rounded-3" id="chatContainer">
-            <header class="chat-header">
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
                 <span id="chatHeader">Chat</span>
                 <button class="close-btn" onclick="closeChat()">×</button>
-            </header>
+            </div>
             <div class="chat-messages" id="chatMessages">
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
                 <button onclick="sendMessage()">Enviar</button>
             </div>
-        </section>
+        </div>
+
     </main>
     <main>
         <br>
@@ -193,6 +197,7 @@ try {
         document.querySelector('.chat-button').addEventListener('click', function() {
             document.querySelector('.chat-menu').classList.toggle('show');
         });
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -212,10 +217,12 @@ try {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -228,6 +235,7 @@ try {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -241,15 +249,16 @@ try {
         }
     </script>
     <br>
-        <footer> 
-  <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
+
 </html>

@@ -90,10 +90,10 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                                     <b style="font-size: 20px;"> CHAT</b>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
+                                    <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                                         </li>
-                                      
+                                 
                                         <li>
                                             <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                                         </li>
@@ -127,7 +127,7 @@ $query = isset($_GET['query']) ? $_GET['query'] : '';
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-        </header>
+
         <br><br>
         <br><br>
         <br><br> <br>

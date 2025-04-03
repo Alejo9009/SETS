@@ -96,24 +96,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
                                 </div>
-                                <center>
-                                    <li class="nav-item dropdown">
-                                        <img src="img/hablando.png" alt="Logo" width="30" height="44" class="d-inline-block align-text-top" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <b style="font-size: 20px;"> CHAT</b>
-
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
-                                            </li>
-                                           
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
-                                            </li>
-                                            <li>
-                                                <center><a href="#" class="chat-item" onclick="openChat('Chat Comunal')">Chat Comunal</a></center>
-                                            </li>
-                                        </ul>
-                                </center>
+                              
                             </ul>
                             <form class="d-flex mt-3" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -123,18 +106,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
-            <div id="chatContainer" class="chat-container">
-                <div class="chat-header">
-                    <span id="chatHeader">Chat</span>
-                    <button class="close-btn" onclick="closeChat()">×</button>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                    <button onclick="sendMessage()">Enviar</button>
-                </div>
-            </div>
+      
     </header>
     <main>
         <br> <br> <br>
@@ -329,7 +301,16 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
+<footer> 
+  <div class="footer-content">
+    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+    <ul>
+      <li><a href="#">Términos y Condiciones</a></li>
+      <li><a href="#">Política de Privacidad</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
 </html>
 
 </body>

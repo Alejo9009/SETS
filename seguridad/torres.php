@@ -108,11 +108,7 @@ foreach ($resultados as $fila) {
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Admin')">Admin</a></center>
                     </li>
-                    <center>
-                      <li>
-                        <a href="#" class="chat-item" onclick="openChat('Gestor de Imobiliaria')">Gestor de Imobiliaria</a>
-                      </li>
-                    </center>
+                   
                     <li>
                       <center><a href="#" class="chat-item" onclick="openChat('Residente')">Residente</a></center>
                     </li>
@@ -133,194 +129,195 @@ foreach ($resultados as $fila) {
   </header>
   <br><br>
   <main>
-    <section id="chatContainer" class="chat-container z-3 position-fixed p-5 rounded-3" style="z-index: 1000; bottom: 20px; right: 20px;">
-            <header class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </header>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-  
-    </section>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
-    <b>Torre Pisos y Apartamentos</b>
-    </div>
-    <div class="container">
-      <div class="barra">
-        <div class="sombra"></div>
-        <input type="text" placeholder="Buscar Piso...">
-        <ion-icon name="search-outline"></ion-icon>
+    <div id="chatContainer" class="chat-container">
+      <div class="chat-header">
+        <span id="chatHeader">Chat</span>
+        <button class="close-btn" onclick="closeChat()">×</button>
       </div>
-      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-      <br>
-      <div class="row">
-        <div class="col-md-12 mb-4">
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-outline-success" onclick="cambiarTorre(-1)">← Anterior</button>
-            <h2 id="torreActual" style="text-align: center;">Torre 1</h2>
-            <button class="btn btn-outline-success" onclick="cambiarTorre(1)">Siguiente →</button>
-          </div>
-          <div id="contenidoTorre">
-            <?php foreach ($torres as $torre => $pisos): ?>
-              <div class="torre" data-torre="<?= $torre ?>" style="display: <?= $torre == 1 ? 'block' : 'none' ?>;">
-                <?php foreach ($pisos as $piso => $apartamentos): ?>
-                  <div class="card shadow mb-4">
-                    <div class="card-header bg-success text-white">
-                      <h2 class="mb-0" style="text-align: center;"><b>Piso: <?= htmlspecialchars($piso) ?></b></h2>
-                    </div>
-                    <div class="card-body">
-                      <h4 style="text-align: center;"><b>Apartamentos:</b></h4>
-                      <div class="row">
-                        <?php foreach ($apartamentos as $apartamento): ?>
-                          <div class="col-md-6 mb-3">
-                            <div class="card card-apartamento">
-                              <div class="card-body">
-                                <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
-                              </div>
+      <div class="chat-messages" id="chatMessages">
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" style="font-size: 14px;" placeholder="Escribe tu mensaje...">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </div>
+
+  </main>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="alert alert-success" role="alert" style="font-size: 40px; text-align:center">
+    <b>Torre Pisos y Apartamentos</b>
+  </div>
+  <div class="container">
+    <div class="barra">
+      <div class="sombra"></div>
+      <input type="text" placeholder="Buscar Piso...">
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <br>
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-success" onclick="cambiarTorre(-1)">← Anterior</button>
+          <h2 id="torreActual" style="text-align: center;">Torre 1</h2>
+          <button class="btn btn-outline-success" onclick="cambiarTorre(1)">Siguiente →</button>
+        </div>
+        <div id="contenidoTorre">
+          <?php foreach ($torres as $torre => $pisos): ?>
+            <div class="torre" data-torre="<?= $torre ?>" style="display: <?= $torre == 1 ? 'block' : 'none' ?>;">
+              <?php foreach ($pisos as $piso => $apartamentos): ?>
+                <div class="card shadow mb-4">
+                  <div class="card-header bg-success text-white">
+                    <h2 class="mb-0" style="text-align: center;"><b>Piso: <?= htmlspecialchars($piso) ?></b></h2>
+                  </div>
+                  <div class="card-body">
+                    <h4 style="text-align: center;"><b>Apartamentos:</b></h4>
+                    <div class="row">
+                      <?php foreach ($apartamentos as $apartamento): ?>
+                        <div class="col-md-6 mb-3">
+                          <div class="card card-apartamento">
+                            <div class="card-body">
+                              <strong>Número:</strong> <?= htmlspecialchars($apartamento['numApartamento']) ?><br>
                             </div>
                           </div>
-                        <?php endforeach; ?>
-                      </div>
+                        </div>
+                      <?php endforeach; ?>
                     </div>
                   </div>
-                <?php endforeach; ?>
-              </div>
-            <?php endforeach; ?>
-          </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>
-    <br>
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="./ingresoregi.php" class="btn btn-outline-success" style="font-size: 30px;">Ingreso Peatonal</a>
-    </div>
-    <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
-
-    <script type="text/javascript" src="JAVA/main.js"></script>
-    <script>
-      let torres = <?= json_encode(array_keys($torres)) ?>;
-      let torreActual = 1;
-
-      function cambiarTorre(direccion) {
-        torreActual += direccion;
-        if (torreActual < 1) torreActual = torres.length;
-        if (torreActual > torres.length) torreActual = 1;
-
-        document.querySelectorAll('.torre').forEach(torre => {
-          torre.style.display = 'none';
-        });
-
-        document.querySelector(`.torre[data-torre="${torreActual}"]`).style.display = 'block';
-        document.getElementById('torreActual').textContent = `Torre ${torreActual}`;
-      }
-    </script>
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <script type="text/javascript" src="JAVA/main.js"></script>
-    <script>
-      document.querySelector('.admin-img').addEventListener('click', function() {
-        document.querySelector('.dropdown-menu').classList.toggle('show');
-      });
-      document.querySelector('.chat-button').addEventListener('click', function() {
-        document.querySelector('.chat-menu').classList.toggle('show');
-      });
-
-      function filterChat() {
-        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(item => {
-          if (item.textContent.toLowerCase().includes(searchInput)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      }
-    </script>
-    <script>
-      function buscar() {
-        var input = document.getElementById("inputBusqueda").value.toLowerCase();
-        var lista = document.getElementById("listaElementos");
-        var items = lista.getElementsByTagName("li");
-        for (var i = 0; i < items.length; i++) {
-          var elemento = items[i].textContent || items[i].innerText;
-          if (elemento.toLowerCase().indexOf(input) > -1) {
-            items[i].style.display = "";
-          } else {
-            items[i].style.display = "none";
-          }
-        }
-      }
-    </script>
-    <script>
-      function openChat(chatName) {
-        const chatContainer = document.getElementById('chatContainer');
-        const chatHeader = document.getElementById('chatHeader');
-        chatHeader.textContent = chatName;
-        chatContainer.classList.add('show');
-      }
-
-      function closeChat() {
-        const chatContainer = document.getElementById('chatContainer');
-        chatContainer.classList.remove('show');
-      }
-
-      function sendMessage() {
-        const messageInput = document.getElementById('chatInput');
-        const messageText = messageInput.value.trim();
-        if (messageText) {
-          const chatMessages = document.getElementById('chatMessages');
-          const messageElement = document.createElement('p');
-          messageElement.textContent = messageText;
-          chatMessages.appendChild(messageElement);
-          messageInput.value = '';
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-      }
-
-      function filterChat() {
-        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(item => {
-          if (item.textContent.toLowerCase().includes(searchInput)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      }
-    </script>
-  
-  <br>
-  <br>
-  <br>
-  <br>
-        <footer> 
-  <div class="footer-content">
-    <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
   </div>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </header>
+  <br>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="./ingresoregi.php" class="btn btn-outline-success" style="font-size: 30px;">Ingreso Peatonal</a>
+  </div>
+  <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size: 30px;">Volver</a>
+
+  <script type="text/javascript" src="JAVA/main.js"></script>
+  <script>
+    let torres = <?= json_encode(array_keys($torres)) ?>;
+    let torreActual = 1;
+
+    function cambiarTorre(direccion) {
+      torreActual += direccion;
+      if (torreActual < 1) torreActual = torres.length;
+      if (torreActual > torres.length) torreActual = 1;
+
+      document.querySelectorAll('.torre').forEach(torre => {
+        torre.style.display = 'none';
+      });
+
+      document.querySelector(`.torre[data-torre="${torreActual}"]`).style.display = 'block';
+      document.getElementById('torreActual').textContent = `Torre ${torreActual}`;
+    }
+  </script>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <script type="text/javascript" src="JAVA/main.js"></script>
+  <script>
+    document.querySelector('.admin-img').addEventListener('click', function() {
+      document.querySelector('.dropdown-menu').classList.toggle('show');
+    });
+    document.querySelector('.chat-button').addEventListener('click', function() {
+      document.querySelector('.chat-menu').classList.toggle('show');
+    });
+
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+  <script>
+    function buscar() {
+      var input = document.getElementById("inputBusqueda").value.toLowerCase();
+      var lista = document.getElementById("listaElementos");
+      var items = lista.getElementsByTagName("li");
+      for (var i = 0; i < items.length; i++) {
+        var elemento = items[i].textContent || items[i].innerText;
+        if (elemento.toLowerCase().indexOf(input) > -1) {
+          items[i].style.display = "";
+        } else {
+          items[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+  <script>
+    function openChat(chatName) {
+      const chatContainer = document.getElementById('chatContainer');
+      const chatHeader = document.getElementById('chatHeader');
+      chatHeader.textContent = chatName;
+      chatContainer.classList.add('show');
+    }
+
+    function closeChat() {
+      const chatContainer = document.getElementById('chatContainer');
+      chatContainer.classList.remove('show');
+    }
+
+    function sendMessage() {
+      const messageInput = document.getElementById('chatInput');
+      const messageText = messageInput.value.trim();
+      if (messageText) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageElement = document.createElement('p');
+        messageElement.textContent = messageText;
+        chatMessages.appendChild(messageElement);
+        messageInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    }
+
+    function filterChat() {
+      const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+      chatItems.forEach(item => {
+        if (item.textContent.toLowerCase().includes(searchInput)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <footer>
+    <div class="footer-content">
+      <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
+      <ul>
+        <li><a href="#">Términos y Condiciones</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </header>
 </body>
 
 </html>
