@@ -2,19 +2,19 @@
 require 'conexion.php';
 require '../../backend/authMiddleware.php';
 
-// Configuración de errores
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Configuración de CORS
+
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
-// Responder a OPTIONS
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
