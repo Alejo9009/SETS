@@ -466,7 +466,7 @@ footer ul li a:hover {
 }
 
 .message.received {
-  background-color: #042516;
+  background-color: #aafdd8;
   margin-right: auto;
 }
 
@@ -585,7 +585,7 @@ footer ul li a:hover {
 }
 
 .chat-search-input {
-  border: 1px solid #092c0e;
+  border: 1px solid #96f1a4;
   border-radius: 20px;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;

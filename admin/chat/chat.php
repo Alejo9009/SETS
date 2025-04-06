@@ -109,10 +109,10 @@ try {
             $currentUserRole = $decoded->idRol;
 
             // Consulta mejorada para obtener usuarios
-            $query = "SELECT r.id_Registro, r.PrimerNombre, r.PrimerApellido, r.Usuario, rol.Roldescripcion 
-                      FROM registro r 
-                      JOIN rol ON r.idRol = rol.id 
-                      WHERE r.id_Registro != ? AND r.idRol != 4444"; // Excluir dueños
+            $query = "SELECT r.id_Registro, r.PrimerNombre, r.PrimerApellido, r.Usuario, r.imagenPerfil, rol.Roldescripcion 
+            FROM registro r 
+            JOIN rol ON r.idRol = rol.id 
+            WHERE r.id_Registro != ? AND r.idRol != 4444";
 
             // Filtros por rol
             $params = [$currentUserId];
@@ -199,7 +199,7 @@ try {
             }
 
             // Consulta mejorada para obtener mensajes
-            $query = "SELECT m.*, r.PrimerNombre, r.PrimerApellido, r.Usuario, rol.Roldescripcion 
+            $query = "SELECT m.*, r.PrimerNombre, r.PrimerApellido, r.Usuario,r.imagenPerfil,rol.Roldescripcion 
                               FROM mensajes_chat m
                               JOIN registro r ON m.id_remitente = r.id_Registro
                               JOIN rol ON r.idRol = rol.id
