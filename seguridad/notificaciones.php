@@ -39,6 +39,13 @@ $sqlZonaComun = "SELECT ID_zonaComun, fechainicio, fechafinal FROM solicitud_zon
 $stmtZonaComun = $base_de_datos->prepare($sqlZonaComun);
 $stmtZonaComun->execute();
 $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sqlMensajesChat = "SELECT * FROM mensajes_chat   WHERE id_destinatario = :id_usuario   ORDER BY fecha_envio DESC  LIMIT 5";
+$stmtMensajesChat = $base_de_datos->prepare($sqlMensajesChat);
+$stmtMensajesChat->bindParam(':id_usuario', $idRegistro);
+$stmtMensajesChat->execute();
+$mensajesChat = $stmtMensajesChat->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -99,7 +106,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
                                 </div>
-                              
+
                             </ul>
                             <form class="d-flex mt-3" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -109,7 +116,7 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
-          
+
     </header>
     </div>
     </header>
@@ -158,57 +165,72 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php endforeach; ?>
 
+                    <?php foreach ($mensajesChat as $mensaje): ?>
+                        <div class="email-item" data-id="<?php echo $mensaje['id_mensaje']; ?>">
+                            <b>Nuevo Mensaje</b><br>
+                            <b>De:</b> <?php echo htmlspecialchars($mensaje['id_remitente']); ?><br>
+                            <b>Fecha:</b> <?php echo htmlspecialchars($mensaje['fecha_envio']); ?><br>
+                            <b>Mensaje:</b> <?php echo htmlspecialchars($mensaje['contenido']); ?><br>
+                            <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="inicioprincipal.php" class="btn btn-outline-success" style="font-size:15px;">
+                                <center>IR AL CHAT</center>
+                            </a>
+                        </div>
+                        <br>
+                    <?php endforeach; ?>
+
+
                     <?php foreach ($zonasComunes as $zonaComun): ?>
-                <div class="email-item" data-id="zona_<?php echo $zonaComun['ID_zonaComun']; ?>">
-                    <b>Solicitud de Zona Común</b><br>
-                    <b>ID_zonaComun:</b> <?php echo htmlspecialchars($zonaComun['ID_zonaComun']); ?><br>
-                    <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
-                    <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
-                    <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
-                    <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;">
-                        <center>IR</center>
-                    </a>
-                </div>
-            <?php endforeach; ?>
+                        <div class="email-item" data-id="zona_<?php echo $zonaComun['ID_zonaComun']; ?>">
+                            <b>Solicitud de Zona Común</b><br>
+                            <b>ID_zonaComun:</b> <?php echo htmlspecialchars($zonaComun['ID_zonaComun']); ?><br>
+                            <b>Inicio:</b> <?php echo htmlspecialchars($zonaComun['fechainicio']); ?><br>
+                            <b>Final:</b> <?php echo htmlspecialchars($zonaComun['fechafinal']); ?><br>
+                            <button class="btn btn-sm btn-danger remove-notif">Descartar</button>
+                            <a href="./zonas_comunes.php" class="btn btn-outline-success" style="font-size:15px;">
+                                <center>IR</center>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
 
         <script>
-       document.addEventListener("DOMContentLoaded", function () {
-  
-    let usuario = "<?php echo htmlspecialchars($Usuario); ?>";
+            document.addEventListener("DOMContentLoaded", function() {
 
-   
-    let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
+                let usuario = "<?php echo htmlspecialchars($Usuario); ?>";
 
-    // Ocultar notificaciones descartadas
-    document.querySelectorAll(".email-item").forEach(item => {
-        let notifId = item.getAttribute("data-id");
-        if (hiddenNotifications.includes(notifId)) {
-            item.style.display = "none"; // Ocultar
-        }
-    });
 
-    document.querySelectorAll(".remove-notif").forEach(button => {
-        button.addEventListener("click", function () {
-            let parent = this.parentElement;
-            let notifId = parent.getAttribute("data-id");
+                let hiddenNotifications = JSON.parse(localStorage.getItem("hiddenNotifications_" + usuario)) || [];
 
-            // Agregar la notificación
-            if (!hiddenNotifications.includes(notifId)) {
-                hiddenNotifications.push(notifId);
-            }
+                // Ocultar notificaciones descartadas
+                document.querySelectorAll(".email-item").forEach(item => {
+                    let notifId = item.getAttribute("data-id");
+                    if (hiddenNotifications.includes(notifId)) {
+                        item.style.display = "none"; // Ocultar
+                    }
+                });
 
-            // Guardar en localStorage con el nombre del usuario
-            localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
+                document.querySelectorAll(".remove-notif").forEach(button => {
+                    button.addEventListener("click", function() {
+                        let parent = this.parentElement;
+                        let notifId = parent.getAttribute("data-id");
 
-        
-            parent.style.display = "none";
-        });
-    });
-});
-    </script>
+                        // Agregar la notificación
+                        if (!hiddenNotifications.includes(notifId)) {
+                            hiddenNotifications.push(notifId);
+                        }
+
+                        // Guardar en localStorage con el nombre del usuario
+                        localStorage.setItem("hiddenNotifications_" + usuario, JSON.stringify(hiddenNotifications));
+
+
+                        parent.style.display = "none";
+                    });
+                });
+            });
+        </script>
 
         </main>
 
@@ -230,5 +252,5 @@ $zonasComunes = $stmtZonaComun->fetchAll(PDO::FETCH_ASSOC);
 <br>
 <br>
 <br>
-        
+
 </html>
