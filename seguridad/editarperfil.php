@@ -1,18 +1,26 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar el token CSRF si está configurado
+    if (isset($_POST['token']) && $_POST['token'] !== ($_SESSION['token'] ?? '')) {
+        die("Token CSRF inválido");
+    }
+}
+
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 2222) { 
+if ($idRol != 2222) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -110,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     WHERE Usuario = ?";
 
     $stmt = $base_de_datos->prepare($sql);
-    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $telefonoUno, $telefonoDos,$apartamento, $Usuario])) {
+    if ($stmt->execute([$PrimerNombre, $SegundoNombre, $PrimerApellido, $SegundoApellido, $Correo, $Usuario, $telefonoUno, $telefonoDos, $apartamento, $Usuario])) {
         echo "Datos actualizados correctamente.";
     } else {
         echo "Error al actualizar los datos.";
@@ -148,9 +156,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad </b></a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -190,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                           
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -216,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button onclick="sendMessage()">Enviar</button>
             </div>
         </div>
-       
+
     </main>
     <br>
     <br>
@@ -225,6 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="profile-card" style="border: 6px solid #052910;">
             <form action="procesar_datos.php" method="POST" enctype="multipart/form-data">
 
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? ''; ?>">
                 <div class="alert alert-success" role="alert">
                     <center>
                         <h2 class="profile-name">Editar Perfil</h2>
@@ -254,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="profile-phone1" name="profile-phone1" value="<?php echo htmlspecialchars($userData['telefonoUno']); ?>"><br>
                 <label for="profile-phone2">Teléfono Dos:</label><br>
                 <input type="text" id="profile-phone2" name="profile-phone2" value="<?php echo htmlspecialchars($userData['telefonoDos']); ?>"><br>
-        
+
 
                 <label for="profile-username">Usuario:</label><br>
                 <input type="text" id="profile-username" name="profile-username" value="<?php echo htmlspecialchars($userData['Usuario']); ?>"><br>

@@ -18,7 +18,6 @@ if ($idRol != 2222) {
 
 include_once "conexion.php";
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $id_solicitud = $_POST['delete_id_solicitud'];
 
@@ -36,6 +35,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
 $sql = "SELECT * FROM solicitud_parqueadero";
 $stmt = $base_de_datos->query($sql);
 $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sql_estado = "SELECT 
+    p.parqueadero_visitante AS parqueadero,
+    CASE 
+        WHEN p.estado = 'aprobado' AND NOW() BETWEEN p.fecha_inicio AND p.fecha_final THEN 'ocupado'
+        WHEN p.estado = 'aprobado' AND NOW() < p.fecha_inicio THEN 'reservado'
+        ELSE 'disponible'
+    END AS estado,
+    IFNULL(p.nombre_visitante, '') AS visitante,
+    IFNULL(p.placaVehiculo, '') AS placa,
+    IFNULL(CONCAT(DATE_FORMAT(p.fecha_inicio, '%d/%m/%Y %H:%i'), ' - ', DATE_FORMAT(p.fecha_final, '%d/%m/%Y %H:%i')), '') AS horario
+FROM 
+    (SELECT 'V1' AS parqueadero_visitante UNION SELECT 'V2' UNION SELECT 'V3' UNION 
+     SELECT 'V4' UNION SELECT 'V5' UNION SELECT 'V6' UNION 
+     SELECT 'V7' UNION SELECT 'V8' UNION SELECT 'V9' UNION SELECT 'V10') AS todos_parqueaderos
+LEFT JOIN solicitud_parqueadero p ON 
+    todos_parqueaderos.parqueadero_visitante = p.parqueadero_visitante AND
+    p.estado = 'aprobado' AND
+    NOW() <= p.fecha_final
+GROUP BY 
+    todos_parqueaderos.parqueadero_visitante
+ORDER BY parqueadero";
+
+$stmt_estado = $base_de_datos->query($sql_estado);
+$estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -47,6 +72,8 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/parqueadero.css?v=<?php echo (rand()); ?>">
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+
 </head>
 
 <body>
@@ -93,7 +120,6 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
                                 </div>
-                              
                             </ul>
                             <form class="d-flex mt-3" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -111,71 +137,94 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <br><br>
 
         <div class="container">
+        
+            <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
+                <b>Estado de Parqueaderos Visitantes</b>
+            </div>
+            
+            <div class="row mb-5">
+                <?php foreach ($estado_parqueaderos as $parqueadero): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card parking-card parking-status-<?php echo $parqueadero['estado']; ?>">
+                            <div class="card-header">
+                                <h5 class="card-title">Parqueadero <?php echo htmlspecialchars($parqueadero['parqueadero']); ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <strong>Estado:</strong> <?php echo ucfirst(htmlspecialchars($parqueadero['estado'])); ?><br>
+                                    <?php if ($parqueadero['estado'] != 'disponible'): ?>
+                                        <strong>Visitante:</strong> <?php echo htmlspecialchars($parqueadero['visitante']); ?><br>
+                                        <strong>Placa:</strong> <?php echo htmlspecialchars($parqueadero['placa']); ?><br>
+                                        <strong>Horario:</strong> <?php echo htmlspecialchars($parqueadero['horario']); ?>
+                                    <?php else: ?>
+                                        <strong>Disponible para reserva</strong>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+ 
             <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;"><b>Solicitudes de Parqueadero Visitante</b></div>
 
-
-            <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-          
+            <div class="col-sm-12 col-md-12 col-lg-12 mt-5">
                 <br>
-              
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="font-size: 20px;">ID Solicitud</th>
-                                <th scope="col"style="font-size: 20px;">Apartamento</th>
-                                <th scope="col"style="font-size: 20px;">Parqueadero Visitante</th>
-                                <th scope="col"style="font-size: 20px;">Nombre del Visitante</th>
-                                <th scope="col"style="font-size: 20px;">Placa del Vehículo</th>
-                                <th scope="col"style="font-size: 20px;">Color del Vehículo</th>
-                                <th scope="col"style="font-size: 20px;">Tipo de Vehículo</th>
-                                <th scope="col"style="font-size: 20px;">Modelo</th>
-                                <th scope="col"style="font-size: 20px;">Marca</th>
-                                <th scope="col"style="font-size: 20px;">Fecha de Inicio</th>
-                                <th scope="col"style="font-size: 20px;">Fecha Final</th>
-                                <th scope="col"style="font-size: 20px;">Estado</th>
-                                <th scope="col"style="font-size: 20px;">Acciones</th>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="font-size: 20px;">ID Solicitud</th>
+                            <th scope="col" style="font-size: 20px;">Apartamento</th>
+                            <th scope="col" style="font-size: 20px;">Parqueadero Visitante</th>
+                            <th scope="col" style="font-size: 20px;">Nombre del Visitante</th>
+                            <th scope="col" style="font-size: 20px;">Placa del Vehículo</th>
+                            <th scope="col" style="font-size: 20px;">Color del Vehículo</th>
+                            <th scope="col" style="font-size: 20px;">Tipo de Vehículo</th>
+                            <th scope="col" style="font-size: 20px;">Modelo</th>
+                            <th scope="col" style="font-size: 20px;">Marca</th>
+                            <th scope="col" style="font-size: 20px;">Fecha de Inicio</th>
+                            <th scope="col" style="font-size: 20px;">Fecha Final</th>
+                            <th scope="col" style="font-size: 20px;">Estado</th>
+                            <th scope="col" style="font-size: 20px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($solicitudes as $solicitud): ?>
+                            <tr style="font-size: 15px;">
+                                <td style="font-size: 15px;"><?php echo htmlspecialchars($solicitud['id_solicitud']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['id_apartamento']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['parqueadero_visitante']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['nombre_visitante']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['placaVehiculo']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['colorVehiculo']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['tipoVehiculo']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['modelo']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['marca']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['fecha_inicio']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['fecha_final']); ?></td>
+                                <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
+                                <td>
+                                    <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta solicitud?');">
+                                        <input type="hidden" name="delete_id_solicitud" value="<?php echo $solicitud['id_solicitud']; ?>">
+                                        <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
+                                    </form>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($solicitudes as $solicitud): ?>
-                                <tr  style="font-size: 15px;">
-                                    <td style="font-size: 15px;"><?php echo htmlspecialchars($solicitud['id_solicitud']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['id_apartamento']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['parqueadero_visitante']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['nombre_visitante']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['placaVehiculo']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['colorVehiculo']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['tipoVehiculo']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['modelo']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['marca']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['fecha_inicio']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['fecha_final']); ?></td>
-                                    <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
-                                    <td>
-                                        <form action="" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta solicitud?');">
-                                            <input type="hidden" name="delete_id_solicitud" value="<?php echo $solicitud['id_solicitud']; ?>">
-                                            <button class="btn btn-danger mt-3" type="submit" name="delete">Eliminar</button>
-                                        </form>
-                                    </td>
-                                </trstyle=>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-  
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
             <br>
 
             <div class="container mt-5">
                 <a href="parqueaderocarro.php" class="btn btn-success">Volver</a>
             </div>
+        </div>
 
-        </div>
-        </div>
-        <br>
-        </div>
-        <br>
-        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
+
             document.getElementById('searchInput').addEventListener('input', function() {
                 const query = this.value.toLowerCase();
                 const cards = document.querySelectorAll('.product-card');
@@ -189,8 +238,7 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
                 });
             });
-        </script>
-        <script>
+
             document.querySelector('.admin-img').addEventListener('click', function() {
                 document.querySelector('.dropdown-menu').classList.toggle('show');
             });
@@ -221,8 +269,7 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 document.getElementById(tabId).classList.add('active');
                 document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
             }
-        </script>
-        <script>
+
             function openChat(chatName) {
                 const chatContainer = document.getElementById('chatContainer');
                 const chatHeader = document.getElementById('chatHeader');
@@ -247,31 +294,39 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-
-            function filterChat() {
-                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                const chatItems = document.querySelectorAll('.chat-item');
-                chatItems.forEach(item => {
-                    if (item.textContent.toLowerCase().includes(searchInput)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
+    <style>
+        .parking-card {
+            transition: all 0.3s ease;
+        }
+        .parking-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .parking-status-ocupado {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        .parking-status-reservado {
+            background-color:rgb(102, 255, 153);
+            color: black;
+        }
+        .parking-status-disponible {
+            background-color:rgb(19, 88, 70);
+            color: white;
+        }
+    </style>
+    <br>
+    <footer> 
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
-
-<br>
-        <footer> 
-  <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
 </html>

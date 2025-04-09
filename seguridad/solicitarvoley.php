@@ -160,7 +160,19 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
+                            <p><strong>SOLICITUD FUE:</strong> 
+                                <span class="badge 
+                                    <?php 
+                                        switch(strtolower($solicitud['estado'])) {
+                                            case 'aprobado': echo 'bg-success'; break;
+                                            case 'pendiente': echo 'bg-warning'; break;
+                                            case 'rechazado': echo 'bg-danger'; break;
+                                            default: echo 'bg-secondary';
+                                        }
+                                    ?>">
+                                    <?= $solicitud['estado'] ?>
+                                </span>
+                            </p>
                         </div>
                     <?php endforeach; ?>
                 </div>

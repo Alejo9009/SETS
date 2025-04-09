@@ -620,3 +620,33 @@ a:focus, a:active {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+.appointment-pendiente {
+  background-color: #022907;
+  border-left: 5px solid #02240f;
+}
+
+.appointment-aprobado {
+  background-color: #2ecc71;
+  border-left: 5px solid  #84c9a1;
+}
+
+
+.appointment-rechazado {
+  background-color: #8dff9e;
+  border-left: 5px solid #990404;
+}
+
+.appointment {
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(109, 223, 169, 0.705);
+  transition: all 0.3s ease;
+}
+
+.appointment:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgb(255, 255, 255);
+}

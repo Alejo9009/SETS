@@ -160,7 +160,19 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
+                            <p><strong>SOLICITUD FUE:</strong> 
+                                <span class="badge 
+                                    <?php 
+                                        switch(strtolower($solicitud['estado'])) {
+                                            case 'aprobado': echo 'bg-success'; break;
+                                            case 'pendiente': echo 'bg-warning'; break;
+                                            case 'rechazado': echo 'bg-danger'; break;
+                                            default: echo 'bg-secondary';
+                                        }
+                                    ?>">
+                                    <?= $solicitud['estado'] ?>
+                                </span>
+                            </p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -187,7 +199,7 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+          document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
             const today = new Date();
@@ -212,20 +224,31 @@ if ($stmt->rowCount() > 0) {
                     // Crear celdas para cada día de la semana
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
+
                         if (i === 0 && j < firstDayOfMonth) {
                             cell.innerHTML = ''; // Celdas vacías antes del primer día
                         } else if (date > daysInMonth) {
                             break; // No más días en el mes
                         } else {
                             const fechaActual = new Date(anio, mes, date);
+
                             // Asignar el día a la celda
                             cell.textContent = date;
                             cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+
                             // Verificar si la fecha está solicitada
                             solicitudes.forEach(solicitud => {
                                 const fechaSolicitud = new Date(solicitud.fechainicio);
+
                                 if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                    // Cambiar color según el estado
+                                    if (solicitud.estado.toLowerCase() === 'aprobado') {
+                                        cell.style.backgroundColor = '#022907'; // Verde claro para aprobado
+                                    } else if (solicitud.estado.toLowerCase() === 'pendiente') {
+                                        cell.style.backgroundColor = '#c5b910'; // Amarillo claro para pendiente
+                                    } else if (solicitud.estado.toLowerCase() === 'rechazado') {
+                                        cell.style.backgroundColor = '#f8d7da'; // Rojo claro para rechazado
+                                    }
                                 }
                             });
                             // Resaltar los fines de semana
