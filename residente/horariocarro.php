@@ -35,6 +35,36 @@ $sql = "SELECT * FROM solicitud_parqueadero WHERE tipoVehiculo = 'carro'";
 
 $stmt = $base_de_datos->query($sql);
 $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+
+$sql_estado = "SELECT 
+    p.parqueadero_visitante AS parqueadero,
+    CASE 
+        WHEN p.estado = 'aprobado' AND NOW() BETWEEN p.fecha_inicio AND p.fecha_final THEN 'ocupado'
+        WHEN p.estado = 'aprobado' AND NOW() < p.fecha_inicio THEN 'reservado'
+        ELSE 'disponible'
+    END AS estado,
+    IFNULL(p.nombre_visitante, '') AS visitante,
+    IFNULL(p.placaVehiculo, '') AS placa,
+    IFNULL(CONCAT(DATE_FORMAT(p.fecha_inicio, '%d/%m/%Y %H:%i'), ' - ', DATE_FORMAT(p.fecha_final, '%d/%m/%Y %H:%i')), '') AS horario
+FROM 
+    (SELECT 'V1' AS parqueadero_visitante UNION SELECT 'V2' UNION SELECT 'V3' UNION 
+     SELECT 'V4' UNION SELECT 'V5' UNION SELECT 'V6' UNION 
+     SELECT 'V7' UNION SELECT 'V8' UNION SELECT 'V9' UNION SELECT 'V10') AS todos_parqueaderos
+LEFT JOIN solicitud_parqueadero p ON 
+    todos_parqueaderos.parqueadero_visitante = p.parqueadero_visitante AND
+    p.estado = 'aprobado' AND
+    NOW() <= p.fecha_final
+GROUP BY 
+    todos_parqueaderos.parqueadero_visitante
+ORDER BY parqueadero";
+
+$stmt_estado = $base_de_datos->query($sql_estado);
+$estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -111,7 +141,34 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <br><br>
         <br><br> 
         <div class="container">
-            <div class="alert alert-success" role="alert" style="text-align: center; font-size: 30px;">Solicitudes de Parqueadero Visitante</div>
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
+                <b>Estado de Parqueaderos Visitantes</b>
+            </div>
+            
+            <div class="row mb-5">
+                <?php foreach ($estado_parqueaderos as $parqueadero): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card parking-card parking-status-<?php echo $parqueadero['estado']; ?>">
+                            <div class="card-header">
+                                <h5 class="card-title">Parqueadero <?php echo htmlspecialchars($parqueadero['parqueadero']); ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <strong>Estado:</strong> <?php echo ucfirst(htmlspecialchars($parqueadero['estado'])); ?><br>
+                                    <?php if ($parqueadero['estado'] != 'disponible'): ?>
+                                        <strong>Visitante:</strong> <?php echo htmlspecialchars($parqueadero['visitante']); ?><br>
+                                        <strong>Placa:</strong> <?php echo htmlspecialchars($parqueadero['placa']); ?><br>
+                                        <strong>Horario:</strong> <?php echo htmlspecialchars($parqueadero['horario']); ?>
+                                    <?php else: ?>
+                                        <strong>Disponible para reserva</strong>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+     
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-4 mt-5">
                     <form action="./servidor-parqueaderos/carr.php" method="post">
@@ -320,7 +377,29 @@ $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<style>
+        .parking-card {
+            transition: all 0.3s ease;
+        }
+        .parking-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .parking-status-ocupado {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        .parking-status-reservado {
+            background-color:rgb(102, 255, 153);
+            color: black;
+        }
+        .parking-status-disponible {
+            background-color:rgb(19, 88, 70);
+            color: white;
+        }
+    </style>
 <br>
+
          <br>
          <br>
     <footer>

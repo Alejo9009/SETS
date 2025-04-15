@@ -25,7 +25,7 @@ include_once "conexion.php";
 if (!$base_de_datos) {
     die('Error en la conexión a la base de datos: ' . print_r($base_de_datos->errorInfo(), true));
 }
-$sql = "SELECT idcita, tipocita, fechacita, horacita FROM cita ";
+$sql = "SELECT idcita, tipocita, fechacita, horacita, respuesta FROM cita";
 $stmt = $base_de_datos->query($sql);
 if (!$stmt) {
     die('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
@@ -37,8 +37,10 @@ foreach ($citas as $row) {
         'id' => $row['idcita'],
         'title' => $row['tipocita'],
         'start' => $row['fechacita'] . 'T' . $row['horacita'],
+        'respuesta' => $row['respuesta'] 
     ];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -147,7 +149,7 @@ foreach ($citas as $row) {
                         
                     </table>
                     <br>
-                    <center> <h4 id="calendar-title">Citas Solicitadas : Resaltada en color verde </h4></center> 
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
                 </div>
             </div>
         </div>
@@ -167,33 +169,45 @@ foreach ($citas as $row) {
             const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
-                const firstDay = new Date(anio, mes, 1).getDay(); // Día de la semana del 1er día del mes
+                calendarBody.innerHTML = '';
+                const firstDay = new Date(anio, mes, 1).getDay();
                 const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
-                const totalCells = 42; // 6 semanas * 7 días
-                let dayCounter = (firstDay === 0 ? 6 : firstDay - 1); // Ajustar para que lunes sea el primer día (ISO-8601)
+                const totalCells = 42;
+                let dayCounter = (firstDay === 0 ? 6 : firstDay - 1);
+                
                 for (let i = 0; i < totalCells; i++) {
                     if (i % 7 === 0) {
-                        var row = document.createElement('tr'); // Nueva fila cada 7 días
+                        var row = document.createElement('tr');
                     }
                     const cell = document.createElement('td');
                     if (i >= dayCounter && date <= daysInMonth) {
                         const formattedDate = `${anio}-${(mes + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
                         cell.textContent = date;
-                        // Resaltar las fechas con eventos
+                        
+                        // Modificamos solo esta parte para manejar los estados
                         eventos.forEach(evento => {
                             if (evento.start.startsWith(formattedDate)) {
-                                cell.style.backgroundColor = '#c3e6cb'; // Color para eventos
-                                cell.title = evento.title; // Tooltip con información del evento
+                                // Aplicamos clases según la respuesta
+                                if (evento.respuesta === 'Aceptada') {
+                                    cell.classList.add('celda-aprobada');
+                                } else if (evento.respuesta === 'Pendiente') {
+                                    cell.classList.add('celda-pendiente');
+                                } else if (evento.respuesta === 'Rechazada') {
+                                    cell.classList.add('celda-rechazada');
+                                }
+                                cell.title = evento.title + " - " + 
+                                    (evento.respuesta === 'Aceptada' ? 'Aceptada' : 
+                                     evento.respuesta === 'Pendiente' ? 'Pendiente' : 'Rechazada');
                             }
                         });
-                        date++; // Incrementar día
+                        
+                        date++;
                     }
                     row.appendChild(cell);
 
                     if (i % 7 === 6) {
-                        calendarBody.appendChild(row); // Agregar la fila al calendario
+                        calendarBody.appendChild(row);
                     }
                 }
                 document.getElementById('month-year').textContent = `${months[mes]} ${anio}`;

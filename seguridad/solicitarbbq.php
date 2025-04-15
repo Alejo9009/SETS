@@ -251,7 +251,7 @@ if ($stmt->rowCount() > 0) {
                                 if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
                                     // Cambiar color según el estado
                                     if (solicitud.estado.toLowerCase() === 'aprobado') {
-                                        cell.style.backgroundColor = '#022907'; // Verde claro para aprobado
+                                        cell.style.backgroundColor = 'green'; // Verde claro para aprobado
                                     } else if (solicitud.estado.toLowerCase() === 'pendiente') {
                                         cell.style.backgroundColor = '#c5b910'; // Amarillo claro para pendiente
                                     } else if (solicitud.estado.toLowerCase() === 'rechazado') {

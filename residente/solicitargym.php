@@ -1,18 +1,18 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 3333) { 
+if ($idRol != 3333) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -22,13 +22,13 @@ include_once "conexion.php";
 
 
 $sql = "SELECT sz.* FROM solicitud_zona sz 
-        WHERE sz.ID_zonaComun = 5"; 
+        WHERE sz.ID_zonaComun = 5";
 
 $stmt = $base_de_datos->query($sql);
-$solicitudes = []; 
-if ($stmt->rowCount() > 0) { 
+$solicitudes = [];
+if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row; 
+        $solicitudes[] = $row;
     }
 }
 ?>
@@ -92,7 +92,7 @@ if ($stmt->rowCount() > 0) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                        
+
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
@@ -104,7 +104,7 @@ if ($stmt->rowCount() > 0) {
             </div>
         </nav>
     </header>
-    <br> <br> 
+    <br> <br>
     <main>
         <br> <br> <br>
         <div class="alert alert-success g" role="alert">
@@ -140,7 +140,10 @@ if ($stmt->rowCount() > 0) {
                         <tbody id="calendar-body">
 
                         </tbody>
+
                     </table>
+                    <br>
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
                 </div>
             </div>
 
@@ -165,7 +168,26 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
+                            <p><strong>SOLICITUD FUE:</strong>
+                                <span class="badge 
+                                    <?php
+                                    switch (strtolower($solicitud['estado'])) {
+                                        case 'aprobado':
+                                            echo 'bg-success';
+                                            break;
+                                        case 'pendiente':
+                                            echo 'bg-warning';
+                                            break;
+                                        case 'rechazado':
+                                            echo 'bg-danger';
+                                            break;
+                                        default:
+                                            echo 'bg-secondary';
+                                    }
+                                    ?>">
+                                    <?= $solicitud['estado'] ?>
+                                </span>
+                            </p>
                             <br>
                             <center>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -203,142 +225,139 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+              document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
-
             const today = new Date();
             const months = [
                 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
             ];
-
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
 
-            // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
-            const solicitudes = <?php echo json_encode($solicitudes); ?>;
-
             // Función para generar el calendario del mes y año dados
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                calendarBody.innerHTML = '';
                 monthYearDisplay.textContent = `${months[mes]} ${anio}`;
-
-                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7; // Lunes = 1
-                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); // Número de días en el mes
-
+                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
 
-                // Crear filas para las semanas (hasta 6 semanas máximo)
+                // Crear un mapa de fechas con sus estados para mejor performance
+                const fechasConEstado = {};
+                solicitudes.forEach(solicitud => {
+                    const fecha = new Date(solicitud.fechainicio).toISOString().split('T')[0];
+                    fechasConEstado[fecha] = solicitud.estado.toUpperCase(); // Aseguramos mayúsculas
+                });
+
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('tr');
 
-                    // Crear celdas para cada día de la semana
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
 
                         if (i === 0 && j < firstDayOfMonth) {
-                            cell.innerHTML = ''; // Celdas vacías antes del primer día
+                            cell.innerHTML = '';
                         } else if (date > daysInMonth) {
-                            break; // No más días en el mes
+                            break;
                         } else {
                             const fechaActual = new Date(anio, mes, date);
+                            const fechaActualStr = fechaActual.toISOString().split('T')[0];
 
-                            // Asignar el día a la celda
                             cell.textContent = date;
-                            cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+                            cell.setAttribute('data-date', fechaActualStr);
 
-                            // Verificar si la fecha está solicitada
-                            solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechainicio);
+                            // Verificar si la fecha tiene una solicitud
+                            if (fechasConEstado[fechaActualStr]) {
+                                const estado = fechasConEstado[fechaActualStr];
 
-                                if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                // Aplicar clases según el estado
+                                if (estado === 'ACEPTADA') {
+                                    cell.classList.add('estado-aceptada');
+                                } else if (estado === 'PENDIENTE') {
+                                    cell.classList.add('estado-pendiente');
+                                } else if (estado === 'RECHAZADA' || estado === 'RECHAZADO') {
+                                    cell.classList.add('estado-rechazada');
                                 }
-                            });
 
-                            // Resaltar los fines de semana
-                            if (j === 6 || j === 7) { // Sábado y domingo
-                                cell.style.color = 'green';
+                                // Tooltip con información
+                                cell.setAttribute('title', `Estado: ${estado}`);
+                            }
+
+                            // Resaltar fines de semana
+                            if (j === 6 || j === 7) {
+                                cell.classList.add('fin-de-semana');
                             }
 
                             date++;
                         }
-
                         row.appendChild(cell);
                     }
-
                     calendarBody.appendChild(row);
                 }
             }
 
-            // Función para cambiar al mes anterior
             function prevMonth() {
                 currentMonth = (currentMonth - 1 + 12) % 12;
                 if (currentMonth === 11) currentYear--;
                 generarCalendario(currentMonth, currentYear);
             }
 
-            // Función para cambiar al siguiente mes
             function nextMonth() {
                 currentMonth = (currentMonth + 1) % 12;
                 if (currentMonth === 0) currentYear++;
                 generarCalendario(currentMonth, currentYear);
             }
 
-            // Función para inicializar el calendario en el mes actual
-            function inicializarCalendario() {
-                generarCalendario(currentMonth, currentYear);
-            }
+            // Inicializar calendario
+            generarCalendario(currentMonth, currentYear);
 
-            // Inicializa el calendario con el mes y año actuales
-            inicializarCalendario();
-
-            // Asigna las funciones de cambio de mes a los botones de control
+            // Event listeners
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });
     </script>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('searchInput');
-    const appointmentList = document.getElementById('appointmentList');
-    const appointments = appointmentList.getElementsByClassName('appointment');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const appointmentList = document.getElementById('appointmentList');
+            const appointments = appointmentList.getElementsByClassName('appointment');
 
-    // Función para filtrar 
-    function filterAppointments(searchText) {
-        Array.from(appointments).forEach(function (appointment) {
-            const fechaInicio = appointment.getAttribute('data-fecha-inicio').toLowerCase();
-            const fechaFinal = appointment.getAttribute('data-fecha-final').toLowerCase();
-            const horaInicio = appointment.getAttribute('data-hora-inicio').toLowerCase();
-            const horaFinal = appointment.getAttribute('data-hora-final').toLowerCase();
-            const apartamento = appointment.getAttribute('data-apartamento').toLowerCase();
-            const estado = appointment.getAttribute('data-estado').toLowerCase();
+            // Función para filtrar 
+            function filterAppointments(searchText) {
+                Array.from(appointments).forEach(function(appointment) {
+                    const fechaInicio = appointment.getAttribute('data-fecha-inicio').toLowerCase();
+                    const fechaFinal = appointment.getAttribute('data-fecha-final').toLowerCase();
+                    const horaInicio = appointment.getAttribute('data-hora-inicio').toLowerCase();
+                    const horaFinal = appointment.getAttribute('data-hora-final').toLowerCase();
+                    const apartamento = appointment.getAttribute('data-apartamento').toLowerCase();
+                    const estado = appointment.getAttribute('data-estado').toLowerCase();
 
-            if (
-                fechaInicio.includes(searchText) ||
-                fechaFinal.includes(searchText) ||
-                horaInicio.includes(searchText) ||
-                horaFinal.includes(searchText) ||
-                apartamento.includes(searchText) ||
-                estado.includes(searchText)
-            ) {
-                appointment.style.display = 'block'; // Muestra
-            } else {
-                appointment.style.display = 'none'; // Oculta 
+                    if (
+                        fechaInicio.includes(searchText) ||
+                        fechaFinal.includes(searchText) ||
+                        horaInicio.includes(searchText) ||
+                        horaFinal.includes(searchText) ||
+                        apartamento.includes(searchText) ||
+                        estado.includes(searchText)
+                    ) {
+                        appointment.style.display = 'block'; // Muestra
+                    } else {
+                        appointment.style.display = 'none'; // Oculta 
+                    }
+                });
             }
+
+            searchInput.addEventListener('input', function() {
+                const searchText = searchInput.value.toLowerCase();
+                filterAppointments(searchText);
+            });
+
+
+            filterAppointments('');
         });
-    }
-
-    searchInput.addEventListener('input', function () {
-        const searchText = searchInput.value.toLowerCase();
-        filterAppointments(searchText);
-    });
-
-
-    filterAppointments('');
-});
     </script>
     <script>
         function openChat(chatName) {
