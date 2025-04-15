@@ -656,3 +656,41 @@ footer ul li a:hover {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+
+.estado-aceptada {
+  background-color: #28a745 !important;
+  color: white;
+  font-weight: bold;
+}
+
+.estado-pendiente {
+  background-color: #ffc107 !important;
+  color: black;
+  font-weight: bold;
+}
+
+.estado-rechazada {
+  background-color: #dc3545 !important;
+  color: white;
+  font-weight: bold;
+}
+
+.fin-de-semana {
+  color: #036610;
+  font-weight: bold;
+}
+
+.celda-aprobada {
+  background-color: #28a745 !important;
+  color: white;
+}
+.celda-pendiente {
+  background-color: #ffc107 !important;
+  color: black;
+}
+.celda-rechazada {
+  background-color: #dc3545 !important;
+  color: white;
+}

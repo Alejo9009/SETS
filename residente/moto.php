@@ -1,17 +1,17 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
-if ($idRol != 3333) { 
+if ($idRol != 3333) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $stmt = $base_de_datos->prepare($sql);
 
     if ($stmt->execute(['id_solicitud' => $id_solicitud])) {
-     
     } else {
         echo "Error al eliminar la solicitud.";
     }
@@ -78,7 +77,7 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-<header>
+    <header>
         <div class="topbar">
             <nav class="navbar bg-body-tertiary fixed-top">
                 <div class="container-fluid" style="background-color: #0e2c0a;">
@@ -125,7 +124,7 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
                                 </div>
-                               
+
                             </ul>
                             <form class="d-flex mt-3" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -138,41 +137,41 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <main>
         <br><br>
-        <br><br> 
+        <br><br>
         <div class="container">
-       <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
-    <b>Estado de Parqueaderos para Motos Visitantes</b>
-</div>
+            <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
+                <b>Estado de Parqueaderos para Motos Visitantes</b>
+            </div>
 
-<div class="row mb-5">
-    <?php foreach ($estado_parqueaderos as $parqueadero): ?>
-        <div class="col-md-4 mb-4">
-            <div class="card 
-                <?php 
+            <div class="row mb-5">
+                <?php foreach ($estado_parqueaderos as $parqueadero): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card 
+                <?php
                     if ($parqueadero['estado'] == 'ocupado') echo 'bg-danger text-white';
                     elseif ($parqueadero['estado'] == 'reservado') echo 'bg-warning';
                     else echo 'bg-success text-white';
                 ?>">
-                <div class="card-header">
-                    <h5 class="card-title">Parqueadero Moto <?= htmlspecialchars($parqueadero['parqueadero']) ?></h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        <strong>Estado:</strong> <?= ucfirst(htmlspecialchars($parqueadero['estado'])) ?><br>
-                        <?php if ($parqueadero['estado'] != 'disponible'): ?>
-                            <strong>Visitante:</strong> <?= htmlspecialchars($parqueadero['visitante']) ?><br>
-                            <strong>Placa:</strong> <?= htmlspecialchars($parqueadero['placa']) ?><br>
-                            <strong>Tipo:</strong> Moto<br>
-                            <strong>Horario:</strong> <?= htmlspecialchars($parqueadero['horario']) ?>
-                        <?php else: ?>
-                            <strong>Disponible para motos</strong>
-                        <?php endif; ?>
-                    </p>
-                </div>
+                            <div class="card-header">
+                                <h5 class="card-title">Parqueadero Moto <?= htmlspecialchars($parqueadero['parqueadero']) ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <strong>Estado:</strong> <?= ucfirst(htmlspecialchars($parqueadero['estado'])) ?><br>
+                                    <?php if ($parqueadero['estado'] != 'disponible'): ?>
+                                        <strong>Visitante:</strong> <?= htmlspecialchars($parqueadero['visitante']) ?><br>
+                                        <strong>Placa:</strong> <?= htmlspecialchars($parqueadero['placa']) ?><br>
+                                        <strong>Tipo:</strong> Moto<br>
+                                        <strong>Horario:</strong> <?= htmlspecialchars($parqueadero['horario']) ?>
+                                    <?php else: ?>
+                                        <strong>Disponible para motos</strong>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        </div>
-    <?php endforeach; ?>
-</div>
 
             <div class="alert alert-success" role="alert" style="text-align: center; font-size: 30px;">Solicitudes de Parqueadero Visitante Moto</div>
             <div class="row">
@@ -206,23 +205,23 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="text" class="form-control" id="nombre_visitante" name="nombre_visitante" required>
                             </div>
                             <div class="mb-3">
-                                <label for="placaVehiculo" class="form-label" style="font-size: 15px;" >Placa del Vehículo:</label>
+                                <label for="placaVehiculo" class="form-label" style="font-size: 15px;">Placa del Vehículo:</label>
                                 <input type="text" class="form-control" id="placaVehiculo" name="placaVehiculo" required>
                             </div>
                             <div class="mb-3">
-                                <label for="colorVehiculo" class="form-label" style="font-size: 15px;" >Color del Vehículo:</label>
+                                <label for="colorVehiculo" class="form-label" style="font-size: 15px;">Color del Vehículo:</label>
                                 <input type="text" class="form-control" id="colorVehiculo" name="colorVehiculo" required>
                             </div>
                             <div class="mb-3">
                                 <label for="tipoVehiculo" class="form-label" style="font-size: 15px;">Tipo de Vehículo:</label>
-                                <input type="text" class="form-control" id="tipoVehiculo" name="tipoVehiculo"  placeholder="moto" required>
+                                <input type="text" class="form-control" id="tipoVehiculo" name="tipoVehiculo" placeholder="moto" required>
                             </div>
                             <div class="mb-3">
                                 <label for="modelo" class="form-label" style="font-size: 15px;">Modelo:</label>
                                 <input type="text" class="form-control" id="modelo" name="modelo" required>
                             </div>
                             <div class="mb-3">
-                                <label for="marca" class="form-label" style="font-size: 15px;" >Marca:</label>
+                                <label for="marca" class="form-label" style="font-size: 15px;">Marca:</label>
                                 <input type="text" class="form-control" id="marca" name="marca" required>
                             </div>
                             <div class="mb-3">
@@ -230,17 +229,19 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="datetime-local" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
                             </div>
                             <div class="mb-3">
-                                <label for="fecha_final" class="form-label" style="font-size: 15px;" >Fecha Final:</label>
+                                <label for="fecha_final" class="form-label" style="font-size: 15px;">Fecha Final:</label>
                                 <input type="datetime-local" class="form-control" id="fecha_final" name="fecha_final" required>
                             </div>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-success" type="submit" style="font-size: 15px;" >Enviar Solicitud</button>
+                                <button class="btn btn-success" type="submit" style="font-size: 15px;">Enviar Solicitud</button>
                             </div>
                         </fieldset>
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Solicitudes</h2></center>
+                    <center>
+                        <h2>Panel de Solicitudes</h2>
+                    </center>
                     <br>
                     <table class="table">
                         <thead>
@@ -251,9 +252,9 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                                 <th scope="col" style="font-size: 15px;">Nombre del Visitante</th>
                                 <th scope="col" style="font-size: 15px;">Placa del Vehículo</th>
                                 <th scope="col" style="font-size: 15px;">Color del Vehículo</th>
-                                <th scope="col" style="font-size: 15px;" >Tipo de Vehículo</th>
+                                <th scope="col" style="font-size: 15px;">Tipo de Vehículo</th>
                                 <th scope="col" style="font-size: 15px;">Modelo</th>
-                                <th scope="col" style="font-size: 15px;" >Marca</th>
+                                <th scope="col" style="font-size: 15px;">Marca</th>
                                 <th scope="col" style="font-size: 15px;">Fecha de Inicio</th>
                                 <th scope="col" style="font-size: 15px;">Fecha Final</th>
                                 <th scope="col" style="font-size: 15px;">Estado</th>
@@ -384,38 +385,43 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <style>
-        .parking-card {
-            transition: all 0.3s ease;
-        }
-        .parking-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .parking-status-ocupado {
-            background-color: #ff6b6b;
-            color: white;
-        }
-        .parking-status-reservado {
-            background-color:rgb(102, 255, 153);
-            color: black;
-        }
-        .parking-status-disponible {
-            background-color:rgb(19, 88, 70);
-            color: white;
-        }
-    </style>
+    .parking-card {
+        transition: all 0.3s ease;
+    }
+
+    .parking-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .parking-status-ocupado {
+        background-color: #ff6b6b;
+        color: white;
+    }
+
+    .parking-status-reservado {
+        background-color: rgb(102, 255, 153);
+        color: black;
+    }
+
+    .parking-status-disponible {
+        background-color: rgb(19, 88, 70);
+        color: white;
+    }
+</style>
 <br>
-         <br>
-         <br>
-    <footer>
-        
-  <div class="footer-content">
-    <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
+<br>
+<br>
+<footer>
+
+    <div class="footer-content">
+        <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
+        <ul>
+            <li><a href="#">Términos y Condiciones</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
 </footer>
+
 </html>

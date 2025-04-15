@@ -24,14 +24,34 @@ include_once "conexion.php";
 $sql = "SELECT * FROM solicitud_parqueadero WHERE tipoVehiculo = 'carro'";
 
 $stmt = $base_de_datos->query($sql);
-$solicitudes = [];
+$solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$sql_estado = "SELECT 
+    p.parqueadero_visitante AS parqueadero,
+    CASE 
+        WHEN p.estado = 'aprobado' AND p.tipoVehiculo = 'carro' AND NOW() BETWEEN p.fecha_inicio AND p.fecha_final THEN 'ocupado'
+        WHEN p.estado = 'aprobado' AND p.tipoVehiculo = 'carro' AND NOW() < p.fecha_inicio THEN 'reservado'
+        ELSE 'disponible'
+    END AS estado,
+    IFNULL(p.nombre_visitante, '') AS visitante,
+    IFNULL(p.placaVehiculo, '') AS placa,
+    IFNULL(p.tipoVehiculo, '') AS tipo_vehiculo,
+    IFNULL(CONCAT(DATE_FORMAT(p.fecha_inicio, '%d/%m/%Y %H:%i'), ' - ', DATE_FORMAT(p.fecha_final, '%d/%m/%Y %H:%i')), '') AS horario
+FROM 
+    (SELECT 'V1' AS parqueadero_visitante UNION SELECT 'V2' UNION SELECT 'V3' UNION 
+     SELECT 'V4' UNION SELECT 'V5' UNION SELECT 'V6' UNION 
+     SELECT 'V7' UNION SELECT 'V8' UNION SELECT 'V9' UNION SELECT 'V10') AS todos_parqueaderos
+LEFT JOIN solicitud_parqueadero p ON 
+    todos_parqueaderos.parqueadero_visitante = p.parqueadero_visitante AND
+    p.estado = 'aprobado' AND
+    p.tipoVehiculo = 'carro' AND
+    NOW() <= p.fecha_final
+GROUP BY 
+    todos_parqueaderos.parqueadero_visitante
+ORDER BY parqueadero";
 
-if ($stmt->rowCount() > 0) {
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $solicitudes[] = $row;
-    }
-}
 
+$stmt_estado = $base_de_datos->query($sql_estado);
+$estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -121,16 +141,43 @@ if ($stmt->rowCount() > 0) {
         </section>
     </main>
     <main>
-        <center>
-            <div class="alert alert-success" role="alert">
-                <h3>Agendacion de Parqueadero carro</h3>
-            </div>
-
-        </center>
+       
 
         <div class="container">
 
+        <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
+                <b>Estado de Parqueaderos para carros Visitantes</b>
+            </div>
 
+            <div class="row mb-5">
+                <?php foreach ($estado_parqueaderos as $parqueadero): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card 
+                <?php
+                    if ($parqueadero['estado'] == 'ocupado') echo 'bg-danger text-white';
+                    elseif ($parqueadero['estado'] == 'reservado') echo 'bg-warning';
+                    else echo 'bg-success text-white';
+                ?>">
+                            <div class="card-header">
+                                <h5 class="card-title">Parqueadero carro <?= htmlspecialchars($parqueadero['parqueadero']) ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <strong>Estado:</strong> <?= ucfirst(htmlspecialchars($parqueadero['estado'])) ?><br>
+                                    <?php if ($parqueadero['estado'] != 'disponible'): ?>
+                                        <strong>Visitante:</strong> <?= htmlspecialchars($parqueadero['visitante']) ?><br>
+                                        <strong>Placa:</strong> <?= htmlspecialchars($parqueadero['placa']) ?><br>
+                                        <strong>Tipo:</strong>carro<br>
+                                        <strong>Horario:</strong> <?= htmlspecialchars($parqueadero['horario']) ?>
+                                    <?php else: ?>
+                                        <strong>Disponible para carros</strong>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
             <div class="sidebar">
 
@@ -173,7 +220,7 @@ if ($stmt->rowCount() > 0) {
                                     <form action="./servidor-parking/procesar_CARO.php" method="POST">
                                         <input type="hidden" name="id_solicitud" value="<?= $solicitud['id_solicitud'] ?>">
                                         <input type="hidden" name="accion" value="aprobado"> <!-- Antes: "aceptar" -->
-                                        <button type="submit" class="btn btn-success"><b>Aceptar</b></button>
+                                        <button type="submit" class="btn btn-success"><b>aprobado</b></button>
                                     </form>
 
                                     <!-- Formulario para dejar la solicitud como pendiente -->
@@ -267,6 +314,27 @@ if ($stmt->rowCount() > 0) {
 
     </main>
 </body>
+<style>
+        .parking-card {
+            transition: all 0.3s ease;
+        }
+        .parking-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .parking-status-ocupado {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        .parking-status-reservado {
+            background-color:rgb(102, 255, 153);
+            color: black;
+        }
+        .parking-status-disponible {
+            background-color:rgb(19, 88, 70);
+            color: white;
+        }
+    </style>
 <br>
     <br>
     <br>

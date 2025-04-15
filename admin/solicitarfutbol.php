@@ -147,8 +147,8 @@ if ($stmt->rowCount() > 0) {
                         <tbody id="calendar-body">
                             <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
-                    </table>
-                </div>
+                    </table>      <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
+                    </div>
             </div>
 
             <aside class="sidebar">
@@ -172,7 +172,27 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> <?= $solicitud['estado'] ?> </p>
+                            <p><strong>SOLICITUD FUE:</strong>
+                                <span class="badge 
+                                    <?php
+                                    switch (strtolower($solicitud['estado'])) {
+                                        case 'ACEPTADA':
+                                            echo 'bg-success';
+                                            break;
+                                        case 'PENDIENTE':
+                                            echo 'bg-warning';
+                                            break;
+                                        case 'rechazado':
+                                            echo 'bg-danger';
+                                            break;
+                                        default:
+                                            echo 'bg-secondary';
+                                    }
+                                    ?>">
+                                    <?= $solicitud['estado'] ?>
+                                </span>
+                            </p>
+                            <br>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                 <!-- Formulario para aceptar la solicitud -->
                                 <form action="./servidor-zonas/procesar_futbol.php" method="POST">
@@ -206,117 +226,102 @@ if ($stmt->rowCount() > 0) {
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
-        <div id="chatContainer" class="chat-container">
-            <div class="chat-header">
-                <span id="chatHeader">Chat</span>
-                <button class="close-btn" onclick="closeChat()">×</button>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                <button onclick="sendMessage()">Enviar</button>
-            </div>
-        </div>
-
+      
     </main>
     <script>
         // Convertir los datos de PHP a JavaScript
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+         document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
-
             const today = new Date();
             const months = [
                 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
             ];
-
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
 
-            // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
-            const solicitudes = <?php echo json_encode($solicitudes); ?>;
-
             // Función para generar el calendario del mes y año dados
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                calendarBody.innerHTML = '';
                 monthYearDisplay.textContent = `${months[mes]} ${anio}`;
-
-                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7; // Lunes = 1
-                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); // Número de días en el mes
-
+                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
 
-                // Crear filas para las semanas (hasta 6 semanas máximo)
+                // Crear un mapa de fechas con sus estados para mejor performance
+                const fechasConEstado = {};
+                solicitudes.forEach(solicitud => {
+                    const fecha = new Date(solicitud.fechainicio).toISOString().split('T')[0];
+                    fechasConEstado[fecha] = solicitud.estado.toUpperCase(); // Aseguramos mayúsculas
+                });
+
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('tr');
 
-                    // Crear celdas para cada día de la semana
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
 
                         if (i === 0 && j < firstDayOfMonth) {
-                            cell.innerHTML = ''; // Celdas vacías antes del primer día
+                            cell.innerHTML = '';
                         } else if (date > daysInMonth) {
-                            break; // No más días en el mes
+                            break;
                         } else {
                             const fechaActual = new Date(anio, mes, date);
+                            const fechaActualStr = fechaActual.toISOString().split('T')[0];
 
-                            // Asignar el día a la celda
                             cell.textContent = date;
-                            cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+                            cell.setAttribute('data-date', fechaActualStr);
 
-                            // Verificar si la fecha está solicitada
-                            solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechainicio);
+                            // Verificar si la fecha tiene una solicitud
+                            if (fechasConEstado[fechaActualStr]) {
+                                const estado = fechasConEstado[fechaActualStr];
 
-                                if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    cell.style.backgroundColor = '#84c9a1'; // Color para fechas solicitadas
+                                // Aplicar clases según el estado
+                                if (estado === 'ACEPTADA') {
+                                    cell.classList.add('estado-aceptada');
+                                } else if (estado === 'PENDIENTE') {
+                                    cell.classList.add('estado-pendiente');
+                                } else if (estado === 'RECHAZADA' || estado === 'RECHAZADO') {
+                                    cell.classList.add('estado-rechazada');
                                 }
-                            });
 
-                            // Resaltar los fines de semana
-                            if (j === 6 || j === 7) { // Sábado y domingo
-                                cell.style.color = 'green';
+                                // Tooltip con información
+                                cell.setAttribute('title', `Estado: ${estado}`);
+                            }
+
+                            // Resaltar fines de semana
+                            if (j === 6 || j === 7) {
+                                cell.classList.add('fin-de-semana');
                             }
 
                             date++;
                         }
-
                         row.appendChild(cell);
                     }
-
                     calendarBody.appendChild(row);
                 }
             }
 
-            // Función para cambiar al mes anterior
             function prevMonth() {
                 currentMonth = (currentMonth - 1 + 12) % 12;
                 if (currentMonth === 11) currentYear--;
                 generarCalendario(currentMonth, currentYear);
             }
 
-            // Función para cambiar al siguiente mes
             function nextMonth() {
                 currentMonth = (currentMonth + 1) % 12;
                 if (currentMonth === 0) currentYear++;
                 generarCalendario(currentMonth, currentYear);
             }
 
-            // Función para inicializar el calendario en el mes actual
-            function inicializarCalendario() {
-                generarCalendario(currentMonth, currentYear);
-            }
+            // Inicializar calendario
+            generarCalendario(currentMonth, currentYear);
 
-            // Inicializa el calendario con el mes y año actuales
-            inicializarCalendario();
-
-            // Asigna las funciones de cambio de mes a los botones de control
+            // Event listeners
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });

@@ -1,24 +1,24 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 1111) { 
+if ($idRol != 1111) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
 
 include_once "conexion.php";
-$sql = "SELECT idcita, tipocita, fechacita, horacita FROM cita ";
+$sql = "SELECT idcita, tipocita, fechacita, horacita, respuesta FROM cita";
 $stmt = $base_de_datos->query($sql);
 if (!$stmt) {
     die('Error en la consulta: ' . print_r($base_de_datos->errorInfo(), true));
@@ -30,11 +30,14 @@ foreach ($citas as $row) {
         'id' => $row['idcita'],
         'title' => $row['tipocita'],
         'start' => $row['fechacita'] . 'T' . $row['horacita'],
+        'respuesta' => $row['respuesta'] 
     ];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,11 +49,11 @@ foreach ($citas as $row) {
 
 <body>
     <header>
-    <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?>  </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -90,7 +93,7 @@ foreach ($citas as $row) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                           
+
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
@@ -102,9 +105,9 @@ foreach ($citas as $row) {
             </div>
         </nav>
     </header>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
     <main>
         <section class="anuncio">
             <h2 style="text-align: center;"><b>Citas</b></h2>
@@ -116,11 +119,12 @@ foreach ($citas as $row) {
                         <h2 id="calendar-title"><b>Calendario de Disponibilidad</b></h2>
                         <p id="month-year" style="color: #0e2c0a;"><b></b></p>
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><</button>
-                            <button id="next-month" onclick="nextMonth()">></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                << /button>
+                                    <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
-                    
+
                     <table id="calendar-table">
                         <thead>
                             <tr>
@@ -138,18 +142,18 @@ foreach ($citas as $row) {
                         </tbody>
                     </table>
                     <br>
-                  <center> <h4 id="calendar-title">Citas Solicitadas : Resaltada en color verde </h4></center> 
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
                 </div>
             </div>
 
-           
+
         </div>
     </main>
     <center>
-                
-                <a href="citas.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
-            </center>
-            <script>
+
+        <a href="citas.php" class="btn btn-success" style="font-size: 30px;">Volver</a>
+    </center>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const eventos = <?php echo json_encode($eventos); ?>;
@@ -157,38 +161,52 @@ foreach ($citas as $row) {
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
             const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
-                const firstDay = new Date(anio, mes, 1).getDay(); // Día de la semana del 1er día del mes
+                calendarBody.innerHTML = '';
+                const firstDay = new Date(anio, mes, 1).getDay();
                 const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
-                const totalCells = 42; // 6 semanas * 7 días
-                let dayCounter = (firstDay === 0 ? 6 : firstDay - 1); // Ajustar para que lunes sea el primer día (ISO-8601)
+                const totalCells = 42;
+                let dayCounter = (firstDay === 0 ? 6 : firstDay - 1);
+
                 for (let i = 0; i < totalCells; i++) {
                     if (i % 7 === 0) {
-                        var row = document.createElement('tr'); // Nueva fila cada 7 días
+                        var row = document.createElement('tr');
                     }
                     const cell = document.createElement('td');
                     if (i >= dayCounter && date <= daysInMonth) {
                         const formattedDate = `${anio}-${(mes + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
                         cell.textContent = date;
-                        // Resaltar las fechas con eventos
+
+                        // Modificamos solo esta parte para manejar los estados
                         eventos.forEach(evento => {
                             if (evento.start.startsWith(formattedDate)) {
-                                cell.style.backgroundColor = '#c3e6cb'; // Color para eventos
-                                cell.title = evento.title; // Tooltip con información del evento
+                                // Aplicamos clases según la respuesta
+                                if (evento.respuesta === 'Aceptada') {
+                                    cell.classList.add('celda-aprobada');
+                                } else if (evento.respuesta === 'Pendiente') {
+                                    cell.classList.add('celda-pendiente');
+                                } else if (evento.respuesta === 'Rechazada') {
+                                    cell.classList.add('celda-rechazada');
+                                }
+                                cell.title = evento.title + " - " +
+                                    (evento.respuesta === 'Aceptada' ? 'Aceptada' :
+                                        evento.respuesta === 'Pendiente' ? 'Pendiente' : 'Rechazada');
                             }
                         });
-                        date++; // Incrementar día
+
+                        date++;
                     }
                     row.appendChild(cell);
 
                     if (i % 7 === 6) {
-                        calendarBody.appendChild(row); // Agregar la fila al calendario
+                        calendarBody.appendChild(row);
                     }
                 }
                 document.getElementById('month-year').textContent = `${months[mes]} ${anio}`;
             }
+
             function prevMonth() {
                 currentMonth--;
                 if (currentMonth < 0) {
@@ -197,6 +215,7 @@ foreach ($citas as $row) {
                 }
                 generarCalendario(currentMonth, currentYear);
             }
+
             function nextMonth() {
                 currentMonth++;
                 if (currentMonth > 11) {
@@ -213,7 +232,7 @@ foreach ($citas as $row) {
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });
     </script>
-<script>
+    <script>
         document.querySelector('.admin-img').addEventListener('click', function() {
             document.querySelector('.dropdown-menu').classList.toggle('show');
         });
@@ -279,16 +298,17 @@ foreach ($citas as $row) {
 
 </body>
 <br>
-    <br>
-    <br>
-    <footer> 
-  <div class="footer-content">
-    <li >&copy; 2025 SETS. Todos los derechos reservados.</li>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
+<br>
+<br>
+<footer>
+    <div class="footer-content">
+        <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
+        <ul>
+            <li><a href="#">Términos y Condiciones</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
 </footer>
+
 </html>
