@@ -149,6 +149,7 @@ if ($stmt->rowCount() > 0) {
                             <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
                     </table>
+                    <br>
                     <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
              
                 </div>

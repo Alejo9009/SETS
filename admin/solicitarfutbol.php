@@ -1,18 +1,18 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 1111) { 
+if ($idRol != 1111) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -53,9 +53,9 @@ if ($stmt->rowCount() > 0) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?>  </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/ajustes.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 25px;color:aliceblue"> ADMIN - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -95,7 +95,7 @@ if ($stmt->rowCount() > 0) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                         
+
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
@@ -127,9 +127,10 @@ if ($stmt->rowCount() > 0) {
                         <p>
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><</button>
-                            <span id="month-year"></span>
-                            <button id="next-month" onclick="nextMonth()">></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                << /button>
+                                    <span id="month-year"></span>
+                                    <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -147,8 +148,10 @@ if ($stmt->rowCount() > 0) {
                         <tbody id="calendar-body">
                             <!-- Las fechas serán generadas aquí por JavaScript -->
                         </tbody>
-                    </table>      <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
-                    </div>
+                    </table>
+                    <br>
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
+                </div>
             </div>
 
             <aside class="sidebar">
@@ -226,14 +229,14 @@ if ($stmt->rowCount() > 0) {
         <a href="zonas_comunes.php" class="btn btn-success" style="font-size: 30px;">
             <center>VOLVER</center>
         </a>
-      
+
     </main>
     <script>
         // Convertir los datos de PHP a JavaScript
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-         document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
             const today = new Date();
@@ -326,7 +329,7 @@ if ($stmt->rowCount() > 0) {
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });
     </script>
- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
             const appointmentList = document.getElementById('appointmentList');

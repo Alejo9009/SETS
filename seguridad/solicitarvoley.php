@@ -37,7 +37,7 @@ if ($stmt->rowCount() > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sets - Cancha De Voleyball</title>
     <link rel="shortcut icon" href="img/c.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
+    <link rel="stylesheet" href="css/citas.css?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
@@ -137,6 +137,9 @@ if ($stmt->rowCount() > 0) {
 
                         </tbody>
                     </table>
+                    <br>
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
+              
                 </div>
             </div>
             <aside class="sidebar">
@@ -160,19 +163,27 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> 
+                            <p><strong>SOLICITUD FUE:</strong>
                                 <span class="badge 
-                                    <?php 
-                                        switch(strtolower($solicitud['estado'])) {
-                                            case 'aprobado': echo 'bg-success'; break;
-                                            case 'pendiente': echo 'bg-warning'; break;
-                                            case 'rechazado': echo 'bg-danger'; break;
-                                            default: echo 'bg-secondary';
-                                        }
+                                    <?php
+                                    switch (strtolower($solicitud['estado'])) {
+                                        case 'aprobado':
+                                            echo 'bg-success';
+                                            break;
+                                        case 'pendiente':
+                                            echo 'bg-warning';
+                                            break;
+                                        case 'rechazado':
+                                            echo 'bg-danger';
+                                            break;
+                                        default:
+                                            echo 'bg-secondary';
+                                    }
                                     ?>">
                                     <?= $solicitud['estado'] ?>
                                 </span>
                             </p>
+                            <br>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -198,10 +209,9 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+         document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
-
             const today = new Date();
             const months = [
                 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -210,8 +220,7 @@ if ($stmt->rowCount() > 0) {
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
 
-            const solicitudes = <?php echo json_encode($solicitudes); ?>;
-
+            // Función para generar el calendario del mes y año dados
             function generarCalendario(mes, anio) {
                 calendarBody.innerHTML = '';
                 monthYearDisplay.textContent = `${months[mes]} ${anio}`;
@@ -219,31 +228,52 @@ if ($stmt->rowCount() > 0) {
                 const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
 
+                // Crear un mapa de fechas con sus estados para mejor performance
+                const fechasConEstado = {};
+                solicitudes.forEach(solicitud => {
+                    const fecha = new Date(solicitud.fechainicio).toISOString().split('T')[0];
+                    fechasConEstado[fecha] = solicitud.estado.toUpperCase(); // Aseguramos mayúsculas
+                });
+
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('tr');
 
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
+
                         if (i === 0 && j < firstDayOfMonth) {
                             cell.innerHTML = '';
                         } else if (date > daysInMonth) {
                             break;
                         } else {
                             const fechaActual = new Date(anio, mes, date);
+                            const fechaActualStr = fechaActual.toISOString().split('T')[0];
 
                             cell.textContent = date;
-                            cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+                            cell.setAttribute('data-date', fechaActualStr);
 
-                            solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechainicio);
-                                if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    cell.style.backgroundColor = '#84c9a1';
+                            // Verificar si la fecha tiene una solicitud
+                            if (fechasConEstado[fechaActualStr]) {
+                                const estado = fechasConEstado[fechaActualStr];
+
+                                // Aplicar clases según el estado
+                                if (estado === 'ACEPTADA') {
+                                    cell.classList.add('estado-aceptada');
+                                } else if (estado === 'PENDIENTE') {
+                                    cell.classList.add('estado-pendiente');
+                                } else if (estado === 'RECHAZADA' || estado === 'RECHAZADO') {
+                                    cell.classList.add('estado-rechazada');
                                 }
-                            });
 
-                            if (j === 6 || j === 7) {
-                                cell.style.color = 'green';
+                                // Tooltip con información
+                                cell.setAttribute('title', `Estado: ${estado}`);
                             }
+
+                            // Resaltar fines de semana
+                            if (j === 6 || j === 7) {
+                                cell.classList.add('fin-de-semana');
+                            }
+
                             date++;
                         }
                         row.appendChild(cell);
@@ -264,12 +294,10 @@ if ($stmt->rowCount() > 0) {
                 generarCalendario(currentMonth, currentYear);
             }
 
-            function inicializarCalendario() {
-                generarCalendario(currentMonth, currentYear);
-            }
+            // Inicializar calendario
+            generarCalendario(currentMonth, currentYear);
 
-            inicializarCalendario();
-
+            // Event listeners
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });

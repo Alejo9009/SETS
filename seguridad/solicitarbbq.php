@@ -138,6 +138,9 @@ if ($stmt->rowCount() > 0) {
                         <tbody id="calendar-body">
                         </tbody>
                     </table>
+                    <br>
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
+              
                 </div>
             </div>
             <aside class="sidebar">
@@ -217,52 +220,61 @@ if ($stmt->rowCount() > 0) {
             ];
             let currentYear = today.getFullYear();
             let currentMonth = today.getMonth();
-            // Datos de solicitudes (simulado, en tu caso vendrá de PHP)
-            const solicitudes = <?php echo json_encode($solicitudes); ?>;
+
             // Función para generar el calendario del mes y año dados
             function generarCalendario(mes, anio) {
-                calendarBody.innerHTML = ''; // Limpia el contenido anterior
+                calendarBody.innerHTML = '';
                 monthYearDisplay.textContent = `${months[mes]} ${anio}`;
-                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7; // Lunes = 1
-                const daysInMonth = new Date(anio, mes + 1, 0).getDate(); // Número de días en el mes
+                const firstDayOfMonth = new Date(anio, mes, 1).getDay() || 7;
+                const daysInMonth = new Date(anio, mes + 1, 0).getDate();
                 let date = 1;
-                // Crear filas para las semanas (hasta 6 semanas máximo)
+
+                // Crear un mapa de fechas con sus estados para mejor performance
+                const fechasConEstado = {};
+                solicitudes.forEach(solicitud => {
+                    const fecha = new Date(solicitud.fechainicio).toISOString().split('T')[0];
+                    fechasConEstado[fecha] = solicitud.estado.toUpperCase(); // Aseguramos mayúsculas
+                });
+
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('tr');
-                    // Crear celdas para cada día de la semana
+
                     for (let j = 1; j <= 7; j++) {
                         const cell = document.createElement('td');
 
                         if (i === 0 && j < firstDayOfMonth) {
-                            cell.innerHTML = ''; // Celdas vacías antes del primer día
+                            cell.innerHTML = '';
                         } else if (date > daysInMonth) {
-                            break; // No más días en el mes
+                            break;
                         } else {
                             const fechaActual = new Date(anio, mes, date);
+                            const fechaActualStr = fechaActual.toISOString().split('T')[0];
 
-                            // Asignar el día a la celda
                             cell.textContent = date;
-                            cell.setAttribute('data-date', fechaActual.toISOString().split('T')[0]);
+                            cell.setAttribute('data-date', fechaActualStr);
 
-                            // Verificar si la fecha está solicitada
-                            solicitudes.forEach(solicitud => {
-                                const fechaSolicitud = new Date(solicitud.fechainicio);
+                            // Verificar si la fecha tiene una solicitud
+                            if (fechasConEstado[fechaActualStr]) {
+                                const estado = fechasConEstado[fechaActualStr];
 
-                                if (fechaSolicitud.toISOString().split('T')[0] === fechaActual.toISOString().split('T')[0]) {
-                                    // Cambiar color según el estado
-                                    if (solicitud.estado.toLowerCase() === 'aprobado') {
-                                        cell.style.backgroundColor = 'green'; // Verde claro para aprobado
-                                    } else if (solicitud.estado.toLowerCase() === 'pendiente') {
-                                        cell.style.backgroundColor = '#c5b910'; // Amarillo claro para pendiente
-                                    } else if (solicitud.estado.toLowerCase() === 'rechazado') {
-                                        cell.style.backgroundColor = '#f8d7da'; // Rojo claro para rechazado
-                                    }
+                                // Aplicar clases según el estado
+                                if (estado === 'ACEPTADA') {
+                                    cell.classList.add('estado-aceptada');
+                                } else if (estado === 'PENDIENTE') {
+                                    cell.classList.add('estado-pendiente');
+                                } else if (estado === 'RECHAZADA' || estado === 'RECHAZADO') {
+                                    cell.classList.add('estado-rechazada');
                                 }
-                            });
-                            // Resaltar los fines de semana
-                            if (j === 6 || j === 7) { // Sábado y domingo
-                                cell.style.color = 'green';
+
+                                // Tooltip con información
+                                cell.setAttribute('title', `Estado: ${estado}`);
                             }
+
+                            // Resaltar fines de semana
+                            if (j === 6 || j === 7) {
+                                cell.classList.add('fin-de-semana');
+                            }
+
                             date++;
                         }
                         row.appendChild(cell);
@@ -270,25 +282,23 @@ if ($stmt->rowCount() > 0) {
                     calendarBody.appendChild(row);
                 }
             }
-            // Función para cambiar al mes anterior
+
             function prevMonth() {
                 currentMonth = (currentMonth - 1 + 12) % 12;
                 if (currentMonth === 11) currentYear--;
                 generarCalendario(currentMonth, currentYear);
             }
-            // Función para cambiar al siguiente mes
+
             function nextMonth() {
                 currentMonth = (currentMonth + 1) % 12;
                 if (currentMonth === 0) currentYear++;
                 generarCalendario(currentMonth, currentYear);
             }
-            // Función para inicializar el calendario en el mes actual
-            function inicializarCalendario() {
-                generarCalendario(currentMonth, currentYear);
-            }
-            // Inicializa el calendario con el mes y año actuales
-            inicializarCalendario();
-            // Asigna las funciones de cambio de mes a los botones de control
+
+            // Inicializar calendario
+            generarCalendario(currentMonth, currentYear);
+
+            // Event listeners
             document.getElementById('prev-month').addEventListener('click', prevMonth);
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });

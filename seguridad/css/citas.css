@@ -650,3 +650,41 @@ a:focus, a:active {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgb(255, 255, 255);
 }
+
+
+
+.estado-aceptada {
+  background-color: #28a745 !important;
+  color: white;
+  font-weight: bold;
+}
+
+.estado-pendiente {
+  background-color: #ffc107 !important;
+  color: black;
+  font-weight: bold;
+}
+
+.estado-rechazada {
+  background-color: #dc3545 !important;
+  color: white;
+  font-weight: bold;
+}
+
+.fin-de-semana {
+  color: #036610;
+  font-weight: bold;
+}
+
+.celda-aprobada {
+  background-color: #28a745 !important;
+  color: white;
+}
+.celda-pendiente {
+  background-color: #ffc107 !important;
+  color: black;
+}
+.celda-rechazada {
+  background-color: #dc3545 !important;
+  color: white;
+}
