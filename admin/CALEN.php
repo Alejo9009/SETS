@@ -120,7 +120,7 @@ foreach ($citas as $row) {
                         <p id="month-year" style="color: #0e2c0a;"><b></b></p>
                         <div id="calendar-controls">
                             <button id="prev-month" onclick="prevMonth()">
-                                << /button>
+                                <
                                     <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>

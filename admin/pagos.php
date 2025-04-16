@@ -181,7 +181,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
                     <center>
-                        <h2>Panel de Citas</h2>
+                        <h2>Panel de Pagos</h2>
                     </center>
                     <br>
                     <table class="table">
