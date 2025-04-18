@@ -128,7 +128,7 @@ if ($stmt->rowCount() > 0) {
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
                             <button id="prev-month" onclick="prevMonth()">
-                                << /button>
+                                <
                                     <span id="month-year"></span>
                                     <button id="next-month" onclick="nextMonth()">></button>
                         </div>
