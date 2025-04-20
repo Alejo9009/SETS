@@ -142,7 +142,7 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
         <br><br> 
         <div class="container">
         <div class="alert alert-success" role="alert" style="text-align: center; font-size: 24px;">
-                <b>Estado de Parqueaderos Visitantes</b>
+                <b>Estado de Parqueaderos  Carros Visitantes</b>
             </div>
             
             <div class="row mb-5">
@@ -234,7 +234,7 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
-                    <center><h2>Panel de Solicitudes</h2></center>
+                    <center><h2>Panel de Solicitudes Carros</h2></center>
                     <br>
                     <table class="table">
                         <thead>
