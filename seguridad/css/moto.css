@@ -356,41 +356,69 @@ ion-icon {
 
 
 
-  footer {
+
+footer {
     background-color: #1c3326;
     color: #fff;
     padding: 20px 0;
     text-align: center;
-  }
-  
-  .footer-content {
-    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.footer-content {
+    max-width: 1300px;
     margin: 0 auto;
-  }
-  
-  footer p {
-    margin: 0;
-  }
-  
-  footer ul {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+}
+
+footer ul {
     list-style: none;
     padding: 0;
-  }
-  
-  footer ul li {
-    display: inline;
-    margin-right: 15px;
-  }
-  
-  footer ul li a {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 17px;
+}
+
+footer ul li {
+    margin: 0;
+}
+
+footer ul li a {
     color: #fff;
     text-decoration: none;
     transition: color 0.3s;
-  }
-  
-  footer ul li a:hover {
+    font-size: 14px;
+}
+
+footer ul li a:hover {
     color: #00aaff;
-  }
+}
+
+@media (max-width: 768px) {
+    footer ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    footer p {
+        margin-bottom: 10px;
+    }
+}
 
   
   .chat-container {

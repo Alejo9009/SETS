@@ -139,8 +139,8 @@ if ($stmt->rowCount() > 0) {
                         </tbody>
                     </table>
                     <br>
-                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
-              
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
+
                 </div>
             </div>
             <aside class="sidebar">
@@ -210,7 +210,7 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-          document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
             const today = new Date();
@@ -382,6 +382,18 @@ if ($stmt->rowCount() > 0) {
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <br>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
 </body>
 
 </html>

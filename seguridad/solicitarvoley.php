@@ -87,7 +87,7 @@ if ($stmt->rowCount() > 0) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                           
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -116,9 +116,10 @@ if ($stmt->rowCount() > 0) {
                         <p>
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><</button>
-                            <span id="month-year"></span>
-                            <button id="next-month" onclick="nextMonth()">></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                <
+                                    <span id="month-year"></span>
+                                    <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -138,8 +139,8 @@ if ($stmt->rowCount() > 0) {
                         </tbody>
                     </table>
                     <br>
-                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
-              
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
+
                 </div>
             </div>
             <aside class="sidebar">
@@ -209,7 +210,7 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-         document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
             const today = new Date();
@@ -304,7 +305,7 @@ if ($stmt->rowCount() > 0) {
     </script>
 
 
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
             const appointmentList = document.getElementById('appointmentList');
@@ -384,6 +385,83 @@ if ($stmt->rowCount() > 0) {
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <br>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+    <style>
+        
+footer {
+  background-color: #1c3326;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+footer p {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 17px;
+}
+
+footer ul li {
+  margin: 0;
+}
+
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 14px;
+}
+
+footer ul li a:hover {
+  color: #11ff60;
+}
+
+@media (max-width: 768px) {
+  footer ul {
+      flex-direction: column;
+      gap: 10px;
+  }
+  
+  footer p {
+      margin-bottom: 10px;
+  }
+}
+    </style>
 
 </body>
 

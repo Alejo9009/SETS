@@ -86,7 +86,7 @@ if ($stmt->rowCount() > 0) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                            
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -139,7 +139,7 @@ if ($stmt->rowCount() > 0) {
                     </table>
                     <br>
                     <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
-          
+
                 </div>
             </div>
             <aside class="sidebar">
@@ -163,15 +163,22 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> 
+                            <p><strong>SOLICITUD FUE:</strong>
                                 <span class="badge 
-                                    <?php 
-                                        switch(strtolower($solicitud['estado'])) {
-                                            case 'aprobado': echo 'bg-success'; break;
-                                            case 'pendiente': echo 'bg-warning'; break;
-                                            case 'rechazado': echo 'bg-danger'; break;
-                                            default: echo 'bg-secondary';
-                                        }
+                                    <?php
+                                    switch (strtolower($solicitud['estado'])) {
+                                        case 'aprobado':
+                                            echo 'bg-success';
+                                            break;
+                                        case 'pendiente':
+                                            echo 'bg-warning';
+                                            break;
+                                        case 'rechazado':
+                                            echo 'bg-danger';
+                                            break;
+                                        default:
+                                            echo 'bg-secondary';
+                                    }
                                     ?>">
                                     <?= $solicitud['estado'] ?>
                                 </span>
@@ -374,6 +381,18 @@ if ($stmt->rowCount() > 0) {
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <br>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
 </body>
 
 </html>

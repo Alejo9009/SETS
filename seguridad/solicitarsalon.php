@@ -32,6 +32,7 @@ if ($stmt->rowCount() > 0) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,13 +41,14 @@ if ($stmt->rowCount() > 0) {
     <link rel="stylesheet" href="css/citas.css?v=<?php echo (rand()); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
-            <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -74,7 +76,7 @@ if ($stmt->rowCount() > 0) {
                                         </li>
 
                                         <li>
-                                        <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
+                                            <center> <a href="../backend/logout.php">Cerrar sesión</a></center>
 
                                         </li>
                                     </ul>
@@ -87,7 +89,7 @@ if ($stmt->rowCount() > 0) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                           
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -102,8 +104,8 @@ if ($stmt->rowCount() > 0) {
     <br>
     <br><br>
     <main>
-    <br>
-    <br>
+        <br>
+        <br>
         <div class="alert alert-success g" role="alert">
             <h2>¡Reserva tu espacio! Horarios Disponibles - SALON COMUNAL</h2>
         </div>
@@ -116,9 +118,10 @@ if ($stmt->rowCount() > 0) {
                         <p>
                             <span id="month-year" style="color: #0e2c0a;"><b></b></span>
                         <div id="calendar-controls">
-                            <button id="prev-month" onclick="prevMonth()"><</button>
-                            <span id="month-year"></span>
-                            <button id="next-month" onclick="nextMonth()">></button>
+                            <button id="prev-month" onclick="prevMonth()">
+                                <
+                                    <span id="month-year"></span>
+                                    <button id="next-month" onclick="nextMonth()">></button>
                         </div>
                     </div>
                     <table id="calendar-table">
@@ -138,8 +141,8 @@ if ($stmt->rowCount() > 0) {
                         </tbody>
                     </table>
                     <br>
-                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente  , Rojo: Rechazada</b></h2>
-             
+                    <h2 id="calendar-title" style="font-size: 15px;"><b>Verde : Aceptada , Amarilla:Pendiente , Rojo: Rechazada</b></h2>
+
 
                 </div>
             </div>
@@ -164,15 +167,22 @@ if ($stmt->rowCount() > 0) {
                             <p><strong>Hora_inicio:</strong> <?= date('h:i A', strtotime($solicitud['Hora_inicio'])) ?></p>
                             <p><strong>Hora_final:</strong> <?= date('h:i A', strtotime($solicitud['Hora_final'])) ?></p>
                             <p><strong>Apartamento:</strong> <?= $solicitud['ID_Apartamentooss'] ?></p>
-                            <p><strong>SOLICITUD FUE:</strong> 
+                            <p><strong>SOLICITUD FUE:</strong>
                                 <span class="badge 
-                                    <?php 
-                                        switch(strtolower($solicitud['estado'])) {
-                                            case 'aprobado': echo 'bg-success'; break;
-                                            case 'pendiente': echo 'bg-warning'; break;
-                                            case 'rechazado': echo 'bg-danger'; break;
-                                            default: echo 'bg-secondary';
-                                        }
+                                    <?php
+                                    switch (strtolower($solicitud['estado'])) {
+                                        case 'aprobado':
+                                            echo 'bg-success';
+                                            break;
+                                        case 'pendiente':
+                                            echo 'bg-warning';
+                                            break;
+                                        case 'rechazado':
+                                            echo 'bg-danger';
+                                            break;
+                                        default:
+                                            echo 'bg-secondary';
+                                    }
                                     ?>">
                                     <?= $solicitud['estado'] ?>
                                 </span>
@@ -203,7 +213,7 @@ if ($stmt->rowCount() > 0) {
         const solicitudes = <?php echo json_encode($solicitudes); ?>;
     </script>
     <script>
-             document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const calendarBody = document.getElementById('calendar-body');
             const monthYearDisplay = document.getElementById('month-year');
             const today = new Date();
@@ -296,7 +306,7 @@ if ($stmt->rowCount() > 0) {
             document.getElementById('next-month').addEventListener('click', nextMonth);
         });
     </script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
@@ -344,10 +354,12 @@ if ($stmt->rowCount() > 0) {
             chatHeader.textContent = chatName;
             chatContainer.classList.add('show');
         }
+
         function closeChat() {
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.classList.remove('show');
         }
+
         function sendMessage() {
             const messageInput = document.getElementById('chatInput');
             const messageText = messageInput.value.trim();
@@ -360,6 +372,7 @@ if ($stmt->rowCount() > 0) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
+
         function filterChat() {
             const searchInput = document.querySelector('.search-bar').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
@@ -372,6 +385,19 @@ if ($stmt->rowCount() > 0) {
             });
         }
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <br>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+            <ul>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
+
 </html>

@@ -31,7 +31,7 @@ if ($idRol != 2222) {
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid" style="background-color: #0e2c0a;">
-            <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
+                <img src="img/guarda.png" alt="Logo" width="70" height="74" class="d-inline-block align-text-top" style="background-color: #0e2c0a;">
                 <b style="font-size: 30px;color:aliceblue"> Guarda de Seguridad - <?php echo htmlspecialchars($Usuario); ?> </b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="background-color: white;">
                     <span class="navbar-toggler-icon" style="color: white;"></span>
@@ -73,7 +73,7 @@ if ($idRol != 2222) {
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                         
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -86,14 +86,14 @@ if ($idRol != 2222) {
     </header>
     <br><br><br>
     <br>
-    
+
     <br>
     <br>
     <br>
     <br><br>
     <br><br>
     <br><br>
-  
+
     <div class="container">
         <section class="login-content">
             <form action="./servidor-anuncios/anuncio.php" method="post" enctype="multipart/form-data">
@@ -151,7 +151,7 @@ if ($idRol != 2222) {
 
                     </div>
                 </div>
-                
+
                 <div class="input-div one">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
                         <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
@@ -226,6 +226,86 @@ if ($idRol != 2222) {
                 }
             });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const fechaInput = document.getElementById('fechaPublicacion');
+            const horaInput = document.getElementById('horaPublicacion');
+
+
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const fechaHoy = yyyy + '-' + mm + '-' + dd;
+            fechaInput.setAttribute('min', fechaHoy);
+
+            form.addEventListener('submit', function(e) {
+                const fechaSeleccionada = new Date(fechaInput.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada < hoy) {
+                    alert('No puedes seleccionar una fecha pasada');
+                    e.preventDefault();
+                    return false;
+                }
+
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    const ahora = new Date();
+                    const horaActual = ahora.getHours();
+                    const minutoActual = ahora.getMinutes();
+
+                    const [horaSeleccionada, minutoSeleccionado] = horaInput.value.split(':').map(Number);
+
+                    if (horaSeleccionada < horaActual ||
+                        (horaSeleccionada === horaActual && minutoSeleccionado < minutoActual)) {
+                        alert('No puedes seleccionar una hora pasada para el día de hoy');
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+
+            fechaInput.addEventListener('change', function() {
+                const fechaSeleccionada = new Date(this.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada < hoy) {
+                    alert('No puedes seleccionar una fecha pasada');
+                    this.value = fechaHoy;
+                }
+            });
+
+
+            horaInput.addEventListener('change', function() {
+                const fechaSeleccionada = new Date(fechaInput.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    const ahora = new Date();
+                    const horaActual = ahora.getHours();
+                    const minutoActual = ahora.getMinutes();
+
+                    const [horaSeleccionada, minutoSeleccionado] = this.value.split(':').map(Number);
+
+                    if (horaSeleccionada < horaActual ||
+                        (horaSeleccionada === horaActual && minutoSeleccionado < minutoActual)) {
+                        alert('No puedes seleccionar una hora pasada para el día de hoy');
+                        const hora = horaActual;
+                        const minuto = minutoActual + 1;
+                        this.value = `${String(hora).padStart(2, '0')}:${String(minuto).padStart(2, '0')}`;
+                    }
+                }
+            });
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <br>

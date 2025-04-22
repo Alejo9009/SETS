@@ -96,7 +96,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                     </center>
                                 </div>
-                              
+
                             </ul>
                             <form class="d-flex mt-3" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -106,7 +106,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
-      
+
     </header>
     <main>
         <br> <br> <br>
@@ -199,6 +199,7 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <br>
         </div>
+
         <script>
             function togglePlaca() {
                 var tipoIngreso = document.getElementById("tipo_ingreso").value;
@@ -299,20 +300,76 @@ $Ingreso_Peatonal = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const fechaHoraInput = document.getElementById('horaFecha');
+
+
+                const now = new Date();
+
+                const timezoneOffset = now.getTimezoneOffset() * 60000;
+                const localISOTime = new Date(now - timezoneOffset).toISOString().slice(0, 16);
+                fechaHoraInput.min = localISOTime;
+
+
+                form.addEventListener('submit', function(e) {
+                    const fechaHoraSeleccionada = new Date(fechaHoraInput.value);
+                    const ahora = new Date();
+
+                    if (fechaHoraSeleccionada < ahora) {
+                        alert('No puedes registrar ingresos con fecha/hora en el pasado');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                });
+
+
+                fechaHoraInput.addEventListener('change', function() {
+                    const fechaHoraSeleccionada = new Date(this.value);
+                    const ahora = new Date();
+
+                    if (fechaHoraSeleccionada < ahora) {
+                        alert('No puedes seleccionar una fecha/hora en el pasado');
+
+                        this.value = localISOTime;
+                    }
+                });
+
+
+                function togglePlaca() {
+                    var tipoIngreso = document.getElementById("tipo_ingreso").value;
+                    var placaContainer = document.getElementById("placaContainer");
+
+                    if (tipoIngreso === "vehiculo") {
+                        placaContainer.style.display = "block";
+                        document.getElementById("placa").setAttribute("required", "required");
+                    } else {
+                        placaContainer.style.display = "none";
+                        document.getElementById("placa").removeAttribute("required");
+                        document.getElementById("placa").value = "";
+                    }
+                }
+
+
+                togglePlaca();
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<footer> 
-  <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
-</html>
 
 </body>
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+        <ul>
+            <li><a href="#">Términos y Condiciones</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
+</footer>
+
 
 </html>
