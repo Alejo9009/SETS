@@ -258,6 +258,89 @@ include_once "conexion.php";
             });
         }
     </script>
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const fechaInput = document.getElementById('fechaPublicacion');
+            const horaInput = document.getElementById('horaPublicacion');
+
+
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const fechaHoy = yyyy + '-' + mm + '-' + dd;
+            fechaInput.setAttribute('min', fechaHoy);
+
+            form.addEventListener('submit', function(e) {
+                const fechaSeleccionada = new Date(fechaInput.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada < hoy) {
+                    alert('No puedes seleccionar una fecha pasada');
+                    e.preventDefault();
+                    return false;
+                }
+
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    const ahora = new Date();
+                    const horaActual = ahora.getHours();
+                    const minutoActual = ahora.getMinutes();
+
+                    const [horaSeleccionada, minutoSeleccionado] = horaInput.value.split(':').map(Number);
+
+                    if (horaSeleccionada < horaActual ||
+                        (horaSeleccionada === horaActual && minutoSeleccionado < minutoActual)) {
+                        alert('No puedes seleccionar una hora pasada para el día de hoy');
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+
+            fechaInput.addEventListener('change', function() {
+                const fechaSeleccionada = new Date(this.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada < hoy) {
+                    alert('No puedes seleccionar una fecha pasada');
+                    this.value = fechaHoy;
+                }
+            });
+
+
+            horaInput.addEventListener('change', function() {
+                const fechaSeleccionada = new Date(fechaInput.value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    const ahora = new Date();
+                    const horaActual = ahora.getHours();
+                    const minutoActual = ahora.getMinutes();
+
+                    const [horaSeleccionada, minutoSeleccionado] = this.value.split(':').map(Number);
+
+                    if (horaSeleccionada < horaActual ||
+                        (horaSeleccionada === horaActual && minutoSeleccionado < minutoActual)) {
+                        alert('No puedes seleccionar una hora pasada para el día de hoy');
+                        const hora = horaActual;
+                        const minuto = minutoActual + 1;
+                        this.value = `${String(hora).padStart(2, '0')}:${String(minuto).padStart(2, '0')}`;
+                    }
+                }
+            });
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <br>
     <br><br>

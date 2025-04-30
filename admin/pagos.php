@@ -96,7 +96,7 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                            
+
                         </ul>
 
                         <form class="d-flex mt-3" role="search">
@@ -296,96 +296,153 @@ $pagos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         </script>
         <script>
-                const searchInput = document.getElementById('searchInput');
-                const announcements = document.querySelectorAll('.announcement');
+            const searchInput = document.getElementById('searchInput');
+            const announcements = document.querySelectorAll('.announcement');
 
 
-                searchInput.addEventListener('input', function() {
-                    const filter = searchInput.value.toLowerCase();
+            searchInput.addEventListener('input', function() {
+                const filter = searchInput.value.toLowerCase();
 
 
-                    announcements.forEach(function(announcement) {
-                        const text = announcement.textContent.toLowerCase();
-                        if (text.includes(filter)) {
-                            announcement.style.display = 'block';
-                        } else {
-                            announcement.style.display = 'none';
-                        }
-                    });
-                });
-            </script>
-            <script>
-                document.querySelector('.admin-img').addEventListener('click', function() {
-                    document.querySelector('.dropdown-menu').classList.toggle('show');
-                });
-
-                document.querySelector('.chat-button').addEventListener('click', function() {
-                    document.querySelector('.chat-menu').classList.toggle('show');
-                });
-
-                function filterChat() {
-                    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                    const chatItems = document.querySelectorAll('.chat-item');
-                    chatItems.forEach(item => {
-                        if (item.textContent.toLowerCase().includes(searchInput)) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                }
-            </script>
-            <script>
-                function openChat(chatName) {
-                    const chatContainer = document.getElementById('chatContainer');
-                    const chatHeader = document.getElementById('chatHeader');
-                    chatHeader.textContent = chatName;
-                    chatContainer.classList.add('show');
-                }
-
-                function closeChat() {
-                    const chatContainer = document.getElementById('chatContainer');
-                    chatContainer.classList.remove('show');
-                }
-
-                function sendMessage() {
-                    const messageInput = document.getElementById('chatInput');
-                    const messageText = messageInput.value.trim();
-                    if (messageText) {
-                        const chatMessages = document.getElementById('chatMessages');
-                        const messageElement = document.createElement('p');
-                        messageElement.textContent = messageText;
-                        chatMessages.appendChild(messageElement);
-                        messageInput.value = '';
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                announcements.forEach(function(announcement) {
+                    const text = announcement.textContent.toLowerCase();
+                    if (text.includes(filter)) {
+                        announcement.style.display = 'block';
+                    } else {
+                        announcement.style.display = 'none';
                     }
-                }
+                });
+            });
+        </script>
+        <script>
+            document.querySelector('.admin-img').addEventListener('click', function() {
+                document.querySelector('.dropdown-menu').classList.toggle('show');
+            });
 
-                function filterChat() {
-                    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-                    const chatItems = document.querySelectorAll('.chat-item');
-                    chatItems.forEach(item => {
-                        if (item.textContent.toLowerCase().includes(searchInput)) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
+            document.querySelector('.chat-button').addEventListener('click', function() {
+                document.querySelector('.chat-menu').classList.toggle('show');
+            });
+
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        <script>
+            function openChat(chatName) {
+                const chatContainer = document.getElementById('chatContainer');
+                const chatHeader = document.getElementById('chatHeader');
+                chatHeader.textContent = chatName;
+                chatContainer.classList.add('show');
+            }
+
+            function closeChat() {
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.classList.remove('show');
+            }
+
+            function sendMessage() {
+                const messageInput = document.getElementById('chatInput');
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    const chatMessages = document.getElementById('chatMessages');
+                    const messageElement = document.createElement('p');
+                    messageElement.textContent = messageText;
+                    chatMessages.appendChild(messageElement);
+                    messageInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
-            </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <br>
-    <br>
-        <footer> 
-  <div class="footer-content">
-    <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
-</footer>
+            }
+
+            function filterChat() {
+                const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchInput)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const fechaPagoInput = document.getElementById('fechaPago');
+
+                // Establecer fecha mínima como hoy
+                const today = new Date();
+                const dd = String(today.getDate()).padStart(2, '0');
+                const mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+                const yyyy = today.getFullYear();
+                const fechaHoy = yyyy + '-' + mm + '-' + dd;
+                fechaPagoInput.setAttribute('min', fechaHoy);
+
+                // Validación al enviar el formulario
+                form.addEventListener('submit', function(e) {
+                    const fechaSeleccionada = new Date(fechaPagoInput.value);
+                    const hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0); // Resetear horas para comparar solo fechas
+
+                    if (fechaSeleccionada < hoy) {
+                        alert('No puedes registrar pagos con fecha en el pasado');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    // Validar que la cantidad sea positiva
+                    const cantidadInput = document.getElementById('cantidad');
+                    if (parseFloat(cantidadInput.value) <= 0) {
+                        alert('La cantidad debe ser mayor a cero');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                // Validación en tiempo real para la fecha
+                fechaPagoInput.addEventListener('change', function() {
+                    const fechaSeleccionada = new Date(this.value);
+                    const hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0);
+
+                    if (fechaSeleccionada < hoy) {
+                        alert('No puedes seleccionar una fecha en el pasado');
+                        this.value = fechaHoy;
+                    }
+                });
+
+                // Validación en tiempo real para la cantidad
+                document.getElementById('cantidad').addEventListener('change', function() {
+                    if (parseFloat(this.value) <= 0) {
+                        alert('La cantidad debe ser mayor a cero');
+                        this.value = '';
+                    }
+                });
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <br>
+        <br>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 SETS. Todos los derechos reservados.</p>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+        </footer>
 
 </body>
 
