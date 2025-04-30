@@ -382,6 +382,73 @@ $estado_parqueaderos = $stmt_estado->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const fechaInicioInput = document.getElementById('fecha_inicio');
+                const fechaFinalInput = document.getElementById('fecha_final');
+                const parqueaderoSelect = document.getElementById('parqueadero_visitante');
+
+
+                const now = new Date();
+                const timezoneOffset = now.getTimezoneOffset() * 60000;
+                const localISOTime = new Date(now - timezoneOffset).toISOString().slice(0, 16);
+
+                fechaInicioInput.min = localISOTime;
+                fechaFinalInput.min = localISOTime;
+
+
+                fechaInicioInput.addEventListener('change', function() {
+                    const fechaInicio = new Date(this.value);
+                    const fechaFinal = new Date(fechaFinalInput.value);
+
+
+                    if (fechaFinal <= fechaInicio) {
+
+                        const nuevaFechaFinal = new Date(fechaInicio);
+                        nuevaFechaFinal.setHours(nuevaFechaFinal.getHours() + 1);
+                        fechaFinalInput.value = nuevaFechaFinal.toISOString().slice(0, 16);
+                    }
+
+
+                    fechaFinalInput.min = this.value;
+                });
+
+                form.addEventListener('submit', function(e) {
+                    const fechaInicio = new Date(fechaInicioInput.value);
+                    const fechaFinal = new Date(fechaFinalInput.value);
+                    const ahora = new Date();
+
+
+                    if (fechaInicio < ahora) {
+                        alert('La fecha de inicio no puede ser en el pasado');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    if (fechaFinal < ahora) {
+                        alert('La fecha final no puede ser en el pasado');
+                        e.preventDefault();
+                        return false;
+                    }
+
+
+                    if (fechaFinal <= fechaInicio) {
+                        alert('La fecha final debe ser posterior a la fecha de inicio');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                });
+
+
+                parqueaderoSelect.addEventListener('change', validarDisponibilidad);
+                fechaInicioInput.addEventListener('change', validarDisponibilidad);
+                fechaFinalInput.addEventListener('change', validarDisponibilidad);
+
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <style>

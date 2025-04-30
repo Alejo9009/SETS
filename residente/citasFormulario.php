@@ -1,18 +1,18 @@
 <?php
 require '../backend/authMiddleware.php';
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");  
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Credentials: true");  
+header("Access-Control-Allow-Credentials: true");
 $decoded = authenticate();
 
 $idRegistro = $decoded->id;
-$Usuario = $decoded->Usuario; 
+$Usuario = $decoded->Usuario;
 $idRol = $decoded->idRol;
 
 
-if ($idRol != 3333) { 
+if ($idRol != 3333) {
     header("Location: http://localhost/sets/error.php");
     exit();
 }
@@ -93,7 +93,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <a href="notificaciones.php" class="btn" id="offcanvasNavbarLabel" style="text-align: center;">Notificaciones</a>
                                 </center>
                             </div>
-                        
+
                         </ul>
                         <form class="d-flex mt-3" role="search">
                             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
@@ -142,7 +142,7 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="mb-3">
                                 <label for="horacita" class="form-label">Hora:</label>
-                                <input type="time" class="form-control" step="3600" min="08:00" max="17:00" id="horacita" name="horacita" required>
+                                <input type="time" class="form-control" id="horacita" name="horacita" min="08:00" max="17:00" step="3600" required>
                             </div>
                             <div class="mb-3">
                                 <label for="apa" class="form-label">Ingresa tu numero de apartamento:</label>
@@ -260,21 +260,121 @@ $citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 });
             }
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const fechaInput = document.getElementById('fechacita');
+                const horaInput = document.getElementById('horacita');
+
+
+                const today = new Date();
+                const dd = String(today.getDate()).padStart(2, '0');
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const yyyy = today.getFullYear();
+                const fechaHoy = yyyy + '-' + mm + '-' + dd;
+                fechaInput.setAttribute('min', fechaHoy);
+
+
+                form.addEventListener('submit', function(e) {
+                    const fechaSeleccionada = new Date(fechaInput.value);
+                    const horaSeleccionada = horaInput.value;
+                    const ahora = new Date();
+
+
+                    fechaSeleccionada.setHours(0, 0, 0, 0);
+                    const hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0);
+
+                    if (fechaSeleccionada < hoy) {
+                        alert('No puedes agendar citas en fechas pasadas');
+                        e.preventDefault();
+                        return false;
+                    }
+
+
+                    if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                        const [hora, minutos] = horaSeleccionada.split(':').map(Number);
+                        const horaActual = ahora.getHours();
+                        const minutoActual = ahora.getMinutes();
+
+                        if (hora < horaActual || (hora === horaActual && minutos < minutoActual)) {
+                            alert('No puedes agendar una cita en horario pasado para el día de hoy');
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+
+
+                    const horaCita = parseInt(horaSeleccionada.split(':')[0]);
+                    if (horaCita < 8 || horaCita >= 17) {
+                        alert('Las citas solo pueden agendarse entre 8:00 y 17:00 horas');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                });
+
+
+                fechaInput.addEventListener('change', function() {
+                    const fechaSeleccionada = new Date(this.value);
+                    const hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0);
+                    fechaSeleccionada.setHours(0, 0, 0, 0);
+
+                    if (fechaSeleccionada < hoy) {
+                        alert('No puedes seleccionar una fecha pasada');
+                        this.value = fechaHoy;
+                    }
+                });
+
+
+                horaInput.addEventListener('change', function() {
+                    const fechaSeleccionada = new Date(fechaInput.value);
+                    const hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0);
+                    fechaSeleccionada.setHours(0, 0, 0, 0);
+
+
+                    if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                        const ahora = new Date();
+                        const [hora, minutos] = this.value.split(':').map(Number);
+                        const horaActual = ahora.getHours();
+                        const minutoActual = ahora.getMinutes();
+
+                        if (hora < horaActual || (hora === horaActual && minutos < minutoActual)) {
+                            alert('No puedes agendar una cita en horario pasado para hoy');
+
+                            const nuevaHora = horaActual < 17 ? horaActual + 1 : 8;
+                            this.value = `${String(nuevaHora).padStart(2, '0')}:00`;
+                        }
+                    }
+
+
+                    const hora = parseInt(this.value.split(':')[0]);
+                    if (hora < 8 || hora >= 17) {
+                        alert('El horario de atención es de 8:00 AM a 17:00 PM horas');
+                        this.value = '08:00';
+                    }
+                });
+            });
+        </script>
 </body>
 <br>
-         <br>
-         <br>
-         <br>
-         <br>
-    <footer>
-        
-  <div class="footer-content">
-    <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
-    <ul>
-      <li><a href="#">Términos y Condiciones</a></li>
-      <li><a href="#">Política de Privacidad</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
+<br>
+<br>
+<br>
+<br>
+<footer>
+
+    <div class="footer-content">
+        <li>&copy; 2025 SETS. Todos los derechos reservados.</li>
+        <ul>
+            <li><a href="#">Términos y Condiciones</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
 </footer>
+
 </html>
