@@ -3,7 +3,8 @@ require '../../../MODEL/backend/authMiddleware.php';
 include_once "conexion.php";
 
 $decoded = authenticate();
-$idUsuario = $decoded->id;
+$_SESSION['user_id'] = $userData->id ?? $userData->id_Registro ?? null;
+
 
 // Consulta para mensajes no leídos
 $sql = "SELECT COUNT(*) as count FROM mensajes_chat 
