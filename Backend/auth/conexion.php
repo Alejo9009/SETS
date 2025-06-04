@@ -1,24 +1,21 @@
 <?php
 $host = 'sets.mysql.database.azure.com';
-$contrasena = "Apartamento12";
-$usuario = "wolwerine24@sets"; 
-$nombre_base_de_datos = "sets";
+$usuario = 'wolwerine24@sets';  
+$contrasena = 'Apartamento12';
+$nombre_bd = 'sets';
+$ssl_cert = '../ssl/DigiCertGlobalRootCA.crt.pem'; 
 
-
-$ssl_cert = "../ssl/DigiCertGlobalRootCA.crt.pem"; 
 $opciones = [
     PDO::MYSQL_ATTR_SSL_CA => $ssl_cert,
-    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
+    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false, 
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ];
 
 try {
-    $dsn = "mysql:host=$host;dbname=$nombre_base_de_datos";
+    $dsn = "mysql:host=$host;dbname=$nombre_bd;charset=utf8mb4";
     $base_de_datos = new PDO($dsn, $usuario, $contrasena, $opciones);
-    
-    echo "Conexión exitosa con SSL";
+    echo "Conexión segura establecida con SSL";
 } catch (PDOException $e) {
-    echo "Error en la conexión: " . $e->getMessage();
-    exit();
+    die("Error: " . $e->getMessage());
 }
 ?>

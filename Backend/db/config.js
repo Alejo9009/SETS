@@ -5,7 +5,8 @@ const sslCert = fs.readFileSync(path.join(__dirname, '../ssl/DigiCertGlobalRootC
 
 const db = mysql.createConnection({
     host: 'sets.mysql.database.azure.com',
-    user: 'wolwerine24',
+    user: 'wolwerine24@sets',
+      port: 3306,
     password: 'Apartamento12',
     database: 'sets',
     connectTimeout: 60000,
