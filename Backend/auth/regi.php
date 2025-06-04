@@ -95,7 +95,7 @@ try {
 
         $idRegistro = $base_de_datos->lastInsertId();
 
-        // Generar token JWT
+
        $payload = [
             'iss' => "localhost",
             'aud' => "localhost",
