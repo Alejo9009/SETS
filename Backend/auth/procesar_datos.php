@@ -13,34 +13,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileType = $_FILES['imagenPerfil']['type'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // Verificar si el archivo es una imagen real
+
         $check = getimagesize($fileTmpPath);
         if ($check === false) {
             echo "El archivo no es una imagen.";
             exit;
         }
 
-        // Verificar el tamaño del archivo (máximo 2MB)
+
         if ($fileSize > 2000000) {
             echo "El archivo es demasiado grande.";
             exit;
         }
 
-        // Permitir ciertos formatos de archivo
+
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
         if (!in_array($fileExtension, $allowedTypes)) {
             echo "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
             exit;
         }
 
-        // Definir la ruta de destino y mover el archivo
+
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0755, true);
         }
         $targetFilePath = $targetDir . $fileName;
         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-            // Actualizar la base de datos con la ruta de la imagen
+
             $sql = "UPDATE registro SET imagenPerfil = ? WHERE Usuario = ?";
             $stmt = $base_de_datos->prepare($sql);
             if ($stmt->execute([$targetFilePath, $Usuario])) {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefonoUno = $_POST['profile-phone1'] ?? '';
     $telefonoDos = $_POST['profile-phone2'] ?? '';
 
-    // Actualizar el perfil en la base de datos
+
     $sql = "UPDATE registro SET 
             PrimerNombre = ?, 
             SegundoNombre = ?, 
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error al actualizar los datos.";
     }
 
-    // Actualizar la contraseña si se proporciona
+
     if (!empty($_POST['profile-password'])) {
         $clave = $_POST['profile-password'];
         $claveEncriptada = password_hash($clave, PASSWORD_DEFAULT);
@@ -93,10 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Mantener la sesión activa
+
     $_SESSION['Usuario'] = $Usuario;
 
-    // Redirigir a la página de perfil
     header("Location: perfil.php"); 
     exit(); 
 }

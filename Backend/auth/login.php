@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
-// Manejo de solicitudes OPTIONS para CORS
+
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -89,9 +89,9 @@ try {
 
 
         $redirectMap = [
-            1111 => "1111", // admin
-            2222 => "2222", // Guarda de Seguridad
-            3333 => "3333", // residente
+            1111 => "1111", 
+            2222 => "2222", 
+            3333 => "3333", 
 
         ];
 

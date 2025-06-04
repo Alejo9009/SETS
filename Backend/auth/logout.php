@@ -19,6 +19,6 @@ if (session_destroy()) {
     echo "Error al destruir la sesión.<br>";
 }
 
-header("Location: http://localhost/SETS-PROYECTO/frontend-web/");
+header("Location: http://localhost/sets/");
 exit();
 ?>

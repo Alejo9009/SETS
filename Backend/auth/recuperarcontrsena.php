@@ -24,12 +24,12 @@ function enviarCorreoPHPMailer($destinatario, $token) {
         $mail->Port = 465;
         $mail->CharSet = 'UTF-8';
 
-        // Remitente
+
         $mail->setFrom('sets23434@gmail.com', 'Sistema SETS');
         $mail->addReplyTo('no-reply@sets23434.com', 'No Responder');
         $mail->addAddress($destinatario);
 
-        // Contenido
+
         $enlace = "http://localhost:3000/cambiar-contrasena?token=".urlencode($token);
         
         $mail->isHTML(true);
