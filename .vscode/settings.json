@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/9628c6de-356d-49e1-a3b1-d4b8ca39136b/resourceGroups/sets/providers/Microsoft.Web/sites/setsprueba",
-    "appService.deploySubpath": "."
-}
