@@ -17,15 +17,22 @@ const solicitudZonaRoutes = require('./routes/solicitudZonaRoutes');
 const solicitudParqueaderoRoutes = require('./routes/solicitudParqueaderoRoutes');
 const mysql = require('mysql');
 const multer = require('multer');
+const fs = require('fs');
 
 
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'sets'
+  host: 'sets.mysql.database.azure.com',
+  user: 'wolwerine24',
+  password: 'Apartamento12',
+  database: 'sets',
+  connectTimeout: 60000,
+  ssl: {
+    ca: fs.readFileSync(path.join(__dirname, './ssl/DigiCertGlobalRootCA.crt.pem')),
+    rejectUnauthorized: true
+  }
 });
+
 
 
 db.connect(err => {
