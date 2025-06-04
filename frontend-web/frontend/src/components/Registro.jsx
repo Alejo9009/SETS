@@ -33,12 +33,12 @@ const Registro = () => {
     const fetchData = async () => {
       try {
         const rolResponse = await axios.get(
-          "http://localhost/SETS-PROYECTO/Backend/auth/regi.php?tipo=roles"
+          "http://localhost/sets/Backend/auth/regi.php?tipo=roles"
         );
         setRoles(rolResponse.data);
 
         const tipoDocResponse = await axios.get(
-          "http://localhost/SETS-PROYECTO/Backend/auth/regi.php?tipo=tipodocs"
+          "http://localhost/sets/Backend/auth/regi.php?tipo=tipodocs"
         );
         setTipodocs(tipoDocResponse.data);
       } catch (error) {
@@ -126,7 +126,7 @@ const Registro = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost/SETS-PROYECTO/Backend/auth/regi.php",
+        "http://localhost/sets/Backend/auth/regi.php",
         dataToSend,
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -148,11 +148,11 @@ const Registro = () => {
           autoClose: 2000,
           onClose: () => {
             const rutas = {
-              1111: "http://localhost/SETS-PROYECTO/frontend-web/admin/BIENVENIDOADMI.php",
-              2222: "http://localhost/SETS-PROYECTO/frontend-web/seguridad/BIENVENIDOGUARDA.php",
-              3333: "http://localhost/SETS-PROYECTO/frontend-web/residente/BIENVENIDORESIDENTE.php",
-              4444: "http://localhost/SETS-PROYECTO/frontend-web/dueño/BIENVENIDORESIDENTE.php",
-              error: "http://localhost/SETS-PROYECTO/frontend-web/error.html",
+              1111: "http://localhost/sets/frontend-web/admin/BIENVENIDOADMI.php",
+              2222: "http://localhost/sets/frontend-web/seguridad/BIENVENIDOGUARDA.php",
+              3333: "http://localhost/sets/frontend-web/residente/BIENVENIDORESIDENTE.php",
+              4444: "http://localhost/sets/frontend-web/dueño/BIENVENIDORESIDENTE.php",
+              error: "http://localhost/sets/frontend-web/error.html",
             };
             window.location.href = rutas[redirect] || rutas["error"];
           },
