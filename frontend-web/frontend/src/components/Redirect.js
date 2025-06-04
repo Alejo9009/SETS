@@ -2,8 +2,7 @@ import { useEffect } from "react";
 
 const Redirect = () => {
   useEffect(() => {
-    // Redirige a una URL completa
-    window.location.replace("http://localhost/SETS-PROYECTO/frontend-web/");
+    window.location.replace("http://localhost/sets/");
   }, []);
 
   return null; 
