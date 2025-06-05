@@ -3,7 +3,7 @@ $host = 'sets.mysql.database.azure.com';
 $usuario = 'wolwerine24@sets';  
 $contrasena = 'Apartamento12';
 $nombre_bd = 'sets';
-$ssl_cert = '../MODEL/ssl/DigiCertGlobalRootCA.crt .pem'; 
+$ssl_cert = './MODEL/ssl/DigiCertGlobalRootCA.crt.pem'; 
 
 $opciones = [
     PDO::MYSQL_ATTR_SSL_CA => $ssl_cert,
