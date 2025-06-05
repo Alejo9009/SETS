@@ -11,7 +11,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>INICIO</title>
-	<link rel="shortcut icon" href="../img/c.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="./img/c.png" type="image/x-icon" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
@@ -27,7 +27,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 				</div>
 				<div class="container-logo">
 					<center>
-						<img src="../img/ico.png" alt="Icono de SETS" style="background-color: azure;" />
+						<img src="./img/ico.png" alt="Icono de SETS" style="background-color: azure;" />
 						<h1 class="logoss"><a>SETS</a></h1>
 					</center>
 				</div>
@@ -79,7 +79,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/w.png" alt="Cafe Irish" />
+					<img src="./img/w.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -91,7 +91,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/coches.png" alt="Cafe Irish" />
+					<img src="./img/coches.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -103,7 +103,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/proteger.png" alt="Cafe Irish" />
+					<img src="./img/proteger.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -115,7 +115,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/pago.png" alt="Cafe Irish" />
+					<img src="./img/pago.png" alt="Cafe Irish" />
 				</div>
 				<br />
 				<br>
@@ -127,7 +127,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/citas.png" alt="Cafe Irish" />
+					<img src="./img/citas.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -139,7 +139,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/campo.png" alt="Cafe Irish" />
+					<img src="./img/campo.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -151,7 +151,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/notificaciones.png" alt="Cafe Irish" />
+					<img src="./img/notificaciones.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -163,7 +163,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 			</div>
 			<div class="card-product">
 				<div class="container-img">
-					<img src="../img/apa.png" alt="Cafe Irish" />
+					<img src="./img/apa.png" alt="Cafe Irish" />
 				</div>
 				<br>
 				<br>
@@ -179,9 +179,9 @@ header('Access-Control-Allow-Headers: Content-Type');
 	<br>
 	<br>
 	<section class="gallery">
-		<img src="../img/ñ.jpg" alt="Gallery Img1" class="gallery-img-1" /><img src="../img/o.jpg" alt="Gallery Img2"
-			class="gallery-img-2" /><img src="../img/0.jpg" alt="Gallery Img3" class="gallery-img-3" /><img src="../img/9.jpg"
-			alt="Gallery Img4" class="gallery-img-4" /><img src="../img/l.jpg" alt="Gallery Img5" class="gallery-img-5" />
+		<img src="./img/ñ.jpg" alt="Gallery Img1" class="gallery-img-1" /><img src="./img/o.jpg" alt="Gallery Img2"
+			class="gallery-img-2" /><img src="./img/0.jpg" alt="Gallery Img3" class="gallery-img-3" /><img src="./img/9.jpg"
+			alt="Gallery Img4" class="gallery-img-4" /><img src="./img/l.jpg" alt="Gallery Img5" class="gallery-img-5" />
 	</section>
 	<br>
 	<br>
@@ -199,7 +199,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 						<center><strong>Quienes Somos</strong></center>
 					</div>
 					<div class="card shadow-sm">
-						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="../img/tt.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="./img/tt.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
 						<title>Placeholder</title>
 						<rect width="100%" height="100%" fill="#55595c" /></img>
 						<div class="card-body">
@@ -220,7 +220,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 						<center><strong>Que Ofrecemos</strong></center>
 					</div>
 					<div class="card shadow-sm">
-						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="../img/x.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="./img/x.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
 						<title>Placeholder</title>
 						<rect width="100%" height="100%" fill="#55595c" /></img>
 						<div class="card-body">
@@ -247,7 +247,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 						<center><strong>Futuro</strong></center>
 					</div>
 					<div class="card shadow-sm">
-						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="../img/ññ.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="./img/ññ.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
 						<title>Placeholder</title>
 						<rect width="100%" height="100%" fill="#55595c" /></img>
 						<div class="card-body">
@@ -395,7 +395,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 		<div class="extra-footer">
 			<div class="col mb-3">
 				<a class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
-					<img class="bi me-2" width="40" height="32" src="../img/c.png">
+					<img class="bi me-2" width="40" height="32" src="./img/c.png">
 				</a>
 				<p class="text-body-secondary">&copy; 2024</p>
 			</div>
